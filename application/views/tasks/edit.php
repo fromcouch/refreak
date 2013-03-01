@@ -58,5 +58,5 @@
         <p class="ctr">
                 <?php echo form_submit('submit', $this->lang->line('task_edit_save'));?> 
                 &nbsp; &nbsp;    
-                <?php echo form_button('btn_cancel', $this->lang->line('task_edit_cancel'));?> 
+                <?php echo form_button('btn_cancel', $this->lang->line('task_edit_cancel'), 'class = "task_edit_cancel"');?> 
         </p>

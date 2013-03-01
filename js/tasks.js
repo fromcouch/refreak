@@ -25,6 +25,8 @@
                        });
 
                        this._(".task_projects").on('change', function() { me.load_users(this); });
+                       
+                       this._(".task_edit_cancel").on('click', function() { me.close(this); });
 
                 },
 
@@ -60,6 +62,20 @@
                         }).fail(function(res) {
                                 alert("");
                         });
+                },
+                
+                close: function() {
+                        
+                        this._(".task_projects").off('change');
+                       
+                        this._(".task_edit_cancel").off('click');
+                        
+                        $(this.element).html("").hide();
+                        
+                },
+                
+                destroy: function() {
+                        this.close();
                 }
          }
  

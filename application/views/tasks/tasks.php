@@ -109,7 +109,7 @@
                     dataType:   "html"
                 }).done(function(res) {
 
-                        $('.task_panel').html(res).show();
+                        $('.task_panel').html(res).show().newTask();
 
                 }).fail(function(res) {
                         alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
