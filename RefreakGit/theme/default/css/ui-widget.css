@@ -1,0 +1,12 @@
+/* 
+    Document   : ui-widget
+    Created on : 28-feb-2013, 13:00:33
+    Author     : Victor
+    Description:
+        Regularize font size in datepicker. With default theme is huge.
+*/
+
+.ui-widget {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 0.7em;
+}
