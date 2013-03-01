@@ -23,6 +23,7 @@ class Tasks extends RF_BaseController {
                 ');
         $this->javascript->js->script(base_url() . '/js/ui/jquery.ui.core.js');
         $this->javascript->js->script(base_url() . '/js/ui/jquery.ui.datepicker.js');
+        $this->javascript->js->script(base_url() . '/js/tasks.js');
         
         /* 
          * add css for task system

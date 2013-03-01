@@ -45,24 +45,8 @@
 | the active record class
 */
 
-$active_group = 'dev';
+$active_group = 'home';
 $active_record = TRUE;
-
-$db['dev']['hostname'] = 'localhost';
-$db['dev']['username'] = 'linka';
-$db['dev']['password'] = 'linka';
-$db['dev']['database'] = 'refreak';
-$db['dev']['dbdriver'] = 'mysqli';
-$db['dev']['dbprefix'] = 'rfk_';
-$db['dev']['pconnect'] = TRUE;
-$db['dev']['db_debug'] = TRUE;
-$db['dev']['cache_on'] = FALSE;
-$db['dev']['cachedir'] = '';
-$db['dev']['char_set'] = 'utf8';
-$db['dev']['dbcollat'] = 'utf8_general_ci';
-$db['dev']['swap_pre'] = '';
-$db['dev']['autoinit'] = TRUE;
-$db['dev']['stricton'] = FALSE;
 
 $db['home']['hostname'] = '127.0.0.1';
 $db['home']['username'] = 'root';

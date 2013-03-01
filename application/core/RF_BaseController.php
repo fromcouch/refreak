@@ -42,7 +42,7 @@ class RF_BaseController extends CI_Controller {
                     'var context_id = ' . $selected_context . ";\n" .
                     'var project_id = ' . $selected_project . ";\n" .
                     'var time_concept = ' . $selected_time . ";\n" .
-                    'var s_url      = "' . site_url() . '/tasks/s/";'
+                    'var s_url      = "' . site_url() . '";'
                 ;
         
         $this->data['users']                = $this->user_model->get_all_users_with_group();
