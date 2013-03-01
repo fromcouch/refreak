@@ -63,6 +63,11 @@
         
         <script type="text/javascript">
                 (function($) {
+                        
+                        $.ajaxSetup({
+                            data: {<?php echo $this->security->get_csrf_token_name()?>: "<?php echo $this->security->get_csrf_hash() ?>"},
+                            dataType: "json"
+                        });
                         $(".task_dead").datepicker({
                               showOn: "button",
                               buttonImage: "<?php echo base_url();?>theme/default/images/cal.gif",
@@ -71,7 +76,28 @@
                         });
                         
                         $(".task_projects").on('change', function() {
-                            
+                                $.ajax({
+                                    type:       "POST",
+                                    url:        "<?php echo site_url(); ?>/tasks/get_users_from_project/",
+                                    data:       {
+                                                    project_id: $(this).val()
+                                                }
+                                }).done(function(res) {
+                                        if (res.response === "rfk_ok") {
+                                            var $select_users = $('.task_users').empty();
+                                            
+                                            $.each(res.data, function(i,item) {
+                                                $select_users.append( '<option value="'
+                                                                     + item.id
+                                                                     + '">'
+                                                                     + item.first_name + " " + item.last_name
+                                                                     + '</option>' ); 
+                                            });
+                                        }
+
+                                }).fail(function(res) {
+                                        alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
+                                });
                         });
                 })(jQuery);
         </script>

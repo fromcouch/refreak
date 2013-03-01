@@ -112,6 +112,28 @@ class Tasks extends RF_BaseController {
         
     }
     
+    public function get_users_from_project() {
+                
+        if ($this->input->is_ajax_request())
+        {
+            $project_id                         = $this->input->post('project_id');
+            $ups                                = $this->task_model->get_users_project($project_id);
+            echo json_encode(
+                                array(
+                                    'response'  => 'rfk_ok',
+                                    'data'      => $ups
+                                )
+                                
+                    );
+            
+        }
+        else
+        {
+            echo json_encode(array('response' => 'rfk_fuckyou'));
+        }
+        
+    }
+    
     private function _get_user_projects($user_id) {
         
         $this->load->model('user_model');
