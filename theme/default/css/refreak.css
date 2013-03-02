@@ -579,7 +579,7 @@ form select {
 
 .task_panel input.task_dead {
     width: 100px;
-    margin: 5px;
+    margin-right: 5px;
 }
 
 .task_panel input.task_full {

@@ -93,24 +93,27 @@ class Tasks extends RF_BaseController {
     
     public function show_edit() {
         
-        //if ($this->input->is_ajax_request()) {
-        $this->config->load('layout');
-        $this->config->set_item('layout_use', false);
-        
-        $ups            = array($this->lang->line('task_edit_project_none'));
-        foreach ($this->data['user_projects'] as $up) {
-            $ups[] = $up->name;
-        }
-        
-        $this->data['priority']             = 3;
-        $this->data['context']              = 1;
-        $this->data['user_p']               = $ups;
-        
-        unset($ups);
-        
-        $this->load->view('tasks/edit', $this->data);
-        //}
-        
+        if ($this->input->is_ajax_request()) {
+            //load layout configuration
+            $this->config->load('layout');
+
+            //inform system don't use layout, don't need for this ajax call
+            $this->config->set_item('layout_use', false);
+
+            $ups            = array($this->lang->line('task_edit_project_none'));
+            foreach ($this->data['user_projects'] as $up) {
+                $ups[] = $up->name;
+            }
+
+            $this->data['priority']             = 3;
+            $this->data['context']              = 1;
+            $this->data['user_p']               = $ups;
+            $this->data['tid']                  = 0;
+
+            unset($ups);
+
+            $this->load->view('tasks/edit', $this->data);
+        }        
     }
     
     public function get_users_from_project() {

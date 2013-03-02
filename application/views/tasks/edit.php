@@ -1,4 +1,4 @@
-
+<?php echo form_open("tasks/edit/".$tid, 'class = "task_edit_form'); ?>
         <table cellpadding="2" cellspacing="0" border="0">
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_priority'); ?>:</th>
@@ -56,7 +56,8 @@
                 </tr>
         </table>
         <p class="ctr">
-                <?php echo form_submit('submit', $this->lang->line('task_edit_save'));?> 
+                <?php echo form_button('btn_submit', $this->lang->line('task_edit_save'), 'class = "task_edit_save"');?> 
                 &nbsp; &nbsp;    
                 <?php echo form_button('btn_cancel', $this->lang->line('task_edit_cancel'), 'class = "task_edit_cancel"');?> 
         </p>
+<?php echo form_close(); ?>
