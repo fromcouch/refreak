@@ -109,11 +109,40 @@ class Tasks extends RF_BaseController {
             $this->data['context']              = 1;
             $this->data['user_p']               = $ups;
             $this->data['tid']                  = 0;
+            $this->data['showPrivate']          = 1;
 
             unset($ups);
 
             $this->load->view('tasks/edit', $this->data);
-        }        
+        }
+    }
+    
+    public function save_task() {
+        
+        $response                               = array('response' => 'rfk_fuckyou');
+        
+        if ($this->input->is_ajax_request() && $this->input->post('task_title')) {
+            
+                $this->form_validation->set_rules('task_priority', 'Priority', 'xss_clean');
+                $this->form_validation->set_rules('task_context', 'Context', 'xss_clean');
+                $this->form_validation->set_rules('deadline', 'Deadline', 'xss_clean');
+                $this->form_validation->set_rules('task_projects', 'Projects', 'xss_clean');
+                $this->form_validation->set_rules('task_project_name', 'Project Name', 'xss_clean');
+                $this->form_validation->set_rules('task_title', 'Title', 'required|xss_clean');
+                $this->form_validation->set_rules('task_description', 'Description', 'prep_for_form|xss_clean');
+                $this->form_validation->set_rules('task_users', 'User', 'xss_clean');
+                $this->form_validation->set_rules('showPrivate', 'Scope', 'xss_clean');
+                $this->form_validation->set_rules('task_status', 'Status', 'xss_clean');
+                
+                if ($this->form_validation->run() === TRUE) {
+                    // save task here
+                    
+                    $response['response']       = 'rfk_ok';
+                }
+        }
+        
+        echo json_encode($response);
+        
     }
     
     public function get_users_from_project() {

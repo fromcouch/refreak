@@ -582,6 +582,10 @@ form select {
     margin-right: 5px;
 }
 
+.task_panel input.task_edit_project_new_name {
+    width: 200px;
+}
+
 .task_panel input.task_full {
     width: 415px;
 }

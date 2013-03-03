@@ -27,6 +27,12 @@
                        this._(".task_projects").on('change', function() { me.load_users(this); });
                        
                        this._(".task_edit_cancel").on('click', function() { me.close(this); });
+                       
+                       this._(".task_edit_new_project").on('click', function() { me.show_input_project(this); });
+                       this._(".task_edit_list_project").on('click', function() { me.show_list_project(this); });
+                       
+                       this._(".task_edit_save").on('click', function() { me.send_data(this); });
+                       
 
                 },
 
@@ -64,11 +70,63 @@
                         });
                 },
                 
+                show_input_project: function () {
+                    
+                    this._(".project_sel").hide();
+                    this._(".project_txt").show();
+                    
+                },
+                
+                show_list_project: function () {
+                    
+                    this._(".project_txt").hide();
+                    this._(".project_sel").show();
+                    
+                },
+                
+                send_data: function(obj) {
+                        
+                        var me = this;
+                        var $title_value = this._(".task_edit_title");
+                        
+                        if ($title_value.val() != "") {
+
+                            $.ajax({
+                                type:       "POST",
+                                url:        s_url + "/tasks/save_task/",
+                                data:       this._(".task_edit_form").serialize()
+
+                            }).done(function(res) {
+                                    if (res.response === "rfk_ok") {
+                                        $.boxes("");
+                                        me.close();
+                                    }
+                                    else {
+                                        alert("");
+                                    }
+
+                            }).fail(function(res) {
+                                    alert("");
+                            });
+                        }
+                        else {
+                            $title_value.css("border-color", "red");
+                            $.boxes("title is required");
+                        }
+                    
+                },
+                
                 close: function() {
                         
                         this._(".task_projects").off('change');
                        
                         this._(".task_edit_cancel").off('click');
+                        
+                        this._(".task_edit_new_project").off('click');
+                        this._(".task_edit_list_project").off('click');
+                       
+                        this._(".task_edit_save").off('click');
+                       
                         
                         $(this.element).html("").hide();
                         
