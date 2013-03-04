@@ -21,10 +21,4 @@ $mediator->attach('stop', function() { echo "Stopped"; });
 $mediator->trigger('load'); // prints "Loading"
 $mediator->trigger('stop'); // prints "StoppingStopped"
 
-/**
- * RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php/$1 [L]   
- */
 ?>
