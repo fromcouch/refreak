@@ -104,6 +104,32 @@ class Task_model extends CI_Model {
         
         
     }
+    
+    public function save_task($title, $priority, $context, $deadline, $project_id, $project_name, $description, $user_id, $scope, $status, $author_id, $task_id = 0) {
+        
+        if (!empty($project_name)) {
+            // @todo call project model and add project
+        }
+        
+        $task_data              = array(
+                                    'title'             => $title,
+                                    'priority'          => $priority,
+                                    'context'           => $context,
+                                    'deadline_date'     => $deadline,
+                                    'project_id'        => $project_id,
+                                    'description'       => $description,
+                                    'user_id'           => $user_id,
+                                    'private'           => $scope,
+                                    'status'            => $status,
+                                    'author_id'         => $author_id
+        );
+        
+        $this->db->insert('tasks', $task_data); //get id from project
+        
+        $last_task_id = $this->db->insert_id();
+        
+        
+    }
 }
 
 /* End of file task_model.php */

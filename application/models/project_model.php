@@ -92,7 +92,7 @@ class Project_model extends CI_Model
     }
 
     /**
-     * faltan tareas y relacionados
+     * @todo faltan tareas y relacionados
      * 
      * @param type $project_id
      * @param type $user_id 

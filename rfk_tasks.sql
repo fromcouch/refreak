@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `rfk_tasks` (
   `private` tinyint(1) NOT NULL,
   `user_id` int(11) NOT NULL,
   `author_id` int(11) NOT NULL,
-  `modified_date` date NOT NULL,
+  `modified_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
