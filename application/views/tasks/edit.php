@@ -1,5 +1,5 @@
-<?php echo form_open("tasks/edit/".$tid, 'class = "task_edit_form'); 
-      echo form_hidden('task_id', $tid); ?>
+<?php echo form_open("tasks/edit/".$task_id, 'class = "task_edit_form'); 
+      echo form_hidden('task_id', $task_id); ?>
         <table cellpadding="2" cellspacing="0" border="0">
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_priority'); ?>:</th>
@@ -40,13 +40,13 @@
                         <td colspan="3">
                                 <?php echo form_dropdown_users('task_users','-',$actual_user->id); ?>
                                 <span>
-                                    <?php echo form_radio('showPrivate', '0', $showPrivate === 0 ? true : false) ?><label><?php echo $this->lang->line('task_edit_public'); ?></label>
+                                    <?php echo form_radio('showPrivate', '0', $private === 0 ? true : false) ?><label><?php echo $this->lang->line('task_edit_public'); ?></label>
                                 </span>
                                 <span><?php //if ($objUser->checkLevel(12)) { ?>
-                                    <?php echo form_radio('showPrivate', '1', $showPrivate === 1 ? true : false) ?><label><?php echo $this->lang->line('task_edit_internal'); ?></label>
+                                    <?php echo form_radio('showPrivate', '1', $private === 1 ? true : false) ?><label><?php echo $this->lang->line('task_edit_internal'); ?></label>
                                 </span>
                                 <span>
-                                    <?php echo form_radio('showPrivate', '2', $showPrivate === 2 ? true : false) ?><label><?php echo $this->lang->line('task_edit_private'); ?></label>
+                                    <?php echo form_radio('showPrivate', '2', $private === 2 ? true : false) ?><label><?php echo $this->lang->line('task_edit_private'); ?></label>
                                 </span>
                         </td>
                 </tr>

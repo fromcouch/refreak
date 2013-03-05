@@ -94,6 +94,15 @@ class Tasks extends RF_BaseController {
     public function show_edit() {
         
         if ($this->input->is_ajax_request()) {
+            
+            $tid                            = 0;
+            $task                           = array();
+            
+            if ($this->input->post('tid')) {
+                $tid                        = $this->input->post('tid');
+                $task                       = $this->task_model->get_task($tid);
+            }
+            
             //load layout configuration
             $this->config->load('layout');
 
@@ -105,13 +114,30 @@ class Tasks extends RF_BaseController {
                 $ups[] = $up->name;
             }
 
-            $this->data['priority']             = 3;
-            $this->data['context']              = 1;
-            $this->data['user_p']               = $ups;
-            $this->data['tid']                  = 0;
-            $this->data['showPrivate']          = 1;
-
-            unset($ups);
+            $defaults                       = array(
+                                        'task_id'               => $tid,
+                                        'priority'              => 3,
+                                        'context'               => 1,
+                                        'title'                 => null,
+                                        'deadline_date'         => null,
+                                        'project_id'            => 0,
+                                        'description'           => null,
+                                        'user_id'               => $this->data['actual_user']->id,
+                                        'private'               => 1,
+                                        'status'                => 0,
+            );
+            
+            if (count($task) === 1) {
+                $data                       = array_merge($defaults, $task[0]);
+            }
+            else {
+                $data                       = $defaults;
+            }
+            
+            $this->data                     = array_merge($data, $this->data);
+            $this->data['user_p']           = $ups;
+            
+            unset($ups, $defaults, $task);
 
             $this->load->view('tasks/edit', $this->data);
         }

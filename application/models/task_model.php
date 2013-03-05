@@ -175,7 +175,7 @@ class Task_model extends CI_Model {
     
     public function get_task($task_id) {
         
-        return $this->db // 	 	 	 	 
+        return $this->db 	 	 
                         ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
                                   tasks.title, tasks.description, tasks.deadline_date, tasks.private,
                                   tasks.user_id, tasks.author_id, tasks.modified_date')
