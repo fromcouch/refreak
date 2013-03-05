@@ -1,4 +1,5 @@
-<?php echo form_open("tasks/edit/".$tid, 'class = "task_edit_form'); ?>
+<?php echo form_open("tasks/edit/".$tid, 'class = "task_edit_form'); 
+      echo form_hidden('task_id', $tid); ?>
         <table cellpadding="2" cellspacing="0" border="0">
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_priority'); ?>:</th>
@@ -9,14 +10,14 @@
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_deadline'); ?>:</th>
                         <td colspan="3">
-                            <?php echo form_input('deadline','', 'class="task_dead"'); ?>              
+                            <?php echo form_input('deadline',$deadline_date, 'class="task_dead"'); ?>              
                         </td>
                 </tr>
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_project'); ?>:</th>
                         <td colspan="3">
                             <span class="project_sel">
-                                <?php echo form_dropdown('task_projects', $user_p, array(), 'class="task_projects"'); ?>                                				
+                                <?php echo form_dropdown('task_projects', $user_p, $user_id, 'class="task_projects"'); ?>                                				
                                 <?php //if ($objUser->checkLevel(7)) { ?>
                                 <a href="#" class="small task_edit_new_project">&gt; <?php echo $this->lang->line('task_edit_project_new'); ?></a>
                             </span>
@@ -28,11 +29,11 @@
                 </tr>
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_title'); ?>:</th>
-                        <td colspan="3"><?php echo form_input('task_title', '', 'class="task_full task_edit_title"'); ?></td>
+                        <td colspan="3"><?php echo form_input('task_title', $title, 'class="task_full task_edit_title"'); ?></td>
                 </tr>
                 <tr valign="top">
                         <th><?php echo $this->lang->line('task_edit_description'); ?>:</th>
-                        <td colspan="3"><?php echo form_textarea('task_description', '', 'class="task_full"'); ?></td>
+                        <td colspan="3"><?php echo form_textarea('task_description', $description, 'class="task_full"'); ?></td>
                 </tr>        
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_user'); ?>:</th>
@@ -51,7 +52,7 @@
                 </tr>
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_status'); ?>:</th>
-                        <td colspan="3"><?php echo form_dropdown('task_status', $this->lang->line('task_status'), array(),'class="task_status"'); ?></td>
+                        <td colspan="3"><?php echo form_dropdown('task_status', $this->lang->line('task_status'), $status,'class="task_status"'); ?></td>
                 </tr>
         </table>
         <p class="ctr">

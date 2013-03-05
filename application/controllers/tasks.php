@@ -136,7 +136,7 @@ class Tasks extends RF_BaseController {
                 
                 if ($this->form_validation->run() === TRUE) {
                     // save task here
-                    
+                    $this->task_model->save();
                     $response['response']       = 'rfk_ok';
                 }
         }

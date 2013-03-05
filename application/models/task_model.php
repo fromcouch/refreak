@@ -172,6 +172,18 @@ class Task_model extends CI_Model {
         
         return $task_id;
     }
+    
+    public function get_task($task_id) {
+        
+        return $this->db // 	 	 	 	 
+                        ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
+                                  tasks.title, tasks.description, tasks.deadline_date, tasks.private,
+                                  tasks.user_id, tasks.author_id, tasks.modified_date')
+                        ->where('tasks.task_id', $task_id)
+                        ->get('tasks')
+                        ->result_array();
+        
+    }
 }
 
 /* End of file task_model.php */
