@@ -28,7 +28,7 @@ class Task_model extends CI_Model {
      * @param int $user_id user to see tasks
      * @param int $project_id project id
      * @param int $time_concept 0 = future tasks , 1 = past tasks , 2 all tasks
-     * @return array of objects 
+     * @return array of objects with tasks
      */
     public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array()) {
         
@@ -84,7 +84,13 @@ class Task_model extends CI_Model {
         
     }
  
-    public function get_users_project($project_id) {
+    /**
+     * Return users assigned to a specific project. If no project is set return all users
+     * 
+     * @param int $project_id Project ID
+     * @return array Users Array 
+     */
+    public function get_users_project($project_id = 0) {
         
         if ($project_id == 0) {
             return $this->db
@@ -105,10 +111,32 @@ class Task_model extends CI_Model {
         
     }
     
+    /**
+     * Insert or Update a task
+     * 
+     * @param string $title Task title
+     * @param int $priority Task priority
+     * @param int $context Task Context
+     * @param date $deadline Task deadline
+     * @param int $project_id Project Task 
+     * @param string $project_name Name of Project for new project
+     * @param string $description Task Description
+     * @param int $user_id User ID assigned to task
+     * @param int $scope Task Scope 0 = public, 1 = internal, 2 = private
+     * @param int $status Task Status
+     * @param int $author_id User ID created task
+     * @param int $task_id 0 for new Task or Task ID for update
+     * @return int Return Task ID
+     */
     public function save_task($title, $priority, $context, $deadline, $project_id, $project_name, $description, $user_id, $scope, $status, $author_id, $task_id = 0) {
         
         if (!empty($project_name)) {
-            // @todo call project model and add project
+            // Create new project
+            $this->load->model('project_model');
+            $project_id         = $this->project_model->save($project_name, $author_id);
+            
+            // assing position to Official to user
+            $this->project_model->set_user_project($user_id, $project_id, 2);
         }
         
         $task_data              = array(
@@ -119,16 +147,30 @@ class Task_model extends CI_Model {
                                     'project_id'        => $project_id,
                                     'description'       => $description,
                                     'user_id'           => $user_id,
-                                    'private'           => $scope,
-                                    'status'            => $status,
+                                    'private'           => $scope,                                    
                                     'author_id'         => $author_id
         );
         
-        $this->db->insert('tasks', $task_data); //get id from project
+        // task id 0 is for insert, if task_id have non zero value is an update
+        if ($task_id === 0) {
+            $this->db->insert('tasks', $task_data); 
+            $task_id           = $this->db->insert_id();   //get id from project
+        }
+        else {
+            $this->db->where('task_id', $task_id);
+            $this->db->update('tasks', $task_data); 
+        }                
         
-        $last_task_id = $this->db->insert_id();
+        $status_data            = array(
+                                    'task_id'           => $task_id,
+                                    'status'            => $status,
+                                    'status_date'       => date('Y-m-d'),
+                                    'user_id'           => $user_id
+        );
         
+        $this->db->insert('task_status', $status_data);
         
+        return $task_id;
     }
 }
 

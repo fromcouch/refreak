@@ -71,6 +71,7 @@ class Project_model extends CI_Model
         // when create project fix position to leader        
         $this->set_user_project($user_id, $last_project_id, 5);
         
+        return $last_project_id;
     }
     
     public function update($project_id, $name, $user_id, $description = '', $status = 1) 
