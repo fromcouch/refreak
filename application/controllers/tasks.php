@@ -142,7 +142,7 @@ class Tasks extends RF_BaseController {
             $tid                            = 0;
             $task                           = array();
             
-            if ($this->input->post('tid')) {
+            if ($this->input->post('tid') && $this->input->post('tid') > 0) {
                 $tid                        = $this->input->post('tid');
                 $task                       = $this->task_model->get_task($tid);
             }
@@ -176,9 +176,14 @@ class Tasks extends RF_BaseController {
             }
             else {
                 $data                       = $defaults;
-            }
+            }            
             
             $this->data                     = array_merge($data, $this->data);
+            
+            if ($this->data['deadline_date'] === '0000-00-00') {
+                $this->data['deadline_date'] = null;
+            }
+            
             $this->data['user_p']           = $ups;
             
             unset($ups, $defaults, $task);
@@ -209,10 +214,25 @@ class Tasks extends RF_BaseController {
                 $this->form_validation->set_rules('task_users', 'User', 'xss_clean');
                 $this->form_validation->set_rules('showPrivate', 'Scope', 'xss_clean');
                 $this->form_validation->set_rules('task_status', 'Status', 'xss_clean');
+                $this->form_validation->set_rules('task_id', 'Status', 'xss_clean');
                 
                 if ($this->form_validation->run() === TRUE) {
                     // save task here
-                    $this->task_model->save();
+                    $this->task_model->save_task(
+                                                $this->input->post('task_title'),
+                                                $this->input->post('task_priority'),
+                                                $this->input->post('task_context'),
+                                                $this->input->post('deadline'),
+                                                $this->input->post('task_projects'),
+                                                $this->input->post('task_project_name'),
+                                                $this->input->post('task_description'),
+                                                $this->input->post('task_users'),
+                                                $this->input->post('showPrivate'),
+                                                $this->input->post('task_status'),
+                                                $this->data['actual_user']->id,
+                                                $this->input->post('task_id')
+                    );
+                    
                     $response['response']       = 'rfk_ok';
                 }
         }

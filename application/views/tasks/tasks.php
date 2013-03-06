@@ -1,4 +1,6 @@
-<div class="task_panel"></div>
+<div class="task_panel">
+    <img border="0" src="<?php echo base_url();?>theme/default/images/load.gif" class="loader">    
+</div>
     <table id="taskSheet" cellpadding="2" cellspacing="1" border="0" class="sheet" width="100%">
             <thead>
                 <tr>
@@ -61,7 +63,7 @@
                                 <?php endfor; ?>
                                 <td class="act">
                                     <?php if ($this->ion_auth->in_group(array(1,2)) || $tf->position > 3) : //falta checkear permiso de proyecto ?>
-                                        <a href="#">
+                                        <a href="#" class="btn_task_edit">
                                             <img src="<?php echo base_url();?>theme/default/images/b_edit.png" width="20" height="16" alt="edit" border="0" />
                                         </a>
                                     <?php else : ?>
@@ -86,7 +88,11 @@
                                     <?php
                                         if ($this->ion_auth->in_group(array(1,2))) :
                                             ?>
-                                            <p align="center"><a href="#"><?php echo $this->lang->line('task_list_create_task'); ?></a></p>
+                                            <p align="center">
+                                                <a href="#" class="btn_task_new">
+                                                    <img src="<?php echo base_url();?>theme/default/images/b_new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('task_list_new'); ?>" />
+                                                </a>                                            
+                                            </p>
                                             <?php
                                         endif;
                                     ?>
@@ -103,16 +109,41 @@
         
         $('.btn_task_new').on('click', function() {
            
+                $('.task_panel').show();
+           
                 $.ajax({
                     type:       "POST",
                     url:        "<?php echo site_url(); ?>/tasks/show_edit/",
                     dataType:   "html"
                 }).done(function(res) {
-
-                        $('.task_panel').html(res).show().newTask();
+                        
+                        $('.task_panel').html(res).newTask();
 
                 }).fail(function(res) {
                         alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
+                        $('.task_panel').hide();
+                });
+           
+        });
+        
+        $('.btn_task_edit').on('click', function() {
+                
+                var task_id = $(this).parents("tr").attr("data-id");
+                
+                $('.task_panel').show();
+           
+                $.ajax({
+                    type:       "POST",
+                    url:        "<?php echo site_url(); ?>/tasks/show_edit/",
+                    data:       { tid: task_id },
+                    dataType:   "html"
+                }).done(function(res) {
+                        
+                        $('.task_panel').html(res).newTask();
+
+                }).fail(function(res) {
+                        alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
+                        $('.task_panel').hide();
                 });
            
         });

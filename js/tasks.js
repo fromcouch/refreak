@@ -128,7 +128,12 @@
                         this._(".task_edit_save").off('click');
                        
                         
-                        $(this.element).html("").hide();
+                        $(this.element).html(
+                                                $("<img>").attr("border","0")
+                                                          .attr("src", s_url + "theme/default/images/load.gif")
+                                                          .addClass("loader")
+                        
+                        ).hide();
                         
                 },
                 

@@ -186,7 +186,9 @@ class Task_model extends CI_Model {
         return $this->db 	 	 
                         ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
                                   tasks.title, tasks.description, tasks.deadline_date, tasks.private,
-                                  tasks.user_id, tasks.author_id, tasks.modified_date')
+                                  tasks.user_id, tasks.author_id, tasks.modified_date') 
+                        ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
+                        ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
                         ->where('tasks.task_id', $task_id)
                         ->get('tasks')
                         ->result_array();
