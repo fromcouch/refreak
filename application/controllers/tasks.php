@@ -1,8 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/**
+ * Tasks Controller
+ *
+ * @package	Refreak
+ * @subpackage	tasks
+ * @category	controller
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 class Tasks extends RF_BaseController {
    
-    
+    /**
+     * Constructor
+     * 
+     */
     public function __construct() {
         
         parent::__construct();
@@ -12,9 +23,7 @@ class Tasks extends RF_BaseController {
         $this->load->model('task_model');        
         $this->load->helper('rfk_task');
         
-        /* 
-         * add javascript for task system
-         */
+        // add javascript for task system
         $this->javascript->output('
                     $.ajaxSetup({
                         data: {'. $this->security->get_csrf_token_name() . ': "' . $this->security->get_csrf_hash() . '"},
@@ -25,9 +34,7 @@ class Tasks extends RF_BaseController {
         $this->javascript->js->script(base_url() . '/js/ui/jquery.ui.datepicker.js');
         $this->javascript->js->script(base_url() . '/js/tasks.js');
         
-        /* 
-         * add css for task system
-         */
+        // add css for task system
         $this->css->add_style(base_url() . 'js/ui/themes/base/jquery.ui.core.css', 'jquery.ui.core');
         $this->css->add_style(base_url() . 'js/ui/themes/base/jquery.ui.theme.css', 'jquery.ui.theme');
         // I need datepicker css here because is loaded by Ajax
@@ -35,6 +42,12 @@ class Tasks extends RF_BaseController {
         $this->css->add_style(base_url() . 'theme/default/css/ui-widget.css', 'jquery.ui.regularize');
     }
 
+    /**
+     * Search base tasks and call default view
+     * 
+     * @access public
+     * @return void 
+     */
     public function index()
     {
         
@@ -43,6 +56,17 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Search Action for Tasks. Is called when need to find tasks in more specific way.
+     * All parameters are optional.
+     * 
+     * @param int $project_id Project ID
+     * @param int $user_id User ID
+     * @param int $time_concept 0 = future, 1 = past, 2 = all
+     * @param int $context_id Task Context
+     * @access public
+     * @return void
+     */
     public function s($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
         
         // transform 0 to null for task model. $time_concept don't need, 0 is future
@@ -69,6 +93,13 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Show tasks from specific project
+     * 
+     * @param int $project_id Project ID
+     * @access public
+     * @return void
+     */
     public function project($project_id)
     {
         
@@ -77,6 +108,13 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Show tasks from specific User
+     * 
+     * @param int $user_id User ID
+     * @access public
+     * @return void
+     */
     public function user($user_id)
     {
         
@@ -91,6 +129,12 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Show new/edit task popup. This action is only called via Ajax
+     * 
+     * @access public
+     * @return void
+     */
     public function show_edit() {
         
         if ($this->input->is_ajax_request()) {
@@ -143,6 +187,12 @@ class Tasks extends RF_BaseController {
         }
     }
     
+    /**
+     * Create or Update Task
+     * 
+     * @access public
+     * @return void
+     */
     public function save_task() {
         
         $response                               = array('response' => 'rfk_fuckyou');
@@ -171,6 +221,12 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Retrieve users of specific project. Is called from show_edit view
+     * 
+     * @access public
+     * @return void
+     */
     public function get_users_from_project() {
                 
         if ($this->input->is_ajax_request())
@@ -193,6 +249,13 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Retrieve projects from a specific user.
+     * 
+     * @param int $user_id User ID
+     * @return array Projects list
+     * @access private
+     */
     private function _get_user_projects($user_id) {
         
         $this->load->model('user_model');

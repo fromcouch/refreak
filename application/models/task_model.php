@@ -1,21 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
-* Name:  Task Model
-*
-* Author:  Victor Santacreu
-* @author  victor@ebavs.net
-*
-*
-* Location: 
-*
-* Created:  15/02/2013
-*
-* Description:  Task model
-* 
-*/
-
+ * Tasks Model
+ *
+ * @package	Refreak
+ * @subpackage	tasks
+ * @category	model
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 class Task_model extends CI_Model {
     
+    /**
+     * Constructor
+     * 
+     */
     public function __construct() 
     {
         parent::__construct();
@@ -29,6 +27,7 @@ class Task_model extends CI_Model {
      * @param int $project_id project id
      * @param int $time_concept 0 = future tasks , 1 = past tasks , 2 all tasks
      * @return array of objects with tasks
+     * @access public
      */
     public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array()) {
         
@@ -88,7 +87,8 @@ class Task_model extends CI_Model {
      * Return users assigned to a specific project. If no project is set return all users
      * 
      * @param int $project_id Project ID
-     * @return array Users Array 
+     * @return array Users List
+     * @access public 
      */
     public function get_users_project($project_id = 0) {
         
@@ -127,6 +127,7 @@ class Task_model extends CI_Model {
      * @param int $author_id User ID created task
      * @param int $task_id 0 for new Task or Task ID for update
      * @return int Return Task ID
+     * @access public
      */
     public function save_task($title, $priority, $context, $deadline, $project_id, $project_name, $description, $user_id, $scope, $status, $author_id, $task_id = 0) {
         
@@ -173,6 +174,13 @@ class Task_model extends CI_Model {
         return $task_id;
     }
     
+    /**
+     * Get single Task
+     * 
+     * @param type $task_id
+     * @return array Task
+     * @access public
+     */
     public function get_task($task_id) {
         
         return $this->db 	 	 
