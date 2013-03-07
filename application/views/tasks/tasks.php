@@ -107,34 +107,36 @@
 
     (function($) {
         
-        $('.btn_task_new').on('click', function() {
-           
-                $('.task_panel').show();
-           
-                $.ajax({
-                    type:       "POST",
-                    url:        "<?php echo site_url(); ?>/tasks/show_edit/",
-                    dataType:   "html"
-                }).done(function(res) {
-                        
-                        $('.task_panel').html(res).newTask();
-
-                }).fail(function(res) {
-                        alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
-                        $('.task_panel').hide();
-                });
+        $('.btn_task_new').on('click', function(event) {
+                
+                //prevent call tr event
+                event.stopPropagation();
+                // 0 means new task
+                savetask(0);
            
         });
         
-        $('.btn_task_edit').on('click', function() {
-                
-                var task_id = $(this).parents("tr").attr("data-id");
+        $('.btn_task_edit').on('click', function(event) {
+
+                //prevent call tr event
+                event.stopPropagation();
+
+                var task_id = $(this).parents("tr").attr("data-id");                
+                savetask(task_id);
+           
+        });
+        
+        $("#taskSheet tr").on("click", function () {
+            console.debug(this);
+        });
+        
+        function savetask(task_id) {
                 
                 $('.task_panel').show();
            
                 $.ajax({
                     type:       "POST",
-                    url:        "<?php echo site_url(); ?>/tasks/show_edit/",
+                    url:        "<?php echo site_url(); ?>/tasks/edit/",
                     data:       { tid: task_id },
                     dataType:   "html"
                 }).done(function(res) {
@@ -142,12 +144,11 @@
                         $('.task_panel').html(res).newTask();
 
                 }).fail(function(res) {
-                        alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
+                        alert("<?php echo $this->lang->line('tasksmessage_ajax_error_server'); ?>");
                         $('.task_panel').hide();
                 });
-           
-        });
-        
+                
+        }
     })(jQuery);
 
 </script>

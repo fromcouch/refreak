@@ -64,9 +64,12 @@
                                                              + '</option>' ); 
                                     });
                                 }
+                                else {
+                                    alert(tasksmessage_ajax_error_security);
+                                }
 
                         }).fail(function(res) {
-                                alert("");
+                                alert(tasksmessage_ajax_error_server);
                         });
                 },
                 
@@ -98,15 +101,22 @@
 
                             }).done(function(res) {
                                     if (res.response === "rfk_ok") {
-                                        $.boxes("");
+                                        
+                                        if (res.tid > 0) {
+                                            $.boxes(tasksmessage_updated);
+                                        }
+                                        else {
+                                            $.boxes(tasksmessage_created);
+                                        } 
+                                            
                                         me.close();
                                     }
                                     else {
-                                        alert("");
+                                        alert(tasksmessage_ajax_error_security);
                                     }
 
                             }).fail(function(res) {
-                                    alert("");
+                                    alert(tasksmessage_ajax_error_server);
                             });
                         }
                         else {

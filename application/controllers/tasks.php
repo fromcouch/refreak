@@ -40,6 +40,13 @@ class Tasks extends RF_BaseController {
         // I need datepicker css here because is loaded by Ajax
         $this->css->add_style(base_url() . 'js/ui/themes/base/jquery.ui.datepicker.css', 'jquery.ui.datepicker');
         $this->css->add_style(base_url() . 'theme/default/css/ui-widget.css', 'jquery.ui.regularize');
+        
+        $this->data['js_vars'] .=         "\n" .
+                    'var tasksmessage_ajax_error_security    = "' . $this->lang->line('tasksmessage_ajax_error_security') . "\";\n" .
+                    'var tasksmessage_ajax_error_server    = "' . $this->lang->line('tasksmessage_ajax_error_server') . "\";\n" .
+                    'var tasksmessage_created    = "' . $this->lang->line('tasksmessage_created') . "\";\n" .
+                    'var tasksmessage_updated    = "' . $this->lang->line('tasksmessage_updated') . "\";\n" 
+                ;
     }
 
     /**
@@ -135,7 +142,7 @@ class Tasks extends RF_BaseController {
      * @access public
      * @return void
      */
-    public function show_edit() {
+    public function edit() {
         
         if ($this->input->is_ajax_request()) {
             
@@ -218,6 +225,8 @@ class Tasks extends RF_BaseController {
                 
                 if ($this->form_validation->run() === TRUE) {
                     // save task here
+                    $task_id                    = $this->input->post('task_id');
+                    
                     $this->task_model->save_task(
                                                 $this->input->post('task_title'),
                                                 $this->input->post('task_priority'),
@@ -230,10 +239,12 @@ class Tasks extends RF_BaseController {
                                                 $this->input->post('showPrivate'),
                                                 $this->input->post('task_status'),
                                                 $this->data['actual_user']->id,
-                                                $this->input->post('task_id')
+                                                $task_id
                     );
                     
                     $response['response']       = 'rfk_ok';
+                    $response['tid']            = $task_id;
+                    
                 }
         }
         

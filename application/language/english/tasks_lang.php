@@ -38,6 +38,13 @@ $lang['task_list_new']                  = 'New Task';
 $lang['task_list_no_task']              = 'no task match your criterions';
 $lang['task_list_create_task']          = 'Click here to make an attempt to create one';
 
+//messages
+$lang['tasksmessage_ajax_error_security']    = 'Error by security reasons';
+$lang['tasksmessage_ajax_error_server']      = 'Error on server side';
+$lang['tasksmessage_created']                = 'task created!';
+$lang['tasksmessage_updated']                = 'task updated!';
+
+
 /*
  *  projects arrays
  */

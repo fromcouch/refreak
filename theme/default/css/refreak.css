@@ -271,7 +271,7 @@ fieldset a:hover, table.sheet a:hover, table.sheet tr.disabled a:hover {
 table.sheet tr {
 	background-color: #eee;
 }
-table.sheet tr.hover {
+table.sheet tr:hover {
 	background-color: #fcc;
 }
 table.sheet tr.high {
