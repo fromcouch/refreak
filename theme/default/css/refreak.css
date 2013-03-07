@@ -643,3 +643,69 @@ form select {
 .btn_task_edit img, .btn_task_new img{
     text-decoration: none;
 }
+
+/* task show panel */
+
+.task_show_menu {
+    float: right;
+    text-align: right;    
+}
+
+.task_show_menu .task_show_priority {
+    float: left;
+    height: 32px;
+    margin-left: 3px;
+    width: 120px;
+}
+
+.task_show_menu .task_show_content {
+    float: left;
+    height: 32px;
+    width: 120px;
+}
+
+.task_show_menu .task_show_project {
+    clear: left;
+    float: left;
+    height: 32px;
+    margin-left: 3px;
+    width: 239px;
+}
+
+.task_show_menu .task_show_title {
+    clear: left;
+    float: left;
+    height: 32px;
+    margin-left: 3px;
+    width: 492px;
+}
+
+.task_show_menu .task_show_user {
+    clear: both;
+    float: left;
+    height: 36px;
+    margin-bottom: 6px;
+    margin-left: 3px;
+    width: 240px;
+}
+
+.task_show_menu .task_show_visibility {
+    float: left;
+    height: 36px;
+    width: 252px;
+}
+
+.task_show_menu .tabmenu {
+    border: 1px solid #FFFFFF;
+    clear: both;
+    margin: 6px 0 0;
+}
+
+.task_show_menu .tabcontent {
+    border: 1px solid #999999;
+    clear: both;
+    margin: 0;
+    padding: 1px;
+    text-align: left;
+}
+/* end task show panel */

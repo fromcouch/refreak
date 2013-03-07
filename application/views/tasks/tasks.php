@@ -121,13 +121,31 @@
                 //prevent call tr event
                 event.stopPropagation();
 
-                var task_id = $(this).parents("tr").attr("data-id");                
+                var task_id = $(this).parents("tr").attr("data-id");
                 savetask(task_id);
            
         });
         
         $("#taskSheet tr").on("click", function () {
-            console.debug(this);
+                
+                var task_id = $(this).attr("data-id");
+                
+                $('.task_panel').show();
+           
+                $.ajax({
+                    type:       "POST",
+                    url:        "<?php echo site_url(); ?>/tasks/show/",
+                    data:       { tid: task_id },
+                    dataType:   "html"
+                }).done(function(res) {
+                        
+                        $('.task_panel').html(res).newTask();
+
+                }).fail(function(res) {
+                        alert("<?php echo $this->lang->line('tasksmessage_ajax_error_server'); ?>");
+                        $('.task_panel').hide();
+                });
+                
         });
         
         function savetask(task_id) {
