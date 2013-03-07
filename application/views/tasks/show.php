@@ -1,6 +1,6 @@
 <? php //copied from tf ?>
         <div class="task_show_menu">
-            <div id="task_show_close"><a href="#"><?php echo $GLOBALS['langForm']['close']; ?><img src="skins/<?php echo FRK_SKIN_FOLDER; ?>/images/b_disn.png" width="20" height="16" border="0" alt="close" /></a></div>
+            <div id="task_show_close"><a href="#"><?php echo $this->lang->line('task_show_close'); ?><img src="skins/<?php echo FRK_SKIN_FOLDER; ?>/images/b_disn.png" width="20" height="16" border="0" alt="close" /></a></div>
             <div id="task_show_edit"><a href="#"><?php echo $GLOBALS['langForm']['edit']; ?><img src="skins/<?php echo FRK_SKIN_FOLDER; ?>/images/b_edin.png" width="20" height="16" border="0" alt="edit" /></a></div>
             <div id="task_show_delete"><a href="#" onClick="return confirm('<?php echo $GLOBALS['langMessage']['task_delete_confirm']; ?>')"><?php echo $GLOBALS['langForm']['delete']; ?><img src="skins/<?php echo FRK_SKIN_FOLDER; ?>/images/b_deln.png" width="20" height="16" border="0" alt="delete" /></a></div>
         </div>

@@ -45,6 +45,11 @@ $lang['tasksmessage_created']                = 'task created!';
 $lang['tasksmessage_updated']                = 'task updated!';
 
 
+//info panel
+$lang['task_show_close']                = 'close';
+$lang['task_show_edit']                 = 'edit';
+$lang['task_show_delete']               = 'delete';
+
 /*
  *  projects arrays
  */

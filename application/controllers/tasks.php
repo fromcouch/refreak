@@ -303,6 +303,19 @@ class Tasks extends RF_BaseController {
         
         return $projects;
     }
+    
+    /**
+     * Show task information panel
+     * 
+     * @param int $task_id
+     * @access public
+     * @return void
+     */
+    public function show($task_id) {
+        
+        $this->load->view('tasks/show', $this->data);
+        
+    }
 
 }
 
