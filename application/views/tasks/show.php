@@ -80,8 +80,7 @@
         <div class="task_show_status">
             <div class="label2"><?php echo $this->lang->line('task_show_status'); ?></div>
             <div class="task_show_status_inside">
-                <?php
-                        $status = $this->lang->line('task_status');
+                <?php                        
                         echo $status[$tf['status']];
                 ?>
             </div>

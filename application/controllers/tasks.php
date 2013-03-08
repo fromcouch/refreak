@@ -334,6 +334,7 @@ class Tasks extends RF_BaseController {
             $user                           = $this->data['users'][$task[0]['user_id']];
             $username                       = $user->first_name . ' ' . $user->last_name;
             $project_name                   = $project->name;
+            $status                         = $this->lang->line('task_status');
             
             $this->data['tf']               = $task[0];
             $this->data['context']          = $context;
@@ -341,6 +342,7 @@ class Tasks extends RF_BaseController {
             $this->data['context_letter']   = $context_letter;
             $this->data['username']         = $username;
             $this->data['project_name']     = $project_name;
+            $this->data['status']           = $status;
             
             unset($user, $project);
             
