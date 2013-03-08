@@ -351,7 +351,7 @@ table.sheet td.sts5 {
 table.sheet td.task_prio {
 	text-align: center;
 }
-table.sheet td.task_prio span, #vprio span {
+table.sheet td.task_prio span, .vprio span {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
 	color: #fff;
@@ -439,6 +439,38 @@ span.task_ctxH {
 }
 span.task_ctxO {
 	background-color: #999;
+}
+div.task_ctxW {
+	color: #939;
+        font-weight: bold;
+}
+div.task_ctxM {
+	color: #c33;
+        font-weight: bold;
+}
+div.task_ctxD {
+	color: #66f;
+        font-weight: bold;
+}
+div.task_ctxI {
+	color: #090;
+        font-weight: bold;
+}
+div.task_ctxP {
+	color: #963;
+        font-weight: bold;
+}
+div.task_ctxE {
+	color: #39c;
+        font-weight: bold;
+}
+div.task_ctxH {
+	color: #3c9;
+        font-weight: bold;
+}
+div.task_ctxO {
+	color: #999;
+        font-weight: bold;
 }
 /** End Context **/
 
@@ -651,20 +683,71 @@ form select {
     text-align: right;    
 }
 
-.task_show_menu .task_show_priority {
+div.tabmenu ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+div.tabmenu li {
+    float: left;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: x-small;
+    margin: 0 0 -1px 6px;
+    position: relative;
+}
+div.tabmenu li a:link, div.tabmenu li a:visited {
+    background-color: #EEEEEE;
+    border-left: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    border-top: 1px solid #CCCCCC;
+    color: #999999;
+    display: block;
+    font-weight: bold;
+    padding: 3px 6px;
+    text-decoration: none;
+}
+div.tabmenu li a:hover {
+    background-color: #FFFFFF;
+    color: #666666;
+}
+div.tabmenu li.active a:link, div.tabmenu li.active a:visited {
+    background-color: #FFFFFF;
+    border-color: #999999 #999999 #FFFFFF;
+    border-style: solid;
+    border-width: 1px;
+    color: #999999;
+}
+div.tabmenu li.active a:hover {
+    color: #666666;
+}
+
+.task_show_menu a:link, .task_show_menu a:visited {
+    color: #CCCCCC;
+    text-decoration: none;
+}
+.task_show_menu a:hover {
+    color: #999999;
+}
+
+.task_show_menu img {
+    margin: 0 0 6px;
+    vertical-align: middle;
+}
+
+.task_panel .task_show_priority {
     float: left;
     height: 32px;
     margin-left: 3px;
     width: 120px;
 }
 
-.task_show_menu .task_show_content {
+.task_panel .task_show_content {
     float: left;
     height: 32px;
     width: 120px;
 }
 
-.task_show_menu .task_show_project {
+.task_panel .task_show_project {
     clear: left;
     float: left;
     height: 32px;
@@ -672,7 +755,7 @@ form select {
     width: 239px;
 }
 
-.task_show_menu .task_show_title {
+.task_panel .task_show_title {
     clear: left;
     float: left;
     height: 32px;
@@ -680,7 +763,7 @@ form select {
     width: 492px;
 }
 
-.task_show_menu .task_show_user {
+.task_panel .task_show_user {
     clear: both;
     float: left;
     height: 36px;
@@ -689,23 +772,45 @@ form select {
     width: 240px;
 }
 
-.task_show_menu .task_show_visibility {
+.task_panel .task_show_visibility {
     float: left;
     height: 36px;
     width: 252px;
 }
 
-.task_show_menu .tabmenu {
+.task_panel .task_show_status {
+    margin: 3px 0 6px 3px;
+}
+
+.task_panel .task_show_status_inside {
+    float: left;
+}
+
+.task_panel .tabmenu {
     border: 1px solid #FFFFFF;
     clear: both;
     margin: 6px 0 0;
 }
 
-.task_show_menu .tabcontent {
+.task_panel .tabcontent {
     border: 1px solid #999999;
     clear: both;
     margin: 0;
     padding: 1px;
     text-align: left;
+}
+
+.task_panel div.label {
+    color: #BBBBBB;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: x-small;
+}
+
+.task_panel div.label2 {
+    color: #CCCCCC;
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: x-small;
+    margin: 3px 20px 3px 0;
 }
 /* end task show panel */

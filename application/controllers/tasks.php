@@ -311,9 +311,41 @@ class Tasks extends RF_BaseController {
      * @access public
      * @return void
      */
-    public function show($task_id) {
+    public function show() {
         
-        $this->load->view('tasks/show', $this->data);
+        if ($this->input->is_ajax_request() && $this->input->post('tid')) {
+            
+            $tid                        = $this->input->post('tid');
+            $task                       = $this->task_model->get_task($tid);
+            
+            //load layout configuration
+            $this->config->load('layout');
+
+            //inform system don't use layout, don't need for this ajax call
+            $this->config->set_item('layout_use', false);
+            
+            $this->load->model('project_model');
+            
+            $project                        = $this->project_model->get_project($task[0]['project_id']);
+            
+            $context                        = $this->lang->line('task_context');
+            $context_letter                 = substr($context[$task[0]['context']], 0, 1);
+            $visibility                     = $this->lang->line('task_visibility');
+            $user                           = $this->data['users'][$task[0]['user_id']];
+            $username                       = $user->first_name . ' ' . $user->last_name;
+            $project_name                   = $project->name;
+            
+            $this->data['tf']               = $task[0];
+            $this->data['context']          = $context;
+            $this->data['visibility']       = $visibility;
+            $this->data['context_letter']   = $context_letter;
+            $this->data['username']         = $username;
+            $this->data['project_name']     = $project_name;
+            
+            unset($user, $project);
+            
+            $this->load->view('tasks/show', $this->data);
+        }
         
     }
 

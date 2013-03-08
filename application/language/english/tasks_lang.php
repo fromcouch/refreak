@@ -49,6 +49,21 @@ $lang['tasksmessage_updated']                = 'task updated!';
 $lang['task_show_close']                = 'close';
 $lang['task_show_edit']                 = 'edit';
 $lang['task_show_delete']               = 'delete';
+$lang['task_show_delete_confirm']       = 'Really delete this task?';
+$lang['task_show_priority']             = 'Priority';
+$lang['task_show_deadline']             = 'Deadline';
+$lang['task_show_context']              = 'Context';
+$lang['task_show_project']              = 'Project';
+$lang['task_show_title']                = 'Title';
+$lang['task_show_user']                 = 'User';
+$lang['task_show_visibility']           = 'Visibility';
+$lang['task_show_tab_description']      = 'description';
+$lang['task_show_tab_comment']          = 'comment';
+$lang['task_show_tab_history']          = 'history';
+$lang['task_show_tab_save']             = 'save';
+$lang['task_show_tab_cancel']           = 'cancel';
+$lang['task_show_status']               = 'status';
+
 
 /*
  *  projects arrays
@@ -88,6 +103,12 @@ $lang['task_priority']                  = array(
                                                 9       => 'Whatever'
 );
 
+//task visivility
+$lang['task_visibility']                = array(
+                                                0       => 'public',
+                                                1       => 'internal',
+                                                2       => 'private'
+);
 
 //date
 $lang['task_date'] = array (

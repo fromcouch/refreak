@@ -1,81 +1,88 @@
-<? php //copied from tf ?>
+<?php //copied from tf ?>
         <div class="task_show_menu">
-            <div id="task_show_close"><a href="#"><?php echo $this->lang->line('task_show_close'); ?><img src="skins/<?php echo FRK_SKIN_FOLDER; ?>/images/b_disn.png" width="20" height="16" border="0" alt="close" /></a></div>
-            <div id="task_show_edit"><a href="#"><?php echo $GLOBALS['langForm']['edit']; ?><img src="skins/<?php echo FRK_SKIN_FOLDER; ?>/images/b_edin.png" width="20" height="16" border="0" alt="edit" /></a></div>
-            <div id="task_show_delete"><a href="#" onClick="return confirm('<?php echo $GLOBALS['langMessage']['task_delete_confirm']; ?>')"><?php echo $GLOBALS['langForm']['delete']; ?><img src="skins/<?php echo FRK_SKIN_FOLDER; ?>/images/b_deln.png" width="20" height="16" border="0" alt="delete" /></a></div>
+            <div id="task_show_close">
+                <a href="#">
+                    <?php echo $this->lang->line('task_show_close'); ?>
+                    <img src="<?php echo base_url();?>theme/default/images/b_disn.png" width="20" height="16" border="0" alt="close" />
+                </a>
+            </div>
+            <div id="task_show_edit">
+                <a href="#"><?php echo $this->lang->line('task_show_edit'); ?>
+                    <img src="<?php echo base_url();?>theme/default/images/b_edin.png" width="20" height="16" border="0" alt="edit" />
+                </a>
+            </div>
+            <div id="task_show_delete">
+                <a href="#" onClick="return confirm('<?php echo $this->lang->line('task_show_delete_confirm');  ?>')">
+                    <?php echo $this->lang->line('task_show_delete');  ?>
+                    <img src="<?php echo base_url();?>theme/default/images/b_deln.png" width="20" height="16" border="0" alt="delete" />
+                </a>
+            </div>
         </div>
         <div class="task_show_priority">
-            <div class="flabel"><?php echo $GLOBALS['langForm']['priority']; ?></div>
-			<div id="vprio"><span class="pr<?php  echo $objTask->priority; ?>"><?php echo $objTask->priority; ?></span></div>
+            <div class="label"><?php echo $this->lang->line('task_show_priority'); ?></div>
+            <div class="vprio">
+                <span class="task_pr<?php echo $tf['priority']; ?>"><?php echo $tf['priority']; ?></span>
+            </div>
         </div>
         <div class="task_show_content">
-    	    <div class="flabel"><?php echo $GLOBALS['langForm']['deadline']; ?></div>
-			<div id="vdead"><?php echo $objTask->getDeadline(); ?></div>
+    	    <div class="label"><?php echo $this->lang->line('task_show_deadline'); ?></div>
+            <div id="vdead"><?php echo RFK_Task_Helper::calculate_deadline($tf['deadline_date'], $tf['status']); ?></div>
         </div>
-		<?php
-			if (@constant('FRK_CONTEXT_ENABLE')) {
-		?>
         <div class="task_show_content">
-			<div class="flabel"><?php echo $GLOBALS['langForm']['context']; ?></div>
-			<div id="vctxt"><span style="color:<?php echo $GLOBALS['confContext'][$objTask->context]; ?>"><?php
-				echo $GLOBALS['langItemContext'][$objTask->context]; ?></span></div>
+            <div class="label"><?php echo $this->lang->line('task_show_context'); ?></div>
+            <div class="task_ctx<?php echo $context_letter; ?>">
+                <?php echo $context[$tf['context']]; ?>
+            </div>
         </div>
-		<?php
-			}
-		?>
         <div class="task_show_project">
-            <div class="flabel"><?php echo $GLOBALS['langForm']['project']; ?></div>
-			<div id="vproj"><?php echo $objTask->project->get('name','-'); ?></div>
+            <div class="label"><?php echo $this->lang->line('task_show_project'); ?></div>
+            <div class="vproj"><?php echo $project_name; ?></div>
         </div>        
         <div class="task_show_title">
-    	    <div class="flabel"><?php echo $GLOBALS['langForm']['title']; ?></div>
-			<div id="vtitl"><?php
-				$objTask->p('title');
-			?></div>
+    	    <div class="label"><?php echo $this->lang->line('task_show_title'); ?></div>
+            <div class="vtitl"><?php echo $tf['title']; ?></div>
         </div>
     	<div class="task_show_user">
-            <div class="flabel"><?php echo $GLOBALS['langForm']['user']; ?></div>
-			<div id="vuser"><?php echo $objTask->member->getName('-'); ?></div>
+            <div class="label"><?php echo $this->lang->line('task_show_user'); ?></div>
+            <div class="vuser"><?php echo $username ?></div>
         </div>
         <div class="task_show_visibility">
-            <div class="flabel"><?php echo $GLOBALS['langForm']['visibility']; ?></div>
-			<div id="vvisi"><?php
-				$strVisi = $GLOBALS['langForm']['public'];
-				switch ($objTask->showPrivate) {
-					case 1:
-						$strVisi = $GLOBALS['langForm']['internal'];
-						$strVisi .= ' <img src="skins/'.FRK_SKIN_FOLDER
-							.'/images/priv1.png" width="12" height="16" align="absmiddle" border="0" alt="" />';
-						break;
-					case 2:
-						$strVisi = $GLOBALS['langForm']['private'];
-						$strVisi .= ' <img src="skins/'.FRK_SKIN_FOLDER
-							.'/images/priv2.png" width="12" height="16" align="absmiddle" border="0" alt="" />';
-						break;
-				}
-				echo $strVisi;
-			?></div>
+            <div class="label"><?php echo $this->lang->line('task_show_visibility'); ?></div>
+            <div class="vvisi">
+                    <?php                         
+                        echo $visibility[$tf['private']];
+                        
+                        if ($tf['private'] > 0) : ?>
+                            <img src="<?php echo base_url();?>theme/default/images/priv<?php echo $tf['private']; ?>.png" width="12" height="16" align="absmiddle" border="0" alt="" />
+                    <?php endif; ?>
+            </div>
         </div>
         <div class="tabmenu">
             <ul>
-		<li id="tdesc" class="active"><a href="javascript:freak_more('desc')"><?php echo $GLOBALS['langTaskDetails']['tab_description']; ?></a></li>
-                <li id="tcomm"><a href="javascript:freak_more('comm')"><?php echo $GLOBALS['langTaskDetails']['tab_comments']; ?></a></li>
-                <li id="thist"><a href="javascript:freak_more('hist')"><?php echo $GLOBALS['langTaskDetails']['tab_history']; ?></a></li>
+		<li id="tdesc" class="active"><a href="javascript:freak_more('desc')"><?php echo $this->lang->line('task_show_tab_description'); ?></a></li>
+                <li id="tcomm"><a href="javascript:freak_more('comm')"><?php echo $this->lang->line('task_show_tab_comment'); ?></a></li>
+                <li id="thist"><a href="javascript:freak_more('hist')"><?php echo $this->lang->line('task_show_tab_history'); ?></a></li>
             </ul>
 	</div>
 	<div class="tabcontent">
 		<div id="vedit">
-			<div><input type="hidden" name="veditid" value="" /><textarea id="veditbody" name="veditbody"></textarea></div>
 			<div>
-				<input type="submit" name="veditsubmit" value="<?php echo $GLOBALS['langForm']['save']; ?>"> &nbsp;
-				<input type="button" name="veditcancel" value="<?php echo $GLOBALS['langForm']['cancel']; ?>" onClick="freak_body_edit()">
+                                <input type="hidden" name="veditid" value="" />
+                                <textarea id="veditbody" name="veditbody"></textarea>
+                        </div>
+			<div>
+				<input type="submit" name="veditsubmit" value="<?php echo $this->lang->line('task_show_tab_save'); ?>"> &nbsp;
+				<input type="button" name="veditcancel" value="<?php echo $this->lang->line('task_show_tab_cancel'); ?>">
 			</div>
 		</div>
 		<div id="vmore"></div>
 	</div>
         <div class="task_show_status">
-            <div class="flabel2"><?php echo $GLOBALS['langForm']['status']; ?></div>
-            <div id="vsts"><?php
-				echo $GLOBALS['langItemStatus'][$objTask->itemStatus->statusKey]
-            ?></div>
+            <div class="label2"><?php echo $this->lang->line('task_show_status'); ?></div>
+            <div class="task_show_status_inside">
+                <?php
+                        $status = $this->lang->line('task_status');
+                        echo $status[$tf['status']];
+                ?>
+            </div>
         </div>
