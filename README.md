@@ -15,6 +15,8 @@ TODO
     + Show task pop up
     + Order task grid
 + Add author_id to user db table
++ User Country
++ User title
 + Add theme as a variable on code
 + Create config page
 + Desing login page
