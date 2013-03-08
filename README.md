@@ -12,8 +12,8 @@ TODO
 
 ### Stage 1
 + End task system.
-++ Show task pop up
-++ Order task grid
+    + Show task pop up
+    + Order task grid
 + Add author_id to user db table
 + Add theme as a variable on code
 + Create config page
@@ -23,9 +23,9 @@ TODO
 ### Stage 2
 + Import on Install tasks from TF
 + Pluginize project
-++ Pluginize Controlers and models
-++ Decorators for views
-++ Pluginize JS
+    + Pluginize Controlers and models
+    + Decorators for views
+    + Pluginize JS
 
 
 Please, feel free to add issue or comment.
