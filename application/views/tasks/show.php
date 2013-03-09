@@ -65,17 +65,19 @@
             </ul>
 	</div>
 	<div class="tabcontent">
-		<div id="vedit">
-			<div>
-                                <input type="hidden" name="veditid" value="" />
-                                <textarea id="veditbody" name="veditbody"></textarea>
-                        </div>
-			<div>
-				<input type="submit" name="veditsubmit" value="<?php echo $this->lang->line('task_show_tab_save'); ?>"> &nbsp;
-				<input type="button" name="veditcancel" value="<?php echo $this->lang->line('task_show_tab_cancel'); ?>">
-			</div>
-		</div>
-		<div id="vmore"></div>
+                <div class="tabcontent_content">
+                    <div class="tabcontent_edit">
+                            <div>
+                                    <input type="hidden" name="veditid" value="" />
+                                    <textarea id="veditbody" name="veditbody"></textarea>
+                            </div>
+                            <div>
+                                    <input type="submit" name="veditsubmit" value="<?php echo $this->lang->line('task_show_tab_save'); ?>"> &nbsp;
+                                    <input type="button" name="veditcancel" value="<?php echo $this->lang->line('task_show_tab_cancel'); ?>">
+                            </div>
+                    </div>
+                    <div id="vmore"></div>
+                </div>
 	</div>
         <div class="task_show_status">
             <div class="label2"><?php echo $this->lang->line('task_show_status'); ?></div>

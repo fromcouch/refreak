@@ -813,4 +813,12 @@ div.tabmenu li.active a:hover {
     font-size: x-small;
     margin: 3px 20px 3px 0;
 }
+
+div.tabcontent {
+    height: 170px;
+    overflow: auto;
+    padding: 3px;
+    position: relative;
+    width: 99%;
+}
 /* end task show panel */
