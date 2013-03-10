@@ -59,9 +59,9 @@
         </div>
         <div class="tabmenu">
             <ul>
-		<li id="tdesc" class="active"><a href="javascript:freak_more('desc')"><?php echo $this->lang->line('task_show_tab_description'); ?></a></li>
-                <li id="tcomm"><a href="javascript:freak_more('comm')"><?php echo $this->lang->line('task_show_tab_comment'); ?></a></li>
-                <li id="thist"><a href="javascript:freak_more('hist')"><?php echo $this->lang->line('task_show_tab_history'); ?></a></li>
+		<li class="tab tab_desc active"><a href="#"><?php echo $this->lang->line('task_show_tab_description'); ?></a></li>
+                <li class="tab tab_comm"><a href="#"><?php echo $this->lang->line('task_show_tab_comment'); ?></a></li>
+                <li class="tab tab_hist"><a href="#"><?php echo $this->lang->line('task_show_tab_history'); ?></a></li>
             </ul>
 	</div>
 	<div class="tabcontent">
@@ -76,7 +76,7 @@
                                     <input type="button" name="veditcancel" value="<?php echo $this->lang->line('task_show_tab_cancel'); ?>">
                             </div>
                     </div>
-                    <div id="vmore"></div>
+                    <div class="vmore"></div>
                 </div>
 	</div>
         <div class="task_show_status">

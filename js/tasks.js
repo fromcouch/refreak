@@ -40,14 +40,14 @@
                                         dateFormat:   "dd/mm/yy"
                                 });
 
-                                me._(".task_projects").on('change', function() { me.load_users(me); });
+                                me._(".task_projects").on("change", function() { me.load_users(this); });
 
-                                me._(".task_edit_cancel").on('click', function() { me.close(me); });
+                                me._(".task_edit_cancel").on("click", function() { me.close(this); });
 
-                                me._(".task_edit_new_project").on('click', function() { me.show_input_project(me); });
-                                me._(".task_edit_list_project").on('click', function() { me.show_list_project(me); });
+                                me._(".task_edit_new_project").on("click", function() { me.show_input_project(this); });
+                                me._(".task_edit_list_project").on("click", function() { me.show_list_project(this); });
 
-                                me._(".task_edit_save").on('click', function() { me.send_data(me); });
+                                me._(".task_edit_save").on("click", function() { me.send_data(this); });
                        
 
                         }).fail(function(res) {
@@ -75,7 +75,7 @@
                                         }
                         }).done(function(res) {
                                 if (res.response === "rfk_ok") {
-                                    var $select_users = me._('.task_users').empty();
+                                    var $select_users = me._(".task_users").empty();
 
                                     $.each(res.data, function(i,item) {
                                         $select_users.append( '<option value="'
@@ -149,12 +149,12 @@
                 
                 close: function() {
                         
-                        this._(".task_projects").off('change');
+                        this._(".task_projects").off("change");
                        
-                        this._(".task_edit_cancel").off('click');
+                        this._(".task_edit_cancel").off("click");
                         
-                        this._(".task_edit_new_project").off('click');
-                        this._(".task_edit_list_project").off('click');
+                        this._(".task_edit_new_project").off("click");
+                        this._(".task_edit_list_project").off("click");
                        
                         this._(".task_edit_save").off('click');
                        
@@ -175,8 +175,11 @@
  
         task_show.prototype = {
              
-                options: null,
-                element: null,
+                options:        null,
+                element:        null,
+                description:    null,
+                comment:        null,
+                history:        null,
 
                 init : function( options ) {
 
@@ -196,13 +199,16 @@
 
                                 me.element.html(res);
                                 
-                                me._(".task_show_close").on('click', function() { me.close(me); });
-                                me._(".task_show_edit").on('click', function() { me.edit(me); });
-                                me._(".task_show_delete").on('click', function() { me.delete(me); });
-                       
+                                me._(".task_show_close").on("click", function() { me.close(this); });
+                                me._(".task_show_edit").on("click", function() { me.edit(this); });
+                                me._(".task_show_delete").on("click", function() { me.delete(this); });
+                                
+                                me._(".tab").on("click", function () { me.tabs(this); } );
+                                
+                                me.tabs( me._(".tab_desc") );
 
                         }).fail(function(res) {
-                                alert("<?php echo $this->lang->line('tasksmessage_ajax_error_server'); ?>");
+                                alert(tasksmessage_ajax_error_server);
                                 me.element.hide();
                         });
 
@@ -222,6 +228,59 @@
                         
                 },
 
+                tabs: function ( obj ) {
+                        
+                        this._(".tab").removeClass("active");
+                        
+                        if (this._(obj).hasClass("tab_desc")) {
+                            
+                                if (this.description === null) this._tab_desc();
+                                this._(".vmore").html(this.description);
+                                
+                        } else if (this._(obj).hasClass("tab_comm")) {
+                            
+                                if (this.comment === null) this._tab_comm();
+                                this._(".vmore").html(this.comment);
+                                
+                        } else if (this._(obj).hasClass("tab_hist")) {
+                            
+                                if (this.history === null) this._tab_hist();
+                                this._(".vmore").html(this.history);
+                                
+                        }
+                        
+                        this._(obj).addClass("active")
+                },
+                        
+                _tab_desc: function() {
+            
+                        if (this.description === null) {
+                                
+                                var me = this;
+                                
+                                $.ajax({
+                                    type:       "POST",
+                                    url:        s_url + "/tasks/get_description/",
+                                    data:       { tid: this.options.task_id },
+                                    dataType:   "html"
+                                }).done(function(res) {
+
+                                        if (res.response === "rfk_ok") {
+                                        
+                                            me.description = res.description;
+                                            
+                                        }
+                                        else {
+                                            alert(tasksmessage_ajax_error_security);
+                                        }
+
+                                }).fail(function(res) {
+                                        alert(tasksmessage_ajax_error_server);
+                                });
+                        }
+            
+                },
+                 
                 close: function() {
                         
                         this._(".task_show_close").off('click');
