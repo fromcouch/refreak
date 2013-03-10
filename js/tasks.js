@@ -2,12 +2,12 @@
         
         var task_new = function(element, options){
 		this.element = $(element);			
-		this.init();
+		this.init( options );
         };
         
         var task_show = function(element, options){
 		this.element = $(element);			
-		this.init();
+		this.init( options );
         };
           
         task_new.prototype = {
@@ -17,27 +17,43 @@
 
                 init : function( options ) {
 
-                       var me = this;
+                        var me = this;
 
-                       if (options !== undefined)
-                           this.options = options;
+                        if (options !== undefined)
+                            this.options = options;
 
-                       this._(".task_dead").datepicker({
-                                showOn: "button",
-                                buttonImage: s_url + "/theme/default/images/cal.gif",
-                                buttonImageOnly: true,
-                                dateFormat:   "dd/mm/yy"
-                       });
+                        this.element.show();
+           
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/edit/",
+                            data:       { tid: this.options.task_id },
+                            dataType:   "html"
+                        }).done(function(res) {
 
-                       this._(".task_projects").on('change', function() { me.load_users(this); });
+                                me.element.html(res);
+                                
+                                me._(".task_dead").datepicker({
+                                        showOn: "button",
+                                        buttonImage: s_url + "/theme/default/images/cal.gif",
+                                        buttonImageOnly: true,
+                                        dateFormat:   "dd/mm/yy"
+                                });
+
+                                me._(".task_projects").on('change', function() { me.load_users(me); });
+
+                                me._(".task_edit_cancel").on('click', function() { me.close(me); });
+
+                                me._(".task_edit_new_project").on('click', function() { me.show_input_project(me); });
+                                me._(".task_edit_list_project").on('click', function() { me.show_list_project(me); });
+
+                                me._(".task_edit_save").on('click', function() { me.send_data(me); });
                        
-                       this._(".task_edit_cancel").on('click', function() { me.close(this); });
-                       
-                       this._(".task_edit_new_project").on('click', function() { me.show_input_project(this); });
-                       this._(".task_edit_list_project").on('click', function() { me.show_list_project(this); });
-                       
-                       this._(".task_edit_save").on('click', function() { me.send_data(this); });
-                       
+
+                        }).fail(function(res) {
+                                alert(tasksmessage_ajax_error_server);
+                                this.element.hide();
+                        });
 
                 },
 
@@ -164,13 +180,31 @@
 
                 init : function( options ) {
 
-                       var me = this;
+                        var me = this;
 
-                       if (options !== undefined)
-                           this.options = options;
+                        if (options !== undefined)
+                            this.options = options;
+                        
+                        this.element.show();
 
-                       this._(".task_show_close").on('click', function() { me.close(this); });
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/show/",
+                            data:       { tid: this.options.task_id },
+                            dataType:   "html"
+                        }).done(function(res) {
+
+                                me.element.html(res);
+                                
+                                me._(".task_show_close").on('click', function() { me.close(me); });
+                                me._(".task_show_edit").on('click', function() { me.edit(me); });
+                                me._(".task_show_delete").on('click', function() { me.delete(me); });
                        
+
+                        }).fail(function(res) {
+                                alert("<?php echo $this->lang->line('tasksmessage_ajax_error_server'); ?>");
+                                me.element.hide();
+                        });
 
                 },
 
@@ -179,11 +213,21 @@
                         return $(selector, this.element);
 
                 }, 
-                                       
+
+                edit: function() {
+                        
+                        this.close();
+                        $(this.element).show();
+                        new task_new(this.element, { task_id: this.options.task_id });
+                        
+                },
+
                 close: function() {
                         
                         this._(".task_show_close").off('click');
-                        
+                        this._(".task_show_edit").off('click');
+                        this._(".task_show_delete").off('click');
+                       
                         $(this.element).html(
                                                 $("<img>").attr("border","0")
                                                           .attr("src", s_url + "theme/default/images/load.gif")
@@ -198,20 +242,20 @@
                 }
          }
  
-         $.fn.newTask = function( ) {
+         $.fn.newTask = function( options ) {
               
               $(this).each(function(){ 
-                  $(this).data('newTask', new task_new(this, null)); 
+                  $(this).data('newTask', new task_new(this, options)); 
               });
 
               return this;
               
          };
         
-         $.fn.showTask = function( ) {
+         $.fn.showTask = function( options ) {
               
               $(this).each(function(){ 
-                  $(this).data('showTask', new task_show(this, null)); 
+                  $(this).data('showTask', new task_show(this, options)); 
               });
 
               return this;

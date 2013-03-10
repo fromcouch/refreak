@@ -112,7 +112,7 @@
                 //prevent call tr event
                 event.stopPropagation();
                 // 0 means new task
-                savetask(0);
+                edittask(0);
            
         });
         
@@ -122,7 +122,7 @@
                 event.stopPropagation();
 
                 var task_id = $(this).parents("tr").attr("data-id");
-                savetask(task_id);
+                edittask(task_id);
            
         });
         
@@ -130,41 +130,15 @@
                 
                 var task_id = $(this).attr("data-id");
                 
-                $('.task_panel').show();
+                $('.task_panel').showTask({ task_id: task_id });
            
-                $.ajax({
-                    type:       "POST",
-                    url:        "<?php echo site_url(); ?>/tasks/show/",
-                    data:       { tid: task_id },
-                    dataType:   "html"
-                }).done(function(res) {
-                        
-                        $('.task_panel').html(res).showTask();
-
-                }).fail(function(res) {
-                        alert("<?php echo $this->lang->line('tasksmessage_ajax_error_server'); ?>");
-                        $('.task_panel').hide();
-                });
+                
                 
         });
         
-        function savetask(task_id) {
+        function edittask(task_id) {
                 
-                $('.task_panel').show();
-           
-                $.ajax({
-                    type:       "POST",
-                    url:        "<?php echo site_url(); ?>/tasks/edit/",
-                    data:       { tid: task_id },
-                    dataType:   "html"
-                }).done(function(res) {
-                        
-                        $('.task_panel').html(res).newTask();
-
-                }).fail(function(res) {
-                        alert("<?php echo $this->lang->line('tasksmessage_ajax_error_server'); ?>");
-                        $('.task_panel').hide();
-                });
+                $(".task_panel").newTask({ task_id: task_id });
                 
         }
     })(jQuery);
