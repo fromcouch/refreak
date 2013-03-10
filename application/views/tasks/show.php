@@ -82,8 +82,10 @@
         <div class="task_show_status">
             <div class="label2"><?php echo $this->lang->line('task_show_status'); ?></div>
             <div class="task_show_status_inside">
-                <?php                        
-                        echo $status[$tf['status']];
+                <?php                
+                        $st = $tf['status'];
+                        if (empty($st)) $st = 0; //i have problems passing zero vales to views :/
+                        echo $status[$st];
                 ?>
             </div>
         </div>

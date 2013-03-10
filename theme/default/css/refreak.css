@@ -815,10 +815,22 @@ div.tabmenu li.active a:hover {
 }
 
 div.tabcontent {
+    border: 1px solid #999999;
+    clear: both;
+    margin: 0;
+    padding: 1px;
+    text-align: left;
+}
+
+div.tabcontent_edit {
+    /*display: none;*/
     height: 170px;
-    overflow: auto;
     padding: 3px;
     position: relative;
-    width: 99%;
+}
+
+div.tabcontent_edit textarea {
+    height: 140px;
+    width: 485px;
 }
 /* end task show panel */

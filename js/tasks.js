@@ -4,8 +4,13 @@
 		this.element = $(element);			
 		this.init();
         };
+        
+        var task_show = function(element, options){
+		this.element = $(element);			
+		this.init();
+        };
           
-        task_new.prototype = {                          
+        task_new.prototype = {
              
                 options: null,
                 element: null,
@@ -152,10 +157,59 @@
                 }
          }
  
+        task_show.prototype = {
+             
+                options: null,
+                element: null,
+
+                init : function( options ) {
+
+                       var me = this;
+
+                       if (options !== undefined)
+                           this.options = options;
+
+                       
+
+                },
+
+                _: function(selector) {
+
+                        return $(selector, this.element);
+
+                }, 
+                                       
+                close: function() {
+                        
+                        
+                        $(this.element).html(
+                                                $("<img>").attr("border","0")
+                                                          .attr("src", s_url + "theme/default/images/load.gif")
+                                                          .addClass("loader")
+                        
+                        ).hide();
+                        
+                },
+                
+                destroy: function() {
+                        this.close();
+                }
+         }
+ 
          $.fn.newTask = function( ) {
               
               $(this).each(function(){ 
                   $(this).data('newTask', new task_new(this, null)); 
+              });
+
+              return this;
+              
+         };
+        
+         $.fn.showTask = function( ) {
+              
+              $(this).each(function(){ 
+                  $(this).data('showTask', new task_show(this, null)); 
               });
 
               return this;
