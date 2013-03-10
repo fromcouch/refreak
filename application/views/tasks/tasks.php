@@ -139,7 +139,7 @@
                     dataType:   "html"
                 }).done(function(res) {
                         
-                        $('.task_panel').html(res).newTask();
+                        $('.task_panel').html(res).showTask();
 
                 }).fail(function(res) {
                         alert("<?php echo $this->lang->line('tasksmessage_ajax_error_server'); ?>");

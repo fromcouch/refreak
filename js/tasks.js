@@ -169,6 +169,7 @@
                        if (options !== undefined)
                            this.options = options;
 
+                       this._(".task_show_close").on('click', function() { me.close(this); });
                        
 
                 },
@@ -181,6 +182,7 @@
                                        
                 close: function() {
                         
+                        this._(".task_show_close").off('click');
                         
                         $(this.element).html(
                                                 $("<img>").attr("border","0")
