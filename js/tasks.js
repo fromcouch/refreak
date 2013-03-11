@@ -291,8 +291,22 @@
 
                                 if (res.response === "rfk_ok") {
 
-                                    me.comment = res.comment;
-
+                                    if (res.comments.length > 0)
+                                            me.comment = res.comments;
+                                    else {
+                                    
+                                            $no_comment     = $("<div>").addClass("vempty")
+                                                                        .append("-no comment left yet-")
+                                                                        .append(
+                                                                            $("<div>").addClass("vnewaction")
+                                                                                      .append(
+                                                                                            $("a").addClass("vfirstcomment")
+                                                                                                  .attr("href","#")
+                                                                                                  .html("post first comment")
+                                                                                        )
+                                                                        );
+                                            me.comment      = $no_comment;
+                                    }
                                 }
                                 else {
                                     alert(tasksmessage_ajax_error_security);

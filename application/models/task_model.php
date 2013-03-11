@@ -211,6 +211,19 @@ class Task_model extends CI_Model {
         }
         
     }
+    
+    public function get_task_comments($task_id) {
+        
+        $comments       = $this->db
+                            ->select('users.first_name, users.Last_name, task_comment.comment, task_comment.post_date, task_comment.last_change_date')
+                            ->join('users', 'task_comment.user_id = users.id', 'inner' )
+                            ->where('task_comment.task_id', $task_id)
+                            ->get('task_comment')
+                            ->result_array();
+        
+        return $comments;
+        
+    }
 }
 
 /* End of file task_model.php */
