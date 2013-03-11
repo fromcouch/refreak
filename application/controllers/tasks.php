@@ -350,6 +350,28 @@ class Tasks extends RF_BaseController {
         }
         
     }
+    
+    public function get_description() {
+        
+        if ($this->input->is_ajax_request())
+        {
+            $task_id                        = $this->input->post('tid');
+            $description                    = $this->task_model->get_task_description($task_id);
+            echo json_encode(
+                                array(
+                                    'response'          => 'rfk_ok',
+                                    'description'       => $description
+                                )
+                                
+                    );
+            
+        }
+        else
+        {
+            echo json_encode(array('response' => 'rfk_fuckyou'));
+        }
+        
+    }
 
 }
 

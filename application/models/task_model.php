@@ -194,6 +194,23 @@ class Task_model extends CI_Model {
                         ->result_array();
         
     }
+    
+    public function get_task_description($task_id) {
+        
+        $task           = $this->db
+                            ->select('tasks.description')                
+                            ->where('tasks.task_id', $task_id)
+                            ->get('tasks')
+                            ->result_object();
+        
+        if (count($task)>0) {
+                return $task[0]->description;
+        }
+        else {
+                return;
+        }
+        
+    }
 }
 
 /* End of file task_model.php */

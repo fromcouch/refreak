@@ -234,51 +234,100 @@
                         
                         if (this._(obj).hasClass("tab_desc")) {
                             
-                                if (this.description === null) this._tab_desc();
+                                if (this.description === null) this._get_desc();
                                 this._(".vmore").html(this.description);
                                 
                         } else if (this._(obj).hasClass("tab_comm")) {
                             
-                                if (this.comment === null) this._tab_comm();
+                                if (this.comment === null) this._get_comm();
                                 this._(".vmore").html(this.comment);
                                 
                         } else if (this._(obj).hasClass("tab_hist")) {
                             
-                                if (this.history === null) this._tab_hist();
+                                if (this.history === null) this._get_hist();
                                 this._(".vmore").html(this.history);
                                 
                         }
                         
-                        this._(obj).addClass("active")
+                        this._(obj).addClass("active");
                 },
                         
-                _tab_desc: function() {
+                _get_desc: function() {
             
-                        if (this.description === null) {
-                                
-                                var me = this;
-                                
-                                $.ajax({
-                                    type:       "POST",
-                                    url:        s_url + "/tasks/get_description/",
-                                    data:       { tid: this.options.task_id },
-                                    dataType:   "html"
-                                }).done(function(res) {
+                        var me = this;
 
-                                        if (res.response === "rfk_ok") {
-                                        
-                                            me.description = res.description;
-                                            
-                                        }
-                                        else {
-                                            alert(tasksmessage_ajax_error_security);
-                                        }
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/get_description/",
+                            data:       { tid: this.options.task_id },
+                            async:      false
+                        }).done(function(res) {
 
-                                }).fail(function(res) {
-                                        alert(tasksmessage_ajax_error_server);
-                                });
-                        }
+                                if (res.response === "rfk_ok") {
+
+                                    me.description = res.description;
+
+                                }
+                                else {
+                                    alert(tasksmessage_ajax_error_security);
+                                }
+
+                        }).fail(function(res) {
+                                alert(tasksmessage_ajax_error_server);
+                        });
+           
+                },
+                 
+                _get_comm: function() {
             
+                        var me = this;
+
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/get_comments/",
+                            data:       { tid: this.options.task_id },
+                            async:      false
+                        }).done(function(res) {
+
+                                if (res.response === "rfk_ok") {
+
+                                    me.comment = res.comment;
+
+                                }
+                                else {
+                                    alert(tasksmessage_ajax_error_security);
+                                }
+
+                        }).fail(function(res) {
+                                alert(tasksmessage_ajax_error_server);
+                        });
+           
+                },
+                 
+                _get_hist: function() {
+            
+                        var me = this;
+
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/get_history/",
+                            data:       { tid: this.options.task_id },
+                            async:      false
+                        }).done(function(res) {
+
+                                if (res.response === "rfk_ok") {
+
+                                    me.history = res.history;
+
+                                }
+                                else {
+                                    alert(tasksmessage_ajax_error_security);
+                                }
+
+                        }).fail(function(res) {
+                                alert(tasksmessage_ajax_error_server);
+                        });
+           
                 },
                  
                 close: function() {
