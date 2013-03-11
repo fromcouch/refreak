@@ -848,6 +848,14 @@ div.vmore div.vempty {
     text-align: center;
 }
 
+div.vmore div.vheader {
+    border-bottom: 1px solid #999999;
+    color: #999999;
+    font-size: 12px;
+    padding: 2px;
+}
+
+
 div.vmore div.vaction {
     float: right;
     font-size: x-small;
@@ -861,5 +869,10 @@ div.vmore div.vnewaction a:visited {
 div.vmore div.vaction a:hover, 
 div.vmore div.vnewaction a:hover {
     text-decoration: underline;
+}
+
+div.vmore div.vbody {
+    font-size: 12px;
+    padding: 2px 2px 10px;
 }
 /* end task show panel */

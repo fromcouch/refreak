@@ -230,7 +230,12 @@
 
                 tabs: function ( obj ) {
                         
+                        var me = this;
+                        
                         this._(".tab").removeClass("active");
+                        
+                        this._(".vmore").show();
+                        this._(".tabcontent_edit").hide();
                         
                         if (this._(obj).hasClass("tab_desc")) {
                             
@@ -241,6 +246,7 @@
                             
                                 if (this.comment === null) this._get_comm();
                                 this._(".vmore").html(this.comment);
+                                this._(".vfirstcomment").on("click", function () { me.show_edit_comment(this) })
                                 
                         } else if (this._(obj).hasClass("tab_hist")) {
                             
@@ -291,8 +297,35 @@
 
                                 if (res.response === "rfk_ok") {
 
-                                    if (res.comments.length > 0)
-                                            me.comment = res.comments;
+                                    if (res.comments.length > 0) {
+                                        
+                                            var $comms = "";
+                                            
+                                            $.each(res.comments, function(key, value) {
+                                                var fecha   = $.datepicker.parseDate( "yy-mm-dd", value.post_date );
+                                                
+                                                fecha       = $.datepicker.formatDate( "d M y", fecha );
+                                                
+                                                var $header = $("<div>").addClass("vheader")
+                                                                        .html(fecha + " by " + value.first_name + " " + value.last_name );
+                                                  
+                                                var $body   = $("<div>").addClass("vbody")
+                                                                        .html( value.description );
+                                                  
+                                                var $comm   = $("<div>").addClass("vcomm")
+                                                                        .append($header)
+                                                                        .append($body);
+                                                
+                                                if ($comms == "")
+                                                    $comms = $().add($comm);
+                                                else
+                                                    $comms.add($comm);
+                                                
+                                            });
+                                        
+                                            me.comment = $comms;
+                                            
+                                    }
                                     else {
                                     
                                             $no_comment     = $("<div>").addClass("vempty")
@@ -303,7 +336,6 @@
                                                                                             $("<a>").addClass("vfirstcomment")
                                                                                                   .attr("href","#")
                                                                                                   .html("post first comment")
-                                                                                                  .on("click", me.add_comment(this))
                                                                                         )
                                                                         );
                                             me.comment      = $no_comment;
@@ -345,8 +377,11 @@
            
                 },
                  
-                add_comment: function( obj ) {
-                    
+                show_edit_comment: function( obj ) {
+                        
+                        this._(".vmore").hide();
+                        this._(".tabcontent_edit").show();
+                        
                 }, 
                         
                 close: function() {
@@ -355,6 +390,8 @@
                         this._(".task_show_edit").off('click');
                         this._(".task_show_delete").off('click');
                        
+                        this._(".tab").off("click");
+                        this._(".vfirstcomment").off("click");
                         $(this.element).html(
                                                 $("<img>").attr("border","0")
                                                           .attr("src", s_url + "theme/default/images/load.gif")
