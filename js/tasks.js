@@ -300,9 +300,10 @@
                                                                         .append(
                                                                             $("<div>").addClass("vnewaction")
                                                                                       .append(
-                                                                                            $("a").addClass("vfirstcomment")
+                                                                                            $("<a>").addClass("vfirstcomment")
                                                                                                   .attr("href","#")
                                                                                                   .html("post first comment")
+                                                                                                  .on("click", me.add_comment(this))
                                                                                         )
                                                                         );
                                             me.comment      = $no_comment;
@@ -344,6 +345,10 @@
            
                 },
                  
+                add_comment: function( obj ) {
+                    
+                }, 
+                        
                 close: function() {
                         
                         this._(".task_show_close").off('click');
