@@ -72,8 +72,8 @@
                                     <textarea id="veditbody" name="veditbody"></textarea>
                             </div>
                             <div>
-                                    <input type="submit" name="veditsubmit" value="<?php echo $this->lang->line('task_show_tab_save'); ?>"> &nbsp;
-                                    <input type="button" name="veditcancel" value="<?php echo $this->lang->line('task_show_tab_cancel'); ?>">
+                                    <input type="button" name="veditsubmit" class="veditsubmit" value="<?php echo $this->lang->line('task_show_tab_save'); ?>"> &nbsp;
+                                    <input type="button" name="veditcancel" class="veditcancel" value="<?php echo $this->lang->line('task_show_tab_cancel'); ?>">
                             </div>
                     </div>
                     <div class="vmore"></div>

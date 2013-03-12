@@ -203,6 +203,9 @@
                                 me._(".task_show_edit").on("click", function() { me.edit(this); });
                                 me._(".task_show_delete").on("click", function() { me.delete(this); });
                                 
+                                me._(".veditsubmit").on("click", function() { me.send_comment(this); });
+                                me._(".veditcancel").on("click", function() { me.cancel_comment(this); });
+                                
                                 me._(".tab").on("click", function () { me.tabs(this); } );
                                 
                                 me.tabs( me._(".tab_desc") );
@@ -383,13 +386,53 @@
                         this._(".tabcontent_edit").show();
                         
                 }, 
+                
+                cancel_comment: function ( obj ) {
+            
+                        this._(".vmore").show();
+                        this._(".tabcontent_edit").hide();
                         
+                },
+
+                send_comment: function ( obj ) {
+                    
+                        var me = this;
+                        var comment_id = this._(".veditid").val();
+                        
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/save_comment",
+                            data:       { 
+                                            tid: this.options.task_id ,
+                                            cid: comment_id
+                                        },
+                            async:      false
+                        }).done(function(res) {
+
+                                if (res.response === "rfk_ok") {
+
+                                    me.tabs(".tab_comm");
+
+                                }
+                                else {
+                                    alert(tasksmessage_ajax_error_security);
+                                }
+
+                        }).fail(function(res) {
+                                alert(tasksmessage_ajax_error_server);
+                        });
+                        
+                },
+
                 close: function() {
                         
                         this._(".task_show_close").off('click');
                         this._(".task_show_edit").off('click');
                         this._(".task_show_delete").off('click');
-                       
+
+                        this._(".veditsubmit").off("click");
+                        this._(".veditcancel").off("click");
+                    
                         this._(".tab").off("click");
                         this._(".vfirstcomment").off("click");
                         $(this.element).html(
