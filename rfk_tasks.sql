@@ -179,8 +179,15 @@ CREATE TABLE IF NOT EXISTS `rfk_users` (
   `last_name` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
+  `title` VARCHAR( 30 ) NULL ,
+  `country_id` INT NULL ,
+  `author_id` INT NOT NULL 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `rfk_users` ADD `title` VARCHAR( 30 ) NULL ,
+ADD `country_id` INT NULL ,
+ADD `author_id` INT NOT NULL 
 
 --
 -- Volcado de datos para la tabla `rfk_users`
