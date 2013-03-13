@@ -394,6 +394,28 @@ class Tasks extends RF_BaseController {
         }
         
     }
+    
+    public function get_history() {
+        
+        if ($this->input->is_ajax_request())
+        {
+            $task_id                        = $this->input->post('tid');
+            $history                        = $this->task_model->get_status_history($task_id);
+            echo json_encode(
+                                array(
+                                    'response'          => 'rfk_ok',
+                                    'history'           => $history
+                                )
+                                
+                    );
+            
+        }
+        else
+        {
+            echo json_encode(array('response' => 'rfk_fuckyou'));
+        }
+        
+    }
 
 }
 

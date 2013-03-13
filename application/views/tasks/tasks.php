@@ -126,7 +126,7 @@
            
         });
         
-        $("#taskSheet tr").on("click", function () {
+        $("#taskSheet").on("click", "tr", function () {
                 
                 var task_id = $(this).attr("data-id");
                 

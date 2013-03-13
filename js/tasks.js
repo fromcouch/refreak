@@ -328,7 +328,7 @@
                                                                         .append($vaction);
                                                   
                                                 var $body   = $("<div>").addClass("vbody")
-                                                                        .html( value.description );
+                                                                        .html( value.comment );
                                                   
                                                 var $comm   = $("<div>").addClass("vcomm")
                                                                         .append($header)

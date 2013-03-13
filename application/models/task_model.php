@@ -177,7 +177,7 @@ class Task_model extends CI_Model {
     /**
      * Get single Task
      * 
-     * @param type $task_id
+     * @param int $task_id Task Id 
      * @return array Task
      * @access public
      */
@@ -195,6 +195,13 @@ class Task_model extends CI_Model {
         
     }
     
+    /**
+     * Get data description for task
+     * 
+     * @param int $task_id Task Id
+     * @return object Row with task description
+     * @access public
+     */
     public function get_task_description($task_id) {
         
         $task           = $this->db
@@ -212,12 +219,18 @@ class Task_model extends CI_Model {
         
     }
     
+    /**
+     * Get comment list for task
+     * 
+     * @param int $task_id Task Id
+     * @return array Comment list for a task
+     * @access public
+     */
     public function get_task_comments($task_id) {
         
-        // 
         $comments       = $this->db
                             ->select('task_comment.task_comment_id, users.first_name, users.last_name, task_comment.comment, task_comment.last_change_date')
-                            ->select("DATE_FORMAT(task_comment.post_date,,'%d %b %Y %T') AS post_date",FALSE)
+                            ->select("DATE_FORMAT(rfk_task_comment.post_date,'%d %b %Y %T') AS post_date",FALSE)
                             ->join('users', 'task_comment.user_id = users.id', 'inner' )
                             ->where('task_comment.task_id', $task_id)
                             ->get('task_comment')
@@ -225,6 +238,20 @@ class Task_model extends CI_Model {
         
         return $comments;
         
+    }
+    
+    
+    public function get_status_history($task_id) {
+        
+        $history        = $this->db
+                            ->select('task_status.status, users.first_name, users_last_name')
+                            ->select("DATE_FORMAT(rfk_task_status.status_date,'%d %b %Y %T') AS status_date",FALSE)
+                            ->join('users', 'task_status.user_id = users.id', 'inner' )
+                            ->where('task_status.task_id', $task_id)
+                            ->get('task_status')
+                            ->result_array();
+        
+        return $history;
     }
 }
 
