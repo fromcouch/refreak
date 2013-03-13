@@ -305,12 +305,27 @@
                                             var $comms = "";
                                             
                                             $.each(res.comments, function(key, value) {
-                                                var fecha   = $.datepicker.parseDate( "yy-mm-dd", value.post_date );
-                                                
-                                                fecha       = $.datepicker.formatDate( "d M y", fecha );
+
+                                                var $vaction = $("<div>").addClass("vaction")
+                                                                         .append(
+                                                                                $("<a>").attr("href", "#")
+                                                                                        .addClass("task_show_comm_new_comment")
+                                                                                        .html("new comment")
+                                                                         ).append(" | ").append(
+                                                                                $("<a>").attr("href", "#")
+                                                                                        .addClass("task_show_comm_edit_comment")
+                                                                                        .attr("data-id", value.task_comment_id)
+                                                                                        .html("edit")
+                                                                         ).append(" | ").append(
+                                                                                $("<a>").attr("href", "#")
+                                                                                        .addClass("task_show_comm_delete")
+                                                                                        .attr("data-id", value.task_comment_id)
+                                                                                        .html("delete")
+                                                                         );                                          
                                                 
                                                 var $header = $("<div>").addClass("vheader")
-                                                                        .html(fecha + " by " + value.first_name + " " + value.last_name );
+                                                                        .html(value.post_date + " by " + value.first_name + " " + value.last_name )
+                                                                        .append($vaction);
                                                   
                                                 var $body   = $("<div>").addClass("vbody")
                                                                         .html( value.description );
@@ -318,6 +333,9 @@
                                                 var $comm   = $("<div>").addClass("vcomm")
                                                                         .append($header)
                                                                         .append($body);
+                                                
+                                                     
+                                                
                                                 
                                                 if ($comms == "")
                                                     $comms = $().add($comm);
@@ -380,14 +398,14 @@
            
                 },
                  
-                show_edit_comment: function( obj ) {
+                show_edit_comment: function() {
                         
                         this._(".vmore").hide();
                         this._(".tabcontent_edit").show();
                         
                 }, 
                 
-                cancel_comment: function ( obj ) {
+                cancel_comment: function () {
             
                         this._(".vmore").show();
                         this._(".tabcontent_edit").hide();
@@ -470,4 +488,3 @@
          };
         
 })(jQuery);
-
