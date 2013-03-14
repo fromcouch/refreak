@@ -244,12 +244,12 @@ class Task_model extends CI_Model {
     public function get_status_history($task_id) {
         
         $history        = $this->db
-                            ->select('task_status.status, users.first_name, users_last_name')
+                            ->select('task_status.status, users.first_name, users.last_name')
                             ->select("DATE_FORMAT(rfk_task_status.status_date,'%d %b %Y %T') AS status_date",FALSE)
                             ->join('users', 'task_status.user_id = users.id', 'inner' )
                             ->where('task_status.task_id', $task_id)
                             ->get('task_status')
-                            ->result_array();
+                            ->result_array();               
         
         return $history;
     }

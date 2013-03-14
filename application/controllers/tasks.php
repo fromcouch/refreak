@@ -351,6 +351,12 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Ajax call. Get task description
+     *      
+     * @return void
+     * @access public
+     */
     public function get_description() {
         
         if ($this->input->is_ajax_request())
@@ -373,6 +379,12 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Ajax call. Get task comments
+     *      
+     * @return void
+     * @access public
+     */
     public function get_comments() {
         
         if ($this->input->is_ajax_request())
@@ -395,16 +407,33 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Ajax call. Get task history
+     *      
+     * @return void
+     * @access public
+     */
     public function get_history() {
         
         if ($this->input->is_ajax_request())
         {
             $task_id                        = $this->input->post('tid');
             $history                        = $this->task_model->get_status_history($task_id);
+            $status                         = $this->lang->line('task_status');
+            $returned_history               = array();
+            
+            //need to change status, I don't like do that!
+            foreach ($history as $hist) {                                    
+                
+                    $hist['status']         = $status[$hist['status']];
+                    $returned_history []= $hist;
+                    
+            }
+            
             echo json_encode(
                                 array(
                                     'response'          => 'rfk_ok',
-                                    'history'           => $history
+                                    'history'           => $returned_history
                                 )
                                 
                     );

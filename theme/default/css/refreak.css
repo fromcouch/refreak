@@ -860,12 +860,14 @@ div.vmore div.vaction {
     float: right;
     font-size: x-small;
 }
+
 div.vmore div.vaction a:link, 
 div.vmore div.vaction a:visited, 
 div.vmore div.vnewaction a:link, 
 div.vmore div.vnewaction a:visited {
     text-decoration: none;
 }
+
 div.vmore div.vaction a:hover, 
 div.vmore div.vnewaction a:hover {
     text-decoration: underline;
@@ -874,5 +876,22 @@ div.vmore div.vnewaction a:hover {
 div.vmore div.vbody {
     font-size: 12px;
     padding: 2px 2px 10px;
+}
+
+div.vmore .vhist {
+    left: 50%;
+    margin-left: -170px;
+    position: relative;
+    width: 340px;
+}
+
+div.vmore .vhist th {
+    border-bottom: 1px solid #999999;
+    padding: 2px;
+}
+
+div.vmore .vhist td {
+    border-bottom: 1px solid #EEEEEE;
+    padding: 2px;
 }
 /* end task show panel */

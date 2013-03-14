@@ -385,7 +385,30 @@
 
                                 if (res.response === "rfk_ok") {
 
-                                    me.history = res.history;
+                                    var $tr_header      = $("<tr>").append(
+                                                                            $("<th>").html("date")
+                                                                   ).append(
+                                                                            $("<th>").html("user")
+                                                                   ).append(
+                                                                            $("<th>").html("action")
+                                                                   );
+                                    
+                                    var $table          = $("<table>").addClass("vhist")
+                                                                      .append($tr_header);
+                                                                
+                                    $.each(res.history, function(key, value) {
+                                         
+                                            var $tr     = $("<tr>").append(
+                                                                            $("<td>").html( value.status_date )
+                                                                   ).append(
+                                                                            $("<td>").html( value.first_name + ' ' + value.last_name )
+                                                                   ).append(
+                                                                            $("<td>").html( value.status )
+                                                                   );
+                                            $table.append($tr);
+                                    });
+                                    
+                                    me.history = $table;
 
                                 }
                                 else {
