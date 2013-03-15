@@ -177,9 +177,9 @@
              
                 options:        null,
                 element:        null,
-                description:    null,
-                comment:        null,
-                history:        null,
+                description:    true,
+                comment:        false,
+                history:        false,
 
                 init : function( options ) {
 
@@ -237,30 +237,30 @@
                         
                         this._(".tab").removeClass("active");
                         
-                        this._(".vmore").show();
+                        this._(".vmore").hide();
                         this._(".tabcontent_edit").hide();
                         
                         if (this._(obj).hasClass("tab_desc")) {
                             
-                                if (this.description === null) this._get_desc();
-                                this._(".vmore").html(this.description);
+                                if (!this.description) this._get_desc();                                
+                                this._(".tab_description_content").show();
+                                
                                 
                         } else if (this._(obj).hasClass("tab_comm")) {
                             
-                                if (this.comment === null) this._get_comm();
-                                this._(".vmore").html(this.comment);
-                                this._(".vfirstcomment").on("click", function () { me.show_edit_comment(this) })
+                                if (!this.comment) this._get_comm();
+                                this._(".tab_comments_content").show();
                                 
                         } else if (this._(obj).hasClass("tab_hist")) {
                             
-                                if (this.history === null) this._get_hist();
-                                this._(".vmore").html(this.history);
+                                if (!this.history) this._get_hist();
+                                this._(".tab_history_content").show();
                                 
                         }
                         
                         this._(obj).addClass("active");
                 },
-                        
+
                 _get_desc: function() {
             
                         var me = this;
@@ -274,7 +274,7 @@
 
                                 if (res.response === "rfk_ok") {
 
-                                    me.description = res.description;
+                                    me._(".tab_description_content").append( res.description );
 
                                 }
                                 else {
@@ -306,45 +306,16 @@
                                             
                                             $.each(res.comments, function(key, value) {
 
-                                                var $vaction = $("<div>").addClass("vaction")
-                                                                         .append(
-                                                                                $("<a>").attr("href", "#")
-                                                                                        .addClass("task_show_comm_new_comment")
-                                                                                        .html("new comment")
-                                                                         ).append(" | ").append(
-                                                                                $("<a>").attr("href", "#")
-                                                                                        .addClass("task_show_comm_edit_comment")
-                                                                                        .attr("data-id", value.task_comment_id)
-                                                                                        .html("edit")
-                                                                         ).append(" | ").append(
-                                                                                $("<a>").attr("href", "#")
-                                                                                        .addClass("task_show_comm_delete")
-                                                                                        .attr("data-id", value.task_comment_id)
-                                                                                        .html("delete")
-                                                                         );                                          
-                                                
-                                                var $header = $("<div>").addClass("vheader")
-                                                                        .html(value.post_date + " by " + value.first_name + " " + value.last_name )
-                                                                        .append($vaction);
-                                                  
-                                                var $body   = $("<div>").addClass("vbody")
-                                                                        .html( value.comment );
-                                                  
-                                                var $comm   = $("<div>").addClass("vcomm")
-                                                                        .append($header)
-                                                                        .append($body);
-                                                
-                                                     
-                                                
-                                                
-                                                if ($comms == "")
-                                                    $comms = $().add($comm);
-                                                else
-                                                    $comms.add($comm);
-                                                
+                                                    $comm       = me._create_vaction( value );
+
+                                                    if ($comms == "")
+                                                        $comms = $().add($comm);
+                                                    else
+                                                        $comms.add($comm);
+
                                             });
                                         
-                                            me.comment = $comms;
+                                            me._(".tab_comments_content").append( $comms );
                                             
                                     }
                                     else {
@@ -356,11 +327,14 @@
                                                                                       .append(
                                                                                             $("<a>").addClass("vfirstcomment")
                                                                                                   .attr("href","#")
+                                                                                                  .on("click", function () { me.show_edit_comment(this) })
                                                                                                   .html("post first comment")
                                                                                         )
                                                                         );
-                                            me.comment      = $no_comment;
+                                            me._(".tab_comments_content").append( $no_comment );
                                     }
+                                    
+                                    me.comment = true;
                                 }
                                 else {
                                     alert(tasksmessage_ajax_error_security);
@@ -371,7 +345,7 @@
                         });
            
                 },
-                 
+                                
                 _get_hist: function() {
             
                         var me = this;
@@ -408,7 +382,8 @@
                                             $table.append($tr);
                                     });
                                     
-                                    me.history = $table;
+                                    me._(".tab_history_content").append( $table );
+                                    me.history = true;
 
                                 }
                                 else {
@@ -420,7 +395,45 @@
                         });
            
                 },
-                 
+                
+                _create_vaction: function ( value ) {
+                        var me = this;
+
+                        var $vaction = $("<div>").addClass("vaction")
+                                                 .append(
+                                                        $("<a>").attr("href", "#")
+                                                                .addClass("task_show_comm_new_comment")
+                                                                .on("click", function () { me.show_edit_comment(); })
+                                                                .html("new comment")
+                                                 ).append(" | ").append(
+                                                        $("<a>").attr("href", "#")
+                                                                .addClass("task_show_comm_edit_comment")
+                                                                .attr("data-id", value.task_comment_id)
+                                                                .on("click", function () { me._edit_comment( value.task_comment_id, value.comment ); })
+                                                                .html("edit")
+                                                 ).append(" | ").append(
+                                                        $("<a>").attr("href", "#")
+                                                                .addClass("task_show_comm_delete")
+                                                                .attr("data-id", value.task_comment_id)
+                                                                .on("click", function () { me._delete_comment( value.task_comment_id ); })
+                                                                .html("delete")
+                                                 );                                          
+
+                        var $header = $("<div>").addClass("vheader")
+                                                .html(value.post_date + " by " + value.first_name + " " + value.last_name )
+                                                .append($vaction);
+
+                        var $body   = $("<div>").addClass("vbody")
+                                                .html( value.comment );
+
+                        var $comm   = $("<div>").addClass("vcomm")
+                                                .append($header)
+                                                .append($body);
+
+                        return $comm;
+
+                },
+                        
                 show_edit_comment: function() {
                         
                         this._(".vmore").hide();
@@ -430,9 +443,16 @@
                 
                 cancel_comment: function () {
             
-                        this._(".vmore").show();
+                        this._(".tab_comments_content").show();
                         this._(".tabcontent_edit").hide();
                         
+                },
+
+                _edit_comment: function ( task_id, comment ) {
+            
+                        this._(".veditbody").val(comment);
+            
+                        this.show_edit_comment();
                 },
 
                 send_comment: function ( obj ) {

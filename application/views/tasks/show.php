@@ -69,14 +69,16 @@
                     <div class="tabcontent_edit">
                             <div>
                                     <input type="hidden" name="veditid" value="" />
-                                    <textarea id="veditbody" name="veditbody"></textarea>
+                                    <textarea class="veditbody" name="veditbody"></textarea>
                             </div>
                             <div>
                                     <input type="button" name="veditsubmit" class="veditsubmit" value="<?php echo $this->lang->line('task_show_tab_save'); ?>"> &nbsp;
                                     <input type="button" name="veditcancel" class="veditcancel" value="<?php echo $this->lang->line('task_show_tab_cancel'); ?>">
                             </div>
                     </div>
-                    <div class="vmore"></div>
+                    <div class="vmore tab_description_content"><?php echo $tf['description']; ?></div>
+                    <div class="vmore tab_comments_content"></div>
+                    <div class="vmore tab_history_content"></div>
                 </div>
 	</div>
         <div class="task_show_status">

@@ -894,4 +894,8 @@ div.vmore .vhist td {
     border-bottom: 1px solid #EEEEEE;
     padding: 2px;
 }
+
+.tab_comments_content, tab_history_content {
+    display: none;
+}
 /* end task show panel */
