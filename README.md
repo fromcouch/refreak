@@ -14,6 +14,7 @@ TODO
 + End task system.
     + Show task pop up
     + Order task grid
++ Refactor Ajax calls in jQuery plugins
 + Add author_id to user db table
 + User Country
 + User title

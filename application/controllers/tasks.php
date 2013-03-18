@@ -426,7 +426,7 @@ class Tasks extends RF_BaseController {
             foreach ($history as $hist) {                                    
                 
                     $hist['status']         = $status[$hist['status']];
-                    $returned_history []= $hist;
+                    $returned_history     []= $hist;
                     
             }
             
