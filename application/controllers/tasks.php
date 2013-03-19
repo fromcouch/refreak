@@ -445,6 +445,31 @@ class Tasks extends RF_BaseController {
         }
         
     }
+    
+    public function save_comment() {
+        
+        if ($this->input->is_ajax_request())
+        {
+            $task_id                        = $this->input->post('tid');
+            $task_comment_id                = $this->input->post('tcid');
+            $comment                        = $this->input->post('comment');
+            
+            $task_comment_id                = $this->task_model->save_comment($comment, $this->data['actual_user']->id, $task_id, (int)$task_comment_id);
+            
+            echo json_encode(
+                                array(
+                                    'response'          => 'rfk_ok',
+                                    'tcid'              => $task_comment_id
+                                )
+                                
+                    );
+            
+        }
+        else
+        {
+            echo json_encode(array('response' => 'rfk_fuckyou'));
+        }
+    }
 
 }
 

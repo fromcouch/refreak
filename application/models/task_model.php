@@ -253,6 +253,32 @@ class Task_model extends CI_Model {
         
         return $history;
     }
+    
+    public function save_comment($comment, $user_id, $task_id, $task_comment_id = 0) {
+        
+        $comment                = array(
+                                        'comment'   => $comment,
+                                        'user_id'   => $user_id
+        );
+        
+        if ($task_comment_id === 0) {
+            
+            $comment['task_id']     = $task_id;
+            $this->db->set('post_date', 'NOW()', FALSE);
+            $this->db->insert('task_comment', $comment);
+            $task_comment_id        = $this->db->insert_id();
+            
+        }
+        else {
+            
+            $this->db->set('last_change_date', 'NOW()', FALSE);
+            $this->db->where('task_comment_id', $task_comment_id);
+            $this->db->update('task_comment', $comment);
+            
+        }
+        
+        return $task_comment_id;        
+    }
 }
 
 /* End of file task_model.php */

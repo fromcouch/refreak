@@ -68,7 +68,7 @@
                 <div class="tabcontent_content">
                     <div class="tabcontent_edit">
                             <div>
-                                    <input type="hidden" name="veditid" value="" />
+                                    <input class="veditid" type="hidden" name="veditid" value="0" />
                                     <textarea class="veditbody" name="veditbody"></textarea>
                             </div>
                             <div>

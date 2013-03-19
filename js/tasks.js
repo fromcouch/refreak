@@ -302,20 +302,15 @@
 
                                     if (res.comments.length > 0) {
                                         
-                                            var $comms = "";
+                                            var $comms = me._(".tab_comments_content");
                                             
                                             $.each(res.comments, function(key, value) {
 
                                                     $comm       = me._create_vaction( value );
+                                                                                                        
+                                                    $comms.append($comm);
 
-                                                    if ($comms == "")
-                                                        $comms = $().add($comm);
-                                                    else
-                                                        $comms.add($comm);
-
-                                            });
-                                        
-                                            me._(".tab_comments_content").append( $comms );
+                                            });                                                                                    
                                             
                                     }
                                     else {
@@ -448,8 +443,9 @@
                         
                 },
 
-                _edit_comment: function ( task_id, comment ) {
+                _edit_comment: function ( task_comment_id, comment ) {
             
+                        this._(".veditid").val(task_comment_id);
                         this._(".veditbody").val(comment);
             
                         this.show_edit_comment();
@@ -459,21 +455,25 @@
                     
                         var me = this;
                         var comment_id = this._(".veditid").val();
+                        var comment = this._(".veditbody").val();                                               
                         
                         $.ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/save_comment",
                             data:       { 
                                             tid: this.options.task_id ,
-                                            cid: comment_id
+                                            tcid: comment_id,
+                                            comment: comment
                                         },
                             async:      false
                         }).done(function(res) {
 
                                 if (res.response === "rfk_ok") {
 
+                                    me._(".veditbody").val("");
+                                    me._(".veditid").val("0");
                                     me.tabs(".tab_comm");
-
+                                    
                                 }
                                 else {
                                     alert(tasksmessage_ajax_error_security);
