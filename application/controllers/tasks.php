@@ -446,6 +446,13 @@ class Tasks extends RF_BaseController {
         
     }
     
+    
+    /**
+     * Ajax call for save comments
+     * 
+     * @return void
+     * @access public
+     */
     public function save_comment() {
         
         if ($this->input->is_ajax_request())
@@ -469,6 +476,30 @@ class Tasks extends RF_BaseController {
         {
             echo json_encode(array('response' => 'rfk_fuckyou'));
         }
+    }
+    
+    public function delete_comment() {
+        
+        if ($this->input->is_ajax_request())
+        {
+            $task_id                        = $this->input->post('tid');
+            $task_comment_id                = $this->input->post('tcid');
+            
+            $task_comment_id                = $this->task_model->delete_comment($task_comment_id);
+            
+            echo json_encode(
+                                array(
+                                    'response'          => 'rfk_ok'
+                                )
+                                
+                    );
+            
+        }
+        else
+        {
+            echo json_encode(array('response' => 'rfk_fuckyou'));
+        }
+        
     }
 
 }

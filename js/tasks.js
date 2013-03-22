@@ -290,6 +290,7 @@
                 _get_comm: function() {
             
                         var me = this;
+                        this._(".tab_comments_content").empty();
 
                         $.ajax({
                             type:       "POST",
@@ -451,6 +452,36 @@
                         this.show_edit_comment();
                 },
 
+                _delete_comment: function ( task_comment_id ) {
+            
+                        var me = this;
+                        
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/delete_comment",
+                            data:       { 
+                                            tcid: task_comment_id,
+
+                                        },
+                            async:      false
+                        }).done(function(res) {
+
+                                if (res.response === "rfk_ok") {
+
+                                    me._get_comm();
+                                    me.tabs(".tab_comm");                                   
+                                    
+                                }
+                                else {
+                                    alert(tasksmessage_ajax_error_security);
+                                }
+
+                        }).fail(function(res) {
+                                alert(tasksmessage_ajax_error_server);
+                        });
+
+                },
+
                 send_comment: function ( obj ) {
                     
                         var me = this;
@@ -472,6 +503,7 @@
 
                                     me._(".veditbody").val("");
                                     me._(".veditid").val("0");
+                                    me._get_comm();
                                     me.tabs(".tab_comm");
                                     
                                 }

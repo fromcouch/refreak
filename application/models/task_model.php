@@ -279,6 +279,13 @@ class Task_model extends CI_Model {
         
         return $task_comment_id;        
     }
+    
+    public function delete_comment($task_comment_id) {
+        
+        $this->db->where('task_comment_id', $task_comment_id);
+        $this->db->delete('task_comment');
+        
+    }
 }
 
 /* End of file task_model.php */
