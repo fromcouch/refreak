@@ -1,5 +1,14 @@
-<?php
-
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * Refreak Extender Loader for tenplate use
+ *
+ * @package	Refreak
+ * @subpackage	base
+ * @category	class
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ * 
+ */
 class RF_Loader extends CI_Loader {
     
     public function __construct()
@@ -7,7 +16,7 @@ class RF_Loader extends CI_Loader {
         parent::__construct();
     }  
     
-     /*------------------------------------------------------------
+    /**------------------------------------------------------------
     |
     | viewLayout($template, $data = array(), $layoutData = array(), $layout = 'default') 
     |
@@ -62,6 +71,7 @@ class RF_Loader extends CI_Loader {
      * @param	array
      * @param	bool
      * @return	void
+     * @access public
      */
     public function view($view, $vars = array(), $return = FALSE)
     {        
@@ -94,9 +104,11 @@ class RF_Loader extends CI_Loader {
     
     /**
      * Join args
+     * 
      * @param array $args
      * @param array $defaults
      * @return array 
+     * @access private
      */
     private function parse_arguments($args, $defaults) {    
         //join default and data from parameter function obtaining unique config
@@ -106,4 +118,5 @@ class RF_Loader extends CI_Loader {
     
 }
 
-?>
+/* End of file RF_Loader.php */
+/* Location: ./application/core/RF_Loader.php */

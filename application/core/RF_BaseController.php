@@ -1,12 +1,25 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
+ * Refreak Base Controller
+ *
+ * @package	Refreak
+ * @subpackage	base
+ * @category	controller
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ * 
  * @todo change the way that ion_auth return data or write my own auth!
- *  
  */
 class RF_BaseController extends CI_Controller {
     
     public $data = array();
-    
+
+    /**
+     * Constructor
+     * Init base for refreak
+     * 
+     * 
+     */
     public function __construct()
     {
         parent::__construct();
@@ -58,6 +71,15 @@ class RF_BaseController extends CI_Controller {
         unset($params, $actual_user);
     } 
     
+    /**
+     * Prepare data to be added to html select
+     *  
+     * @param array $array Array with data
+     * @param int $id key from array
+     * @param string $description key from array
+     * @return array
+     * @access protected
+     */
     protected function to_dropdown_array($array, $id, $description) {
                 
         $result = array();
@@ -69,6 +91,14 @@ class RF_BaseController extends CI_Controller {
         return $result;
     }
     
+    /**
+     * Prepare array to draw left header menu
+     * 
+     * @param array $user_projects Array for projects menus with the user projects
+     * @param array $params Array with user id, project id and context
+     * @return array Array with menu
+     * @access protected
+     */
     protected function _create_left_menu($user_projects, $params) {
         
         $user_id            = 0;
@@ -114,6 +144,16 @@ class RF_BaseController extends CI_Controller {
         return $menu;
     }
     
+    /**
+     * Prepare array to draw left header menu
+     * 
+     * @param int $user_id Actual user id
+     * @param array $params Array with user id, project id and context
+     * @param int $selected_user User id to be selected in html user select
+     * @param int $selected_context Context to be marked in search
+     * @return array Array with menu
+     * @access protected
+     */
     protected function _create_right_menu($user_id, $params, $selected_user, $selected_context) {
         
         $project_id         = 0;
@@ -141,6 +181,7 @@ class RF_BaseController extends CI_Controller {
      *  with this parameters. Otherwise returns false
      * 
      * @return array|bool user and project for draw menus
+     * @access private
      */
     private function _detect_user_project() {
         $class      = $this->router->fetch_class();
@@ -161,4 +202,5 @@ class RF_BaseController extends CI_Controller {
         
 }
 
-?>
+/* End of file RF_BaseController.php */
+/* Location: ./application/core/RF_BaseController.php */
