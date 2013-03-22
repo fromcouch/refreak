@@ -13,7 +13,7 @@ TODO
 ### Stage 1
 + End task system.
     + ~~Show task pop up~~
-    + Order task grid
+    + ~~Order task grid~~
     + Status javascript
     + task permissions
     + close/end t~ask

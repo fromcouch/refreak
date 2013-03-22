@@ -21,7 +21,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="taskSheetData">
                 <?php 
                     if (count($tasks)>0) :
                         $context    = $this->lang->line('task_context');
@@ -107,6 +107,22 @@
 
     (function($) {
         
+        $("#taskSheet").tablesorter({
+                0: { 
+                    sorter: false 
+                }, 
+                1: { 
+                    sorter: false 
+                }, 
+                7: { 
+                    sorter: false 
+                }, 
+                8: { 
+                    sorter: false 
+                },
+                cssHeader: "table_headers"
+        });
+        
         $('.btn_task_new').on('click', function(event) {
                 
                 //prevent call tr event
@@ -126,7 +142,7 @@
            
         });
         
-        $("#taskSheet").on("click", "tr", function () {
+        $("#taskSheet tbody").on("click", "tr", function () {
                 
                 var task_id = $(this).attr("data-id");
                 
