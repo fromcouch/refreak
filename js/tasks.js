@@ -10,6 +10,11 @@
 		this.init( options );
         };
           
+        var task_list = function(element, options){
+		this.element = $(element);			
+		this.init( options );
+        };
+          
         task_new.prototype = {
              
                 options: null,
@@ -542,6 +547,19 @@
                 }
          }
  
+         task_list.prototype = {
+             
+                options: null,
+                element: null,
+
+                init : function( options ) {
+
+                        var me = this;
+
+                        if (options !== undefined)
+                            this.options = options;
+                }
+         };
          $.fn.newTask = function( options ) {
               
               $(this).each(function(){ 
@@ -556,6 +574,16 @@
               
               $(this).each(function(){ 
                   $(this).data('showTask', new task_show(this, options)); 
+              });
+
+              return this;
+              
+         };
+        
+         $.fn.listTask = function( options ) {
+              
+              $(this).each(function(){ 
+                  $(this).data('listTask', new task_list(this, options)); 
               });
 
               return this;

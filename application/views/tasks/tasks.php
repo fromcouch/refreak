@@ -1,7 +1,7 @@
 <div class="task_panel">
     <img border="0" src="<?php echo base_url();?>theme/default/images/load.gif" class="loader">    
 </div>
-    <table id="taskSheet" cellpadding="2" cellspacing="1" border="0" class="sheet" width="100%">
+    <table class="task_sheet" cellpadding="2" cellspacing="1" border="0" class="sheet" width="100%">
             <thead>
                 <tr>
                     <th width="2%">&nbsp;</th>
@@ -107,7 +107,7 @@
 
     (function($) {
         
-        $("#taskSheet").tablesorter({
+        $(".task_sheet").tablesorter({
                 0: { 
                     sorter: false 
                 }, 
@@ -142,7 +142,7 @@
            
         });
         
-        $("#taskSheet tbody").on("click", "tr", function () {
+        $(".task_sheet tbody").on("click", "tr", function () {
                 
                 var task_id = $(this).attr("data-id");
                 
