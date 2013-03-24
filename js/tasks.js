@@ -180,7 +180,9 @@
  
         task_show.prototype = {
              
-                options:        null,
+                options:        {
+                            tab: 0
+                },
                 element:        null,
                 description:    true,
                 comment:        false,
@@ -191,7 +193,7 @@
                         var me = this;
 
                         if (options !== undefined)
-                            this.options = options;
+                            this.options = $.extend({}, this.options, options);
                         
                         this.element.show();
 
@@ -213,7 +215,20 @@
                                 
                                 me._(".tab").on("click", function () { me.tabs(this); } );
                                 
-                                me.tabs( me._(".tab_desc") );
+                                switch (me.options.tab) {
+                                    case 0:
+                                        me.tabs( me._(".tab_desc") );
+                                        break;
+                                        
+                                    case 1:
+                                        me.tabs( me._(".tab_comm") );
+                                        break;
+                                        
+                                    case 2:
+                                        me.tabs( me._(".tab_hist") );
+                                        break;
+                                }
+                                
 
                         }).fail(function(res) {
                                 alert(tasksmessage_ajax_error_server);
@@ -558,8 +573,93 @@
 
                         if (options !== undefined)
                             this.options = options;
+                        
+                        
+                        this.element.tablesorter({
+                                0: { 
+                                    sorter: false 
+                                }, 
+                                1: { 
+                                    sorter: false 
+                                }, 
+                                7: { 
+                                    sorter: false 
+                                }, 
+                                8: { 
+                                    sorter: false 
+                                },
+                                cssHeader: "table_headers"
+                        });
+
+
+                        this._('.btn_task_new').on('click', function( event ) {
+
+                                //prevent call tr event
+                                event.stopPropagation();
+                                // 0 means new task
+                                me.edittask(0);
+
+                        });
+
+                        this._('.btn_task_edit').on('click', function( event ) {
+
+                                //prevent call tr event
+                                event.stopPropagation();
+
+                                var task_id = $(this).parents("tr").attr("data-id");
+                                me.edittask(task_id);
+
+                        });
+
+                        this._("tbody").on("click", "tr", function (  ) {
+
+                                me.showtask( this, {} );
+
+                        });
+                        
+                        this._(".comment_link").on("click", function ( event ) {
+                                
+                                event.stopPropagation();
+                                
+                                me.showtask( $(this).parents("tr"), {
+                                    tab: 1
+                                } );
+                                
+                        });
+                },
+                        
+                _: function(selector) {
+
+                        return $(selector, this.element);
+
+                },
+                        
+                showtask: function ( obj, options ) {
+            
+                    var tasks = {
+                        task_id: $(obj).attr("data-id")
+                    }
+                    
+                    var settings = $.extend({}, tasks, options);
+                    
+                    $('.task_panel').showTask( settings );
+
+                },
+                        
+                edittask: function (task_id) {
+                
+                        $(".task_panel").newTask({ task_id: task_id });
+
+                },
+                
+                destroy: function() {
+                        
+                        this._('.btn_task_new').off('click');
+                        this._('.btn_task_edit').off('click');
+                        this._("tbody").off("click", "tr");
                 }
          };
+ 
          $.fn.newTask = function( options ) {
               
               $(this).each(function(){ 

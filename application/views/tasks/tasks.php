@@ -1,7 +1,7 @@
 <div class="task_panel">
     <img border="0" src="<?php echo base_url();?>theme/default/images/load.gif" class="loader">    
 </div>
-    <table class="task_sheet" cellpadding="2" cellspacing="1" border="0" class="sheet" width="100%">
+    <table cellpadding="2" cellspacing="1" border="0" class="sheet task_sheet" width="100%">
             <thead>
                 <tr>
                     <th width="2%">&nbsp;</th>
@@ -107,56 +107,9 @@
 
     (function($) {
         
-        $(".task_sheet").tablesorter({
-                0: { 
-                    sorter: false 
-                }, 
-                1: { 
-                    sorter: false 
-                }, 
-                7: { 
-                    sorter: false 
-                }, 
-                8: { 
-                    sorter: false 
-                },
-                cssHeader: "table_headers"
-        });
+            $(".task_sheet").listTask();
         
-        $('.btn_task_new').on('click', function(event) {
-                
-                //prevent call tr event
-                event.stopPropagation();
-                // 0 means new task
-                edittask(0);
-           
-        });
         
-        $('.btn_task_edit').on('click', function(event) {
-
-                //prevent call tr event
-                event.stopPropagation();
-
-                var task_id = $(this).parents("tr").attr("data-id");
-                edittask(task_id);
-           
-        });
-        
-        $(".task_sheet tbody").on("click", "tr", function () {
-                
-                var task_id = $(this).attr("data-id");
-                
-                $('.task_panel').showTask({ task_id: task_id });
-           
-                
-                
-        });
-        
-        function edittask(task_id) {
-                
-                $(".task_panel").newTask({ task_id: task_id });
-                
-        }
     })(jQuery);
 
 </script>
