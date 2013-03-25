@@ -592,7 +592,7 @@
                         });
 
 
-                        this._('.btn_task_new').on('click', function( event ) {
+                        this._(".btn_task_new").on("click", function( event ) {
 
                                 //prevent call tr event
                                 event.stopPropagation();
@@ -601,7 +601,7 @@
 
                         });
 
-                        this._('.btn_task_edit').on('click', function( event ) {
+                        this._(".btn_task_edit").on("click", function( event ) {
 
                                 //prevent call tr event
                                 event.stopPropagation();
@@ -611,8 +611,8 @@
 
                         });
 
-                        this._("[class^=status]").on("click", "td", function ( event ) {
-
+                        this._(".status0, .status1, .status2, .status3, .status4").on("click", function ( event ) {
+                        
                                 event.stopPropagation();
                                 
                                 me.changestatus( this );
@@ -673,7 +673,7 @@
                         this._('.btn_task_new').off('click');
                         this._('.btn_task_edit').off('click');
                         this._("tbody").off("click", "tr");
-                        this._("[class^=status]").off("click");
+                        this._(".status0, .status1, .status2, .status3, .status4").off("click");
                         this._(".comment_link").off("click");
                 }
          };
