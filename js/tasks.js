@@ -663,8 +663,39 @@
                 changestatus: function ( obj ) {
                     
                         var task_id = this._(obj).parents("tr").attr("data-id");
+                        var status  = 1;
                         
-                        console.log(this._(obj).attr("class"));
+                        if ( this._(obj).hasClass(".status1") ) {
+                            status = 2;
+                        } else if( this._(obj).hasClass(".status2") ) {
+                            status = 3;
+                        } else if( this._(obj).hasClass(".status3") ) {
+                            status = 4;
+                        } else if( this._(obj).hasClass(".status4") ) {
+                            status = 5;
+                        } 
+                        
+                        $.ajax({
+                            type:       "POST",
+                            url:        s_url + "/tasks/change_status",
+                            data:       { 
+                                            tid: task_id ,
+                                            status: status
+                                        }                            
+                        }).done(function(res) {
+
+                                if (res.response === "rfk_ok") {
+
+                                    
+                                    
+                                }
+                                else {
+                                    alert(tasksmessage_ajax_error_security);
+                                }
+
+                        }).fail(function(res) {
+                                alert(tasksmessage_ajax_error_server);
+                        });
                         
                 },
                 
