@@ -611,11 +611,19 @@
 
                         });
 
+                        this._("[class^=status]").on("click", "td", function ( event ) {
+
+                                event.stopPropagation();
+                                
+                                me.changestatus( this );
+
+                        });
+                        
                         this._("tbody").on("click", "tr", function (  ) {
 
                                 me.showtask( this, {} );
 
-                        });
+                        });                                               
                         
                         this._(".comment_link").on("click", function ( event ) {
                                 
@@ -636,13 +644,13 @@
                         
                 showtask: function ( obj, options ) {
             
-                    var tasks = {
-                        task_id: $(obj).attr("data-id")
-                    }
-                    
-                    var settings = $.extend({}, tasks, options);
-                    
-                    $('.task_panel').showTask( settings );
+                        var tasks = {
+                            task_id: $(obj).attr("data-id")
+                        }
+
+                        var settings = $.extend({}, tasks, options);
+
+                        $('.task_panel').showTask( settings );
 
                 },
                         
@@ -652,11 +660,21 @@
 
                 },
                 
+                changestatus: function ( obj ) {
+                    
+                        var task_id = this._(obj).parents("tr").attr("data-id");
+                        
+                        console.log(this._(obj).attr("class"));
+                        
+                },
+                
                 destroy: function() {
                         
                         this._('.btn_task_new').off('click');
                         this._('.btn_task_edit').off('click');
                         this._("tbody").off("click", "tr");
+                        this._("[class^=status]").off("click");
+                        this._(".comment_link").off("click");
                 }
          };
  

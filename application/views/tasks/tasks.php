@@ -59,7 +59,7 @@
                                 </td>
                                 <?php for ($cont = 0; $cont < 5; $cont++) : 
                                             $sts = ($cont < $tf->status_key) ? (5 - $cont) : 0; ?>
-                                <td class="sts<?php echo $sts; ?>" style="cursor:pointer">&nbsp;</td>
+                                <td class="sts<?php echo $sts; ?> status<?php echo $cont; ?>" style="cursor:pointer">&nbsp;</td>
                                 <?php endfor; ?>
                                 <td class="act">
                                     <?php if ($this->ion_auth->in_group(array(1,2)) || $tf->position > 3) : //falta checkear permiso de proyecto ?>
