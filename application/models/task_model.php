@@ -162,14 +162,7 @@ class Task_model extends CI_Model {
             $this->db->update('tasks', $task_data); 
         }                
         
-        $status_data            = array(
-                                    'task_id'           => $task_id,
-                                    'status'            => $status,
-                                    'status_date'       => date('Y-m-d'),
-                                    'user_id'           => $user_id
-        );
-        
-        $this->db->insert('task_status', $status_data);
+        $this->set_status($task_id, $status, $user_id);
         
         return $task_id;
     }
@@ -240,7 +233,13 @@ class Task_model extends CI_Model {
         
     }
     
-    
+    /**
+     * Retrieve the status history for a task
+     * 
+     * @param int $task_id Task ID
+     * @return array status history array
+     * @access public
+     */
     public function get_status_history($task_id) {
         
         $history        = $this->db
@@ -254,6 +253,16 @@ class Task_model extends CI_Model {
         return $history;
     }
     
+    /**
+     * Insert or Update task comment
+     * 
+     * @param string $comment comment to save
+     * @param int $user_id User id that save comment
+     * @param int $task_id Task ID for comment
+     * @param int $task_comment_id if update this to be set to task_comment_id, 0 for insert
+     * @return int task_comment_id 
+     * @access public
+     */
     public function save_comment($comment, $user_id, $task_id, $task_comment_id = 0) {
         
         $comment                = array(
@@ -280,10 +289,39 @@ class Task_model extends CI_Model {
         return $task_comment_id;        
     }
     
+    /**
+     * Delete a task comment
+     * 
+     * @param int $task_comment_id task_comment_id to delete
+     * @return void 
+     * @access public
+     */
     public function delete_comment($task_comment_id) {
         
         $this->db->where('task_comment_id', $task_comment_id);
         $this->db->delete('task_comment');
+        
+    }
+    
+    /**
+     * Set new status for a task
+     * 
+     * @param int $task_id Task ID
+     * @param int $status status level
+     * @param int $user_id user id related
+     * @return void
+     * @access public
+     */
+    public function set_status($task_id, $status, $user_id) {
+        
+        $status_data            = array(
+                                    'task_id'           => $task_id,
+                                    'status'            => $status,
+                                    'user_id'           => $user_id
+        );
+        
+        $this->db->set('status_date', 'NOW()', FALSE);
+        $this->db->insert('task_status', $status_data);
         
     }
 }

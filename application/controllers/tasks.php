@@ -502,6 +502,30 @@ class Tasks extends RF_BaseController {
         }
         
     }
+    
+    public function change_status() {
+        
+        if ($this->input->is_ajax_request())
+        {
+            $task_id                        = $this->input->post('tid');
+            $status                         = $this->input->post('status');
+            
+            $this->task_model->set_status($task_id, $status, $this->data['actual_user']->id);
+            
+            echo json_encode(
+                                array(
+                                    'response'          => 'rfk_ok'
+                                )
+                                
+                    );
+            
+        }
+        else
+        {
+            echo json_encode(array('response' => 'rfk_fuckyou'));
+        }
+        
+    }
 
 }
 
