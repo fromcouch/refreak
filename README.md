@@ -14,7 +14,7 @@ TODO
 + End task system.
     + ~~Show task pop up~~
     + ~~Order task grid~~
-    + Status javascript
+    + ~~Status javascript~~
     + task permissions
     + close/end task
     + task table comments
