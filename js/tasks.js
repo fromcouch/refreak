@@ -663,39 +663,56 @@
                 changestatus: function ( obj ) {
                     
                         var task_id = this._(obj).parents("tr").attr("data-id");
+                        var row = this._(obj).parents("tr");
                         var status  = 1;
+                                               
                         
-                        if ( this._(obj).hasClass(".status1") ) {
-                            status = 2;
-                        } else if( this._(obj).hasClass(".status2") ) {
-                            status = 3;
-                        } else if( this._(obj).hasClass(".status3") ) {
-                            status = 4;
-                        } else if( this._(obj).hasClass(".status4") ) {
+                        $(".status0", row).removeClass().addClass("status0").addClass("sts5");
+                                                
+                        if ( this._(obj).hasClass("status1") ) {
+                            status = 2;                            
+                            $(".status1", row).removeClass().addClass("status1").addClass("sts4");
+                        } else if( this._(obj).hasClass("status2") ) {
+                            status = 3;                            
+                            $(".status1", row).removeClass().addClass("status1").addClass("sts4");
+                            $(".status2", row).removeClass().addClass("status2").addClass("sts3");
+                            $(".status3", row).removeClass().addClass("status3").addClass("sts0");
+                            $(".status4", row).removeClass().addClass("status4").addClass("sts0");
+                        } else if( this._(obj).hasClass("status3") ) {
+                            status = 4;                            
+                            $(".status1", row).removeClass().addClass("status1").addClass("sts4");
+                            $(".status2", row).removeClass().addClass("status2").addClass("sts3");
+                            $(".status3", row).removeClass().addClass("status3").addClass("sts2");
+                            $(".status4", row).removeClass().addClass("status4").addClass("sts0");
+                        } else if( this._(obj).hasClass("status4") ) {
                             status = 5;
+                            $(".status1", row).removeClass().addClass("status1").addClass("sts4");
+                            $(".status2", row).removeClass().addClass("status2").addClass("sts3");
+                            $(".status3", row).removeClass().addClass("status3").addClass("sts2");
+                            $(".status4", row).removeClass().addClass("status4").addClass("sts1");
                         } 
-                        
-                        $.ajax({
-                            type:       "POST",
-                            url:        s_url + "/tasks/change_status",
-                            data:       { 
-                                            tid: task_id ,
-                                            status: status
-                                        }                            
-                        }).done(function(res) {
-
-                                if (res.response === "rfk_ok") {
-
-                                    
-                                    
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
-
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
-                        });
+                        console.debug(this._(obj));
+//                        $.ajax({
+//                            type:       "POST",
+//                            url:        s_url + "/tasks/change_status",
+//                            data:       { 
+//                                            tid: task_id ,
+//                                            status: status
+//                                        }                            
+//                        }).done(function(res) {
+//
+//                                if (res.response === "rfk_ok") {
+//
+//                                    
+//                                    
+//                                }
+//                                else {
+//                                    alert(tasksmessage_ajax_error_security);
+//                                }
+//
+//                        }).fail(function(res) {
+//                                alert(tasksmessage_ajax_error_server);
+//                        });
                         
                 },
                 
