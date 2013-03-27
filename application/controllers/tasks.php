@@ -512,6 +512,10 @@ class Tasks extends RF_BaseController {
             
             $this->task_model->set_status($task_id, $status, $this->data['actual_user']->id);
             
+            if ($status == 5) {
+                $this->task_model->close_task($task_id);
+            }
+                
             echo json_encode(
                                 array(
                                     'response'          => 'rfk_ok'

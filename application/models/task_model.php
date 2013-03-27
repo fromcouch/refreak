@@ -57,7 +57,7 @@ class Task_model extends CI_Model {
                 break;
 
             case 1:
-                $this->db->having('(DATE(tasks.deadline_date) <= CURDATE() OR status_key = 5)');
+                $this->db->having('(DATE(rfk_tasks.deadline_date) <= CURDATE() OR status_key = 5)');
                 break;
             
         }
@@ -322,6 +322,14 @@ class Task_model extends CI_Model {
         
         $this->db->set('status_date', 'NOW()', FALSE);
         $this->db->insert('task_status', $status_data);
+        
+    }
+    
+    public function close_task($task_id) {
+        
+        $this->db->set('deadline_date', 'CURDATE()', FALSE);
+        $this->db->where('task_id', $task_id);
+        $this->db->update('tasks');
         
     }
 }

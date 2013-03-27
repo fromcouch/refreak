@@ -12,6 +12,9 @@ class RFK_Task_Helper {
         
         $ci =& get_instance();        
         $ret = "";
+        $ci->lang->load('tasks');
+        
+        $lang_date = $ci->lang->line('task_date');
         
         if (preg_match('/(9999|0000)/',$deadline)) 
         {
@@ -31,7 +34,7 @@ class RFK_Task_Helper {
                 } 
                 else if ($diff == 0) 
                 {
-                        $ret = '<span class="dday">'.$ci->lang->line['task_date']['today'].'</span>';
+                        $ret = '<span class="dday">'.$lang_date['today'].'</span>';
 
                 } 
                 else 
@@ -40,15 +43,15 @@ class RFK_Task_Helper {
 
                         if ($diff == 1) 
                         {
-                            $ret = $ci->lang->line['task_date']['tomorrow'];
+                            $ret = $lang_date['tomorrow'];
                         } 
                         else if ($diff < 7) 
                         {
                             $day = strtolower(date('l',$dead));
                             
-                            if (array_key_exists($day, $ci->lang->line['task_date'])) 
+                            if (array_key_exists($day, $lang_date)) 
                             {
-                               $day = ucfirst($ci->lang->line['task_date'][$day]);
+                               $day = ucfirst($lang_date[$day]);
                             }
                             
                             $ret = '<span class="small">'.ucFirst($day).'</span>';

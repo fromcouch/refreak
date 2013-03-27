@@ -697,7 +697,8 @@
 
                                 if (res.response === "rfk_ok") {
 
-                                    
+                                    if (status === 5)
+                                        row.remove();
                                     
                                 }
                                 else {
