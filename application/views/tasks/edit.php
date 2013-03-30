@@ -38,7 +38,7 @@
                 <tr>
                         <th><?php echo $this->lang->line('task_edit_user'); ?>:</th>
                         <td colspan="3">
-                                <?php echo form_dropdown_users('task_users','-',$actual_user->id); ?>
+                                <?php echo form_dropdown_users('task_users','-',$actual_user->id,'task_users'); ?>
                                 <span>
                                     <?php echo form_radio('showPrivate', '0', $private === '0' ? true : false) ?><label><?php echo $this->lang->line('task_edit_public'); ?></label>
                                 </span>

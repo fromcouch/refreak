@@ -228,19 +228,19 @@ class Tasks extends RF_BaseController {
                     // save task here
                     $task_id                    = $this->input->post('task_id');
                     
-                    $this->task_model->save_task(
-                                                $this->input->post('task_title'),
-                                                $this->input->post('task_priority'),
-                                                $this->input->post('task_context'),
-                                                $this->input->post('deadline'),
-                                                $this->input->post('task_projects'),
-                                                $this->input->post('task_project_name'),
-                                                $this->input->post('task_description'),
-                                                $this->input->post('task_users'),
-                                                $this->input->post('showPrivate'),
-                                                $this->input->post('task_status'),
-                                                $this->data['actual_user']->id,
-                                                $task_id
+                    $task_id                    = $this->task_model->save_task(
+                                                        $this->input->post('task_title'),
+                                                        $this->input->post('task_priority'),
+                                                        $this->input->post('task_context'),
+                                                        $this->input->post('deadline'),
+                                                        $this->input->post('task_projects'),
+                                                        $this->input->post('task_project_name'),
+                                                        $this->input->post('task_description'),
+                                                        $this->input->post('task_users'),
+                                                        $this->input->post('showPrivate'),
+                                                        $this->input->post('task_status'),
+                                                        $this->data['actual_user']->id,
+                                                        $task_id
                     );
                     
                     $response['response']       = 'rfk_ok';

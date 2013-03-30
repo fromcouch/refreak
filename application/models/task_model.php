@@ -162,7 +162,7 @@ class Task_model extends CI_Model {
             $this->db->update('tasks', $task_data); 
         }                
         
-        $this->set_status($task_id, $status, $user_id);
+        $this->set_status($task_id, $status, $author_id);
         
         return $task_id;
     }
