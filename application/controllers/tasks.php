@@ -240,7 +240,7 @@ class Tasks extends RF_BaseController {
                                                         $this->input->post('showPrivate'),
                                                         $this->input->post('task_status'),
                                                         $this->data['actual_user']->id,
-                                                        $task_id
+                                                        (int)$task_id
                     );
                     
                     $response['response']       = 'rfk_ok';
