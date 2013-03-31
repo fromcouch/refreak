@@ -33,8 +33,8 @@ class Task_model extends CI_Model {
         
         $this->db
                 ->select('tasks.*, COUNT(DISTINCT rfk_task_comment.post_date) comment_count,
-                        SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),1,19) AS stat_date, 
-                        SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS stat_key,
+                        SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),1,19) AS status_date, 
+                        SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status_key,
                         projects.name as project_name, users.first_name as first_name, 
                         users.last_name as last_name, users.username as username, 
                         user_project.position', false)
@@ -53,11 +53,11 @@ class Task_model extends CI_Model {
         switch ($time_concept) {
             
             case 0:
-                $this->db->having('(stat_key = 5 AND DATE(stat_date) >= CURDATE()) OR stat_key < 5');
+                $this->db->having('(status_key = 5 AND DATE(status_date) > CURDATE()) OR status_key < 5');
                 break;
 
             case 1:
-                $this->db->having('(DATE(rfk_tasks.deadline_date) <= CURDATE() OR stat_key = 5)');
+                $this->db->having('(DATE(rfk_tasks.deadline_date) <= CURDATE() OR status_key = 5)');
                 break;
             
         }
