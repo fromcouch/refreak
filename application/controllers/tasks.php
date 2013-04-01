@@ -46,7 +46,9 @@ class Tasks extends RF_BaseController {
                     'var tasksmessage_ajax_error_security    = "' . $this->lang->line('tasksmessage_ajax_error_security') . "\";\n" .
                     'var tasksmessage_ajax_error_server    = "' . $this->lang->line('tasksmessage_ajax_error_server') . "\";\n" .
                     'var tasksmessage_created    = "' . $this->lang->line('tasksmessage_created') . "\";\n" .
-                    'var tasksmessage_updated    = "' . $this->lang->line('tasksmessage_updated') . "\";\n" 
+                    'var tasksmessage_updated    = "' . $this->lang->line('tasksmessage_updated') . "\";\n" .
+                    'var tasksmessage_deleted    = "' . $this->lang->line('tasksmessage_deleted') . "\";\n" .
+                    'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" 
                 ;
     }
 
@@ -479,6 +481,12 @@ class Tasks extends RF_BaseController {
         }
     }
     
+    /**
+     * Ajax for deleting comment
+     * 
+     * @return void
+     * @access public
+     */
     public function delete_comment() {
         
         if ($this->input->is_ajax_request())
@@ -503,6 +511,12 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * Ajax call for change status
+     * 
+     * @return void
+     * @access public
+     */
     public function change_status() {
         
         if ($this->input->is_ajax_request())
@@ -531,6 +545,35 @@ class Tasks extends RF_BaseController {
         
     }
 
+    /**
+     * Ajax call for deleting task
+     * 
+     * @return void
+     * @access public
+     */
+    public function delete() {
+        
+        if ($this->input->is_ajax_request())
+        {
+            $task_id                        = $this->input->post('tid');
+            
+            $this->task_model->delete_task($task_id);
+                
+            echo json_encode(
+                                array(
+                                    'response'          => 'rfk_ok'
+                                )
+                                
+                    );
+            
+        }
+        else
+        {
+            echo json_encode(array('response' => 'rfk_fuckyou'));
+        }
+        
+    }
+    
 }
 
 /* End of file tasks.php */

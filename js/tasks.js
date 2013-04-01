@@ -674,7 +674,7 @@
                         var task_id = this._(obj).parents("tr").attr("data-id");
                         var row = this._(obj).parents("tr");
                 
-                        if (confirm("are you sure?")) {
+                        if (confirm(tasksmessage_delete)) {
                             $.ajax({
                                 type:       "POST",
                                 url:        s_url + "/tasks/delete",
@@ -686,6 +686,7 @@
                                     if (res.response === "rfk_ok") {
 
                                         row.remove();
+                                        $.boxes(tasksmessage_deleted);
 
                                     }
                                     else {

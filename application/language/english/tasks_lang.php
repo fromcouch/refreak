@@ -43,6 +43,7 @@ $lang['tasksmessage_ajax_error_security']    = 'Error by security reasons';
 $lang['tasksmessage_ajax_error_server']      = 'Error on server side';
 $lang['tasksmessage_created']                = 'task created!';
 $lang['tasksmessage_updated']                = 'task updated!';
+$lang['tasksmessage_deleted']                = 'task deleted!';
 
 
 //info panel
