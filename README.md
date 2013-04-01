@@ -16,7 +16,7 @@ TODO
     + ~~Order task grid~~
     + ~~Status javascript~~
     + task permissions
-    + close/end task
+    + ~~close/end task~~
     + ~~task table comments~~
 + Refactor Ajax calls in jQuery plugins
 + Revise Code Comments
