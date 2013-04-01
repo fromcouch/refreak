@@ -55,6 +55,7 @@
             var defaults = {
                 type: "POST",
                 dataType: "json",
+                url: "null",
                 data: {},
                 onDone: null,
                 onDoneKo: null,
@@ -83,7 +84,7 @@
                 
                     $.ajax({
                         type:       me.settings.type,
-                        url:        s_url + "/tasks/get_users_from_project/",
+                        url:        me.settings.url,
                         dataType:   me.settings.dataType,
                         data:       me.settings.data
                     }).done(function(res) {
