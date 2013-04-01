@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database', 'ion_auth', 'javascript', 'css');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'rfk_date');
+$autoload['helper'] = array();
 
 
 /*
