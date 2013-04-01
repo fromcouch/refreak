@@ -140,6 +140,10 @@ class Task_model extends CI_Model {
             $this->project_model->set_user_project($user_id, $project_id, 2);
         }
         
+        /**
+         * @todo some patch for the moment.later do with config var
+         */
+        $deadline               = str_replace('/', '-', $deadline);
         $deadline               = date('Y-m-d', strtotime($deadline));
         
         $task_data              = array(

@@ -17,7 +17,7 @@
                         <th><?php echo $this->lang->line('task_edit_project'); ?>:</th>
                         <td colspan="3">
                             <span class="project_sel">
-                                <?php echo form_dropdown('task_projects', $user_p, $user_id, 'class="task_projects"'); ?>                                				
+                                <?php echo form_dropdown('task_projects', $user_p, $project_id, 'class="task_projects"'); ?>                                				
                                 <?php //if ($objUser->checkLevel(7)) { ?>
                                 <a href="#" class="small task_edit_new_project">&gt; <?php echo $this->lang->line('task_edit_project_new'); ?></a>
                             </span>
@@ -40,13 +40,13 @@
                         <td colspan="3">
                                 <?php echo form_dropdown_users('task_users','-',$actual_user->id,'task_users'); ?>
                                 <span>
-                                    <?php echo form_radio('showPrivate', '0', $private === '0' ? true : false) ?><label><?php echo $this->lang->line('task_edit_public'); ?></label>
+                                    <?php echo form_radio('showPrivate', '0', (int)$private === 0 ? true : false) ?><label><?php echo $this->lang->line('task_edit_public'); ?></label>
                                 </span>
                                 <span><?php //if ($objUser->checkLevel(12)) { ?>
-                                    <?php echo form_radio('showPrivate', '1', $private === '1' ? true : false) ?><label><?php echo $this->lang->line('task_edit_internal'); ?></label>
+                                    <?php echo form_radio('showPrivate', '1', (int)$private === 1 ? true : false) ?><label><?php echo $this->lang->line('task_edit_internal'); ?></label>
                                 </span>
                                 <span>
-                                    <?php echo form_radio('showPrivate', '2', $private === '2' ? true : false) ?><label><?php echo $this->lang->line('task_edit_private'); ?></label>
+                                    <?php echo form_radio('showPrivate', '2', (int)$private === 2 ? true : false) ?><label><?php echo $this->lang->line('task_edit_private'); ?></label>
                                 </span>
                         </td>
                 </tr>
