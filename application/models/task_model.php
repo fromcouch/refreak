@@ -331,11 +331,41 @@ class Task_model extends CI_Model {
         
     }
     
+    /**
+     * Delete Task
+     * 
+     * @param int $task_id Task to delete
+     * @return void
+     * @access public
+     */
     public function close_task($task_id) {
         
         $this->db->set('deadline_date', 'CURDATE()', FALSE);
         $this->db->where('task_id', $task_id);
         $this->db->update('tasks');
+        
+    }
+    
+    public function delete_task($task_id) {
+        
+        $this->delete_task_comments($task_id);
+        $this->delete_task_status($task_id);
+        
+        $this->db->where('task_id', $task_id);
+        $this->db->delete('tasks');
+    }
+    
+    public function delete_task_status($task_id) {
+        
+        $this->db->where('task_id', $task_id);
+        $this->db->delete('task_status');
+        
+    }
+    
+    public function delete_task_comments($task_id) {
+        
+        $this->db->where('task_id', $task_id);
+        $this->db->delete('task_comment');
         
     }
 }

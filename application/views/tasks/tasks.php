@@ -71,7 +71,7 @@
                                     <?php endif;
                                     // DELETE
                                     if ($this->ion_auth->in_group(array(1,2))  || $tf->position > 3) : //falta checkear permiso de proyecto ?>
-                                        <a href="#">
+                                        <a href="#" class="btn_task_delete">
                                             <img src="<?php echo base_url();?>theme/default/images/b_dele.png" width="20" height="16" alt="del" border="0" />
                                         </a>
                                     <?php else : ?>

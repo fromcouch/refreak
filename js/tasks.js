@@ -611,6 +611,15 @@
 
                         });
 
+                        this._(".btn_task_delete").on("click", function( event ) {
+
+                                //prevent call tr event
+                                event.stopPropagation();
+
+                                me.deletetask( this );
+
+                        });
+
                         this._(".status0, .status1, .status2, .status3, .status4").on("click", function ( event ) {
                         
                                 event.stopPropagation();
@@ -657,6 +666,36 @@
                 edittask: function (task_id) {
                 
                         $(".task_panel").newTask({ task_id: task_id });
+
+                },
+                
+                deletetask: function ( obj ) {
+                
+                        var task_id = this._(obj).parents("tr").attr("data-id");
+                        var row = this._(obj).parents("tr");
+                
+                        if (confirm("are you sure?")) {
+                            $.ajax({
+                                type:       "POST",
+                                url:        s_url + "/tasks/delete",
+                                data:       { 
+                                                tid: task_id
+                                            }                            
+                            }).done(function(res) {
+
+                                    if (res.response === "rfk_ok") {
+
+                                        row.remove();
+
+                                    }
+                                    else {
+                                        alert(tasksmessage_ajax_error_security);
+                                    }
+
+                            }).fail(function(res) {
+                                    alert(tasksmessage_ajax_error_server);
+                            });
+                        }
 
                 },
                 
