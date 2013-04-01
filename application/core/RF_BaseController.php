@@ -31,9 +31,7 @@ class RF_BaseController extends CI_Controller {
 
         $this->lang->load('layout/header');
         $this->load->model('user_model');
-        $this->load->helper('html');
-        $this->load->helper('form');
-        $this->load->helper('rfk_form');        
+        $this->load->helper(array('html','form','rfk_form'));
         
         $params                             = $this->_detect_user_project();
         $actual_user                        = $this->ion_auth->user()->row();
@@ -65,7 +63,7 @@ class RF_BaseController extends CI_Controller {
         $this->data['menu_left']            = $this->_create_left_menu($this->data['user_projects'], $params);
         $this->data['menu_right']           = $this->_create_right_menu($actual_user_id, $params, $selected_user, $selected_context);
         
-        $this->javascript->js->script(base_url() . 'js/panels.js');
+        $this->javascript->js->script(base_url() . 'js/refreak.js');
         $this->css->add_style(base_url() . 'theme/default/css/refreak.css', 'core');
         
         unset($params, $actual_user);

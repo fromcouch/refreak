@@ -4,13 +4,14 @@
 	<title>Refreak</title>
         <meta http-equiv="content-type" content="text/html; charset=<?php echo config_item('charset');?>" />
         <?php   //render css links
-                if (isset($css_link_src)) echo $css_link_src; ?>        
-        <?php   //render script tags
-                if (isset($library_src)) echo $library_src;?>
-        <script type="text/javascript" charset="utf-8" src="<?php echo base_url();?>js/panels.js"></script>
+                if (isset($css_link_src)) echo $css_link_src;         
+                //render script tags
+                if (isset($library_src)) echo $library_src;
+        ?>
         <script type="text/javascript">
             <?php   //render search vars
-                    if (isset($js_vars)) echo $js_vars ?>
+                    if (isset($js_vars)) echo $js_vars 
+            ?>
         </script>
 </head>
 <body>
