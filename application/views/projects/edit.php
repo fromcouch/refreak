@@ -125,58 +125,52 @@ if ($actual_user->project_position >= 4) :
                 var uid = $(".dropdown_users").val();
                 var pos = $(".project_position").val();
 
-                $.ajax({
+                $.call_ajax({
                         type:       "POST",
                         url:        "<?php echo site_url(); ?>/projects/add_user_project/",
                         data:       {  
                                         project_id: pid, 
                                         user_id: uid,
                                         position: pos
-                                    } 
-                }).done(function(res) {
+                                    },
+                        onDone:     function(res) {
 
-                        if (res.response == "rfk_ok") {
-                            var $tr = $("<tr></tr>").attr("data-id", uid).addClass("project_data");
-                            $tr.append(
-                                        $("<td></td>").html($(".dropdown_users option:selected").html())
-                                    ).append(
-                                        $("<td></td>").html($(".project_position option:selected").html())
-                                    ).append(
-                                        $("<td></td>").append(
-                                                $("<a></a>").addClass("project_members_edit").attr("href","")
-                                                        .append(
-                                                            $("<img/>")
-                                                                    .attr("src","<?php echo base_url() ?>theme/default/images/b_edit.png")  
-                                                                    .attr("width","20")  
-                                                                    .attr("height","16")  
-                                                                    .attr("border","0")
-                                                        )
-                                            ).append(
-                                                $("<a></a>").addClass("project_members_delete").attr("href","")
-                                                        .append(
-                                                            $("<img/>")
-                                                                    .attr("src","<?php echo base_url() ?>theme/default/images/b_dele.png")  
-                                                                    .attr("width","20")  
-                                                                    .attr("height","16")  
-                                                                    .attr("border","0")
-                                                        )
-                                           )                              
-                                    );
-                                                        
-                            $("tbody",".data")
-                                    .append($tr);                                                                
+                                        var $tr = $("<tr></tr>").attr("data-id", uid).addClass("project_data");
+                                        $tr.append(
+                                                    $("<td></td>").html($(".dropdown_users option:selected").html())
+                                                ).append(
+                                                    $("<td></td>").html($(".project_position option:selected").html())
+                                                ).append(
+                                                    $("<td></td>").append(
+                                                            $("<a></a>").addClass("project_members_edit").attr("href","")
+                                                                    .append(
+                                                                        $("<img/>")
+                                                                                .attr("src","<?php echo base_url() ?>theme/default/images/b_edit.png")  
+                                                                                .attr("width","20")  
+                                                                                .attr("height","16")  
+                                                                                .attr("border","0")
+                                                                    )
+                                                        ).append(
+                                                            $("<a></a>").addClass("project_members_delete").attr("href","")
+                                                                    .append(
+                                                                        $("<img/>")
+                                                                                .attr("src","<?php echo base_url() ?>theme/default/images/b_dele.png")  
+                                                                                .attr("width","20")  
+                                                                                .attr("height","16")  
+                                                                                .attr("border","0")
+                                                                    )
+                                                       )                              
+                                                );
 
-                            $tr.manageProject();
+                                        $("tbody",".data")
+                                                .append($tr);                                                                
 
-                            $(".dropdown_users option:selected").remove();
-                            
-                            $.boxes("<?php echo $this->lang->line('projectsmessage_useradded'); ?>");
-                        }
-                        else 
-                            alert("<?php echo $this->lang->line('projectsmessage_ajax_error_security'); ?>");
+                                        $tr.manageProject();
 
-                }).fail(function() {
-                    alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
+                                        $(".dropdown_users option:selected").remove();
+
+                                        $.boxes("<?php echo $this->lang->line('projectsmessage_useradded'); ?>");
+                                    }
                 });
 
           });
@@ -198,9 +192,9 @@ if ($actual_user->project_position >= 4) :
                     if (options !== undefined)
                         this.options = options;
                     
-                    this._(".project_members_edit").bind("click", function(e) { me.members_edit(e); });
+                    this._(".project_members_edit").on("click", function(e) { me.members_edit(e); });
 
-                    this._(".project_members_delete").bind("click", function(e) { me.members_delete(e); });
+                    this._(".project_members_delete").on("click", function(e) { me.members_delete(e); });
 
              },
              
@@ -251,29 +245,22 @@ if ($actual_user->project_position >= 4) :
                     var uid     = me.attr("data-id");
                     var uname   = me.children(":first").html()
                     
-                    $.ajax({
+                    $.call_ajax({
                         type:       "POST",
                         url:        "<?php echo site_url(); ?>/projects/remove_user_project/",
                         data:       {  
                                         project_id: pid, 
                                         user_id: uid                                    
+                                    },
+                        onDone:     function(res) {
+
+                                        me.remove();
+
+                                        $(".dropdown_users").append(new Option(uname, uid));
+
+                                        $.boxes("<?php echo $this->lang->line('projectsmessage_userremoved'); ?>");
                                     }
-
-                    }).done(function(res) {
-
-                            if (res.response == "rfk_ok") {
-
-                                me.remove();
-
-                                $(".dropdown_users").append(new Option(uname, uid));
-                                
-                                $.boxes("<?php echo $this->lang->line('projectsmessage_userremoved'); ?>");
-                            }
-                            else 
-                                alert("<?php echo $this->lang->line('projectsmessage_ajax_error_security'); ?>");
-
-                    }).fail(function() {
-                        alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
+                            
                     });
 
                 }
@@ -289,32 +276,26 @@ if ($actual_user->project_position >= 4) :
                 var position    = $psp.val();
 
 
-                $.ajax({
+                $.call_ajax({
                     type:       "POST",
                     url:        "<?php echo site_url(); ?>/projects/change_user_position/",
                     data:       {  
                                     project_id: pid, 
                                     user_id: uid,
                                     position: position
+                                },
+                    onDone:     function(res) {
+
+                                    var new_position = $psp.find(":selected").html();
+                                    var $td = $psp.parents("td");
+                                    $psp.remove();
+                                    $td.html(new_position);
+
+                                    $td.next().show().next().remove();
+
+                                    $.boxes("<?php echo $this->lang->line('projectsmessage_userchanged'); ?>");
                                 }
-
-                }).done(function(res) {
-
-                        if (res.response == "rfk_ok") {
-                            var new_position = $psp.find(":selected").html();
-                            var $td = $psp.parents("td");
-                            $psp.remove();
-                            $td.html(new_position);
-
-                            $td.next().show().next().remove();
-                            
-                            $.boxes("<?php echo $this->lang->line('projectsmessage_userchanged'); ?>");
-                        }
-                        else 
-                            alert("<?php echo $this->lang->line('projectsmessage_ajax_error_security'); ?>");
-
-                }).fail(function() {
-                    alert("<?php echo $this->lang->line('projectsmessage_ajax_error_server'); ?>");
+                        
                 });
 
              },
