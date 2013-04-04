@@ -6,6 +6,7 @@
                     <img src="<?php echo base_url();?>theme/default/images/b_disn.png" width="20" height="16" border="0" alt="close" />
                 </a>
             </div>
+            <?php if ($tf['position'] > 3) : ?>
             <div class="task_show_edit">
                 <a href="#"><?php echo $this->lang->line('task_show_edit'); ?>
                     <img src="<?php echo base_url();?>theme/default/images/b_edin.png" width="20" height="16" border="0" alt="edit" />
@@ -17,6 +18,7 @@
                     <img src="<?php echo base_url();?>theme/default/images/b_deln.png" width="20" height="16" border="0" alt="delete" />
                 </a>
             </div>
+            <?php endif; ?>
         </div>
         <div class="task_show_priority">
             <div class="label"><?php echo $this->lang->line('task_show_priority'); ?></div>

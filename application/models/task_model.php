@@ -180,15 +180,17 @@ class Task_model extends CI_Model {
      * @return array Task
      * @access public
      */
-    public function get_task($task_id) {
+    public function get_task($task_id, $user_id) {
         
         return $this->db 	 	 
                         ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
                                   tasks.title, tasks.description, tasks.deadline_date, tasks.private,
-                                  tasks.user_id, tasks.author_id, tasks.modified_date') 
+                                  tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
                         ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
                         ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
+                        ->join('user_project', 'user_project.project_id = tasks.project_id', 'left')
                         ->where('tasks.task_id', $task_id)
+                        ->where('user_project.user_id', $user_id)
                         ->get('tasks')
                         ->result_array();
         
@@ -332,9 +334,9 @@ class Task_model extends CI_Model {
     }
     
     /**
-     * Delete Task
+     * Close Task
      * 
-     * @param int $task_id Task to delete
+     * @param int $task_id Task to close
      * @return void
      * @access public
      */
@@ -346,6 +348,13 @@ class Task_model extends CI_Model {
         
     }
     
+    /**
+     * Delete Task
+     * 
+     * @param int $task_id Task to delete
+     * @return void
+     * @access public
+     */
     public function delete_task($task_id) {
         
         $this->delete_task_comments($task_id);
@@ -355,6 +364,13 @@ class Task_model extends CI_Model {
         $this->db->delete('tasks');
     }
     
+    /**
+     * Delete Task Status
+     * 
+     * @param int $task_id Task ID to delete status
+     * @return void
+     * @access public
+     */
     public function delete_task_status($task_id) {
         
         $this->db->where('task_id', $task_id);
@@ -362,10 +378,38 @@ class Task_model extends CI_Model {
         
     }
     
+    /**
+     * Delete Task Comments
+     * 
+     * @param int $task_id Task ID to delete comments
+     * @return void
+     * @access public
+     */
     public function delete_task_comments($task_id) {
         
         $this->db->where('task_id', $task_id);
         $this->db->delete('task_comment');
+        
+    }
+    
+    /**
+     * Get User Position in Project.
+     * Calls Project model.
+     * 
+     * @param int $project_id project id
+     * @param int $user_id user_id
+     * @return int postion
+     * @access public
+     */
+    public function get_user_position($project_id, $user_id) {
+        
+        $this->load->model('project_model');
+        $up                     = $this->project_model->get_user_position($project_id, $user_id);
+        
+        if (count($up) > 0)
+            return 0;
+        else
+            return $up[0]->position;
         
     }
 }

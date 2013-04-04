@@ -13,11 +13,21 @@
 * Description:  Projects model
 * 
 */
-
+/**
+ * Tasks Model
+ *
+ * @package	Refreak
+ * @subpackage	projects
+ * @category	model
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 class Project_model extends CI_Model
 {
     
-    
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -47,6 +57,16 @@ class Project_model extends CI_Model
                 
     }
     
+    /**
+     * Insert project in database
+     * 
+     * @param string $name Project name
+     * @param int $user_id User Id
+     * @param string $description Project Description
+     * @param int $status Project Status
+     * @return int inserted project id
+     * @access public
+     */
     public function save($name, $user_id, $description = '', $status = 1) 
     {
         //insert project
@@ -74,8 +94,20 @@ class Project_model extends CI_Model
         return $last_project_id;
     }
     
+    /**
+     * Update project in database
+     * 
+     * @param int $project_id
+     * @param string $name Project name
+     * @param int $user_id User Id
+     * @param string $description Project Description
+     * @param int $status Project Status
+     * @return void 
+     * @access public
+     */
     public function update($project_id, $name, $user_id, $description = '', $status = 1) 
     {
+        
         $project_data = array(
             'name'          => $name,
             'description'   => $description
@@ -93,10 +125,14 @@ class Project_model extends CI_Model
     }
 
     /**
-     * @todo faltan tareas y relacionados
+     * Delete Project
      * 
-     * @param type $project_id
-     * @param type $user_id 
+     * @todo faltan tareas y relacionados. Seguro usuario???????
+     * 
+     * @param int $project_id Project ID to remove
+     * @param int $user_id User Id to remove
+     * @return void
+     * @access public
      */
     public function delete($project_id, $user_id)
     {

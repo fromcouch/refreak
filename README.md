@@ -18,6 +18,7 @@ TODO
     + task permissions
     + ~~close/end task~~
     + ~~task table comments~~
+    + task delete show panel
 + ~~Refactor Ajax calls in jQuery plugins~~
 + Revise Code Comments
 + Add author_id to user db table

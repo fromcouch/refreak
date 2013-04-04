@@ -154,7 +154,7 @@ class Tasks extends RF_BaseController {
             
             if ($this->input->post('tid') && $this->input->post('tid') > 0) {
                 $tid                        = $this->input->post('tid');
-                $task                       = $this->task_model->get_task($tid);
+                $task                       = $this->task_model->get_task($tid, $this->data['actual_user']->id);
             }
             
             //load layout configuration
@@ -319,7 +319,7 @@ class Tasks extends RF_BaseController {
         if ($this->input->is_ajax_request() && $this->input->post('tid')) {
             
             $tid                        = $this->input->post('tid');
-            $task                       = $this->task_model->get_task($tid);
+            $task                       = $this->task_model->get_task($tid, $this->data['actual_user']->id);
             
             //load layout configuration
             $this->config->load('layout');
@@ -494,7 +494,7 @@ class Tasks extends RF_BaseController {
             $task_id                        = $this->input->post('tid');
             $task_comment_id                = $this->input->post('tcid');
             
-            $task_comment_id                = $this->task_model->delete_comment($task_comment_id);
+            $this->task_model->delete_comment((int)$task_comment_id);
             
             echo json_encode(
                                 array(
