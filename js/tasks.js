@@ -72,30 +72,25 @@
                         
                         var me = this;
             
-                        $.ajax({
+                        $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/get_users_from_project/",
                             data:       {
                                             project_id: $(obj).val()
+                                        },
+                            onDone:     function(res) {
+                                
+                                            var $select_users = me._(".task_users").empty();
+
+                                            $.each(res.data, function(i,item) {
+                                                $select_users.append( '<option value="'
+                                                                     + item.id
+                                                                     + '">'
+                                                                     + item.first_name + " " + item.last_name
+                                                                     + '</option>' ); 
+                                            });
                                         }
-                        }).done(function(res) {
-                                if (res.response === "rfk_ok") {
-                                    var $select_users = me._(".task_users").empty();
-
-                                    $.each(res.data, function(i,item) {
-                                        $select_users.append( '<option value="'
-                                                             + item.id
-                                                             + '">'
-                                                             + item.first_name + " " + item.last_name
-                                                             + '</option>' ); 
-                                    });
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
-
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                
                         });
                 },
                 
@@ -120,13 +115,11 @@
                         
                         if ($title_value.val() != "") {
 
-                            $.ajax({
+                            $.call_ajax({
                                 type:       "POST",
                                 url:        s_url + "/tasks/save_task/",
-                                data:       this._(".task_edit_form").serialize()
-
-                            }).done(function(res) {
-                                    if (res.response === "rfk_ok") {
+                                data:       this._(".task_edit_form").serialize(),
+                                onDone:     function(res) {
                                         
                                         if (res.tid > 0) {
                                             $.boxes(tasksmessage_updated);
@@ -137,12 +130,6 @@
                                             
                                         me.close();
                                     }
-                                    else {
-                                        alert(tasksmessage_ajax_error_security);
-                                    }
-
-                            }).fail(function(res) {
-                                    alert(tasksmessage_ajax_error_server);
                             });
                         }
                         else {
@@ -285,24 +272,16 @@
             
                         var me = this;
 
-                        $.ajax({
+                        $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/get_description/",
                             data:       { tid: this.options.task_id },
-                            async:      false
-                        }).done(function(res) {
+                            async:      false,
+                            onDone:     function(res) {
 
-                                if (res.response === "rfk_ok") {
+                                            me._(".tab_description_content").append( res.description );
 
-                                    me._(".tab_description_content").append( res.description );
-
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
-
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                        }
                         });
            
                 },
@@ -312,52 +291,45 @@
                         var me = this;
                         this._(".tab_comments_content").empty();
 
-                        $.ajax({
+                        $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/get_comments/",
                             data:       { tid: this.options.task_id },
-                            async:      false
-                        }).done(function(res) {
+                            async:      false,
+                            onDone:     function(res) {
 
-                                if (res.response === "rfk_ok") {
+                                            if (res.comments.length > 0) {
 
-                                    if (res.comments.length > 0) {
-                                        
-                                            var $comms = me._(".tab_comments_content");
-                                            
-                                            $.each(res.comments, function(key, value) {
+                                                    var $comms = me._(".tab_comments_content");
 
-                                                    $comm       = me._create_vaction( value );
-                                                                                                        
-                                                    $comms.append($comm);
+                                                    $.each(res.comments, function(key, value) {
 
-                                            });                                                                                    
-                                            
-                                    }
-                                    else {
-                                    
-                                            $no_comment     = $("<div>").addClass("vempty")
-                                                                        .append("-no comment left yet-")
-                                                                        .append(
-                                                                            $("<div>").addClass("vnewaction")
-                                                                                      .append(
-                                                                                            $("<a>").addClass("vfirstcomment")
-                                                                                                  .attr("href","#")
-                                                                                                  .on("click", function () { me.show_edit_comment(this) })
-                                                                                                  .html("post first comment")
-                                                                                        )
-                                                                        );
-                                            me._(".tab_comments_content").append( $no_comment );
-                                    }
-                                    
-                                    me.comment = true;
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
+                                                            $comm       = me._create_vaction( value );
 
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                                            $comms.append($comm);
+
+                                                    });                                                                                    
+
+                                            }
+                                            else {
+
+                                                    $no_comment     = $("<div>").addClass("vempty")
+                                                                                .append("-no comment left yet-")
+                                                                                .append(
+                                                                                    $("<div>").addClass("vnewaction")
+                                                                                              .append(
+                                                                                                    $("<a>").addClass("vfirstcomment")
+                                                                                                          .attr("href","#")
+                                                                                                          .on("click", function () { me.show_edit_comment(this) })
+                                                                                                          .html("post first comment")
+                                                                                                )
+                                                                                );
+                                                    me._(".tab_comments_content").append( $no_comment );
+                                            }
+
+                                            me.comment = true;
+                                        }
+                                
                         });
            
                 },
@@ -366,48 +338,40 @@
             
                         var me = this;
 
-                        $.ajax({
+                        $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/get_history/",
                             data:       { tid: this.options.task_id },
-                            async:      false
-                        }).done(function(res) {
+                            async:      false,
+                            onDone:     function(res) {
 
-                                if (res.response === "rfk_ok") {
+                                            var $tr_header      = $("<tr>").append(
+                                                                                    $("<th>").html("date")
+                                                                           ).append(
+                                                                                    $("<th>").html("user")
+                                                                           ).append(
+                                                                                    $("<th>").html("action")
+                                                                           );
 
-                                    var $tr_header      = $("<tr>").append(
-                                                                            $("<th>").html("date")
-                                                                   ).append(
-                                                                            $("<th>").html("user")
-                                                                   ).append(
-                                                                            $("<th>").html("action")
-                                                                   );
-                                    
-                                    var $table          = $("<table>").addClass("vhist")
-                                                                      .append($tr_header);
-                                                                
-                                    $.each(res.history, function(key, value) {
-                                         
-                                            var $tr     = $("<tr>").append(
-                                                                            $("<td>").html( value.status_date )
-                                                                   ).append(
-                                                                            $("<td>").html( value.first_name + ' ' + value.last_name )
-                                                                   ).append(
-                                                                            $("<td>").html( value.status )
-                                                                   );
-                                            $table.append($tr);
-                                    });
-                                    
-                                    me._(".tab_history_content").append( $table );
-                                    me.history = true;
+                                            var $table          = $("<table>").addClass("vhist")
+                                                                              .append($tr_header);
 
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
+                                            $.each(res.history, function(key, value) {
 
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                                    var $tr     = $("<tr>").append(
+                                                                                    $("<td>").html( value.status_date )
+                                                                           ).append(
+                                                                                    $("<td>").html( value.first_name + ' ' + value.last_name )
+                                                                           ).append(
+                                                                                    $("<td>").html( value.status )
+                                                                           );
+                                                    $table.append($tr);
+                                            });
+
+                                            me._(".tab_history_content").append( $table );
+                                            me.history = true;
+
+                                    }
                         });
            
                 },
@@ -476,29 +440,22 @@
             
                         var me = this;
                         
-                        $.ajax({
+                        
+                        $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/delete_comment",
                             data:       { 
                                             tcid: task_comment_id,
 
                                         },
-                            async:      false
-                        }).done(function(res) {
+                            async:      false,
+                            onDone:     function(res) {
 
-                                if (res.response === "rfk_ok") {
+                                            me._get_comm();
+                                            me.tabs(".tab_comm");                                   
 
-                                    me._get_comm();
-                                    me.tabs(".tab_comm");                                   
-                                    
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
-
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
-                        });
+                                        }                               
+                        });                                                
 
                 },
 
@@ -507,33 +464,24 @@
                         var me = this;
                         var comment_id = this._(".veditid").val();
                         var comment = this._(".veditbody").val();                                               
-                        
-                        $.ajax({
-                            type:       "POST",
-                            url:        s_url + "/tasks/save_comment",
-                            data:       { 
-                                            tid: this.options.task_id ,
-                                            tcid: comment_id,
-                                            comment: comment
-                                        },
-                            async:      false
-                        }).done(function(res) {
 
-                                if (res.response === "rfk_ok") {
-
-                                    me._(".veditbody").val("");
-                                    me._(".veditid").val("0");
-                                    me._get_comm();
-                                    me.tabs(".tab_comm");
-                                    
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
-
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                        $.call_ajax({
+                                type:       "POST",
+                                url:        s_url + "/tasks/save_comment",
+                                data:       { 
+                                                tid: this.options.task_id ,
+                                                tcid: comment_id,
+                                                comment: comment
+                                            },
+                                async:      false,
+                                onDone:     function (res) {
+                                                    me._(".veditbody").val("");
+                                                    me._(".veditid").val("0");
+                                                    me._get_comm();
+                                                    me.tabs(".tab_comm");
+                                            }
                         });
+
                         
                 },
 
@@ -675,27 +623,21 @@
                         var row = this._(obj).parents("tr");
                 
                         if (confirm(tasksmessage_delete)) {
-                            $.ajax({
+                            
+                            $.call_ajax({
                                 type:       "POST",
                                 url:        s_url + "/tasks/delete",
                                 data:       { 
                                                 tid: task_id
-                                            }                            
-                            }).done(function(res) {
+                                            },
+                                onDone:     function(res) {
 
-                                    if (res.response === "rfk_ok") {
-
-                                        row.remove();
-                                        $.boxes(tasksmessage_deleted);
-
-                                    }
-                                    else {
-                                        alert(tasksmessage_ajax_error_security);
-                                    }
-
-                            }).fail(function(res) {
-                                    alert(tasksmessage_ajax_error_server);
+                                                    row.remove();
+                                                    $.boxes(tasksmessage_deleted);
+                                            }
+                                    
                             });
+                                                    
                         }
 
                 },
@@ -725,30 +667,22 @@
                                 $(".status" + st, row).addClass("sts0");
                             
                         }
-                        
-                        $.ajax({
+
+                        $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/change_status",
                             data:       { 
                                             tid: task_id ,
                                             status: status
-                                        }                            
-                        }).done(function(res) {
+                                        },
+                            onDone:     function(res) {
 
-                                if (res.response === "rfk_ok") {
+                                            if (status === 5)
+                                                row.remove();
 
-                                    if (status === 5)
-                                        row.remove();
-                                    
-                                }
-                                else {
-                                    alert(tasksmessage_ajax_error_security);
-                                }
-
-                        }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                        }
                         });
-                        
+                                            
                 },
                 
                 destroy: function() {

@@ -55,7 +55,7 @@
             var defaults = {
                 type: "POST",
                 dataType: "json",
-                url: "null",
+                url: null,
                 data: {},
                 onDone: null,
                 onDoneKo: null,
@@ -96,14 +96,14 @@
                         else {
                             
                             me._executeCallBack('onDoneKo', res)
-                            alert(tasksmessage_ajax_error_security);
+                            $.boxes(tasksmessage_ajax_error_security);
                             
                         }
 
                     }).fail(function(res) {
                         
                         me._executeCallBack('onFail', res),
-                        alert(tasksmessage_ajax_error_server);
+                        $.boxes(tasksmessage_ajax_error_server);
                         
                     });
                 
