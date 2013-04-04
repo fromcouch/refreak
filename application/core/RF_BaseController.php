@@ -24,6 +24,8 @@ class RF_BaseController extends CI_Controller {
     {
         parent::__construct();
 
+        $this->load->helper(array( 'url' ));
+        
         if (!$this->ion_auth->logged_in())
         {
                 redirect('auth/login');
@@ -31,7 +33,7 @@ class RF_BaseController extends CI_Controller {
 
         $this->lang->load('layout/header');
         $this->load->model('user_model');
-        $this->load->helper(array('url', 'rfk_date', 'html', 'form', 'rfk_form'));
+        $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form'));
         
         $params                             = $this->_detect_user_project();
         $actual_user                        = $this->ion_auth->user()->row();
