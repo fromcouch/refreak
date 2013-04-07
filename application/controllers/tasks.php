@@ -458,13 +458,17 @@ class Tasks extends RF_BaseController {
      */
     public function save_comment() {
         
-        if ($this->input->is_ajax_request())
+        $task_id                            = $this->input->post('tid');
+        $actual_user_id                     = $this->data['actual_user']->id;
+        
+        if ($this->input->is_ajax_request() && 
+            ($this->task_model->get_user_position((int)$task_id, $actual_user_id) > 1 || $this->ion_auth->in_group(array(1,2))))
         {
-            $task_id                        = $this->input->post('tid');
+            
             $task_comment_id                = $this->input->post('tcid');
             $comment                        = $this->input->post('comment');
             
-            $task_comment_id                = $this->task_model->save_comment($comment, $this->data['actual_user']->id, $task_id, (int)$task_comment_id);
+            $task_comment_id                = $this->task_model->save_comment($comment, $actual_user_id, $task_id, (int)$task_comment_id);
             
             echo json_encode(
                                 array(
@@ -489,9 +493,13 @@ class Tasks extends RF_BaseController {
      */
     public function delete_comment() {
         
-        if ($this->input->is_ajax_request())
+        $task_id                            = $this->input->post('tid');
+        $actual_user_id                     = $this->data['actual_user']->id;
+        
+        if ($this->input->is_ajax_request() && 
+            ($this->task_model->get_user_position((int)$task_id, $actual_user_id) > 3 || $this->ion_auth->in_group(array(1,2))))
         {
-            $task_id                        = $this->input->post('tid');
+            
             $task_comment_id                = $this->input->post('tcid');
             
             $this->task_model->delete_comment((int)$task_comment_id);
@@ -519,9 +527,15 @@ class Tasks extends RF_BaseController {
      */
     public function change_status() {
         
-        if ($this->input->is_ajax_request())
+        $task_id                            = $this->input->post('tid');
+        $actual_user_id                     = $this->data['actual_user']->id;
+        
+        if ($this->input->is_ajax_request() && 
+            ($this->task_model->get_user_position((int)$task_id, $actual_user_id) > 3 || 
+             $this->ion_auth->in_group(array(1,2)) ||
+             $this->task_model->is_owner((int)$task_id, (int)$actual_user_id)))
         {
-            $task_id                        = $this->input->post('tid');
+            
             $status                         = $this->input->post('status');
             
             $this->task_model->set_status($task_id, $status, $this->data['actual_user']->id);
@@ -553,10 +567,14 @@ class Tasks extends RF_BaseController {
      */
     public function delete() {
         
-        if ($this->input->is_ajax_request())
+        $task_id                            = $this->input->post('tid');
+        $actual_user_id                     = $this->data['actual_user']->id;
+        
+        if ($this->input->is_ajax_request() && 
+            ($this->task_model->get_user_position((int)$task_id, $actual_user_id) > 4 || 
+             $this->ion_auth->in_group(array(1,2)) ))
         {
-            $task_id                        = $this->input->post('tid');
-            
+                        
             $this->task_model->delete_task($task_id);
                 
             echo json_encode(

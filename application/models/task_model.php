@@ -401,7 +401,15 @@ class Task_model extends CI_Model {
      * @return int postion
      * @access public
      */
-    public function get_user_position($project_id, $user_id) {
+    public function get_user_position($task_id, $user_id) {
+        
+        $project                = $this->db
+                                            ->select('project_id')
+                                            ->where('task_id', $task_id)
+                                            ->get('tasks')
+                                            ->row();
+        
+        $project_id             = $project[0]->project_id;
         
         $this->load->model('project_model');
         $up                     = $this->project_model->get_user_position($project_id, $user_id);
@@ -411,6 +419,25 @@ class Task_model extends CI_Model {
         else
             return $up[0]->position;
         
+    }
+    
+    /**
+     * Check if user is task owner
+     * 
+     * @param int $task_id task id
+     * @param int $user_id user id for check
+     * @return boolean
+     * @access public
+     */
+    public function is_owner($task_id, $user_id) {
+        
+        $task                   = $this->get_task($task_id, $user_id);
+        
+        if ((int)$task['author_id'] === $user_id) {
+            return true;
+        }
+        
+        return false;
     }
 }
 
