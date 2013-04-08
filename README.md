@@ -18,10 +18,10 @@ TODO
     + ~~task permissions~~
     + ~~close/end task~~
     + ~~task table comments~~
-    + ~~task delete show panel~
+    + ~~task delete show panel~~
 + ~~Refactor Ajax calls in jQuery plugins~~
 + Revise Code Comments
-+ Add author_id t~o user db table
++ Add author_id to user db table
 + User Country
 + User title
 + Add theme as a variable on code
