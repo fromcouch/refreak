@@ -90,19 +90,19 @@
                     }).done(function(res) {
                         if (res.response === "rfk_ok") {
                             
-                            me._executeCallBack('onDone', res);
+                            me._executeCallBack('onDone', [res]);
                             
                         }
                         else {
                             
-                            me._executeCallBack('onDoneKo', res)
+                            me._executeCallBack('onDoneKo', [res])
                             $.boxes(genmessage_ajax_error_security);
                             
                         }
 
                     }).fail(function(res) {
                         
-                        me._executeCallBack('onFail', res),
+                        me._executeCallBack('onFail', [res]),
                         $.boxes(genmessage_ajax_error_server);
                         
                     });

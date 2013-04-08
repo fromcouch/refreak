@@ -297,7 +297,7 @@
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
-
+                                            
                                             if (res.comments.length > 0) {
 
                                                     var $comms = me._(".tab_comments_content");
