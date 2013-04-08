@@ -66,7 +66,7 @@ class RFK_Task_Helper {
         return $ret;
     }
     
-    public function can_do($task_id, $user_id, $level = 1) {
+    public static function can_do($task_id, $user_id, $level = 1) {
         
         $ci =& get_instance();
         $ci->load->model('task_model');

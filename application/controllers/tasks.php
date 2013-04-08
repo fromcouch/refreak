@@ -597,7 +597,7 @@ class Tasks extends RF_BaseController {
         
         $this->load->helper('rfk_task');
         
-        return $this->rfk_task->can_do($task_id, $actual_user_id, $level);
+        return RFK_Task_Helper::can_do($task_id, $actual_user_id, $level);
         
     }
 }

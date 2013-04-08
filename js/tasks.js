@@ -195,7 +195,7 @@
                                 
                                 me._(".task_show_close").on("click", function() { me.close(this); });
                                 me._(".task_show_edit").on("click", function() { me.edit(this); });
-                                me._(".task_show_delete").on("click", function() { me.delete(this); });
+                                me._(".task_show_delete").on("click", function() { me.del(this); });
                                 
                                 me._(".veditsubmit").on("click", function() { me.send_comment(this); });
                                 me._(".veditcancel").on("click", function() { me.cancel_comment(this); });
@@ -236,6 +236,29 @@
                         $(this.element).show();
                         new task_new(this.element, { task_id: this.options.task_id });
                         
+                },
+                      
+                del: function() {
+                        
+                        if (confirm(tasksmessage_delete)) {
+                            
+                            $row = $("tr[data-id='" + this.options.task_id + "']");
+                            
+                            $.call_ajax({
+                                type:       "POST",
+                                url:        s_url + "/tasks/delete",
+                                data:       { 
+                                                tid: this.options.task_id
+                                            },
+                                onDone:     function(res) {
+
+                                                    $row.remove();
+                                                    $.boxes(tasksmessage_deleted);
+                                            }
+                                    
+                            });
+                                                    
+                        }
                 },
 
                 tabs: function ( obj ) {

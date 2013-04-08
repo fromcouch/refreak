@@ -63,6 +63,12 @@
                 document.location = local_url;                    
             });
             
+            $(".menu_new_task").on('click', function( event ) {
+                
+                $(".task_panel").newTask({ task_id: 0 });
+                
+            });
+            
         })(jQuery);
     </script>
 </body>

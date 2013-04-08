@@ -13,7 +13,7 @@
                 </a>
             </div>
             <div class="task_show_delete">
-                <a href="#" onClick="return confirm('<?php echo $this->lang->line('task_show_delete_confirm');  ?>')">
+                <a href="#">
                     <?php echo $this->lang->line('task_show_delete');  ?>
                     <img src="<?php echo base_url();?>theme/default/images/b_deln.png" width="20" height="16" border="0" alt="delete" />
                 </a>

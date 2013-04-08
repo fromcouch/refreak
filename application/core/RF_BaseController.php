@@ -134,7 +134,7 @@ class RF_BaseController extends CI_Controller {
         
         $menu               = array(
                                 anchor('#', $this->lang->line('menu_tasks'))    => array(
-                                                            anchor('', $this->lang->line('menu_tasks_new'))
+                                                            anchor('#', $this->lang->line('menu_tasks_new'), array('class' => 'menu_new_task'))
                                                                     ),
                                 anchor('#', $this->lang->line('menu_view'))     => $view_menu,
                                 

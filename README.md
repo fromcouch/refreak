@@ -5,7 +5,7 @@ taskfreak fork
 
 Hi, I'm using Taskfreak from two or three years ago. I made many changes to the original code but is a poor Hell modify this code and finally I decide to make my own Taskfreak.
 
-Actually I'm in development stage. I'm using CodeIgniter but I'm thinking to migrate to Laravel, I'm undecided on this.
+Actually I'm in development stage.
 
 TODO
 ----
@@ -15,13 +15,13 @@ TODO
     + ~~Show task pop up~~
     + ~~Order task grid~~
     + ~~Status javascript~~
-    + task permissions
+    + ~~task permissions~~
     + ~~close/end task~~
     + ~~task table comments~~
-    + task delete show panel
+    + ~~task delete show panel~
 + ~~Refactor Ajax calls in jQuery plugins~~
 + Revise Code Comments
-+ Add author_id to user db table
++ Add author_id t~o user db table
 + User Country
 + User title
 + Add theme as a variable on code
