@@ -58,8 +58,13 @@
                                     </a>
                                 </td>
                                 <?php for ($cont = 0; $cont < 5; $cont++) : 
-                                            $sts = ($cont < $tf->status_key) ? (5 - $cont) : 0; ?>
-                                <td class="sts<?php echo $sts; ?> status<?php echo $cont; ?>" style="cursor:pointer">&nbsp;</td>
+                                            $sts = ($cont < $tf->status_key) ? (5 - $cont) : 0; 
+                                            $status_class = 'sts'.$sts;
+                                            if (RFK_Task_Helper::can_do($tf->task_id, $actual_user->id, 3)) :
+                                                $status_class .= ' status'.$cont;
+                                            endif;
+                                ?>
+                                <td class="<?php echo $status_class; ?>">&nbsp;</td>
                                 <?php endfor; ?>
                                 <td class="act">
                                     <?php if ($this->ion_auth->in_group(array(1,2)) || $tf->position > 3) : //falta checkear permiso de proyecto ?>

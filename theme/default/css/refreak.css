@@ -348,6 +348,14 @@ table.sheet td.sts5 {
 	background-color: #E00000;
 	width: 8px;
 }
+
+table.sheet td.status0, 
+table.sheet td.status1, 
+table.sheet td.status2, 
+table.sheet td.status3, 
+table.sheet td.status4 {
+        cursor:pointer;
+}
 table.sheet td.task_prio {
 	text-align: center;
 }

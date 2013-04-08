@@ -66,6 +66,19 @@ class RFK_Task_Helper {
         return $ret;
     }
     
+    public function can_do($task_id, $user_id, $level = 1) {
+        
+        $ci =& get_instance();
+        $ci->load->model('task_model');
+        
+        if ($ci->task_model->get_user_position((int)$task_id, $user_id) >= $level || 
+             $ci->ion_auth->in_group(array(1,2)) ||
+             $ci->task_model->is_owner((int)$task_id, (int)$user_id))
+                return true;
+        else 
+                return false;
+        
+    }
 }
 /* End of file rfk_task_helper.php */
 /* Location: ./application/helpers/rfk_task_helper.php */

@@ -583,14 +583,22 @@ class Tasks extends RF_BaseController {
         
     }
     
+    /**
+     * See if user have access to do something in task
+     * 
+     * @param int $task_id Task ID
+     * @param int $actual_user_id User ID
+     * @param int $level level to compare
+     * @return boolean
+     * @access private
+     * @uses RFK_Task_Helper Task Helper
+     */
     private function can_do($task_id, $actual_user_id, $level) {
         
-        if ($this->task_model->get_user_position((int)$task_id, $actual_user_id) >= $level || 
-             $this->ion_auth->in_group(array(1,2)) ||
-             $this->task_model->is_owner((int)$task_id, (int)$actual_user_id))
-                return true;
-        else 
-                return false;
+        $this->load->helper('rfk_task');
+        
+        return $this->rfk_task->can_do($task_id, $actual_user_id, $level);
+        
     }
 }
 

@@ -409,7 +409,7 @@ class Task_model extends CI_Model {
                                             ->get('tasks')
                                             ->row();
         
-        $project_id             = $project[0]->project_id;
+        $project_id             = $project->project_id;
         
         $this->load->model('project_model');
         $up                     = $this->project_model->get_user_position($project_id, $user_id);
@@ -433,7 +433,7 @@ class Task_model extends CI_Model {
         
         $task                   = $this->get_task($task_id, $user_id);
         
-        if ((int)$task['author_id'] === $user_id) {
+        if ((int)$task[0]['author_id'] === $user_id) {
             return true;
         }
         
