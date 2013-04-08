@@ -7,6 +7,15 @@
 * Description:  English language file for refreak layout
 *
 */
+/**
+ * Projects language
+ *
+ * @package	Refreak
+ * @subpackage	project
+ * @category	language
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 
 //Projects table
 $lang['projectstable_project']         = 'Project';
@@ -36,12 +45,12 @@ $lang['projectscrud_position']         = 'Position';
 $lang['projectscrud_action']           = 'Action';
 $lang['projectscrud_hidden_change']    = 'Change';
 $lang['projectscrud_save']             = 'Save Project';
+
+//messages
 $lang['projectsmessage_created']       = 'Project Created';
 $lang['projectsmessage_deleted']       = 'Project Deleted';
 $lang['projectsmessage_saved']         = 'Project Saved';
 $lang['projectsmessage_remove_user']            = 'really remove this user from the team?';
-$lang['projectsmessage_ajax_error_security']    = 'Error by security reasons';
-$lang['projectsmessage_ajax_error_server']      = 'Error on server side';
 $lang['projectsmessage_useradded']     = 'User added to project';
 $lang['projectsmessage_userremoved']   = 'User removed from project';
 $lang['projectsmessage_userchanged']   = 'User position changed';

@@ -96,14 +96,14 @@
                         else {
                             
                             me._executeCallBack('onDoneKo', res)
-                            $.boxes(tasksmessage_ajax_error_security);
+                            $.boxes(genmessage_ajax_error_security);
                             
                         }
 
                     }).fail(function(res) {
                         
                         me._executeCallBack('onFail', res),
-                        $.boxes(tasksmessage_ajax_error_server);
+                        $.boxes(genmessage_ajax_error_server);
                         
                     });
                 

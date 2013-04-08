@@ -1,12 +1,21 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
-* Name:  Users refreak - English
+* Name:  Tasks refreak - English
 *
 * Created:  10-10-2012
 *
 * Description:  English language file for refreak layout
 *
 */
+/**
+ * Tasks language
+ *
+ * @package	Refreak
+ * @subpackage	tasks
+ * @category	language
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 
 //Users table
 $lang['task_edit_priority']             = 'Priority';
@@ -39,8 +48,6 @@ $lang['task_list_no_task']              = 'no task match your criterions';
 $lang['task_list_create_task']          = 'Click here to make an attempt to create one';
 
 //messages
-$lang['tasksmessage_ajax_error_security']    = 'Error by security reasons';
-$lang['tasksmessage_ajax_error_server']      = 'Error on server side';
 $lang['tasksmessage_created']                = 'task created!';
 $lang['tasksmessage_updated']                = 'task updated!';
 $lang['tasksmessage_deleted']                = 'task deleted!';

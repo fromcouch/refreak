@@ -32,6 +32,7 @@ class RF_BaseController extends CI_Controller {
         }
 
         $this->lang->load('layout/header');
+        $this->lang->load('general');
         $this->load->model('user_model');
         $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form'));
         
@@ -64,6 +65,10 @@ class RF_BaseController extends CI_Controller {
         $this->data['user_projects']        = $this->user_model->get_projects_user($actual_user_id);
         $this->data['menu_left']            = $this->_create_left_menu($this->data['user_projects'], $params);
         $this->data['menu_right']           = $this->_create_right_menu($actual_user_id, $params, $selected_user, $selected_context);
+        
+        $this->data['js_vars'] .=         "\n" .
+                    'var genmessage_ajax_error_security    = "' . $this->lang->line('genmessage_ajax_error_security') . "\";\n" .
+                    'var genmessage_ajax_error_server    = "' . $this->lang->line('genmessage_ajax_error_server') . "\";\n";
         
         $this->javascript->js->script(base_url() . 'js/refreak.js');
         $this->css->add_style(base_url() . 'theme/default/css/refreak.css', 'core');

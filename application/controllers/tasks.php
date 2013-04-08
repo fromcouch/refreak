@@ -43,8 +43,6 @@ class Tasks extends RF_BaseController {
         $this->css->add_style(base_url() . 'theme/default/css/ui-widget.css', 'jquery.ui.regularize');
         
         $this->data['js_vars'] .=         "\n" .
-                    'var tasksmessage_ajax_error_security    = "' . $this->lang->line('tasksmessage_ajax_error_security') . "\";\n" .
-                    'var tasksmessage_ajax_error_server    = "' . $this->lang->line('tasksmessage_ajax_error_server') . "\";\n" .
                     'var tasksmessage_created    = "' . $this->lang->line('tasksmessage_created') . "\";\n" .
                     'var tasksmessage_updated    = "' . $this->lang->line('tasksmessage_updated') . "\";\n" .
                     'var tasksmessage_deleted    = "' . $this->lang->line('tasksmessage_deleted') . "\";\n" .
