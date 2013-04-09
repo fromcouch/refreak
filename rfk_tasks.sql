@@ -185,21 +185,17 @@ CREATE TABLE IF NOT EXISTS `rfk_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-ALTER TABLE `rfk_users` ADD `title` VARCHAR( 30 ) NULL ,
-ADD `country_id` INT NULL ,
-ADD `author_id` INT NOT NULL 
-
 --
 -- Volcado de datos para la tabla `rfk_users`
 --
 
-INSERT INTO `rfk_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '\0\0', 'administrator', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'admin@admin.com', '', NULL, NULL, NULL, 1268889823, 1359044134, 1, 'Admin', 'istrator', 'ADMIN', '0'),
-(2, '\0\0', 'manager', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'manager@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Man', 'ager', 'ADMIN', '0'),
-(3, '\0\0', 'developer', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'developer@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Dev', 'eloper', 'ADMIN', '0'),
-(4, '\0\0', 'guest', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'guest@admin.com', NULL, NULL, NULL, NULL, 1268889823, 1349952296, 1, 'Gu', 'est', 'ADMIN', '0'),
-(9, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test', '22ec042669afa1872ef9d81284fd92e046d5861d', NULL, 'test1@test.com', NULL, NULL, NULL, NULL, 1349948237, 1349948237, 1, 'test', 'test', 'ADMIN', NULL),
-(10, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test1', '11d2fd772ff974c0fbc172b9070e24499105959b', NULL, 'test@test.com', NULL, NULL, NULL, NULL, 1349948244, 1349948244, 1, 'test', 'test', 'ADMIN', NULL);
+INSERT INTO `rfk_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `author_id`) VALUES
+(1, '\0\0', 'administrator', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'admin@admin.com', '', NULL, NULL, NULL, 1268889823, 1359044134, 1, 'Admin', 'istrator', 'ADMIN', '0', 1),
+(2, '\0\0', 'manager', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'manager@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Man', 'ager', 'ADMIN', '0', 1),
+(3, '\0\0', 'developer', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'developer@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Dev', 'eloper', 'ADMIN', '0', 1),
+(4, '\0\0', 'guest', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'guest@admin.com', NULL, NULL, NULL, NULL, 1268889823, 1349952296, 1, 'Gu', 'est', 'ADMIN', '0', 1),
+(9, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test', '22ec042669afa1872ef9d81284fd92e046d5861d', NULL, 'test1@test.com', NULL, NULL, NULL, NULL, 1349948237, 1349948237, 1, 'test', 'test', 'ADMIN', NULL, 1),
+(10, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test1', '11d2fd772ff974c0fbc172b9070e24499105959b', NULL, 'test@test.com', NULL, NULL, NULL, NULL, 1349948244, 1349948244, 1, 'test', 'test', 'ADMIN', NULL, 1);
 
 -- --------------------------------------------------------
 
