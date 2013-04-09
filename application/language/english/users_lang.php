@@ -41,3 +41,5 @@ $lang['usersdetails_name']          = 'Name:';
 $lang['usersdetails_level']         = 'Level:';
 $lang['usersdetails_listproject']       = 'Project';
 $lang['usersdetails_listposition']      = 'Position';
+$lang['usersdetails_createdon']     = 'Created on ';
+$lang['usersdetails_createdonby']   = ' by ';

@@ -9,6 +9,12 @@
         
             echo form_open();
             echo form_fieldset($this->lang->line('usersdetails_personalinfo') . ' (' . $user->username . ') ' . $edit_button);?>
+        
+            <div align="right">
+                <small><?php echo $this->lang->line('usersdetails_createdon') . ' ' . 
+                           date('j M y') . $this->lang->line('usersdetails_createdonby') . ' user' ; ?></small>
+            </div>
+        
             <p>
                     <label><?php echo $this->lang->line('usersdetails_name'); ?> </label>
                     <?php echo $user->first_name . ' ' . $user->last_name;?>
