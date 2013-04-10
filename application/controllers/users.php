@@ -8,8 +8,10 @@
 class Users extends RF_BaseController {
    
     
-    public function __construct() {
-        parent::__construct();    
+    public function __construct() {        
+        parent::__construct();            
+        //$this->output->enable_profiler(TRUE);
+        
         $this->lang->load('users');
         $this->load->library('form_validation');
         
@@ -50,7 +52,8 @@ class Users extends RF_BaseController {
                     $additional_data = array(
                             'first_name' => $this->input->post('first_name'),
                             'last_name'  => $this->input->post('last_name'),
-                            'company'    => $this->input->post('company')
+                            'company'    => $this->input->post('company'),
+                            'author_id'  => $this->data['actual_user']->id
                     );
             }
             if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data, array($group)))
@@ -124,8 +127,9 @@ class Users extends RF_BaseController {
             $this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
             $this->form_validation->set_rules('last_name', 'Last Name', 'required|xss_clean');
             $this->form_validation->set_rules('company', 'Company Name', 'required|xss_clean');
+            $this->form_validation->set_rules('email', 'Email', 'required|xss_clean');
 
-            if ($this->input->post('id') && $this->input->post('first_name') && $this->input->post('password'))
+            if ($this->input->post('id') && $this->input->post('first_name'))
             {
                     // do we have a valid request?
                     if ($id != $this->input->post('id'))
@@ -138,6 +142,9 @@ class Users extends RF_BaseController {
                             'last_name'  => $this->input->post('last_name'),
                             'company'    => $this->input->post('company'),                            
                             'email'      => $this->input->post('email'),
+                            'title'      => $this->input->post('title'),
+                            'city'       => $this->input->post('city'),
+                            'country_id' => $this->input->post('country_id'),
                     );
 
                     //update the password if it was posted
@@ -169,6 +176,12 @@ class Users extends RF_BaseController {
             //pass the user to the view
             $this->data['user'] = $user;
 
+            $this->data['title'] = array(
+                    'name'  => 'title',
+                    'id'    => 'title',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('title', $user->title),
+            );
             $this->data['first_name'] = array(
                     'name'  => 'first_name',
                     'id'    => 'first_name',
@@ -203,6 +216,17 @@ class Users extends RF_BaseController {
                     'type'  => 'text',
                     'value' => $this->form_validation->set_value('email', $user->email),
             );
+            $this->data['city'] = array(
+                    'name'  => 'city',
+                    'id'    => 'city',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('city', $user->city),
+            );
+            $this->data['country'] = array(
+                    'name'  => 'country_id',                    
+                    'value' => $this->form_validation->set_value('country_id', $user->country_id),
+                    'data'  => $this->to_dropdown_array($this->user_model->get_country(), 'country_id', 'name')
+            );
             
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 
@@ -214,7 +238,8 @@ class Users extends RF_BaseController {
             if (!$id) $id = $this->data['actual_user']->id;
         
             //user to show
-            $user = $this->ion_auth->user($id)->row();
+            $user               = $this->ion_auth->user($id)->row();
+            $author             = $this->ion_auth->user($user->author_id)->row()->first_name;
             
             //load projects language, we need here.
             $this->lang->load('projects');
@@ -224,6 +249,7 @@ class Users extends RF_BaseController {
             
             //pass the user to the view
             $this->data['user']         = $user;
+            $this->data['author']       = $author;
             $this->data['user_groups']  = $this->ion_auth->get_users_groups($id)->result_object();
             $this->data['groups']       = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 

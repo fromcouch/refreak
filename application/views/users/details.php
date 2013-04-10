@@ -12,12 +12,13 @@
         
             <div align="right">
                 <small><?php echo $this->lang->line('usersdetails_createdon') . ' ' . 
-                           date('j M y') . $this->lang->line('usersdetails_createdonby') . ' user' ; ?></small>
+                                  date('j M y', $user->created_on) . $this->lang->line('usersdetails_createdonby') . 
+                                  ' ' . $author; ?></small>
             </div>
         
             <p>
                     <label><?php echo $this->lang->line('usersdetails_name'); ?> </label>
-                    <?php echo $user->first_name . ' ' . $user->last_name;?>
+                    <?php echo $user->title . ' ' . $user->first_name . ' ' . $user->last_name;?>
             </p>
 
             <p>

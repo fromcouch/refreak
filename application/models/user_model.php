@@ -48,6 +48,14 @@ class User_model extends CI_Model {
         
     }
     
+    public function get_country() {
+        
+        return $this->db->order_by('name')
+                        ->get('country')                        
+                        ->result_array();
+        
+    }
+    
 }
 
 ?>

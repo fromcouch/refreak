@@ -33,6 +33,11 @@ $lang['userscrud_createuser']       = 'Create User';
 $lang['userscrud_saveuser']         = 'Save User';
 $lang['userscrud_passwordchanging']         = 'Password:';
 $lang['userscrud_confirmpasschanging']      = 'Confirm Password:';
+$lang['userscrud_compulsory']       = 'Fields in <span class="compulsory">red</span> are compulsory.';
+$lang['userscrud_title']            = 'Title:';
+$lang['userscrud_titleexample']     = 'Mr. Mrs. Ms. Dr. Pr. etc...';
+$lang['userscrud_city']             = 'City:';
+$lang['userscrud_country']          = 'Country:';
 
 //details
 $lang['usersdetails_projects']      = 'Projects';

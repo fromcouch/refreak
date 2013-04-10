@@ -15,6 +15,11 @@ body {
     padding: 0px;
 }
 
+small {
+    color: #999999;
+    font-size: x-small;    
+}
+
 .head {        
     position: fixed;
     top: 0px; 
@@ -541,6 +546,14 @@ form p label {
         font-weight: bold;
 }
 
+form input.shortest[type=text] {
+        width: 50px;
+}
+
+form input.short[type=text]{
+        width: 250px;
+}
+
 form input[type=text] {
         width: 400px;
 }
@@ -556,6 +569,10 @@ form select {
 
 .password {
 	width: 150px;
+}
+
+.compulsory {
+  color: #CC0000;
 }
 /* end forms and edit pages */
 
