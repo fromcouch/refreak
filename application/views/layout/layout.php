@@ -39,9 +39,8 @@
 
         ?>
     </div>
-
     <footer class="footer">
-        
+        ReFreak! v0.1 Beta - Released on 2013-04-15
     </footer>
     <?php if (isset($script_foot)) echo $script_foot;?>
     <script type="text/javascript">

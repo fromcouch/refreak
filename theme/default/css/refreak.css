@@ -924,3 +924,18 @@ div.vmore .vhist td {
     display: none;
 }
 /* end task show panel */
+
+/* footer */
+
+.footer {
+    color: #666666;
+    font-family: Arial, Helvetica;
+    font-size: xx-small;
+    margin: 30px 0 100px;
+    text-align: center;
+}
+
+.footer a {
+    color: #666666;
+}
+/* end footer */
