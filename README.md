@@ -11,7 +11,7 @@ TODO
 ----
 
 ### Stage 1
-+ End task system.
++ ~~End task system.~~
     + ~~Show task pop up~~
     + ~~Order task grid~~
     + ~~Status javascript~~
@@ -21,9 +21,9 @@ TODO
     + ~~task delete show panel~~
 + ~~Refactor Ajax calls in jQuery plugins~~
 + Revise Code Comments
-+ Add author_id to user db table
-+ User Country
-+ User title
++ ~~Add author_id to user db table~~
++ ~~User Country~~
++ ~~User title~~
 + Add theme as a variable on code
 + Create config page
 + Desing login page

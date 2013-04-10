@@ -203,12 +203,14 @@ class Users extends RF_BaseController {
             $this->data['password'] = array(
                     'name' => 'password',
                     'id'   => 'password',
-                    'type' => 'password'
+                    'type' => 'password',
+                    'autocomplete'  => 'off'
             );
             $this->data['password_confirm'] = array(
                     'name' => 'password_confirm',
                     'id'   => 'password_confirm',
-                    'type' => 'password'
+                    'type' => 'password',
+                    'autocomplete'  => 'off'
             );
             $this->data['email'] = array(
                     'name'  => 'email',

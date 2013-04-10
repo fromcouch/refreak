@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `rfk_users` (
   `phone` varchar(20) DEFAULT NULL,
   `title` VARCHAR( 30 ) NULL ,
   `city` VARCHAR( 60 ) NULL ,
-  `country_id` INT NULL ,
+  `country_id` VARCHAR( 2 ) NULL ,
   `author_id` INT NOT NULL 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
