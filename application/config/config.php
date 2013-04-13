@@ -360,18 +360,6 @@ $config['proxy_ips'] = '';
 
 $config['javascript_location'] = 'js/jquery.min.js';
 $config['javascript_ajax_img'] = 'images/ajax-loader.gif';
-/*
- * NO ME GUSTA NADA!!!!!
- */
- spl_autoload_register(function ($class) {
-  if (strpos($class, 'RF_') !==  false)
-  {
-    if (file_exists($file = APPPATH . 'core/' . $class . EXT))
-    {
-      include $file;
-    }    
-  }
-});  
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

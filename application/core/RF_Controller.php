@@ -10,7 +10,7 @@
  * 
  * @todo change the way that ion_auth return data or write my own auth!
  */
-class RF_BaseController extends CI_Controller {
+class RF_Controller extends CI_Controller {
     
     public $data = array();
 

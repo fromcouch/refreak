@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Projects extends RF_BaseController {
+class Projects extends RF_Controller {
    
     
     public function __construct() {

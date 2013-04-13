@@ -8,7 +8,7 @@
  * @author	Víctor <victor@ebavs.net> fromcouch
  * @link	https://github.com/fromcouch/refreak
  */
-class Tasks extends RF_BaseController {
+class Tasks extends RF_Controller {
    
     /**
      * Constructor

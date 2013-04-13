@@ -5,7 +5,7 @@
  * 
  * @todo adjust permisions and redirect to correct place if fail!
  */
-class Users extends RF_BaseController {
+class Users extends RF_Controller {
    
     
     public function __construct() {        
