@@ -52,6 +52,12 @@ class Install {
         
     }
     
+    public function check_database_file() {
+        
+        return file_exists($this->config_dir . DIRECTORY_SEPARATOR . 'database.php');
+        
+    }
+    
     
 }
 

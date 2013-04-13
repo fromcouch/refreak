@@ -8,7 +8,11 @@
  * install!!!
  */
 include 'Install.php';
-print_r(new Install);
+$inst = new Install();
+
+$span_ok = '<span class="ok">OK</span>';
+$span_fail = '<span class="error">FAIL!</span>';
+$install = true;
 ?>
 <!doctype html>
 <html lang="en">
@@ -58,15 +62,98 @@ pre {
 </style>
 </head>
 <body>
-    <p align="center"><img src="../skins/redfreak/images/freak-logo.png" border="0" alt="TaskFreak!" /></p>
+    <p align="center"><img src="../skins/redfreak/images/freak-logo.png" border="0" alt="Refreak" /></p>
     <p align="center">
-        <a href="?action=1">Check install</a> |
+        <a href="#">Check install</a> |
         <a href="?action=2">README!</a> |
-        <a href="?action=5">Rights FAQ</a> |
-        <a href="?action=3">Change history</a> |
-        <a href="?action=4">Import data</a> |
-        <a href="http://forum.taskfreak.com/" target="_blank">Support</a>
+        <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Support</a>
     </p>
+    <div id="preview">
+        
+        <p>Check configuration files</p>
+        <ul>
+            <li>Check Refreak Config File
+                <?php 
+                if ($inst->check_refreak_file()) :
+                    echo $span_ok;
+                else :
+                    echo $span_fail;
+                endif;
+                ?>
+            </li>
+            
+            <li>Check Layout Config File
+                <?php 
+                if ($inst->check_layout_file()) :
+                    echo $span_ok;
+                else :
+                    echo $span_fail;
+                    $install = false;
+                endif;
+                ?>
+            </li>
+            
+            <li>Check Application Config File
+                <?php 
+                if ($inst->check_config_file()) :
+                    echo $span_ok;
+                else :
+                    echo $span_fail;
+                    $install = false;
+                endif;
+                ?>
+            </li>
+            
+            <li>Check Database Config File
+                <?php 
+                if ($inst->check_database_file()) :
+                    echo $span_ok;
+                else :
+                    echo $span_fail;
+                    $install = false;
+                endif;
+                ?>
+            </li>
+        </ul>
+        <?php
+            //check continue
+        ?>
+        <p>Check configuration</p>
+        <ul>
+            <li>Check Refreak Config File
+                <?php 
+                if ($inst->check_refreak_file()) :
+                    echo $span_ok;
+                else :
+                    echo $span_fail;
+                endif;
+                ?>
+            </li>
+            
+            <li>Check Layout Config File
+                <?php 
+                if ($inst->check_layout_file()) :
+                    echo $span_ok;
+                else :
+                    echo $span_fail;
+                    $install = false;
+                endif;
+                ?>
+            </li>
+            
+            <li>Check Application Config File
+                <?php 
+                if ($inst->check_config_file()) :
+                    echo $span_ok;
+                else :
+                    echo $span_fail;
+                    $install = false;
+                endif;
+                ?>
+            </li>
+        </ul>
+        
+    </div>
 </body>
 <?php
 
