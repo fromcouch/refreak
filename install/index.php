@@ -8,10 +8,9 @@
  * install!!!
  */
 include 'Install.php';
+include 'InstallDecorator.php';
 $inst = new Install();
 
-$span_ok = '<span class="ok">OK</span>';
-$span_fail = '<span class="error">FAIL!</span>';
 $install = true;
 ?>
 <!doctype html>
@@ -72,87 +71,13 @@ pre {
         
         <p>Check configuration files</p>
         <ul>
-            <li>Check Refreak Config File
-                <?php 
-                if ($inst->check_refreak_file()) :
-                    echo $span_ok;
-                else :
-                    echo $span_fail;
-                endif;
-                ?>
-            </li>
-            
-            <li>Check Layout Config File
-                <?php 
-                if ($inst->check_layout_file()) :
-                    echo $span_ok;
-                else :
-                    echo $span_fail;
-                    $install = false;
-                endif;
-                ?>
-            </li>
-            
-            <li>Check Application Config File
-                <?php 
-                if ($inst->check_config_file()) :
-                    echo $span_ok;
-                else :
-                    echo $span_fail;
-                    $install = false;
-                endif;
-                ?>
-            </li>
-            
-            <li>Check Database Config File
-                <?php 
-                if ($inst->check_database_file()) :
-                    echo $span_ok;
-                else :
-                    echo $span_fail;
-                    $install = false;
-                endif;
-                ?>
-            </li>
-        </ul>
-        <?php
-            //check continue
-        ?>
-        <p>Check configuration</p>
-        <ul>
-            <li>Check Refreak Config File
-                <?php 
-                if ($inst->check_refreak_file()) :
-                    echo $span_ok;
-                else :
-                    echo $span_fail;
-                endif;
-                ?>
-            </li>
-            
-            <li>Check Layout Config File
-                <?php 
-                if ($inst->check_layout_file()) :
-                    echo $span_ok;
-                else :
-                    echo $span_fail;
-                    $install = false;
-                endif;
-                ?>
-            </li>
-            
-            <li>Check Application Config File
-                <?php 
-                if ($inst->check_config_file()) :
-                    echo $span_ok;
-                else :
-                    echo $span_fail;
-                    $install = false;
-                endif;
-                ?>
-            </li>
-        </ul>
-        
+            <?php
+                echo InstallDecorator::show_li_element('Check Refreak Config File', $inst->check_refreak_file());
+                echo InstallDecorator::show_li_element('Check Layout Config File', $inst->check_layout_file());
+                echo InstallDecorator::show_li_element('Check Application Config File', $inst->check_config_file());
+                echo InstallDecorator::show_li_element('Check Database Config File', $inst->check_database_file());
+            ?>
+        </ul>        
     </div>
 </body>
 <?php

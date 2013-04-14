@@ -1,5 +1,8 @@
 <?php
 /**
+ * 11/04/2004
+ */
+/**
  * Install Class
  *
  * @package	Refreak
