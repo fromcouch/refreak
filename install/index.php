@@ -88,16 +88,24 @@ pre {
                     echo InstallDecorator::show_li_element('Check Database Parameters', $inst->check_database_parameters());
                 ?>
             </ul>
-            <p>Check database connection</p>
-            <ul>
-                <?php
-                    echo InstallDecorator::show_connection_state('Check Connection', $inst->check_connection(), $inst->connection_error);
-                ?>
-            </ul>
+            <?php if ($inst->can_be_installed) : ?>
+                <p>Check database connection</p>
+                <ul>
+                    <?php
+                        echo InstallDecorator::show_connection_state('Check Connection', $inst->check_connection(), $inst->connection_error);
+                    ?>
+                </ul>
+                <?php if ($inst->can_be_installed) : ?>
+                    <input type="button" value="Install" name="install_button" class="install_button" />
+                <?php else : ?>
+                    <p class="error">Can not continue without connecting to database</p>
+                <?php endif; ?>
+            <?php else : ?>
+                <p class="error">Can not continue tests without access to config or database parameters</p>
+            <?php endif; ?>
         <?php else : ?>
             <p class="error">Can not continue tests without access to config or database file</p>
         <?php endif; ?>
-        
     </div>
 </body>
 <?php
