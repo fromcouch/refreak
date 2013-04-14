@@ -77,7 +77,19 @@ pre {
                 echo InstallDecorator::show_li_element('Check Application Config File', $inst->check_config_file());
                 echo InstallDecorator::show_li_element('Check Database Config File', $inst->check_database_file());
             ?>
-        </ul>        
+        </ul>   
+        
+        <?php if ($inst->can_be_installed) : ?>
+            <p>Check database parameters</p>
+            <ul>
+                <?php
+                    
+                ?>
+            </ul>
+        <?php else : ?>
+            <p class="error">Can not continue tests without access to config or database file</p>
+        <?php endif; ?>
+        
     </div>
 </body>
 <?php

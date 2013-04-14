@@ -38,7 +38,7 @@ class Install {
     public $can_be_installed    = true;
     
     /**
-     * Config application
+     * Config application parameters
      * 
      * @var array 
      * @access protected
@@ -124,6 +124,46 @@ class Install {
         
     }
     
+    public function check_database_parameters() {
+        
+        if ($this->check_database_file()) {
+            
+            include $this->config_dir . DIRECTORY_SEPARATOR . 'database.php';
+            $this->rfk_db = $db[0];
+            
+            if (!empty($db[0]['hostname']) &&
+                !empty($db[0]['username']) &&
+                !empty($db[0]['password']) &&
+                !empty($db[0]['database']) &&
+                !empty($db[0]['dbprefix'])) {
+                
+                return TRUE;
+            }
+            
+        }
+        
+        return FALSE;
+        
+    }
+    
+    public function check_config_parameters() {
+        
+        if ($this->check_config_file()) {
+            
+            include $this->config_dir . DIRECTORY_SEPARATOR . 'config.php';
+            $this->rfk_db = $db[0];
+            
+            if (!empty($config['base_url'])) {
+                
+                return TRUE;
+                
+            }
+            
+        }
+        
+        return FALSE;
+        
+    }
     
 }
 
