@@ -17,6 +17,7 @@ class Install {
      * Actual directory 
      * 
      * @var string  
+     * @access public
      */
     public $actual_dir      = '';
     
@@ -24,9 +25,39 @@ class Install {
      * Config directory
      * 
      * @var string 
+     * @access public
      */
     public $config_dir      = '';
     
+    /**
+     * Determine if refreak can be installed or not
+     * 
+     * @var boolean
+     * @access public 
+     */
+    public $can_be_installed    = true;
+    
+    /**
+     * Config application
+     * 
+     * @var array 
+     * @access protected
+     */
+    protected $rfk_config       = null;
+    
+    /**
+     * Database parameters
+     * 
+     * @var array
+     * @access protected 
+     */
+    protected $rfk_db           = null;
+    
+    
+    
+    /**
+     * Constructor
+     */
     public function __construct() {
        
         // get actual dir
@@ -37,27 +68,59 @@ class Install {
         
     }
     
+    /**
+     * Check for layout config file
+     * 
+     * @return boolean
+     * @access public
+     */
     public function check_layout_file() {
         
         return file_exists($this->config_dir . DIRECTORY_SEPARATOR . 'layout.php');
         
     }
     
+    /**
+     * Check for refreak config file
+     * 
+     * @return boolean
+     * @access public
+     */
     public function check_refreak_file() {
         
         return file_exists($this->config_dir . DIRECTORY_SEPARATOR . 'refreak.php');
         
     }
     
+    /**
+     * Check for application config file
+     * 
+     * @return boolean
+     * @access public
+     */
     public function check_config_file() {
         
-        return file_exists($this->config_dir . DIRECTORY_SEPARATOR . 'config.php');
+        $config_exist = file_exists($this->config_dir . DIRECTORY_SEPARATOR . 'config.php');
+        
+        $this->can_be_installed = $this->can_be_installed && $config_exist;
+        
+        return $config_exist;
         
     }
     
+    /**
+     * Check for database config file
+     * 
+     * @return boolean
+     * @access public
+     */
     public function check_database_file() {
         
-        return file_exists($this->config_dir . DIRECTORY_SEPARATOR . 'database.php');
+        $db_exist = file_exists($this->config_dir . DIRECTORY_SEPARATOR . 'database.php');
+        
+        $this->can_be_installed = $this->can_be_installed && $db_exist;
+        
+        return $db_exist;
         
     }
     
