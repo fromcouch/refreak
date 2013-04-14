@@ -53,4 +53,5 @@ class InstallDecorator {
     
 }
 
-?>
+/* End of file InstallDecorator.php */
+/* Location: ./install/InstallDecorator.php */

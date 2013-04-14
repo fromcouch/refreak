@@ -64,4 +64,6 @@ class Install {
     
 }
 
-?>
+
+/* End of file Install.php */
+/* Location: ./install/Install.php */
