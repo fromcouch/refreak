@@ -83,7 +83,8 @@ pre {
             <p>Check database parameters</p>
             <ul>
                 <?php
-                    
+                    echo InstallDecorator::show_li_element('Check Config Parameters', $inst->check_config_parameters());
+                    echo InstallDecorator::show_li_element('Check Database Parameters', $inst->check_database_parameters());
                 ?>
             </ul>
         <?php else : ?>
