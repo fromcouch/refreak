@@ -38,14 +38,6 @@ class Install {
     public $can_be_installed    = true;
     
     /**
-     * Config application parameters
-     * 
-     * @var array 
-     * @access protected
-     */
-    protected $rfk_config       = null;
-    
-    /**
      * Database parameters
      * 
      * @var array
@@ -53,8 +45,9 @@ class Install {
      */
     protected $rfk_db           = null;
     
-    
-    
+    public $connection_error    = '';
+
+
     /**
      * Constructor
      */
@@ -66,6 +59,7 @@ class Install {
         //calculate config directory
         $this->config_dir = realpath($this->actual_dir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'application' . DIRECTORY_SEPARATOR . 'config');
         
+        define('BASEPATH','1');
     }
     
     /**
@@ -126,43 +120,68 @@ class Install {
     
     public function check_database_parameters() {
         
+        $db_param = FALSE;
+        
         if ($this->check_database_file()) {
             
-            include $this->config_dir . DIRECTORY_SEPARATOR . 'database.php';
-            $this->rfk_db = $db[0];
+            include ($this->config_dir . DIRECTORY_SEPARATOR . 'database.php');
+            $this->rfk_db = $db[$active_group];
             
-            if (!empty($db[0]['hostname']) &&
-                !empty($db[0]['username']) &&
-                !empty($db[0]['password']) &&
-                !empty($db[0]['database']) &&
-                !empty($db[0]['dbprefix'])) {
+            if (!empty($db[$active_group]['hostname']) &&
+                !empty($db[$active_group]['username']) &&
+                !empty($db[$active_group]['password']) &&
+                !empty($db[$active_group]['database']) &&
+                !empty($db[$active_group]['dbprefix'])) {
                 
-                return TRUE;
+                $db_param = TRUE;
             }
             
         }
         
-        return FALSE;
+        $this->can_be_installed = $this->can_be_installed && $db_param;
+        
+        return $db_param;
         
     }
     
     public function check_config_parameters() {
         
+        $config_param = FALSE;
+        
         if ($this->check_config_file()) {
             
-            include $this->config_dir . DIRECTORY_SEPARATOR . 'config.php';
-            $this->rfk_db = $db[0];
+            include($this->config_dir . DIRECTORY_SEPARATOR . 'config.php');
             
             if (!empty($config['base_url'])) {
                 
-                return TRUE;
+                $config_param = TRUE;
                 
             }
             
         }
         
-        return FALSE;
+        $this->can_be_installed = $this->can_be_installed && $config_param;
         
+        return $config_param;
+        
+    }
+    
+    public function check_connection() {
+        
+        $connection = FALSE;
+        
+        $con = mysqli_connect($this->rfk_db['hostname'], $this->rfk_db['username'], $this->rfk_db['password'], $this->rfk_db['database']);
+        
+        if (mysqli_connect_errno($con)) {
+            $this->connection_error = mysqli_connect_error();
+        } 
+        else { 
+            $connection = TRUE;
+        }
+        
+        $this->can_be_installed = $this->can_be_installed && $connection;
+        
+        return $connection;
     }
     
 }

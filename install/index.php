@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 /**
  * detect database configuration
  * detect dev/production
@@ -85,6 +86,12 @@ pre {
                 <?php
                     echo InstallDecorator::show_li_element('Check Config Parameters', $inst->check_config_parameters());
                     echo InstallDecorator::show_li_element('Check Database Parameters', $inst->check_database_parameters());
+                ?>
+            </ul>
+            <p>Check database connection</p>
+            <ul>
+                <?php
+                    echo InstallDecorator::show_connection_state('Check Connection', $inst->check_connection(), $inst->connection_error);
                 ?>
             </ul>
         <?php else : ?>

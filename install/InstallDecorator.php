@@ -51,6 +51,16 @@ class InstallDecorator {
             return $ret;
     }
     
+    public static function show_connection_state($title, $state, $error) {
+            
+            $ret        = '<li>' . $title . ' ';;
+            
+            $ret       .= $state ? self::$span_ok : $error . ' ' . self::$span_fail;
+            
+            $ret       .= '</li>';
+            
+            return $ret;
+    }
 }
 
 /* End of file InstallDecorator.php */
