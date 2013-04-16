@@ -43,10 +43,13 @@ class Install {
      * @var array
      * @access protected 
      */
-    public $rfk_db           = null;
+    public $rfk_db              = null;
     
     public $connection_error    = '';
 
+    public $mys                 = null;
+    
+    public $tables              = null;
 
     /**
      * Constructor
@@ -168,20 +171,33 @@ class Install {
     
     public function check_connection() {
         
-        $connection = FALSE;
+        $connection         = FALSE;
         
-        $con = mysqli_connect($this->rfk_db['hostname'], $this->rfk_db['username'], $this->rfk_db['password'], $this->rfk_db['database']);
+        $msi                = new mysqli($this->rfk_db['hostname'], $this->rfk_db['username'], $this->rfk_db['password'], $this->rfk_db['database']);
         
-        if (mysqli_connect_errno($con)) {
-            $this->connection_error = mysqli_connect_error();
+        if ($msi->connect_errno) {
+            $this->connection_error = $msi->connect_error;
         } 
         else { 
-            $connection = TRUE;
+            $connection     = TRUE;
+            $this->mys      = $msi;
+            $this->show_tables();
         }
         
         $this->can_be_installed = $this->can_be_installed && $connection;
         
         return $connection;
+    }
+    
+    private function show_tables() {
+        
+        $result             = $this->mys->query('SHOW TABLES');
+        
+        $this->tables       = array();
+        while ($row = $result->fetch_row()) {
+            $this->tables []= $row[0];
+        }
+         
     }
     
 }

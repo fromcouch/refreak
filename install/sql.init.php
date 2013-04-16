@@ -1,6 +1,6 @@
 <?php
 
-$pre        = $inst->rfk_db['prefix'];
+$pre        = $inst->rfk_db['dbprefix'];
 
 $sql_create_groups = "
         CREATE TABLE IF NOT EXISTS `{$pre}groups` (
@@ -8,7 +8,7 @@ $sql_create_groups = "
           `name` varchar(20) NOT NULL,
           `description` varchar(100) NOT NULL,
           PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;";
+        ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;";
 
 
 $sql_insert_groups = "
@@ -20,7 +20,7 @@ $sql_insert_groups = "
     
 
 $sql_create_country = "
-    CREATE TABLE `{$pre}country` (
+    CREATE TABLE IF NOT EXISTS `{$pre}country` (
         `country_id` char(2) NOT NULL default '',
         `name` varchar(100) NOT NULL default '',
         PRIMARY KEY  (`country_id`)
@@ -271,12 +271,12 @@ $sql_insert_country = "
     
 $sql_create_login_attempts = "
     CREATE TABLE IF NOT EXISTS `{$pre}login_attempts` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `ip_address` varbinary(16) NOT NULL,
-  `login` varchar(100) NOT NULL,
-  `time` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";    
+    `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+    `ip_address` varbinary(16) NOT NULL,
+    `login` varchar(100) NOT NULL,
+    `time` int(11) unsigned DEFAULT NULL,
+    PRIMARY KEY (`id`)
+  ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";    
     
 $sql_insert_login_attempts = "";
 
@@ -287,7 +287,7 @@ $sql_create_projects = "
         `name` varchar(30) NOT NULL,
         `description` text NOT NULL,
         PRIMARY KEY (`project_id`)
-      ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;";
+      ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;";
 
 
 $sql_insert_projects = "
@@ -318,7 +318,7 @@ $sql_create_users = "
         `country_id` VARCHAR( 2 ) NULL ,
         `author_id` INT NOT NULL 
         PRIMARY KEY (`id`)
-      ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+      ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 
 $sql_insert_users = "
@@ -337,7 +337,7 @@ $sql_create_users_groups = "
       `user_id` mediumint(8) unsigned NOT NULL,
       `group_id` mediumint(8) unsigned NOT NULL,
       PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+    ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 
 $sql_insert_users_groups = "    
@@ -357,7 +357,7 @@ $sql_create_project_status = "
     `status_id` int(11) NOT NULL,
     `user_id` int(11) NOT NULL,
     PRIMARY KEY (`project_status_id`)
-  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+  ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 
 $sql_insert_project_status = "
@@ -382,6 +382,33 @@ $sql_create_tasks = "
         `author_id` int(11) NOT NULL,
         `modified_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
         PRIMARY KEY (`task_id`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+      ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 $sql_insert_tasks = "";
+
+$sql_create_tasks_comment = "
+    CREATE TABLE IF NOT EXISTS `{$pre}task_comment` (
+        `task_comment_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `task_id` int(10) unsigned NOT NULL DEFAULT '0',
+        `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+        `post_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+        `comment` text NOT NULL,
+        `last_change_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+        PRIMARY KEY (`task_comment_id`),
+        KEY `taskId` (`task_id`)
+      ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+
+$sql_insert_tasks_comment = "";
+
+
+$sql_create_tasks_status = "
+    CREATE TABLE IF NOT EXISTS `{$pre}task_status` (
+    `task_status_id` int(11) NOT NULL AUTO_INCREMENT,
+    `task_id` int(11) NOT NULL,
+    `status_date` datetime NOT NULL,
+    `status` smallint(6) NOT NULL,
+    `user_id` int(11) NOT NULL,
+    PRIMARY KEY (`task_status_id`)
+  ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+
+$sql_insert_tasks_status = "";
