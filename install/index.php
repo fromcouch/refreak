@@ -108,7 +108,3 @@ pre {
         <?php endif; ?>
     </div>
 </body>
-<?php
-
-
-?>

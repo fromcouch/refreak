@@ -43,7 +43,7 @@ class Install {
      * @var array
      * @access protected 
      */
-    protected $rfk_db           = null;
+    public $rfk_db           = null;
     
     public $connection_error    = '';
 
