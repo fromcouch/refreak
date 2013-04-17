@@ -35,7 +35,7 @@ big {
 td input {
     width: 120px;
 }
-#preview {
+.preview {
     position: relative;
     left: 50%;
     width: 700px;
@@ -68,7 +68,7 @@ pre {
         <a href="?action=2">README!</a> |
         <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Support</a>
     </p>
-    <div id="preview">
+    <div class="preview">
         
         <p>Check configuration files</p>
         <ul>
@@ -95,7 +95,7 @@ pre {
                         echo InstallDecorator::show_connection_state('Check Connection', $inst->check_connection(), $inst->connection_error);
                     ?>
                 </ul>
-                <?php if ($inst->can_be_installed) : ?>
+                <?php if ($inst->can_be_installed) : ?>                    
                     <input type="button" value="Install" name="install_button" class="install_button" />
                 <?php else : ?>
                     <p class="error">Can not continue without connecting to database</p>

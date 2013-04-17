@@ -41,14 +41,30 @@ class Install {
      * Database parameters
      * 
      * @var array
-     * @access protected 
+     * @access public
      */
     public $rfk_db              = null;
     
+    /**
+     * Conection error Message
+     * 
+     * @var string 
+     * @access public
+     */
     public $connection_error    = '';
 
+    /**
+     * MySQLi Connection
+     * 
+     * @var object 
+     */
     public $mys                 = null;
     
+    /**
+     * Array of existing Tables
+     * 
+     * @var array
+     */
     public $tables              = null;
 
     /**
