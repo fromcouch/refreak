@@ -10,7 +10,6 @@ Actually I'm in development stage.
 TODO
 ----
 
-
 ### Stage 1
 + ~~End task system.~~
     + ~~Show task pop up~~
