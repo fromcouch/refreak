@@ -27,7 +27,7 @@ TODO
 + Add theme as a variable on code
 + Create config page
 + Desing login page
-+ Installer
++ ~~Installer~~
 
 ### Stage 2
 + Import on Install tasks from TF
