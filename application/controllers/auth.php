@@ -1,8 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-
+/**
+ * Authorization Controller
+ *
+ * @package	Refreak
+ * @subpackage	security
+ * @category	controller
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 class Auth extends CI_Controller {
 
-	function __construct()
+        /**
+         * Constructor
+         */
+	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('ion_auth');
@@ -19,8 +30,13 @@ class Auth extends CI_Controller {
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 	}
 
-	//redirect if needed, otherwise display the user list
-	function index()
+        /**
+         * redirect if needed, otherwise display the user list 
+         * 
+         * @return void
+         * @access public
+         */
+	public function index()
 	{
 
 		if (!$this->ion_auth->logged_in())
@@ -50,8 +66,13 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	//log the user in
-	function login()
+        /**
+         * log the user in
+         * 
+         * @return void
+         * @access public 
+         */
+	public function login()
 	{
                 
 		$this->data['title'] = "Login";
@@ -103,8 +124,13 @@ class Auth extends CI_Controller {
                                                 
 	}
 
-	//log the user out
-	function logout()
+        /**
+         * log the user out
+         * 
+         * @return void 
+         * @access public
+         */
+	public function logout()
 	{
 		$this->data['title'] = "Logout";
 
@@ -116,8 +142,13 @@ class Auth extends CI_Controller {
 		redirect('auth/login', 'refresh');
 	}
 
-	//change password
-	function change_password()
+        /**
+         * Change password page
+         * 
+         * @return void
+         * @access public
+         */
+	public function change_password()
 	{
 		$this->form_validation->set_rules('old', 'Old password', 'required');
 		$this->form_validation->set_rules('new', 'New Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
@@ -184,8 +215,13 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	//forgot password
-	function forgot_password()
+        /**
+         * forgot password 
+         * 
+         * @return void
+         * @access public
+         */
+	public function forgot_password()
 	{
 		$this->form_validation->set_rules('email', 'Email Address', 'required');
 		if ($this->form_validation->run() == false)
@@ -219,7 +255,13 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	//reset password - final step for forgotten password
+        /**
+         * reset password - final step for forgotten password 
+         * 
+         * @param string $code Code was send by email
+         * @access public
+         * @return void
+         */
 	public function reset_password($code = NULL)
 	{
 		if (!$code)
@@ -376,7 +418,7 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	function _get_csrf_nonce()
+	private function _get_csrf_nonce()
 	{
 		$this->load->helper('string');
 		$key   = random_string('alnum', 8);
@@ -387,7 +429,7 @@ class Auth extends CI_Controller {
 		return array($key => $value);
 	}
 
-	function _valid_csrf_nonce()
+	private function _valid_csrf_nonce()
 	{
 		if ($this->input->post($this->session->flashdata('csrfkey')) !== FALSE &&
 			$this->input->post($this->session->flashdata('csrfkey')) == $this->session->flashdata('csrfvalue'))
@@ -401,3 +443,5 @@ class Auth extends CI_Controller {
 	}
 
 }
+/* End of file auth.php */
+/* Location: ./application/controllers/auth.php */

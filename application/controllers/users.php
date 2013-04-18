@@ -1,13 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 /***
  * Controller Users
  * 
  * @todo adjust permisions and redirect to correct place if fail!
  */
+/**
+ * Users Controller
+ *
+ * @package	Refreak
+ * @subpackage	users
+ * @category	controller
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 class Users extends RF_Controller {
    
-    
+    /**
+     * Constructor
+     */
     public function __construct() {        
         parent::__construct();            
         //$this->output->enable_profiler(TRUE);
@@ -20,6 +30,12 @@ class Users extends RF_Controller {
 
     }
 
+    /**
+     * List Users
+     * 
+     * @return void 
+     * @access public
+     */
     public function index()
     {
         
@@ -28,8 +44,10 @@ class Users extends RF_Controller {
     }
         
     /**
-     * create a new user
-     * @todo save user author
+     * Show And Process Create User Form and Creates a new user
+     * 
+     * @return void
+     * @access public
      */
     public function create_user()
     {
@@ -112,10 +130,12 @@ class Users extends RF_Controller {
     }
 
     /**
-     * edit user
+     * Show And Process Edit User Form
      * 
      * @param int $id user id
      * @todo show user author
+     * @return void
+     * @access public
      */
     public function edit_user($id = false)
     {            
@@ -234,7 +254,15 @@ class Users extends RF_Controller {
 
             $this->load->view('auth/edit_user', $this->data);
     }
-    //edit a user
+    
+    
+    /**
+     * Show User Details Page
+     * 
+     * @param int $id User ID
+     * @return void
+     * @access public
+     */
     public function details($id = false)
     {            
             if (!$id) $id = $this->data['actual_user']->id;
@@ -258,6 +286,13 @@ class Users extends RF_Controller {
             $this->load->view('users/details', $this->data);
     }
     
+    /**
+     * Delete User
+     * 
+     * @param int $id User to delete
+     * @return void
+     * @access public
+     */
     public function delete_user($id) {
         
         if ($this->ion_auth->is_admin() && !empty($id) && $id != false && !is_null($id)) {
@@ -269,6 +304,13 @@ class Users extends RF_Controller {
         
     }
 
+    /**
+     * Activate User
+     * 
+     * @param int $id User Id to activate
+     * @return void
+     * @access public
+     */
     public function activate($id) {
                                
         if ($this->ion_auth->is_admin()) {
@@ -290,7 +332,13 @@ class Users extends RF_Controller {
             
     }
     
-    //deactivate the user
+    /**
+     * Deactivate User
+     * 
+     * @param int $id User Id to deactivate
+     * @return void
+     * @access public
+     */    
     function deactivate($id)
     {
             

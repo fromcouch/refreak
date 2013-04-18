@@ -1,8 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/**
+ * Projects Controller
+ *
+ * @package	Refreak
+ * @subpackage	project
+ * @category	controller
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 class Projects extends RF_Controller {
    
-    
+    /**
+     * Constructor
+     * 
+     */
     public function __construct() {
         parent::__construct();        
         //$this->output->enable_profiler(TRUE);
@@ -12,6 +23,12 @@ class Projects extends RF_Controller {
         $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
     }
 
+    /**
+     * List projects 
+     * 
+     * @return void 
+     * @access public
+     */
     public function index()
     {
         $this->load->database();
@@ -22,6 +39,12 @@ class Projects extends RF_Controller {
         $this->load->view('projects/projects', $this->data);        
     }
 
+    /**
+     * Create Project Show and Process Form
+     * 
+     * @return void
+     * @access public
+     */
     public function create()
     {
         if ($this->ion_auth->in_group(array(1,2))) {
@@ -71,8 +94,11 @@ class Projects extends RF_Controller {
     
     /**
      * Edit Project
+     * 
      * @param int $id project id
      * @todo status history
+     * @return void 
+     * @access public
      */
     public function edit($id)
     {
@@ -168,6 +194,14 @@ class Projects extends RF_Controller {
         
     }
     
+    
+    /**
+     * Delete project
+     * 
+     * @param int $project_id Project ID
+     * @return void 
+     * @access public
+     */    
     public function delete($project_id) {
         
         if ($this->ion_auth->is_admin()) {
@@ -181,6 +215,12 @@ class Projects extends RF_Controller {
         }
     }
     
+    /**
+     * Response to Add User to project Ajax Call
+     * 
+     * @return void 
+     * @access public
+     */
     public function add_user_project() {
         
         if ($this->input->is_ajax_request() && $this->input->post('project_id') && $this->input->post('user_id') && $this->input->post('position'))
@@ -201,6 +241,13 @@ class Projects extends RF_Controller {
         
     }
     
+    /**
+     * Remove User From Project
+     * Is Response from Ajax call
+     * 
+     * @return void 
+     * @access public
+     */
     public function remove_user_project() {
         
         if ($this->input->is_ajax_request() && $this->input->post('project_id') && $this->input->post('user_id'))
@@ -220,6 +267,14 @@ class Projects extends RF_Controller {
         
     }
 
+    
+    /**
+     * Change user position in Project
+     * Is Response from Ajax call
+     * 
+     * @return void 
+     * @access public 
+     */
     public function change_user_position() {
         
         if ($this->input->is_ajax_request() && $this->input->post('project_id') && $this->input->post('user_id') && $this->input->post('position'))
@@ -240,6 +295,5 @@ class Projects extends RF_Controller {
         
     }
 }
-
 /* End of file projects.php */
 /* Location: ./application/controllers/projects.php */
