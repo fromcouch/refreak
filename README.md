@@ -47,5 +47,5 @@ Parameters for database configuration are in:
 
     application/config/database.php
 
-You only need configure hostname, username, password and database parameters.
-Then access to www.yourdomain.com/install and click Install button.
+You only need configure hostname, username, password and database parameters inside database.php. Save it and 
+then access to www.yourdomain.com/install and click Install button.
