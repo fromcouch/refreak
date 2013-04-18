@@ -1,14 +1,6 @@
 <?php
 use \Michelf\Markdown;
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-/**
- * detect database configuration
- * detect dev/production
- * detect connection to database
- * 
- * install!!!
- */
+
 include 'Install.php';
 include 'InstallDecorator.php';
 include 'Markdown.php';

@@ -27,6 +27,8 @@ TODO
 + Add theme as a variable on code
 + Create config page
 + Desing login page
++ Users Account is Enabled
++ Reload Icon
 + ~~Installer~~
 
 ### Stage 2
@@ -35,6 +37,15 @@ TODO
     + Pluginize Controlers and models
     + Decorators for views
     + Pluginize JS
-
++ Printing Version
 
 Please, feel free to add issue or comment.
+
+INSTALL
+=======
+Parameters for database configuration are in:
+
+    application/config/database.php
+
+You only need configure hostname, username, password and database parameters.
+Then access to www.yourdomain.com/install and click Install button.
