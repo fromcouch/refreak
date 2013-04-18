@@ -316,7 +316,7 @@ $sql_create_users = "
         `title` VARCHAR( 30 ) NULL ,
         `city` VARCHAR( 60 ) NULL ,
         `country_id` VARCHAR( 2 ) NULL ,
-        `author_id` INT NOT NULL 
+        `author_id` INT NOT NULL ,
         PRIMARY KEY (`id`)
       ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
@@ -380,7 +380,7 @@ $sql_create_tasks = "
         `private` tinyint(1) NOT NULL,
         `user_id` int(11) NOT NULL,
         `author_id` int(11) NOT NULL,
-        `modified_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+        `modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (`task_id`)
       ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
@@ -412,3 +412,21 @@ $sql_create_tasks_status = "
   ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 $sql_insert_tasks_status = "";
+
+
+$sql_create_user_project = "
+    CREATE TABLE IF NOT EXISTS `{$pre}user_project` (
+      `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+      `project_id` int(10) unsigned NOT NULL DEFAULT '0',
+      `position` tinyint(3) unsigned NOT NULL DEFAULT '0',
+      PRIMARY KEY (`user_id`,`project_id`)
+    ) DEFAULT CHARSET=utf8;";
+    
+$sql_insert_user_project = "    
+        INSERT INTO `{$pre}user_project` (`user_id`, `project_id`, `position`) VALUES
+        (1, 1, 5),
+        (1, 2, 5),
+        (2, 1, 3),
+        (3, 1, 3),
+        (3, 2, 2);";
+    

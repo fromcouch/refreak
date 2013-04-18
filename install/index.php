@@ -79,6 +79,7 @@ pre {
         switch ($act) {
             case 1: 
                 $inst->check_database_parameters();
+                $inst->check_connection();
                 include_once 'sql.init.php'; ?>
         
                 <p>Creating Tables</p>
@@ -89,6 +90,7 @@ pre {
                         echo InstallDecorator::show_li_element('Creating Login Attempts Table', $inst->install_table($sql_create_login_attempts));
                         echo InstallDecorator::show_li_element('Creating Projects Table', $inst->install_table($sql_create_projects));
                         echo InstallDecorator::show_li_element('Creating Users Table', $inst->install_table($sql_create_users));
+                        echo InstallDecorator::show_li_element('Creating User Project Table', $inst->install_table($sql_create_user_project));
                         echo InstallDecorator::show_li_element('Creating Users Groups Table', $inst->install_table($sql_create_users_groups));
                         echo InstallDecorator::show_li_element('Creating Project Status Table', $inst->install_table($sql_create_project_status));
                         echo InstallDecorator::show_li_element('Creating Tasks Table', $inst->install_table($sql_create_tasks));
@@ -103,6 +105,7 @@ pre {
                         echo InstallDecorator::show_li_element('Import Groups Data', $inst->install_table($sql_insert_groups));                        
                         echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_insert_projects));
                         echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_insert_users));
+                        echo InstallDecorator::show_li_element('Import Users Project Data', $inst->install_table($sql_insert_user_project));
                         echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_insert_users_groups));
                         echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_insert_project_status));                        
                     ?>
