@@ -599,7 +599,7 @@
 
                         });
                         
-                        this._("tbody").on("click", "tr", function (  ) {
+                        this._("tbody").on("click", "tr:not('.nothanks')", function (  ) {
 
                                 me.showtask( this, {} );
 

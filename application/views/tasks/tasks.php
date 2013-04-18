@@ -89,7 +89,7 @@
                             <tr class="nothanks">
                                 <td colspan="14">
                                     <p>&nbsp;</p>
-                                    <p align="center">- <?php echo $this->lang->line('task_list_comments'); ?> -</p>
+                                    <p align="center">- <?php echo $this->lang->line('task_list_no_task'); ?> -</p>
                                     <?php
                                         if ($this->ion_auth->in_group(array(1,2))) :
                                             ?>

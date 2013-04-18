@@ -38,10 +38,10 @@
             echo $content_layout;
 
         ?>
-    </div>
-    <footer class="footer">
-        ReFreak! v0.1 Beta - Released on 2013-04-15
-    </footer>
+        <footer class="footer">
+            Refreak! v0.1 Beta - 2013-04-18 - <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Visit on Github</a>
+        </footer>
+    </div>    
     <?php if (isset($script_foot)) echo $script_foot;?>
     <script type="text/javascript">
         (function($){

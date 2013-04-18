@@ -112,6 +112,49 @@
             this.init( options );
     }
     
+    $.clock = function( options ) {
+
+            var me = this;
+            
+            var clk_date = new Date();
+            var clk_start = 0;
+
+            var defaults = {
+                class: ".userdate"
+            };
+            
+            this.settings = {};
+            
+
+            this.show_date = function ( opt ) {
+                    clk_date = new Date();
+                    if (clk_date.getSeconds() == 0) { // every minute
+                            clk_intvl = clk_date.getTime() - clk_start;
+                            if (frk_reload && (clk_intvl > (frk_reload * 60000))) {
+                                    try {
+                                            //reload
+                                    } catch (e) {}
+                            }
+                    }
+                    str = clk_date.toLocaleString();
+                    $(opt.class).html(str);
+                    
+            };
+
+            this.init = function ( options ) {
+                
+                    options = ((typeof options) == "string" ? {message: options} : options);
+
+                    me.settings = $.extend({}, defaults, options);
+                
+                    clk_date = new Date();
+                    clk_start = clk_date.getTime();
+                    me.show_date( me.settings );
+            };
+
+            this.init( options );       
+    };
     
-       
+    window.setInterval("$.clock( { class: '.userdate' } )",1000);
+    
 })( jQuery );

@@ -110,8 +110,9 @@ pre {
                         echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_insert_project_status));                        
                     ?>
                 </ul>
-                <p>
-                    Remember user are admin@admin.com with word password as password.
+                <p align="center">
+                    Remember, user are admin@admin.com with word password as password.<br>
+                    <a href="../">Go to Refreak</a>
                 </p>
             <?php
                 break;
