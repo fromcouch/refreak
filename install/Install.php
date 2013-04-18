@@ -216,8 +216,13 @@ class Install {
          
     }
     
+    public function install_table($sql) {
+        
+        return (bool)$this->mys->query($sql);
+        
+    }
+    
 }
-
 
 /* End of file Install.php */
 /* Location: ./install/Install.php */

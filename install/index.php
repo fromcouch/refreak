@@ -68,7 +68,7 @@ pre {
 <body>
     <p align="center"><img src="../skins/redfreak/images/freak-logo.png" border="0" alt="Refreak" /></p>
     <p align="center">
-        <a href="#">Check install</a> |
+        <a href="index.php">Check install</a> |
         <a href="?act=2">README!</a> |
         <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Support</a>
     </p>
@@ -77,8 +77,41 @@ pre {
         <?php 
                 
         switch ($act) {
-            case 1:
-                // install tables here
+            case 1: 
+                $inst->check_database_parameters();
+                include_once 'sql.init.php'; ?>
+        
+                <p>Creating Tables</p>
+                <ul>
+                    <?php
+                        echo InstallDecorator::show_li_element('Creating Country Table', $inst->install_table($sql_create_country));
+                        echo InstallDecorator::show_li_element('Creating Groups Table', $inst->install_table($sql_create_groups));
+                        echo InstallDecorator::show_li_element('Creating Login Attempts Table', $inst->install_table($sql_create_login_attempts));
+                        echo InstallDecorator::show_li_element('Creating Projects Table', $inst->install_table($sql_create_projects));
+                        echo InstallDecorator::show_li_element('Creating Users Table', $inst->install_table($sql_create_users));
+                        echo InstallDecorator::show_li_element('Creating Users Groups Table', $inst->install_table($sql_create_users_groups));
+                        echo InstallDecorator::show_li_element('Creating Project Status Table', $inst->install_table($sql_create_project_status));
+                        echo InstallDecorator::show_li_element('Creating Tasks Table', $inst->install_table($sql_create_tasks));
+                        echo InstallDecorator::show_li_element('Creating Tasks Comments Table', $inst->install_table($sql_create_tasks_comment));
+                        echo InstallDecorator::show_li_element('Creating Tasks Status Table', $inst->install_table($sql_create_tasks_status));
+                    ?>
+                </ul>
+                <p>Importing Basic Data</p>
+                <ul>
+                    <?php
+                        echo InstallDecorator::show_li_element('Import Country Data', $inst->install_table($sql_insert_country));
+                        echo InstallDecorator::show_li_element('Import Groups Data', $inst->install_table($sql_insert_groups));                        
+                        echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_insert_projects));
+                        echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_insert_users));
+                        echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_insert_users_groups));
+                        echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_insert_project_status));                        
+                    ?>
+                </ul>
+                <p>
+                    Remember user are admin@admin.com with word password as password.
+                </p>
+            <?php
+                break;
             
             case 2: 
                 $text = file_get_contents('../README.md');
@@ -123,19 +156,20 @@ pre {
                     <?php endif; ?>
                 <?php else : ?>
                     <p class="error">Can not continue tests without access to config or database file</p>
-                <?php endif; ?>        
+                <?php endif; ?>    
+                    
+                    <script type="text/javascript">
+                        (function () {
+                            var ib = document.querySelector(".install_button");
+                            ib.addEventListener("click", function() {
+                                window.location.href="?act=1";
+                            }, false);
+                        })();
+                    </script>    
             <?php   
                 break;
         } ?>     
         
     </div>
-<script type="text/javascript">
-    (function () {
-        var ib = document.querySelector(".install_button");
-        ib.addEventListener("click", function() {
-            window.location.href="?act=1";
-        }, false);
-    })();
-</script>    
 </body>
 </html>
