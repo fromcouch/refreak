@@ -121,7 +121,7 @@
             var clk_date = new Date();            
 
             var defaults = {
-                class: ".userdate"
+                class_name: ".userdate"
             };
             
             this.settings = {};
@@ -133,7 +133,7 @@
                      * @todo reload page every hour???
                      */
                     str = clk_date.toLocaleString();
-                    $(opt.class).html(str);
+                    $(opt.class_name).html(str);
                     
             };
 
@@ -150,6 +150,6 @@
             this.init( options );       
     };
     
-    window.setInterval("$.clock( { class: '.userdate' } )",1000);
+    window.setInterval("$.clock( { class_name: '.userdate' } )",1000);
     
 })( jQuery );
