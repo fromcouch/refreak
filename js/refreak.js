@@ -56,10 +56,11 @@
                 type: "POST",
                 dataType: "json",
                 url: null,
+                async: false,
                 data: {},
                 onDone: null,
                 onDoneKo: null,
-                onFail: null
+                onFail: null                
             };
             
             this.settings = {};
@@ -86,7 +87,8 @@
                         type:       me.settings.type,
                         url:        me.settings.url,
                         dataType:   me.settings.dataType,
-                        data:       me.settings.data
+                        data:       me.settings.data,
+                        async:      me.settings.async,
                     }).done(function(res) {
                         if (res.response === "rfk_ok") {
                             
@@ -116,8 +118,7 @@
 
             var me = this;
             
-            var clk_date = new Date();
-            var clk_start = 0;
+            var clk_date = new Date();            
 
             var defaults = {
                 class: ".userdate"
@@ -142,8 +143,7 @@
 
                     me.settings = $.extend({}, defaults, options);
                 
-                    clk_date = new Date();
-                    clk_start = clk_date.getTime();
+                    clk_date = new Date();                    
                     me.show_date( me.settings );
             };
 

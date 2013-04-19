@@ -21,7 +21,7 @@ TODO
 + Reload Icon
 + Solve Bugs
     + Show task without project fail
-    + js problem with clock and closures
+    + ~~js problem with clock and closures~~
 
 ### Stage 2
 + Import on Install tasks from TF

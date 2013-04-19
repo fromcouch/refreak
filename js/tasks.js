@@ -75,6 +75,7 @@
                         $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/get_users_from_project/",
+                            async:      true,
                             data:       {
                                             project_id: $(obj).val()
                                         },
@@ -123,6 +124,7 @@
                                         
                                         if (res.tid > 0) {
                                             $.boxes(tasksmessage_updated);
+                                            document.location.reload();
                                         }
                                         else {
                                             $.boxes(tasksmessage_created);
