@@ -12,25 +12,16 @@ TODO
 
 
 ### Stage 1
-+ ~~End task system.~~
-    + ~~Show task pop up~~
-    + ~~Order task grid~~
-    + ~~Status javascript~~
-    + ~~task permissions~~
-    + ~~close/end task~~
-    + ~~task table comments~~
-    + ~~task delete show panel~~
-+ ~~Refactor Ajax calls in jQuery plugins~~
+
 + Revise Code Comments
-+ ~~Add author_id to user db table~~
-+ ~~User Country~~
-+ ~~User title~~
 + Add theme as a variable on code
 + Create config page
 + Desing login page
 + Users Account is Enabled
 + Reload Icon
-+ ~~Installer~~
++ Solve Bugs
+    + Show task without project fail
+    + js problem with clock and closures
 
 ### Stage 2
 + Import on Install tasks from TF

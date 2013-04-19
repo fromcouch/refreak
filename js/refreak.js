@@ -110,7 +110,7 @@
             };
             
             this.init( options );
-    }
+    };
     
     $.clock = function( options ) {
 
@@ -128,14 +128,9 @@
 
             this.show_date = function ( opt ) {
                     clk_date = new Date();
-                    if (clk_date.getSeconds() == 0) { // every minute
-                            clk_intvl = clk_date.getTime() - clk_start;
-                            if (frk_reload && (clk_intvl > (frk_reload * 60000))) {
-                                    try {
-                                            //reload
-                                    } catch (e) {}
-                            }
-                    }
+                    /**
+                     * @todo reload page every hour???
+                     */
                     str = clk_date.toLocaleString();
                     $(opt.class).html(str);
                     
