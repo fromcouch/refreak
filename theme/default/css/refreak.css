@@ -45,6 +45,8 @@ small {
     left: 1%;
     top: 65px;
     width: 98%;
+    display: block;
+    min-height: 100px;
 }
 
 .user {
@@ -931,7 +933,7 @@ div.vmore .vhist td {
     color: #666666;
     font-family: Arial, Helvetica;
     font-size: xx-small;
-    margin: 30px 0 100px;
+    margin: 100px 0 100px;
     text-align: center;
 }
 
