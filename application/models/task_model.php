@@ -415,9 +415,9 @@ class Task_model extends CI_Model {
         $up                     = $this->project_model->get_user_position($project_id, $user_id);
         
         if (count($up) > 0)
-            return 0;
-        else
             return $up[0]->position;
+        else
+            return 0;
         
     }
     
