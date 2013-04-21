@@ -19,7 +19,7 @@
         <header class="header">
             <div class="userlogout">
                 <a href="<?php echo site_url();?>/auth/logout" title="<?php echo $this->lang->line('header_logout'); ?>">
-                    <img class="header-logout" src="<?php echo base_url();?>theme/default/images/logout-off.png" width="13" height="13" border="0" onmouseover="this.src='<?php echo base_url();?>theme/default/images/logout-on.png'" onmouseout="this.src='<?php echo base_url();?>theme/default/images/logout-off.png'" />
+                    <img class="header-logout" src="<?php echo base_url() . $theme;?>/images/logout-off.png" width="13" height="13" border="0" onmouseover="this.src='<?php echo base_url() . $theme;?>/images/logout-on.png'" onmouseout="this.src='<?php echo base_url() . $theme;?>/images/logout-off.png'" />
                 </a>
             </div>
             <div class="user">

@@ -40,7 +40,7 @@ class Tasks extends RF_Controller {
         $this->css->add_style(base_url() . 'js/ui/themes/base/jquery.ui.theme.css', 'jquery.ui.theme');
         // I need datepicker css here because is loaded by Ajax
         $this->css->add_style(base_url() . 'js/ui/themes/base/jquery.ui.datepicker.css', 'jquery.ui.datepicker');
-        $this->css->add_style(base_url() . 'theme/default/css/ui-widget.css', 'jquery.ui.regularize');
+        $this->css->add_style(base_url() . '/' . $this->data['theme'] . '/css/ui-widget.css', 'jquery.ui.regularize');
         
         $this->data['js_vars'] .=         "\n" .
                     'var tasksmessage_created    = "' . $this->lang->line('tasksmessage_created') . "\";\n" .

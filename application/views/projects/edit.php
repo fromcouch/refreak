@@ -32,7 +32,7 @@
               echo form_fieldset($this->lang->line('projectscrud_members'));?>
 
               <?php if ($actual_user->project_position >= 4) : ?>                
-              <p><img src="<?php echo base_url();?>theme/default/images/bullet.png" /> <a href="" class="project_members"><?php echo $this->lang->line('projectscrud_add_members'); ?></a></p>
+              <p><img src="<?php echo base_url() . $theme;?>/images/bullet.png" /> <a href="" class="project_members"><?php echo $this->lang->line('projectscrud_add_members'); ?></a></p>
                 <div class="invitation">
                     <?php echo form_fieldset();?>
                         <table cellspacing="0" cellpadding="3" border="0" class="form">
@@ -83,8 +83,8 @@
                                     <?php if($pu->position === 5 || $actual_user->id == $pu->user_id || $pu->position >= $actual_user->project_position) : 
                                                 echo '-';
                                           else : ?>
-                                              <a href="#" class="project_members_edit"><img src="<?php echo base_url() ?>theme/default/images/b_edit.png" width="20" height="16" border="0" /></a>
-                                              <a href="#" class="project_members_delete"><img src="<?php echo base_url() ?>theme/default/images/b_dele.png" width="20" height="16" border="0" /></a> 
+                                              <a href="#" class="project_members_edit"><img src="<?php echo base_url() . $theme; ?>/images/b_edit.png" width="20" height="16" border="0" /></a>
+                                              <a href="#" class="project_members_delete"><img src="<?php echo base_url() . $theme; ?>/images/b_dele.png" width="20" height="16" border="0" /></a> 
                                     <?php endif; ?>                           
                                 </td>
                                 <?php endif; ?>
@@ -145,7 +145,7 @@ if ($actual_user->project_position >= 4) :
                                                             $("<a></a>").addClass("project_members_edit").attr("href","")
                                                                     .append(
                                                                         $("<img/>")
-                                                                                .attr("src","<?php echo base_url() ?>theme/default/images/b_edit.png")  
+                                                                                .attr("src","<?php echo base_url() . $theme; ?>/images/b_edit.png")  
                                                                                 .attr("width","20")  
                                                                                 .attr("height","16")  
                                                                                 .attr("border","0")
@@ -154,7 +154,7 @@ if ($actual_user->project_position >= 4) :
                                                             $("<a></a>").addClass("project_members_delete").attr("href","")
                                                                     .append(
                                                                         $("<img/>")
-                                                                                .attr("src","<?php echo base_url() ?>theme/default/images/b_dele.png")  
+                                                                                .attr("src","<?php echo base_url() . $theme; ?>/images/b_dele.png")  
                                                                                 .attr("width","20")  
                                                                                 .attr("height","16")  
                                                                                 .attr("border","0")

@@ -10,7 +10,7 @@
                     <th width="10%"  style="text-align:center">
                         <?php if ($this->ion_auth->in_group(array(1,2))) : ?>
                     <a href="<?php echo site_url();?>/projects/create/">
-                        <img src="<?php echo base_url();?>theme/default/images/new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('projectstable_new'); ?>" />                        
+                        <img src="<?php echo base_url() . $theme;?>/images/new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('projectstable_new'); ?>" />                        
                     </a>
                 <?php else : 
                         echo $this->lang->line('projectstable_action'); 
@@ -35,15 +35,15 @@
                             <?php 
                             if ($this->ion_auth->in_group(array(1,2))) : 
                             ?>
-                                <a href="<?php echo site_url();?>/projects/edit/<?php echo $table_project->project_id;?>"><img src="<?php echo base_url();?>theme/default/images/b_edit.png" width="20" height="16" border="0" /></a>
+                                <a href="<?php echo site_url();?>/projects/edit/<?php echo $table_project->project_id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" border="0" /></a>
                             <?php else : ?>
-                                <img src="<?php echo base_url();?>theme/default/images/b_edin.png" width="20" height="16" border="0" />
+                                <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" />
                             <?php endif; ?>
 
                             <?php if (($table_project->position == 5) || ($this->ion_auth->is_admin())) : //falta mirar si el usuario tiene permisos para editar el proyecto ?>
-                                <a href="<?php echo site_url();?>/projects/delete/<?php echo $table_project->project_id;?>" onclick="return confirm(<?php echo $this->lang->line('projectstable_confirmdelete'); ?>);"><img src="<?php echo base_url();?>theme/default/images/b_dele.png" width="20" height="16" border="0" /></a>
+                                <a href="<?php echo site_url();?>/projects/delete/<?php echo $table_project->project_id;?>" onclick="return confirm(<?php echo $this->lang->line('projectstable_confirmdelete'); ?>);"><img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" border="0" /></a>
                             <?php else : ?>
-                                <img src="<?php echo base_url();?>theme/default/images/b_deln.png" width="20" height="16" border="0" />
+                                <img src="<?php echo base_url() . $theme;?>/images/b_deln.png" width="20" height="16" border="0" />
                             <?php endif; ?>                            
                     </td>
                 </tr>

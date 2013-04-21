@@ -57,7 +57,8 @@ class RF_Controller extends CI_Controller {
                     'var context_id = ' . $selected_context . ";\n" .
                     'var project_id = ' . $selected_project . ";\n" .
                     'var time_concept = ' . $selected_time . ";\n" .
-                    'var s_url      = "' . site_url() . '";'
+                    'var theme_url  = "' . site_url() . $this->data['theme'] . '";' . "\n" .
+                    'var s_url      = "' . site_url() . '";' . "\n"
                 ;
         
         $this->data['users']                = $this->user_model->get_all_users_with_group();
@@ -72,7 +73,7 @@ class RF_Controller extends CI_Controller {
                     'var genmessage_ajax_error_server    = "' . $this->lang->line('genmessage_ajax_error_server') . "\";\n";
         
         $this->javascript->js->script(base_url() . 'js/refreak.js');
-        $this->css->add_style(base_url() . 'theme/default/css/refreak.css', 'core');
+        $this->css->add_style(base_url() . $this->data['theme'] . '/css/refreak.css', 'core');
         
         unset($params, $actual_user);
     } 

@@ -3,19 +3,19 @@
             <div class="task_show_close">
                 <a href="#">
                     <?php echo $this->lang->line('task_show_close'); ?>
-                    <img src="<?php echo base_url();?>theme/default/images/b_disn.png" width="20" height="16" border="0" alt="close" />
+                    <img src="<?php echo base_url() . $theme;?>/images/b_disn.png" width="20" height="16" border="0" alt="close" />
                 </a>
             </div>
             <?php if ($tf['position'] > 3) : ?>
             <div class="task_show_edit">
                 <a href="#"><?php echo $this->lang->line('task_show_edit'); ?>
-                    <img src="<?php echo base_url();?>theme/default/images/b_edin.png" width="20" height="16" border="0" alt="edit" />
+                    <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" alt="edit" />
                 </a>
             </div>
             <div class="task_show_delete">
                 <a href="#">
                     <?php echo $this->lang->line('task_show_delete');  ?>
-                    <img src="<?php echo base_url();?>theme/default/images/b_deln.png" width="20" height="16" border="0" alt="delete" />
+                    <img src="<?php echo base_url() . $theme;?>/images/b_deln.png" width="20" height="16" border="0" alt="delete" />
                 </a>
             </div>
             <?php endif; ?>
@@ -55,7 +55,7 @@
                         echo $visibility[$tf['private']];
                         
                         if ($tf['private'] > 0) : ?>
-                            <img src="<?php echo base_url();?>theme/default/images/priv<?php echo $tf['private']; ?>.png" width="12" height="16" align="absmiddle" border="0" alt="" />
+                            <img src="<?php echo base_url() . $theme;?>/images/priv<?php echo $tf['private']; ?>.png" width="12" height="16" align="absmiddle" border="0" alt="" />
                     <?php endif; ?>
             </div>
         </div>
