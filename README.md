@@ -14,7 +14,7 @@ TODO
 ### Stage 1
 
 + Revise Code Comments
-+ Add theme as a variable on code
++ ~~Add theme as a variable on code~~
 + Create config page
 + Desing login page
 + Users Account is Enabled
