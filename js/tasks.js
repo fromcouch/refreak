@@ -40,7 +40,7 @@
                                 
                                 me._(".task_dead").datepicker({
                                         showOn: "button",
-                                        buttonImage: s_url + theme_url + "/images/cal.gif",
+                                        buttonImage: theme_url + "/images/cal.gif",
                                         buttonImageOnly: true,
                                         dateFormat:   "dd/mm/yy"
                                 });
@@ -155,7 +155,7 @@
                         
                         $(this.element).html(
                                                 $("<img>").attr("border","0")
-                                                          .attr("src", s_url + theme_url + "/images/load.gif")
+                                                          .attr("src", theme_url + "/images/load.gif")
                                                           .addClass("loader")
                         
                         ).hide();
@@ -523,7 +523,7 @@
                         this._(".vfirstcomment").off("click");
                         $(this.element).html(
                                                 $("<img>").attr("border","0")
-                                                          .attr("src", s_url + theme_url + "/images/load.gif")
+                                                          .attr("src", theme_url + "/images/load.gif")
                                                           .addClass("loader")
                         
                         ).hide();
