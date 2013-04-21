@@ -146,8 +146,6 @@ ul.nav {
     float:left;
     margin:0px auto;
     position:relative;
-    /*width: 100%;*/
-    float:left;
     padding: 0px;
     /*border-left:1px solid #c4dbe7;
     border-right:1px solid #c4dbe7;*/
@@ -256,7 +254,7 @@ ul.nav ul li a {
     border:0 none;
     float:left;
     clear:both;
-    width:125px;
+    width:120px;
 }
 /*** END Menu ***/
 
