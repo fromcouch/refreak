@@ -8,7 +8,8 @@ function actual_text_date() {
 
         $CI =& get_instance();
         
-        setlocale(LC_ALL, $CI->config->item('rfk_locale').'UTF-8', $CI->config->item('rfk_locale'));
+        //deprecated
+        //setlocale(LC_ALL, $CI->config->item('rfk_locale').'UTF-8', $CI->config->item('rfk_locale'));
         
         $datetime = time() - intval(date('Z')) + 7200;        
         $format = "%A %d %B %Y, %H:%M";

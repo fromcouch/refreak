@@ -25,6 +25,7 @@ class RF_Controller extends CI_Controller {
         parent::__construct();
 
         $this->load->helper(array( 'url' ));
+        $this->data['theme']                = $this->config->item('rfk_theme_dir') . '/' . $this->config->item('rfk_theme_selected');
         
         if (!$this->ion_auth->logged_in())
         {
