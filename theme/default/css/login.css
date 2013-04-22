@@ -63,3 +63,7 @@ form p label {
     color: #666666;
     text-decoration: none;
 }
+
+.info_message {
+    color: red;
+}

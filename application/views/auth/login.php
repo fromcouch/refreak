@@ -10,9 +10,8 @@
     <div class="container">
         <div class="horiz">
             <h1>Login</h1>
-            <p>Please login with your email/username <br/>and password below.</p>
-
-            <div id="infoMessage"><?php echo $message;?></div>
+            
+            <div class="info_message"><?php echo $message;?></div>
 
             <?php echo form_open("auth/login");?>
 
@@ -41,7 +40,7 @@
         </div>
     </div>
     <footer class="footer">
-            Refreak! v0.1 Beta - 2013-04-18 - <a href="https://github.com/fromcouch/refreak/" target="_blank">Visit on Github</a>
+            Refreak! <?php echo $this->lang->line('version'); ?> - <?php echo $this->lang->line('release_date'); ?> - <a href="https://github.com/fromcouch/refreak/" target="_blank">Visit on Github</a>
     </footer>
 </body>
 </html>

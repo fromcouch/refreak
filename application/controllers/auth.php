@@ -20,6 +20,7 @@ class Auth extends CI_Controller {
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		$this->load->helper('url');
+                $this->lang->load('general');
 		
 		// Load MongoDB library instead of native db driver if required
 		$this->config->item('use_mongodb', 'ion_auth') ?
@@ -42,7 +43,8 @@ class Auth extends CI_Controller {
 		if (!$this->ion_auth->logged_in())
 		{
 			//redirect them to the login page
-			redirect('auth/login', 'refresh');
+			//redirect('auth/login', 'refresh');
+                        $this->login();
 		}
 		elseif (!$this->ion_auth->is_admin())
 		{
@@ -223,6 +225,12 @@ class Auth extends CI_Controller {
          */
 	public function forgot_password()
 	{
+                //load layout configuration
+                $this->config->load('layout');
+
+                //inform system don't use layout, don't need for this ajax call
+                $this->config->set_item('layout_use', false);
+                
 		$this->form_validation->set_rules('email', 'Email Address', 'required');
 		if ($this->form_validation->run() == false)
 		{
@@ -233,7 +241,6 @@ class Auth extends CI_Controller {
 
 			//set any errors and display the form
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-                        $this->data['layout']['layout_use'] = false;
 			$this->load->view('auth/forgot_password', $this->data);
 		}
 		else
