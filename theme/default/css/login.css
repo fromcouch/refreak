@@ -1,0 +1,65 @@
+/* 
+    Document   : login
+    Created on : 22-abr-2013, 13:59:48
+    Author     : victor
+    Description:
+        Login CSS
+*/
+
+root { 
+    display: block;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    left: 1%;
+    position: relative;
+    top: 66px;
+    width: 98%;
+    z-index: 10;
+    text-align: center;    
+}
+
+
+.horiz {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: small;
+    display: table;
+    margin: 0 auto;
+}
+
+form p {
+    text-align: left;
+}
+
+form p label {
+    width: 120px;
+    font-weight: bold;
+    display:block;
+    float:left;
+    text-align: left;
+}
+
+.button {
+    text-align: center;
+}
+
+.footer {
+    bottom: 10px;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    color: #666666;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: xx-small;
+    text-align: center;
+}
+
+.footer a {
+    color: #666666;
+    text-decoration: none;
+}
