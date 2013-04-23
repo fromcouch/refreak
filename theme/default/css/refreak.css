@@ -393,6 +393,19 @@ table.sheet td div.comment_count {
 	float: right;
 }
 
+span.dlate {
+	color: #C00;
+}
+span.dday {
+	font-weight: bold;
+}
+span.ddone {
+	color: #999;
+}
+span.dtodo {
+	color: #696;
+}
+
 /*** End Tables ***/
 
 /** Priority **/
