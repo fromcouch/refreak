@@ -6,15 +6,13 @@
 
 function actual_text_date() {
 
-        $CI =& get_instance();
-        
-        //deprecated
-        //setlocale(LC_ALL, $CI->config->item('rfk_locale').'UTF-8', $CI->config->item('rfk_locale'));
+        $ci =& get_instance();
+        $ci->config->load('refreak', true);
+        $lng_date = $ci->config->item('rfk_long_date');
         
         $datetime = time() - intval(date('Z')) + 7200;        
-        $format = "%A %d %B %Y, %H:%M";
         
-        $date = strftime($format, $datetime);
+        $date = strftime($lng_date, $datetime);
 
         return $date;
 

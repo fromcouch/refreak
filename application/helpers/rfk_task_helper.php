@@ -14,6 +14,9 @@ class RFK_Task_Helper {
         $ret = "";
         $ci->lang->load('tasks');
         
+        $ci->config->load('refreak', true);
+        $sht_date = $ci->config->item('rfk_short_date');
+        
         $lang_date = $ci->lang->line('task_date');
         
         if (preg_match('/(9999|0000)/',$deadline)) 
@@ -27,9 +30,9 @@ class RFK_Task_Helper {
                 if ($diff < 0) 
                 {
                         if ($status_key < 5) {
-                                $ret = '<span class="dlate">' . strftime('%d %b %y', $dead) . '</span>';
+                                $ret = '<span class="dlate">' . strftime($sht_date, $dead) . '</span>';
                         } else {
-                                $ret = '<span class="ddone">' . strftime('%d %b %y', $dead) . '</span>';
+                                $ret = '<span class="ddone">' . strftime($sht_date, $dead) . '</span>';
                         }
                 } 
                 else if ($diff == 0) 
