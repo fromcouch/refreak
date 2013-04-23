@@ -15,8 +15,7 @@ TODO
 
 + Revise Code Comments
 + ~~Add theme as a variable on code~~
-+ Create config variables
-    + date format
++ ~~Create config variables~~
 + Desing login page
 + Users Account is Enabled
 + ~~Reload Icon~~
