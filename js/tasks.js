@@ -56,7 +56,7 @@
                        
 
                         }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                alert(genmessage_ajax_error_server);
                                 this.element.hide();
                         });
 

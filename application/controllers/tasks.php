@@ -157,10 +157,14 @@ class Tasks extends RF_Controller {
             
             //load layout configuration
             $this->config->load('layout');
+            $this->config->load('refreak');
 
             //inform system don't use layout, don't need for this ajax call
             $this->config->set_item('layout_use', false);
-
+            
+            // get default value for visibility
+            $visibility                     = $this->config->item('rfk_task_visibility');
+            
             $ups            = array($this->lang->line('task_edit_project_none'));
             foreach ($this->data['user_projects'] as $up) {
                 $ups[] = $up->name;
@@ -175,7 +179,7 @@ class Tasks extends RF_Controller {
                                         'project_id'            => 0,
                                         'description'           => null,
                                         'user_id'               => $this->data['actual_user']->id,
-                                        'private'               => 1,
+                                        'private'               => $visibility,
                                         'status'                => 0,
             );
             
@@ -528,12 +532,14 @@ class Tasks extends RF_Controller {
         
         if ($this->input->is_ajax_request() && $this->can_do($task_id, $actual_user_id, 4))
         {
+            $this->config->load('refreak');
             
+            $cd                             = $this->config->item('rfk_complete_deadline');
             $status                         = $this->input->post('status');
             
             $this->task_model->set_status($task_id, $status, $this->data['actual_user']->id);
             
-            if ($status == 5) {
+            if ($cd && $status == 5) {
                 $this->task_model->close_task($task_id);
             }
                 

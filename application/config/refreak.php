@@ -50,6 +50,49 @@ $config['rfk_short_date'] = '%d %b %y';
 */
 $config['rfk_long_date'] = '%a %d %b %y %H:%M';
 
+/*
+| -------------------------------------------------------------------
+|  Datediff mode for tasks
+|  deadline: displays day of the week (or tomorrow) or '1 day'
+|  
+|  posible values: day, diff, date 
+| -------------------------------------------------------------------
+*/
+$config['rfk_datediff_mode'] = 'day';
+
+/*
+| -------------------------------------------------------------------
+|  Datediff mode for tasks
+|  deadline: displays 'tomorrow' for next day 
+|  
+|  posible values: day, diff, date 
+| -------------------------------------------------------------------
+*/
+$config['rfk_datediff_tomorrow'] = TRUE;
+
+/*
+| -------------------------------------------------------------------
+|  Default task Visibility
+|  
+|  
+|  posible values:  0 - public
+|                   1 - internal (default)
+|                   2 - private
+| -------------------------------------------------------------------
+*/
+$config['rfk_task_visibility'] = 1;
+
+/*
+| -------------------------------------------------------------------
+|  Update deadline on complete task
+|  
+|  
+|  posible values:  0 - public
+|                   1 - internal (default)
+|                   2 - private
+| -------------------------------------------------------------------
+*/
+$config['rfk_complete_deadline'] = TRUE;
 
 /* End of file refreak.php */
 /* Location: ./application/config/refreak.php */
