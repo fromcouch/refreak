@@ -514,6 +514,10 @@ div.task_ctxO {
 	background-color: #fcc;
 }
 
+.footer_error {
+    color:red;
+}
+
 .error_box {
     background-color: #FF9999;
     border: 1px dotted #666666;

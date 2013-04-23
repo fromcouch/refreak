@@ -41,6 +41,11 @@
         
     </div>    
     <footer class="footer">
+        <?php
+            if (@is_dir('install')) {
+                echo '<p class="footer_error">' . $this->lang->line('footer_install_dir') . '</p>';
+            }
+        ?>
             Refreak! v0.1 Beta - 2013-04-18 - <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Visit on Github</a>
     </footer>
     <?php if (isset($script_foot)) echo $script_foot;?>

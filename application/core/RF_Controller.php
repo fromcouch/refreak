@@ -173,10 +173,11 @@ class RF_Controller extends CI_Controller {
         array_unshift($contexts, $this->lang->line('combo_context_all_contexts')) ;
                 
         $menu               = array(
-                               anchor('/', $this->lang->line('header_alltasks')),
                                anchor('tasks/s/' . $project_id . '/' . $user_id . '/0/' . $selected_context , $this->lang->line('header_mytasks')),
+                               anchor('/', $this->lang->line('header_alltasks')),
                                form_dropdown_users('list_users', $this->lang->line('header_allusers'), $selected_user),
-                               form_dropdown('header_context', $contexts, array($selected_context), 'class = "list_contexts"')
+                               form_dropdown('header_context', $contexts, array($selected_context), 'class = "list_contexts"'),
+                               anchor(current_url(), img(site_url() . $this->data['theme'] . '/images/refresh.png'))
         );
         
         return $menu;
