@@ -24,6 +24,7 @@ class Users extends RF_Controller {
         
         $this->lang->load('users');
         $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
         //set the flash data error message if there is one
         $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
@@ -71,7 +72,10 @@ class Users extends RF_Controller {
                             'first_name' => $this->input->post('first_name'),
                             'last_name'  => $this->input->post('last_name'),
                             'company'    => $this->input->post('company'),
-                            'author_id'  => $this->data['actual_user']->id
+                            'author_id'  => $this->data['actual_user']->id,
+                            'title'      => $this->input->post('title'),
+                            'city'       => $this->input->post('city'),
+                            'country_id' => $this->input->post('country_id'),
                     );
             }
             if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data, array($group)))
@@ -84,7 +88,12 @@ class Users extends RF_Controller {
             else
             { 
                     //display the create user form
-                    
+                    $this->data['title'] = array(
+                            'name'  => 'title',
+                            'id'    => 'title',
+                            'type'  => 'text',
+                            'value' => $this->form_validation->set_value('title'),
+                    );
                     $this->data['first_name'] = array(
                             'name'  => 'first_name',
                             'id'    => 'first_name',
@@ -120,6 +129,18 @@ class Users extends RF_Controller {
                             'id'    => 'password_confirm',
                             'type'  => 'password',
                             'value' => $this->form_validation->set_value('password_confirm'),
+                    );
+
+                    $this->data['city'] = array(
+                            'name'  => 'city',
+                            'id'    => 'city',
+                            'type'  => 'text',
+                            'value' => $this->form_validation->set_value('city'),
+                    );
+                    $this->data['country'] = array(
+                            'name'  => 'country_id',                    
+                            'value' => $this->form_validation->set_value('country_id'),
+                            'data'  => $this->to_dropdown_array($this->user_model->get_country(), 'country_id', 'name')
                     );
 
                     $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
