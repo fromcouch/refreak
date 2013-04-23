@@ -15,10 +15,11 @@ TODO
 
 + Revise Code Comments
 + ~~Add theme as a variable on code~~
-+ Create config page
++ Create config variables
+    + date format
 + Desing login page
 + Users Account is Enabled
-+ Reload Icon
++ ~~Reload Icon~~
 + Solve Bugs
     + Show task without project fail
     + ~~js problem with clock and closures~~
