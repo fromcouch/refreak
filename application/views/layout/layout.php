@@ -42,7 +42,7 @@
     </div>    
     <footer class="footer">
         <?php
-            if (@is_dir('install')) {
+            if (is_dir('install')) {
                 echo '<p class="footer_error">' . $this->lang->line('footer_install_dir') . '</p>';
             }
         ?>
