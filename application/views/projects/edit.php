@@ -1,10 +1,11 @@
 <div class="center">
     <div class="horiz">
-
-        <?php echo form_open("projects/edit/".$pid);
+        <?php echo validation_errors(); 
+              echo form_open("projects/edit/".$pid);
               echo form_fieldset($this->lang->line('projectscrud_info'));?>
+              <p><?php echo $this->lang->line('projectscrud_compulsory'); ?></p>
               <p>
-                    <label><?php echo $this->lang->line('projectscrud_name'); ?> </label>
+                    <label class="compulsory"><?php echo $this->lang->line('projectscrud_name'); ?> </label>
                     <?php if($actual_user->project_position == 5) :
                                 echo form_input($name);
                           else :

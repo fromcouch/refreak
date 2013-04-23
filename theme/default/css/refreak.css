@@ -513,6 +513,14 @@ div.task_ctxO {
 .message.error {
 	background-color: #fcc;
 }
+
+.error_box {
+    background-color: #FF9999;
+    border: 1px dotted #666666;
+    margin: 0 5px 15px;
+    padding: 15px;
+}
+
 /* end panels */
 
 /* forms and edit pages */
