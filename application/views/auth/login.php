@@ -9,7 +9,7 @@
     
     <div class="container">
         <div class="horiz">
-            <h1>Login</h1>
+            <img src="../theme/default/images/freak-logo.png" border="0" alt="Refreak" />
             
             <div class="info_message"><?php echo $message;?></div>
 
