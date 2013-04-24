@@ -16,11 +16,11 @@ TODO
 + Revise Code Comments
 + ~~Add theme as a variable on code~~
 + ~~Create config variables~~
-+ Desing login page
++ ~~Desing login page~~
 + Users Account is Enabled
 + ~~Reload Icon~~
-+ Solve Bugs
-    + Show task without project fail
++ ~~Solve Bugs~~
+    + ~~Show task without project fail~~
     + ~~js problem with clock and closures~~
 
 ### Stage 2
