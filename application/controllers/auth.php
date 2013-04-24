@@ -359,7 +359,14 @@ class Auth extends CI_Controller {
 	}
 
 
-	//activate the user
+	/**
+         * activate the user
+         * 
+         * @param int $id user id
+         * @param string|boolean $code code for activation or false
+         * @access public
+         * @return void
+         */
 	function activate($id, $code=false)
 	{
 		if ($code !== false)
@@ -385,7 +392,14 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	//deactivate the user
+	
+        /**
+         * deactivate the user
+         * 
+         * @param int $id user to deactivate
+         * @access public
+         * @return void
+         */
 	function deactivate($id = NULL)
 	{
 		$id = $this->config->item('use_mongodb', 'ion_auth') ? (string) $id : (int) $id;
@@ -425,6 +439,12 @@ class Auth extends CI_Controller {
 		}
 	}
 
+        /**
+         * Create Cross-Site Request Forgery nonce
+         * 
+         * @return array key and nonce value
+         * @access private
+         */
 	private function _get_csrf_nonce()
 	{
 		$this->load->helper('string');
@@ -436,6 +456,12 @@ class Auth extends CI_Controller {
 		return array($key => $value);
 	}
 
+        /**
+         * Validate Cross-Site Request Forgery nonce
+         * 
+         * @return boolean
+         * @access private
+         */
 	private function _valid_csrf_nonce()
 	{
 		if ($this->input->post($this->session->flashdata('csrfkey')) !== FALSE &&

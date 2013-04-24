@@ -14,7 +14,7 @@
 * 
 */
 /**
- * Tasks Model
+ * Project Model
  *
  * @package	Refreak
  * @subpackage	projects
@@ -38,6 +38,7 @@ class Project_model extends CI_Model
      * 
      * @param int $user_id
      * @return object list of projects 
+     * @access public
      */
     public function get_projects_list($user_id)
     {
@@ -151,6 +152,13 @@ class Project_model extends CI_Model
         );
     }
 
+    /**
+     * Get One Project
+     * 
+     * @param int $project_id
+     * @return object project row
+     * @access public
+     */
     public function get_project($project_id) {
         return $this->db                
                 ->where('projects.project_id', $project_id)
@@ -160,6 +168,13 @@ class Project_model extends CI_Model
                 ->row();
     }
     
+    /**
+     * Get users assigned to a project
+     * 
+     * @param int $project_id
+     * @return object list of users
+     * @access public
+     */
     public function get_users_project($project_id) {
         
         return $this->db
@@ -171,6 +186,14 @@ class Project_model extends CI_Model
         
     }
     
+    /**
+     * Get user position inside project
+     * 
+     * @param int $project_id
+     * @param int $user_id
+     * @return object 
+     * @access public
+     */
     public function get_user_position($project_id, $user_id) {
         
         return $this->db
@@ -182,6 +205,15 @@ class Project_model extends CI_Model
         
     }
     
+    /**
+     * Set position for project and user
+     * 
+     * @param int $user_id
+     * @param int $project_id
+     * @param int $position
+     * @return void 
+     * @access public
+     */
     public function set_user_project($user_id, $project_id, $position) {
         
         $user_data = array(
@@ -193,6 +225,15 @@ class Project_model extends CI_Model
         
     }
     
+    
+    /**
+     * Remove user from project
+     * 
+     * @param int $user_id
+     * @param int $project_id
+     * @access public
+     * @return void
+     */
     public function remove_user_project($user_id, $project_id) {
         
         $user_data = array(
@@ -203,6 +244,15 @@ class Project_model extends CI_Model
         
     }
     
+    /**
+     * Update user position in project
+     * 
+     * @param int $user_id
+     * @param int $project_id
+     * @param int $position
+     * @return void
+     * @access public
+     */
     public function update_user_position($user_id, $project_id, $position) {
         
         $user_data = array(                    

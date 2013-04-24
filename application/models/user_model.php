@@ -13,14 +13,32 @@
 * Description:  Users model
 * 
 */
-
+/**
+ * User Model
+ *
+ * @package	Refreak
+ * @subpackage	users
+ * @category	model
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
+ */
 class User_model extends CI_Model {
     
+    /**
+     * Constructor
+     */
     public function __construct() 
     {
         parent::__construct();
     }
     
+    /**
+     * Get list of user projects
+     *
+     * @param int $user_id
+     * @return object projects list
+     * @access public
+     */
     public function get_projects_user($user_id)
     {
 
@@ -33,6 +51,12 @@ class User_model extends CI_Model {
 
     }
     
+    /**
+     * Get all users inside a group
+     * 
+     * @return array users list
+     * @access public
+     */
     public function get_all_users_with_group()
     {
 
@@ -48,6 +72,12 @@ class User_model extends CI_Model {
         
     }
     
+    /**
+     * Get country list
+     * 
+     * @return array
+     * @access public
+     */
     public function get_country() {
         
         return $this->db->order_by('name')
