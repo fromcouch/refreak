@@ -88,7 +88,7 @@
             <div class="task_show_status_inside">
                 <?php                
                         $st = $tf['status'];
-                        if (empty($st)) $st = 0; //i have problems passing zero vales to views :/
+                        if (empty($st)) $st = 0; //i have problems passing zero values to views :/
                         echo $status[$st];
                 ?>
             </div>

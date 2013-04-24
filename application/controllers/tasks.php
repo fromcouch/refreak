@@ -331,14 +331,19 @@ class Tasks extends RF_Controller {
             
             $this->load->model('project_model');
             
-            $project                        = $this->project_model->get_project($task[0]['project_id']);
+            if ($task[0]['project_id'] != 0) {
+                    $project                = $this->project_model->get_project($task[0]['project_id']);
+                    $this->data['project_name']     = $project->name;
+            }
+            else {
+                    $this->data['project_name']     = '';
+            }
             
             $context                        = $this->lang->line('task_context');
             $context_letter                 = substr($context[$task[0]['context']], 0, 1);
             $visibility                     = $this->lang->line('task_visibility');
             $user                           = $this->data['users'][$task[0]['user_id']];
             $username                       = $user->first_name . ' ' . $user->last_name;
-            $project_name                   = $project->name;
             $status                         = $this->lang->line('task_status');
             
             $this->data['tf']               = $task[0];
@@ -346,7 +351,6 @@ class Tasks extends RF_Controller {
             $this->data['visibility']       = $visibility;
             $this->data['context_letter']   = $context_letter;
             $this->data['username']         = $username;
-            $this->data['project_name']     = $project_name;
             $this->data['status']           = $status;
             
             unset($user, $project);
