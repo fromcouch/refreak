@@ -153,7 +153,7 @@ class Ion_auth
 					$this->email->to($user->email);
 					$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_forgotten_password_subject'));
 					$this->email->message($message);
-
+                                        
 					if ($this->email->send())
 					{
 						$this->set_message('forgot_password_successful');
@@ -161,6 +161,7 @@ class Ion_auth
 					}
 					else
 					{
+                                            echo $this->email->print_debugger();die('yujuu');
 						$this->set_error('forgot_password_unsuccessful');
 						return FALSE;
 					}

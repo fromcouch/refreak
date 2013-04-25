@@ -80,5 +80,24 @@ $config['charset']      = 'utf-8';
 */
 $config['useragent']    = 'Refreak v0.1';
 
+/*
+|--------------------------------------------------------------------------
+| crlf
+|--------------------------------------------------------------------------
+|
+| Newline character. (Use "\r\n" to comply with RFC 822).
+|
+*/
+$config['crlf']    = "\r\n";
+/*
+|--------------------------------------------------------------------------
+| newline
+|--------------------------------------------------------------------------
+|
+| Newline character. (Use "\r\n" to comply with RFC 822).
+|
+*/
+$config['newline']    = "\r\n";
+
 /* End of file email.php */
 /* Location: ./application/config/email.php */
