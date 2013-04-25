@@ -9,7 +9,7 @@
     
     <div class="container">
         <div class="horiz">
-            <h1>Forgot Password</h1>
+            <img src="../theme/default/images/freak-logo.png" border="0" alt="Refreak" />
             <p>Please enter your email address so we can<br/> send you an email to reset your password.</p>
 
             <div class="info_message"><?php echo $message;?></div>
