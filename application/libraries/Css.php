@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-// ------------------------------------------------------------------------
-
 /**
- * Css Library
+ * Refreak CSS Library
  *
- * @author		victor
+ * @package	Refreak
+ * @subpackage	base
+ * @category	library
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
  */
-
 class Css {
     
     protected   $_style_load        = array();
@@ -25,6 +25,8 @@ class Css {
      * 
      * @param string $style Css Url
      * @param string|null $key if you want a key for remove or search css url
+     * @return void
+     * @access public
      */
     public function add_style($style, $key = null) {
         
@@ -43,6 +45,8 @@ class Css {
      * Remove style from class
      * 
      * @param string $key 
+     * @return void
+     * @access public
      */
     public function remove_style($key) {
         
@@ -52,6 +56,12 @@ class Css {
         
     }
     
+    /**
+     * Create string code to draw HTML
+     * 
+     * @return void
+     * @access public
+     */
     public function compile() {
         
         if ( count($this->_style_load) > 0) {

@@ -9,7 +9,7 @@
 */
 
 //header
-$lang['header_alltasks']            = 'All Tasks';
+$lang['header_alltasks']            = 'All Users';
 $lang['header_mytasks']             = 'My Tasks';
 $lang['header_allusers']            = 'All Users';
 $lang['header_logout']              = 'Logout';
@@ -43,3 +43,7 @@ $lang['task_context']                   = array(
                                                 7       => 'Home',
                                                 8       => 'Other'
 );
+
+
+//footer
+$lang['footer_install_dir']         = 'Warning, Install folder still exists, you should delete it for security purposes.';

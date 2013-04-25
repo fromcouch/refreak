@@ -2,11 +2,12 @@
 <div class="center">
     <div class="horiz">
         <div class="infoMessage"><?php echo $message;?></div>
-
+        <?php echo validation_errors(); ?>
         <?php echo form_open("projects/create");
               echo form_fieldset($this->lang->line('projectscrud_info'));?>
+              <p><?php echo $this->lang->line('projectscrud_compulsory'); ?></p>
               <p>
-                    <label><?php echo $this->lang->line('projectscrud_name'); ?></label>
+                    <label class="compulsory"><?php echo $this->lang->line('projectscrud_name'); ?></label>
                     <?php echo form_input($name);?>
               </p>
 

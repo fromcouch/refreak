@@ -56,10 +56,11 @@
                 type: "POST",
                 dataType: "json",
                 url: null,
+                async: false,
                 data: {},
                 onDone: null,
                 onDoneKo: null,
-                onFail: null
+                onFail: null                
             };
             
             this.settings = {};
@@ -86,7 +87,8 @@
                         type:       me.settings.type,
                         url:        me.settings.url,
                         dataType:   me.settings.dataType,
-                        data:       me.settings.data
+                        data:       me.settings.data,
+                        async:      me.settings.async,
                     }).done(function(res) {
                         if (res.response === "rfk_ok") {
                             
@@ -110,17 +112,16 @@
             };
             
             this.init( options );
-    }
+    };
     
     $.clock = function( options ) {
 
             var me = this;
             
-            var clk_date = new Date();
-            var clk_start = 0;
+            var clk_date = new Date();            
 
             var defaults = {
-                class: ".userdate"
+                class_name: ".userdate"
             };
             
             this.settings = {};
@@ -128,16 +129,11 @@
 
             this.show_date = function ( opt ) {
                     clk_date = new Date();
-                    if (clk_date.getSeconds() == 0) { // every minute
-                            clk_intvl = clk_date.getTime() - clk_start;
-                            if (frk_reload && (clk_intvl > (frk_reload * 60000))) {
-                                    try {
-                                            //reload
-                                    } catch (e) {}
-                            }
-                    }
+                    /**
+                     * @todo reload page every hour???
+                     */
                     str = clk_date.toLocaleString();
-                    $(opt.class).html(str);
+                    $(opt.class_name).html(str);
                     
             };
 
@@ -147,14 +143,13 @@
 
                     me.settings = $.extend({}, defaults, options);
                 
-                    clk_date = new Date();
-                    clk_start = clk_date.getTime();
+                    clk_date = new Date();                    
                     me.show_date( me.settings );
             };
 
             this.init( options );       
     };
     
-    window.setInterval("$.clock( { class: '.userdate' } )",1000);
+    window.setInterval("$.clock( { class_name: '.userdate' } )",1000);
     
 })( jQuery );

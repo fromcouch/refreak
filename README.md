@@ -12,25 +12,16 @@ TODO
 
 
 ### Stage 1
-+ ~~End task system.~~
-    + ~~Show task pop up~~
-    + ~~Order task grid~~
-    + ~~Status javascript~~
-    + ~~task permissions~~
-    + ~~close/end task~~
-    + ~~task table comments~~
-    + ~~task delete show panel~~
-+ ~~Refactor Ajax calls in jQuery plugins~~
+
 + Revise Code Comments
-+ ~~Add author_id to user db table~~
-+ ~~User Country~~
-+ ~~User title~~
-+ Add theme as a variable on code
-+ Create config page
-+ Desing login page
++ ~~Add theme as a variable on code~~
++ ~~Create config variables~~
++ ~~Desing login page~~
 + Users Account is Enabled
-+ Reload Icon
-+ ~~Installer~~
++ ~~Reload Icon~~
++ ~~Solve Bugs~~
+    + ~~Show task without project fail~~
+    + ~~js problem with clock and closures~~
 
 ### Stage 2
 + Import on Install tasks from TF
@@ -50,3 +41,7 @@ Parameters for database configuration are in:
 
 You only need configure hostname, username, password and database parameters inside database.php. Save it and 
 then access to www.yourdomain.com/install and click Install button.
+
+Additionaly you can configure some parameters in:
+
+    application/config/refreak.php

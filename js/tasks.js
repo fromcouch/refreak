@@ -40,7 +40,7 @@
                                 
                                 me._(".task_dead").datepicker({
                                         showOn: "button",
-                                        buttonImage: s_url + "/theme/default/images/cal.gif",
+                                        buttonImage: theme_url + "/images/cal.gif",
                                         buttonImageOnly: true,
                                         dateFormat:   "dd/mm/yy"
                                 });
@@ -56,7 +56,7 @@
                        
 
                         }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                alert(genmessage_ajax_error_server);
                                 this.element.hide();
                         });
 
@@ -75,6 +75,7 @@
                         $.call_ajax({
                             type:       "POST",
                             url:        s_url + "/tasks/get_users_from_project/",
+                            async:      true,
                             data:       {
                                             project_id: $(obj).val()
                                         },
@@ -123,6 +124,7 @@
                                         
                                         if (res.tid > 0) {
                                             $.boxes(tasksmessage_updated);
+                                            document.location.reload();
                                         }
                                         else {
                                             $.boxes(tasksmessage_created);
@@ -153,7 +155,7 @@
                         
                         $(this.element).html(
                                                 $("<img>").attr("border","0")
-                                                          .attr("src", s_url + "theme/default/images/load.gif")
+                                                          .attr("src", theme_url + "/images/load.gif")
                                                           .addClass("loader")
                         
                         ).hide();
@@ -521,7 +523,7 @@
                         this._(".vfirstcomment").off("click");
                         $(this.element).html(
                                                 $("<img>").attr("border","0")
-                                                          .attr("src", s_url + "theme/default/images/load.gif")
+                                                          .attr("src", theme_url + "/images/load.gif")
                                                           .addClass("loader")
                         
                         ).hide();

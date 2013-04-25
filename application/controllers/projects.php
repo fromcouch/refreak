@@ -19,6 +19,7 @@ class Projects extends RF_Controller {
         //$this->output->enable_profiler(TRUE);
         $this->lang->load('projects');
         $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
         $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
     }
@@ -53,7 +54,7 @@ class Projects extends RF_Controller {
             $this->form_validation->set_rules('description', 'Description', 'xss_clean');
             $this->form_validation->set_rules('status', 'Status', 'required|xss_clean');
 
-            if ($this->form_validation->run() == true)
+            if ($this->form_validation->run() === TRUE)
             {
                     $name           = $this->input->post('name');
                     $description    = $this->input->post('description');

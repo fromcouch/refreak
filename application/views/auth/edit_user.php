@@ -1,7 +1,9 @@
 <div class="center">
     <div class="horiz">
         <div id="infoMessage"><?php echo $message;?></div>
-        <?php echo form_open();
+        <?php 
+            echo validation_errors(); 
+            echo form_open();
             echo form_fieldset($this->lang->line('userscrud_personalinfo'));?>
             <p>
                     <?php echo $this->lang->line('userscrud_compulsory'); ?>

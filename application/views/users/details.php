@@ -4,7 +4,7 @@
         <?php 
             $edit_button = '';
             if ($actual_user->id == $user->id || $this->ion_auth->is_admin()) : 
-                $edit_button = '<a href="' . site_url() . '/users/edit_user/' . $user->id . '"><img src="' . base_url() . 'theme/default/images/b_edit.png" width="20" height="16" border="0" /></a>';
+                $edit_button = '<a href="' . site_url() . '/users/edit_user/' . $user->id . '"><img src="' . base_url() . $theme . '/images/b_edit.png" width="20" height="16" border="0" /></a>';
             endif; 
         
             echo form_open();
