@@ -271,6 +271,12 @@ class Auth extends CI_Controller {
          */
 	public function reset_password($code = NULL)
 	{
+                //load layout configuration
+                $this->config->load('layout');
+
+                //inform system don't use layout, don't need for this ajax call
+                $this->config->set_item('layout_use', false);
+                
 		if (!$code)
 		{
 			show_404();
