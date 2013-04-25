@@ -265,6 +265,12 @@ class Users extends RF_Controller {
                     'type'  => 'text',
                     'value' => $this->form_validation->set_value('city', $user->city),
             );
+            $this->data['active_user'] = array(
+                    'name'  => 'active_user',
+                    'id'    => 'active_user',
+                    'checked'  => $user->active,
+                    'value' => 'ok',
+            );
             $this->data['country'] = array(
                     'name'  => 'country_id',                    
                     'value' => $this->form_validation->set_value('country_id', $user->country_id),

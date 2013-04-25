@@ -60,6 +60,7 @@
 
 
             <p>
+                    <?php echo form_checkbox($active_user); ?>
                     <label class="password"><?php echo $this->lang->line('userscrud_group'); ?> </label>
                     <?php echo form_dropdown('group', $groups, $user->id);?>
             </p>
