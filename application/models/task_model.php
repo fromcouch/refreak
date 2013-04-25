@@ -188,9 +188,8 @@ class Task_model extends CI_Model {
                                   tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
                         ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
                         ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
-                        ->join('user_project', 'user_project.project_id = tasks.project_id', 'left')
+                        ->join('user_project', 'user_project.project_id = tasks.project_id AND rfk_user_project.user_id = ' . $user_id, 'left')
                         ->where('tasks.task_id', $task_id)
-                        ->where('user_project.user_id', $user_id)
                         ->get('tasks')
                         ->result_array();
         
@@ -415,9 +414,9 @@ class Task_model extends CI_Model {
         $up                     = $this->project_model->get_user_position($project_id, $user_id);
         
         if (count($up) > 0)
-            return 0;
-        else
             return $up[0]->position;
+        else
+            return 0;
         
     }
     

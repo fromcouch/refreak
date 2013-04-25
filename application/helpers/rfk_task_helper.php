@@ -10,55 +10,94 @@ class RFK_Task_Helper {
     
     public static function calculate_deadline($deadline, $status_key) {
         
-        $ci =& get_instance();        
-        $ret = "";
+        $ci                                 =& get_instance();        
+        $ret                                = "";
         $ci->lang->load('tasks');
         
-        $lang_date = $ci->lang->line('task_date');
+        $ci->config->load('refreak', true);
+        $sht_date                           = $ci->config->item('rfk_short_date');
+        $dd_mode                            = $ci->config->item('rfk_datediff_mode');
+        $dd_tomorrow                        = $ci->config->item('rfk_datediff_tomorrow');
+        
+        $lang_date                          = $ci->lang->line('task_date');
         
         if (preg_match('/(9999|0000)/',$deadline)) 
         {
-        	$ret = '-';
+        	$ret                        = '-';
         } 
         else 
         {
-                $dead = strtotime($deadline);
-                $diff = $dead - intval(strtotime(date('Y-m-d',time()))) ;
+                $dead                       = strtotime($deadline);
+                $diff                       = $dead - intval(strtotime(date('Y-m-d',time()))) ;
                 if ($diff < 0) 
                 {
                         if ($status_key < 5) {
-                                $ret = '<span class="dlate">' . strftime('%d %b %y', $dead) . '</span>';
+                                $ret        = '<span class="dlate">' . strftime($sht_date, $dead) . '</span>';
                         } else {
-                                $ret = '<span class="ddone">' . strftime('%d %b %y', $dead) . '</span>';
+                                $ret        = '<span class="ddone">' . strftime($sht_date, $dead) . '</span>';
                         }
                 } 
                 else if ($diff == 0) 
                 {
-                        $ret = '<span class="dday">'.$lang_date['today'].'</span>';
+                        if ($dd_mode === 'date') {
+                                $ret        = '<span class="dday">' . strftime($sht_date, $dead) . '</span>';
+                        } else {                        
+                                $ret        = '<span class="dday">' . $lang_date['today'] . '</span>';
+                        }
 
                 } 
                 else 
                 {
                         $diff = $diff / 3600 / 24;
+                        
+                        switch ($dd_mode) {
+                            case 'day':
+                                if ($dd_tomorrow && $diff == 1) 
+                                {
+                                    $ret    = $lang_date['tomorrow'];
+                                } 
+                                else if ($diff < 7) 
+                                {
+                                    $day    = strtolower(date('l',$dead));
 
-                        if ($diff == 1) 
-                        {
-                            $ret = $lang_date['tomorrow'];
-                        } 
-                        else if ($diff < 7) 
-                        {
-                            $day = strtolower(date('l',$dead));
+                                    if (array_key_exists($day, $lang_date)) 
+                                    {
+                                       $day = ucfirst($lang_date[$day]);
+                                    }
+
+                                    $ret    = '<span class="small">'.ucFirst($day).'</span>';
+                                } 
+                                else 
+                                {
+                                    $ret    = '<span class="small">' . strftime($sht_date, $dead) . '</span>';
+                                }
+
+                                break;
                             
-                            if (array_key_exists($day, $lang_date)) 
-                            {
-                               $day = ucfirst($lang_date[$day]);
-                            }
-                            
-                            $ret = '<span class="small">'.ucFirst($day).'</span>';
-                        } 
-                        else 
-                        {
-                            $ret = '<span class="small">' . strftime('%d %b %y', $dead) . '</span>';
+                            case 'diff':
+                                switch($diff) {
+                                        case '1':
+                                                if ($dd_tomorrow) {
+                                                        return $lang_date['tomorrow'];
+                                                } else {
+                                                        return '1 ' . $lang_date['day'];
+                                                }
+                                                break;
+                                        case '2':
+                                        case '3':
+                                        case '4':
+                                        case '5':
+                                        case '6':
+                                                return $diff . ' ' . $lang_date['days'];
+                                                break;
+                                        default:
+                                                return '<span class="small">' . strftime($sht_date, $dead) . '</span>';
+                                                break;
+                                }
+                                break;
+                            default:
+                                return '<span class="small">' . strftime($sht_date, $dead) . '</span>';
+                                break;
                         }
                 } 
         }

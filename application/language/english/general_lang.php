@@ -18,5 +18,9 @@
  */
 
 //messages
-$lang['genmessage_ajax_error_security']    = 'Error by security reasons';
-$lang['genmessage_ajax_error_server']      = 'Error on server side';
+$lang['genmessage_ajax_error_security']     = 'Error by security reasons';
+$lang['genmessage_ajax_error_server']       = 'Error on server side';
+
+//footer
+$lang['version']                            = 'v0.1 Beta';
+$lang['release_date']                       = '2013-04-18';

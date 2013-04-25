@@ -1,5 +1,5 @@
 <div class="task_panel">
-    <img border="0" src="<?php echo base_url();?>theme/default/images/load.gif" class="loader">    
+    <img border="0" src="<?php echo base_url() . $theme;?>/images/load.gif" class="loader">    
 </div>
     <table cellpadding="2" cellspacing="1" border="0" class="sheet task_sheet" width="100%">
             <thead>
@@ -15,7 +15,7 @@
                     <th width="5%" class="act">
                         <?php if ($this->ion_auth->in_group(array(1,2))) : ?>
                                 <a href="#" class="btn_task_new">
-                                        <img src="<?php echo base_url();?>theme/default/images/b_new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('task_list_new'); ?>" />
+                                        <img src="<?php echo base_url() . $theme;?>/images/b_new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('task_list_new'); ?>" />
                                 </a>
                         <?php endif; ?>
                     </th>
@@ -41,10 +41,10 @@
                                     <?php 
                                             echo $tf->title; 
                                             if (!empty($tf->description)) : ?>
-                                                <img src="<?php echo base_url();?>theme/default/images/desc.png" width="16" height="16" align="absmiddle" border="0" alt="" />
+                                                <img src="<?php echo base_url() . $theme;?>/images/desc.png" width="16" height="16" align="absmiddle" border="0" alt="" />
                                             <?php endif;
                                             if ($tf->private > 0) : ?>
-                                                <img src="<?php echo base_url();?>theme/default/images/priv<?php echo $tf->private; ?>.png" width="12" height="16" align="absmiddle" border="0" alt="" />
+                                                <img src="<?php echo base_url() . $theme;?>/images/priv<?php echo $tf->private; ?>.png" width="12" height="16" align="absmiddle" border="0" alt="" />
                                             <?php endif; ?>
                                 </td>
                                 <td><?php echo $tf->first_name; ?></td>
@@ -54,7 +54,7 @@
                                         <?php echo $tf->comment_count; ?>
                                     </div>
                                     <a href="#" class="comment_link">
-                                        <img src="<?php echo base_url();?>theme/default/images/b_disc.png" width="14" height="16" alt="" border="0" />
+                                        <img src="<?php echo base_url() . $theme;?>/images/b_disc.png" width="14" height="16" alt="" border="0" />
                                     </a>
                                 </td>
                                 <?php for ($cont = 0; $cont < 5; $cont++) : 
@@ -69,18 +69,18 @@
                                 <td class="act">
                                     <?php if ($this->ion_auth->in_group(array(1,2)) || $tf->position > 3) : //falta checkear permiso de proyecto ?>
                                         <a href="#" class="btn_task_edit">
-                                            <img src="<?php echo base_url();?>theme/default/images/b_edit.png" width="20" height="16" alt="edit" border="0" />
+                                            <img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" alt="edit" border="0" />
                                         </a>
                                     <?php else : ?>
-                                        <img src="<?php echo base_url();?>theme/default/images/b_edin.png" width="20" height="16" alt="del" border="0" />
+                                        <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" alt="del" border="0" />
                                     <?php endif;
                                     // DELETE
                                     if ($this->ion_auth->in_group(array(1,2))  || $tf->position > 3) : //falta checkear permiso de proyecto ?>
                                         <a href="#" class="btn_task_delete">
-                                            <img src="<?php echo base_url();?>theme/default/images/b_dele.png" width="20" height="16" alt="del" border="0" />
+                                            <img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" alt="del" border="0" />
                                         </a>
                                     <?php else : ?>
-                                        <img src="<?php echo base_url();?>theme/default/images/b_deln.png" width="20" height="16" alt="del" border="0" />
+                                        <img src="<?php echo base_url() . $theme;?>/images/b_deln.png" width="20" height="16" alt="del" border="0" />
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -95,7 +95,7 @@
                                             ?>
                                             <p align="center">
                                                 <a href="#" class="btn_task_new">
-                                                    <img src="<?php echo base_url();?>theme/default/images/b_new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('task_list_new'); ?>" />
+                                                    <img src="<?php echo base_url() . $theme;?>/images/b_new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('task_list_new'); ?>" />
                                                 </a>                                            
                                             </p>
                                             <?php

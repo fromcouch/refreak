@@ -45,6 +45,8 @@ small {
     left: 1%;
     top: 65px;
     width: 98%;
+    display: block;
+    min-height: 100px;
 }
 
 .user {
@@ -144,8 +146,6 @@ ul.nav {
     float:left;
     margin:0px auto;
     position:relative;
-    /*width: 100%;*/
-    float:left;
     padding: 0px;
     /*border-left:1px solid #c4dbe7;
     border-right:1px solid #c4dbe7;*/
@@ -254,7 +254,7 @@ ul.nav ul li a {
     border:0 none;
     float:left;
     clear:both;
-    width:125px;
+    width:120px;
 }
 /*** END Menu ***/
 
@@ -393,6 +393,19 @@ table.sheet td div.comment_count {
 	float: right;
 }
 
+span.dlate {
+	color: #C00;
+}
+span.dday {
+	font-weight: bold;
+}
+span.ddone {
+	color: #999;
+}
+span.dtodo {
+	color: #696;
+}
+
 /*** End Tables ***/
 
 /** Priority **/
@@ -513,6 +526,18 @@ div.task_ctxO {
 .message.error {
 	background-color: #fcc;
 }
+
+.footer_error {
+    color:red;
+}
+
+.error_box {
+    background-color: #FF9999;
+    border: 1px dotted #666666;
+    margin: 0 5px 15px;
+    padding: 15px;
+}
+
 /* end panels */
 
 /* forms and edit pages */
@@ -931,7 +956,7 @@ div.vmore .vhist td {
     color: #666666;
     font-family: Arial, Helvetica;
     font-size: xx-small;
-    margin: 30px 0 100px;
+    margin: 100px 0 100px;
     text-align: center;
 }
 

@@ -1,12 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
-
-/**
- *
- * @param type $class
- * @return string 
- */
 if ( !function_exists('form_dropdown_users')) {    
         function form_dropdown_users($class = '', $first_option = null, $selected=0,$name = null) {
 

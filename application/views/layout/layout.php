@@ -19,13 +19,15 @@
         <header class="header">
             <div class="userlogout">
                 <a href="<?php echo site_url();?>/auth/logout" title="<?php echo $this->lang->line('header_logout'); ?>">
-                    <img class="header-logout" src="<?php echo base_url();?>theme/default/images/logout-off.png" width="13" height="13" border="0" onmouseover="this.src='<?php echo base_url();?>theme/default/images/logout-on.png'" onmouseout="this.src='<?php echo base_url();?>theme/default/images/logout-off.png'" />
+                    <img class="header-logout" src="<?php echo base_url() . $theme;?>/images/logout-off.png" width="13" height="13" border="0" onmouseover="this.src='<?php echo base_url() . $theme;?>/images/logout-on.png'" onmouseout="this.src='<?php echo base_url() . $theme;?>/images/logout-off.png'" />
                 </a>
             </div>
             <div class="user">
                 <div class="username"><a href="<?php echo site_url();?>/users/edit_user/<?php echo $actual_user->id; ?>"><?php echo $actual_user->first_name.' '.$actual_user->last_name; ?></a></div>
                 <div class="userdate"><?php echo actual_text_date(); ?></div>
             </div>
+            <div>
+                <a href="<?php echo current_url();?>"><img width="166" height="30" border="0" alt="Refreak" src="<?php echo base_url() . $theme;?>/images/logo.png"></a></div>
         </header>
         <nav>
             <?php echo ul($menu_left,   array('class' => 'nav')); 
@@ -38,10 +40,16 @@
             echo $content_layout;
 
         ?>
-        <footer class="footer">
-            Refreak! v0.1 Beta - 2013-04-18 - <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Visit on Github</a>
-        </footer>
+        
     </div>    
+    <footer class="footer">
+        <?php
+            if (is_dir('install')) {
+                echo '<p class="footer_error">' . $this->lang->line('footer_install_dir') . '</p>';
+            }
+        ?>
+            Refreak! v0.1 Beta - 2013-04-18 - <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Visit on Github</a>
+    </footer>
     <?php if (isset($script_foot)) echo $script_foot;?>
     <script type="text/javascript">
         (function($){

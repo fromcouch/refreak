@@ -40,7 +40,7 @@ class Tasks extends RF_Controller {
         $this->css->add_style(base_url() . 'js/ui/themes/base/jquery.ui.theme.css', 'jquery.ui.theme');
         // I need datepicker css here because is loaded by Ajax
         $this->css->add_style(base_url() . 'js/ui/themes/base/jquery.ui.datepicker.css', 'jquery.ui.datepicker');
-        $this->css->add_style(base_url() . 'theme/default/css/ui-widget.css', 'jquery.ui.regularize');
+        $this->css->add_style(base_url() . '/' . $this->data['theme'] . '/css/ui-widget.css', 'jquery.ui.regularize');
         
         $this->data['js_vars'] .=         "\n" .
                     'var tasksmessage_created    = "' . $this->lang->line('tasksmessage_created') . "\";\n" .
@@ -157,10 +157,14 @@ class Tasks extends RF_Controller {
             
             //load layout configuration
             $this->config->load('layout');
+            $this->config->load('refreak');
 
             //inform system don't use layout, don't need for this ajax call
             $this->config->set_item('layout_use', false);
-
+            
+            // get default value for visibility
+            $visibility                     = $this->config->item('rfk_task_visibility');
+            
             $ups            = array($this->lang->line('task_edit_project_none'));
             foreach ($this->data['user_projects'] as $up) {
                 $ups[] = $up->name;
@@ -175,7 +179,7 @@ class Tasks extends RF_Controller {
                                         'project_id'            => 0,
                                         'description'           => null,
                                         'user_id'               => $this->data['actual_user']->id,
-                                        'private'               => 1,
+                                        'private'               => $visibility,
                                         'status'                => 0,
             );
             
@@ -327,14 +331,19 @@ class Tasks extends RF_Controller {
             
             $this->load->model('project_model');
             
-            $project                        = $this->project_model->get_project($task[0]['project_id']);
+            if ($task[0]['project_id'] != 0) {
+                    $project                = $this->project_model->get_project($task[0]['project_id']);
+                    $this->data['project_name']     = $project->name;
+            }
+            else {
+                    $this->data['project_name']     = '';
+            }
             
             $context                        = $this->lang->line('task_context');
             $context_letter                 = substr($context[$task[0]['context']], 0, 1);
             $visibility                     = $this->lang->line('task_visibility');
             $user                           = $this->data['users'][$task[0]['user_id']];
             $username                       = $user->first_name . ' ' . $user->last_name;
-            $project_name                   = $project->name;
             $status                         = $this->lang->line('task_status');
             
             $this->data['tf']               = $task[0];
@@ -342,7 +351,6 @@ class Tasks extends RF_Controller {
             $this->data['visibility']       = $visibility;
             $this->data['context_letter']   = $context_letter;
             $this->data['username']         = $username;
-            $this->data['project_name']     = $project_name;
             $this->data['status']           = $status;
             
             unset($user, $project);
@@ -528,12 +536,14 @@ class Tasks extends RF_Controller {
         
         if ($this->input->is_ajax_request() && $this->can_do($task_id, $actual_user_id, 4))
         {
+            $this->config->load('refreak');
             
+            $cd                             = $this->config->item('rfk_complete_deadline');
             $status                         = $this->input->post('status');
             
             $this->task_model->set_status($task_id, $status, $this->data['actual_user']->id);
             
-            if ($status == 5) {
+            if ($cd && $status == 5) {
                 $this->task_model->close_task($task_id);
             }
                 

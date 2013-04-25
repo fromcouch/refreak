@@ -20,6 +20,7 @@ class Auth extends CI_Controller {
 		$this->load->library('session');
 		$this->load->library('form_validation');
 		$this->load->helper('url');
+                $this->lang->load('general');
 		
 		// Load MongoDB library instead of native db driver if required
 		$this->config->item('use_mongodb', 'ion_auth') ?
@@ -42,7 +43,8 @@ class Auth extends CI_Controller {
 		if (!$this->ion_auth->logged_in())
 		{
 			//redirect them to the login page
-			redirect('auth/login', 'refresh');
+			//redirect('auth/login', 'refresh');
+                        $this->login();
 		}
 		elseif (!$this->ion_auth->is_admin())
 		{
@@ -223,6 +225,12 @@ class Auth extends CI_Controller {
          */
 	public function forgot_password()
 	{
+                //load layout configuration
+                $this->config->load('layout');
+
+                //inform system don't use layout, don't need for this ajax call
+                $this->config->set_item('layout_use', false);
+                
 		$this->form_validation->set_rules('email', 'Email Address', 'required');
 		if ($this->form_validation->run() == false)
 		{
@@ -233,7 +241,6 @@ class Auth extends CI_Controller {
 
 			//set any errors and display the form
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-                        $this->data['layout']['layout_use'] = false;
 			$this->load->view('auth/forgot_password', $this->data);
 		}
 		else
@@ -264,6 +271,12 @@ class Auth extends CI_Controller {
          */
 	public function reset_password($code = NULL)
 	{
+                //load layout configuration
+                $this->config->load('layout');
+
+                //inform system don't use layout, don't need for this ajax call
+                $this->config->set_item('layout_use', false);
+                
 		if (!$code)
 		{
 			show_404();
@@ -352,7 +365,14 @@ class Auth extends CI_Controller {
 	}
 
 
-	//activate the user
+	/**
+         * activate the user
+         * 
+         * @param int $id user id
+         * @param string|boolean $code code for activation or false
+         * @access public
+         * @return void
+         */
 	function activate($id, $code=false)
 	{
 		if ($code !== false)
@@ -378,7 +398,14 @@ class Auth extends CI_Controller {
 		}
 	}
 
-	//deactivate the user
+	
+        /**
+         * deactivate the user
+         * 
+         * @param int $id user to deactivate
+         * @access public
+         * @return void
+         */
 	function deactivate($id = NULL)
 	{
 		$id = $this->config->item('use_mongodb', 'ion_auth') ? (string) $id : (int) $id;
@@ -418,6 +445,12 @@ class Auth extends CI_Controller {
 		}
 	}
 
+        /**
+         * Create Cross-Site Request Forgery nonce
+         * 
+         * @return array key and nonce value
+         * @access private
+         */
 	private function _get_csrf_nonce()
 	{
 		$this->load->helper('string');
@@ -429,6 +462,12 @@ class Auth extends CI_Controller {
 		return array($key => $value);
 	}
 
+        /**
+         * Validate Cross-Site Request Forgery nonce
+         * 
+         * @return boolean
+         * @access private
+         */
 	private function _valid_csrf_nonce()
 	{
 		if ($this->input->post($this->session->flashdata('csrfkey')) !== FALSE &&

@@ -13,7 +13,7 @@
                 <th width="10%" style="text-align:center">
                 <?php if ($this->ion_auth->is_admin()) : ?>
                     <a href="<?php echo site_url();?>/users/create_user/">
-                        <img src="<?php echo base_url();?>theme/default/images/new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('userstable_new'); ?>" />                        
+                        <img src="<?php echo base_url() . $theme;?>/images/new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('userstable_new'); ?>" />                        
                     </a>
                 <?php else : 
                         echo $this->lang->line('userstable_action'); 
@@ -35,23 +35,23 @@
                         
                         if ($actual_user->id != $table_user->id && $this->ion_auth->is_admin()) : ?>
                             <a href="<?php echo site_url();?>/users/<?php echo $url_active;?>/<?php echo $table_user->id;?>">
-                                <img src="<?php echo base_url();?>theme/default/images/b_<?php echo $user_status; ?>.png" />
+                                <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $user_status; ?>.png" />
                             </a>
                         <?php else : ?>
-                                <img src="<?php echo base_url();?>theme/default/images/b_<?php echo $user_status; ?>.png" />
+                                <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $user_status; ?>.png" />
                         <?php endif; 
                         
                         if ($actual_user->id == $table_user->id || $this->ion_auth->is_admin()) :                                                    
                         ?>
-                            <a href="<?php echo site_url();?>/users/edit_user/<?php echo $table_user->id;?>"><img src="<?php echo base_url();?>theme/default/images/b_edit.png" width="20" height="16" border="0" /></a>
+                            <a href="<?php echo site_url();?>/users/edit_user/<?php echo $table_user->id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" border="0" /></a>
                         <?php else : ?>
-                            <img src="<?php echo base_url();?>theme/default/images/b_edin.png" width="20" height="16" border="0" />
+                            <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" />
                         <?php endif; ?>
 
                         <?php if ($actual_user->id != $table_user->id && $this->ion_auth->is_admin()) : ?>
-                            <a href="<?php echo site_url();?>/users/delete_user/<?php echo $table_user->id;?>" onclick="return confirm(<?php echo $this->lang->line('userstable_confirmdelete'); ?>);"><img src="<?php echo base_url();?>theme/default/images/b_dele.png" width="20" height="16" border="0" /></a>
+                            <a href="<?php echo site_url();?>/users/delete_user/<?php echo $table_user->id;?>" onclick="return confirm(<?php echo $this->lang->line('userstable_confirmdelete'); ?>);"><img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" border="0" /></a>
                         <?php else : ?>
-                            <img src="<?php echo base_url();?>theme/default/images/b_deln.png" width="20" height="16" border="0" />
+                            <img src="<?php echo base_url() . $theme;?>/images/b_deln.png" width="20" height="16" border="0" />
                         <?php endif; ?>
                             
                 </td>

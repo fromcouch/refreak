@@ -58,7 +58,7 @@ pre {
 </style>
 </head>
 <body>
-    <p align="center"><img src="../theme/default/images/refreak-logo.png" border="0" alt="Refreak" /></p>
+    <p align="center"><img src="../theme/default/images/freak-logo.png" border="0" alt="Refreak" /></p>
     <p align="center">
         <a href="index.php">Check install</a> |
         <a href="?act=2">README!</a> |
