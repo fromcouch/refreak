@@ -160,8 +160,7 @@ class Ion_auth
 						return TRUE;
 					}
 					else
-					{
-                                            echo $this->email->print_debugger();die('yujuu');
+					{                                            
 						$this->set_error('forgot_password_unsuccessful');
 						return FALSE;
 					}
