@@ -17,7 +17,7 @@ TODO
 + ~~Add theme as a variable on code~~
 + ~~Create config variables~~
 + ~~Desing login page~~
-+ Users Account is Enabled
++ ~~Users Account is Enabled~~
 + ~~Reload Icon~~
 + ~~Solve Bugs~~
     + ~~Show task without project fail~~
