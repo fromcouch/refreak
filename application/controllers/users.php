@@ -76,6 +76,7 @@ class Users extends RF_Controller {
                             'title'      => $this->input->post('title'),
                             'city'       => $this->input->post('city'),
                             'country_id' => $this->input->post('country_id'),
+                            'active'     => $this->input->post('active_user') === 'ok' ? true : false,
                     );
             }
             if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data, array($group)))
@@ -130,7 +131,12 @@ class Users extends RF_Controller {
                             'type'  => 'password',
                             'value' => $this->form_validation->set_value('password_confirm'),
                     );
-
+                    $this->data['active_user'] = array(
+                            'name'  => 'active_user',
+                            'class' => 'active_user',
+                            'checked'  => FALSE,
+                            'value' => 'ok',
+                    );
                     $this->data['city'] = array(
                             'name'  => 'city',
                             'id'    => 'city',
@@ -186,6 +192,7 @@ class Users extends RF_Controller {
                             'title'      => $this->input->post('title'),
                             'city'       => $this->input->post('city'),
                             'country_id' => $this->input->post('country_id'),
+                            'active'     => $this->input->post('active_user') === 'ok' ? true : false,
                     );
 
                     //update the password if it was posted
@@ -267,7 +274,7 @@ class Users extends RF_Controller {
             );
             $this->data['active_user'] = array(
                     'name'  => 'active_user',
-                    'id'    => 'active_user',
+                    'class' => 'active_user',
                     'checked'  => $user->active,
                     'value' => 'ok',
             );
@@ -278,7 +285,8 @@ class Users extends RF_Controller {
             );
             
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
-
+            $this->data['groups_show'] = $user->active ? '' : ' style = "display:none" ';
+            
             $this->load->view('auth/edit_user', $this->data);
     }
     

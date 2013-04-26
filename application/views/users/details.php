@@ -24,15 +24,23 @@
             <p>
                     <label><?php echo $this->lang->line('usersdetails_level'); ?></label>
                     <?php
-                        $reverse_groups = array_reverse($groups, true);                        
-                        foreach ($reverse_groups as $gr_id => $gr) :
-                            $class = 'level_pad level_0';
-                            if ($gr_id == $user_groups[0]->id)
-                                $class = 'level_high level_'.$gr_id;
-                            
-                            echo '<span class="' . $class . '">' . $gr . '</span>';
+                    
+                        if ($user->active) :
+                                $reverse_groups = array_reverse($groups, true);                        
+                                foreach ($reverse_groups as $gr_id => $gr) :
+                                    $class = 'level_pad level_0';
+                                    if ($gr_id == $user_groups[0]->id)
+                                        $class = 'level_high level_'.$gr_id;
+
+                                    echo '<span class="' . $class . '">' . $gr . '</span>';
+
+                                endforeach;
+                        else:
                         
-                        endforeach;
+                                echo $this->lang->line('usersdetails_disabled');
+                                                
+                        endif;                        
+                        
                     ?>
             </p>
             <?php echo form_fieldset_close(); 

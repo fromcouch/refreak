@@ -56,8 +56,9 @@
             </p>
 
             <p>
-                    <label class="password"><?php echo $this->lang->line('userscrud_group'); ?></label>
-                    <?php echo form_dropdown('group', $groups);?>
+                    <?php echo form_checkbox($active_user); ?>
+                    <span><?php echo $this->lang->line('userscrud_enabled'); ?></span>
+                    <?php echo form_dropdown('group', $groups, null, 'class="group" style="display:none"');?>
             </p>
 
             <?php echo form_fieldset_close(); ?>
@@ -66,3 +67,12 @@
         <?php echo form_close();?>
     </div>
 </div>
+<script type="text/javascript">
+
+    $(".active_user").on("click", function() {
+       
+            $(".group").toggle();
+       
+    });
+    
+</script>
