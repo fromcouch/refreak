@@ -105,7 +105,7 @@ pre {
                     ?>
                 </ul>
                 <p align="center">
-                    Remember, user are admin@admin.com with word password as password.<br>
+                    Remember, user are administrator with word password as password.<br>
                     <a href="../">Go to Refreak</a>
                 </p>
             <?php
