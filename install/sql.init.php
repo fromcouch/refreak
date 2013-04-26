@@ -292,7 +292,7 @@ $sql_create_projects = "
 
 $sql_insert_projects = "
     INSERT INTO `{$pre}projects` (`project_id`, `name`, `description`) VALUES
-    (1, 'Test', 'test description');";
+    (1, 'Your first project', '');";
 
 $sql_create_users = "
     CREATE TABLE IF NOT EXISTS `{$pre}users` (
@@ -327,8 +327,6 @@ $sql_insert_users = "
         (2, '\0\0', 'manager', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'manager@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Man', 'ager', 'ADMIN', '0', 1),
         (3, '\0\0', 'developer', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'developer@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Dev', 'eloper', 'ADMIN', '0', 1),
         (4, '\0\0', 'guest', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'guest@admin.com', NULL, NULL, NULL, NULL, 1268889823, 1349952296, 1, 'Gu', 'est', 'ADMIN', '0', 1),
-        (9, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test', '22ec042669afa1872ef9d81284fd92e046d5861d', NULL, 'test1@test.com', NULL, NULL, NULL, NULL, 1349948237, 1349948237, 1, 'test', 'test', 'ADMIN', NULL, 1),
-        (10, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test1', '11d2fd772ff974c0fbc172b9070e24499105959b', NULL, 'test@test.com', NULL, NULL, NULL, NULL, 1349948244, 1349948244, 1, 'test', 'test', 'ADMIN', NULL, 1);
         ";
         
 $sql_create_users_groups = "
@@ -353,7 +351,7 @@ $sql_create_project_status = "
     CREATE TABLE IF NOT EXISTS `{$pre}project_status` (
     `project_status_id` int(11) NOT NULL AUTO_INCREMENT,
     `project_id` int(11) NOT NULL,
-    `status_date` date NOT NULL,
+    `status_date` datetime NOT NULL,
     `status_id` int(11) NOT NULL,
     `user_id` int(11) NOT NULL,
     PRIMARY KEY (`project_status_id`)
@@ -362,7 +360,7 @@ $sql_create_project_status = "
 
 $sql_insert_project_status = "
     INSERT INTO `{$pre}project_status` (`project_status_id`, `project_id`, `status_date`, `status_id`, `user_id`) VALUES
-    (1, 1, '2013-01-24', 1, 1);
+    (1, 1, '2013-01-24 00:00:00', 0, 1);
     ";
 
 $sql_create_tasks = "
@@ -384,7 +382,12 @@ $sql_create_tasks = "
         PRIMARY KEY (`task_id`)
       ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
-$sql_insert_tasks = "";
+$sql_insert_tasks = "
+        INSERT INTO `{$pre}tasks` (`task_id`, `project_id`, `task_parent_id`, `priority`, `context`, `title`, `description`, `deadline_date`, `expected_duration`, `total_duration`, `private`, `user_id`,`author_id`) VALUES 
+        (1, 1, 0, 3, '1', 'Congratulations! This is your first task', 'First of all, read the README.txt if you haven''t done it yet.\r\n\r\nLots of informations in there.', '9999-00-00', 0, 0, 0, 1, 1),
+        (2, 1, 0, 5, '1', 'How to create a user', 'To create a new user, go to menu <i>manage > users</i> \r\n\r\nthen click on the <img src=\"skins/redfreak/images/b_new.png\" /> button.', '9999-00-00', 0, 0, 2, 1, 1),
+        (3, 1, 0, 7, '4', 'Send some feedback', 'To send some feedback to the author, go to\r\n<a href=\"http://https://github.com/fromcouch/refreak/issues\" target=\"_blank\">https://github.com/fromcouch/refreak/issues</a>', '9999-00-00', 0, 0, 1, 1, 1);
+";
 
 $sql_create_tasks_comment = "
     CREATE TABLE IF NOT EXISTS `{$pre}task_comment` (
@@ -411,7 +414,12 @@ $sql_create_tasks_status = "
     PRIMARY KEY (`task_status_id`)
   ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
-$sql_insert_tasks_status = "";
+$sql_insert_tasks_status = "
+        INSERT INTO `{$pre}task_status` (`task_status_id`, `task_id`, `status_date`, `status`, `user_id`) VALUES 
+        (1, 1, '2013-01-24 00:00:00', 0, 1),
+        (2, 2, '2013-01-24 00:00:00', 0, 1),    
+        (3, 3, '2013-01-24 00:00:00', 0, 1);    
+";
 
 
 $sql_create_user_project = "
@@ -424,9 +432,5 @@ $sql_create_user_project = "
     
 $sql_insert_user_project = "    
         INSERT INTO `{$pre}user_project` (`user_id`, `project_id`, `position`) VALUES
-        (1, 1, 5),
-        (1, 2, 5),
-        (2, 1, 3),
-        (3, 1, 3),
-        (3, 2, 2);";
+        (1, 1, 5);";
     

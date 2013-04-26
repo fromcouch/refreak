@@ -95,8 +95,10 @@ pre {
                     <?php
                         echo InstallDecorator::show_li_element('Import Country Data', $inst->install_table($sql_insert_country));
                         echo InstallDecorator::show_li_element('Import Groups Data', $inst->install_table($sql_insert_groups));                        
-                        echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_insert_projects));
+                        echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_insert_projects));                        
                         echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_insert_users));
+                        echo InstallDecorator::show_li_element('Import Tasks Data', $inst->install_table($sql_insert_tasks));
+                        echo InstallDecorator::show_li_element('Import Tasks Status Data', $inst->install_table($sql_insert_tasks_status));
                         echo InstallDecorator::show_li_element('Import Users Project Data', $inst->install_table($sql_insert_user_project));
                         echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_insert_users_groups));
                         echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_insert_project_status));                        
