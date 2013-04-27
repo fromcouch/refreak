@@ -61,7 +61,7 @@ class Users extends RF_Controller {
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
             $this->form_validation->set_rules('password_confirm', 'Password Confirmation', 'required');
 
-            if ($this->form_validation->run() == true)
+            if ($this->form_validation->run() === TRUE)
             {
                     $username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
                     $email    = $this->input->post('email');
@@ -78,81 +78,81 @@ class Users extends RF_Controller {
                             'country_id' => $this->input->post('country_id'),
                             'active'     => $this->input->post('active_user') === 'ok' ? true : false,
                     );
-            }
-            if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data, array($group)))
-            { 
-                    //check to see if we are creating the user
-                    //redirect them back to the admin page
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect("users", 'refresh');
-            }
-            else
-            { 
-                    //display the create user form
-                    $this->data['title'] = array(
-                            'name'  => 'title',
-                            'id'    => 'title',
-                            'type'  => 'text',
-                            'value' => $this->form_validation->set_value('title'),
-                    );
-                    $this->data['first_name'] = array(
-                            'name'  => 'first_name',
-                            'id'    => 'first_name',
-                            'type'  => 'text',
-                            'value' => $this->form_validation->set_value('first_name'),
-                    );
-                    $this->data['last_name'] = array(
-                            'name'  => 'last_name',
-                            'id'    => 'last_name',
-                            'type'  => 'text',
-                            'value' => $this->form_validation->set_value('last_name'),
-                    );
-                    $this->data['email'] = array(
-                            'name'  => 'email',
-                            'id'    => 'email',
-                            'type'  => 'text',
-                            'value' => $this->form_validation->set_value('email'),
-                    );
-                    $this->data['company'] = array(
-                            'name'  => 'company',
-                            'id'    => 'company',
-                            'type'  => 'text',
-                            'value' => $this->form_validation->set_value('company'),
-                    );                    
-                    $this->data['password'] = array(
-                            'name'  => 'password',
-                            'id'    => 'password',
-                            'type'  => 'password',
-                            'value' => $this->form_validation->set_value('password'),
-                    );
-                    $this->data['password_confirm'] = array(
-                            'name'  => 'password_confirm',
-                            'id'    => 'password_confirm',
-                            'type'  => 'password',
-                            'value' => $this->form_validation->set_value('password_confirm'),
-                    );
-                    $this->data['active_user'] = array(
-                            'name'  => 'active_user',
-                            'class' => 'active_user',
-                            'checked'  => FALSE,
-                            'value' => 'ok',
-                    );
-                    $this->data['city'] = array(
-                            'name'  => 'city',
-                            'id'    => 'city',
-                            'type'  => 'text',
-                            'value' => $this->form_validation->set_value('city'),
-                    );
-                    $this->data['country'] = array(
-                            'name'  => 'country_id',                    
-                            'value' => $this->form_validation->set_value('country_id'),
-                            'data'  => $this->to_dropdown_array($this->user_model->get_country(), 'country_id', 'name')
-                    );
-
-                    $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
                     
-                    $this->load->view('auth/create_user', $this->data);
+                    if ($this->ion_auth->register($username, $password, $email, $additional_data, array($group)))
+                    { 
+                            //check to see if we are creating the user
+                            //redirect them back to the admin page
+                            $this->session->set_flashdata('message', $this->ion_auth->messages());
+                            redirect("users", 'refresh');
+                    }
             }
+             
+            //display the create user form
+            $this->data['title'] = array(
+                    'name'  => 'title',
+                    'id'    => 'title',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('title'),
+            );
+            $this->data['first_name'] = array(
+                    'name'  => 'first_name',
+                    'id'    => 'first_name',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('first_name'),
+            );
+            $this->data['last_name'] = array(
+                    'name'  => 'last_name',
+                    'id'    => 'last_name',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('last_name'),
+            );
+            $this->data['email'] = array(
+                    'name'  => 'email',
+                    'id'    => 'email',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('email'),
+            );
+            $this->data['company'] = array(
+                    'name'  => 'company',
+                    'id'    => 'company',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('company'),
+            );                    
+            $this->data['password'] = array(
+                    'name'  => 'password',
+                    'id'    => 'password',
+                    'type'  => 'password',
+                    'value' => $this->form_validation->set_value('password'),
+            );
+            $this->data['password_confirm'] = array(
+                    'name'  => 'password_confirm',
+                    'id'    => 'password_confirm',
+                    'type'  => 'password',
+                    'value' => $this->form_validation->set_value('password_confirm'),
+            );
+            $this->data['active_user'] = array(
+                    'name'  => 'active_user',
+                    'class' => 'active_user',
+                    'checked'  => FALSE,
+                    'value' => 'ok',
+            );
+            $this->data['city'] = array(
+                    'name'  => 'city',
+                    'id'    => 'city',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('city'),
+            );
+            $this->data['country'] = array(
+                    'name'  => 'country_id',                    
+                    'value' => $this->form_validation->set_value('country_id'),
+                    'data'  => $this->to_dropdown_array($this->user_model->get_country(), 'country_id', 'name')
+            );
+
+            $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
+
+            $this->load->view('auth/create_user', $this->data);
+
         }
     }
 
