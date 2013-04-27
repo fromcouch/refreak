@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `rfk_project_status` (
 --
 
 INSERT INTO `rfk_project_status` (`project_status_id`, `project_id`, `status_date`, `status_id`, `user_id`) VALUES
-(1, 1, '2013-01-24 00:00:00', 0, 1);
+(1, 1, '2013-01-24 00:00:00', 1, 1);
 
 -- --------------------------------------------------------
 
