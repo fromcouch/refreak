@@ -14,14 +14,8 @@ TODO
 ### Stage 1
 
 + Revise Code Comments
-+ ~~Add theme as a variable on code~~
-+ ~~Create config variables~~
-+ ~~Desing login page~~
-+ Users Account is Enabled
-+ ~~Reload Icon~~
-+ ~~Solve Bugs~~
-    + ~~Show task without project fail~~
-    + ~~js problem with clock and closures~~
+
+Finishing Stage 1.
 
 ### Stage 2
 + Import on Install tasks from TF

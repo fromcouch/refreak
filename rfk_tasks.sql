@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `rfk_groups` (
   `name` varchar(20) NOT NULL,
   `description` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Volcado de datos para la tabla `rfk_groups`
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `rfk_login_attempts` (
   `login` varchar(100) NOT NULL,
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -68,14 +68,14 @@ CREATE TABLE IF NOT EXISTS `rfk_projects` (
   `name` varchar(30) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `rfk_projects`
 --
 
 INSERT INTO `rfk_projects` (`project_id`, `name`, `description`) VALUES
-(1, 'Test', 'test description');
+(1, 'Your first project', '');
 
 -- --------------------------------------------------------
 
@@ -90,14 +90,14 @@ CREATE TABLE IF NOT EXISTS `rfk_project_status` (
   `status_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`project_status_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `rfk_project_status`
 --
 
 INSERT INTO `rfk_project_status` (`project_status_id`, `project_id`, `status_date`, `status_id`, `user_id`) VALUES
-(1, 1, '2013-01-24', 1, 1);
+(1, 1, '2013-01-24 00:00:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -121,10 +121,14 @@ CREATE TABLE IF NOT EXISTS `rfk_tasks` (
   `author_id` int(11) NOT NULL,
   `modified_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
   PRIMARY KEY (`task_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ INSERT INTO `rfk_tasks` (`task_id`, `project_id`, `task_parent_id`, `priority`, `context`, `title`, `description`, `deadline_date`, `expected_duration`, `total_duration`, `private`, `user_id`,`author_id`) VALUES 
+        (1, 1, 0, 3, '1', 'Congratulations! This is your first task', 'First of all, read the README.txt if you haven''t done it yet.\r\n\r\nLots of informations in there.', '9999-00-00', 0, 0, 0, 1, 1),
+        (2, 1, 0, 5, '1', 'How to create a user', 'To create a new user, go to menu <i>manage > users</i> \r\n\r\nthen click on the <img src=\"skins/redfreak/images/b_new.png\" /> button.', '9999-00-00', 0, 0, 2, 1, 1),
+        (3, 1, 0, 7, '4', 'Send some feedback', 'To send some feedback to the author, go to\r\n<a href=\"http://https://github.com/fromcouch/refreak/issues\" target=\"_blank\">https://github.com/fromcouch/refreak/issues</a>', '9999-00-00', 0, 0, 1, 1, 1);
 
 -- --------------------------------------------------------
-
 --
 -- Estructura de tabla para la tabla `rfk_task_comment`
 --
@@ -138,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `rfk_task_comment` (
   `last_change_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`task_comment_id`),
   KEY `taskId` (`task_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -153,8 +157,12 @@ CREATE TABLE IF NOT EXISTS `rfk_task_status` (
   `status` smallint(6) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`task_status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+INSERT INTO `rfk_task_status` (`task_status_id`, `task_id`, `status_date`, `status`, `user_id`) VALUES 
+        (1, 1, '2013-01-24 00:00:00', 0, 1),
+        (2, 2, '2013-01-24 00:00:00', 0, 1),    
+        (3, 3, '2013-01-24 00:00:00', 0, 1);  
 -- --------------------------------------------------------
 
 --
@@ -184,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `rfk_users` (
   `country_id` VARCHAR( 2 ) NULL ,
   `author_id` INT NOT NULL 
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+)  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Volcado de datos para la tabla `rfk_users`
@@ -194,9 +202,7 @@ INSERT INTO `rfk_users` (`id`, `ip_address`, `username`, `password`, `salt`, `em
 (1, '\0\0', 'administrator', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'admin@admin.com', '', NULL, NULL, NULL, 1268889823, 1359044134, 1, 'Admin', 'istrator', 'ADMIN', '0', 1),
 (2, '\0\0', 'manager', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'manager@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Man', 'ager', 'ADMIN', '0', 1),
 (3, '\0\0', 'developer', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'developer@admin.com', '', NULL, NULL, NULL, 1268889823, 1349861218, 1, 'Dev', 'eloper', 'ADMIN', '0', 1),
-(4, '\0\0', 'guest', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'guest@admin.com', NULL, NULL, NULL, NULL, 1268889823, 1349952296, 1, 'Gu', 'est', 'ADMIN', '0', 1),
-(9, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test', '22ec042669afa1872ef9d81284fd92e046d5861d', NULL, 'test1@test.com', NULL, NULL, NULL, NULL, 1349948237, 1349948237, 1, 'test', 'test', 'ADMIN', NULL, 1),
-(10, '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'test test1', '11d2fd772ff974c0fbc172b9070e24499105959b', NULL, 'test@test.com', NULL, NULL, NULL, NULL, 1349948244, 1349948244, 1, 'test', 'test', 'ADMIN', NULL, 1);
+(4, '\0\0', 'guest', '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', '9462e8eee0', 'guest@admin.com', NULL, NULL, NULL, NULL, 1268889823, 1349952296, 1, 'Gu', 'est', 'ADMIN', '0', 1);
 
 -- --------------------------------------------------------
 
@@ -209,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `rfk_users_groups` (
   `user_id` mediumint(8) unsigned NOT NULL,
   `group_id` mediumint(8) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `rfk_users_groups`
@@ -219,9 +225,7 @@ INSERT INTO `rfk_users_groups` (`id`, `user_id`, `group_id`) VALUES
 (1, 1, 1),
 (3, 2, 2),
 (4, 3, 3),
-(5, 4, 4),
-(10, 9, 4),
-(11, 10, 4);
+(5, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -234,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `rfk_user_project` (
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
   `position` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`,`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `rfk_user_project`

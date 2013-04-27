@@ -82,10 +82,10 @@ $config['max_rounds']     = 9;
  | appropriately. If this variable set to 0, there is no maximum.
  */
 $config['site_title']           = "Refreak"; 		// Site Title, example.com
-$config['admin_email']          = "victor.santacreu@linka.com.es"; 	// Admin Email, admin@example.com
+$config['admin_email']          = "victor@ebavs.net"; 	// Admin Email, admin@example.com
 $config['default_group']        = 'members'; 			// Default group, use name
 $config['admin_group']          = 'admin'; 				// Default administrators group, use name
-$config['identity']             = 'email'; 				// A database column which is used to login with
+$config['identity']             = 'username'; 				// A database column which is used to login with
 $config['min_password_length']  = 8; 					// Minimum Required Length of Password
 $config['max_password_length']  = 20; 					// Maximum Allowed Length of Password
 $config['email_activation']     = FALSE; 				// Email Activation for registration

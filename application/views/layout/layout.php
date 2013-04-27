@@ -27,7 +27,8 @@
                 <div class="userdate"><?php echo actual_text_date(); ?></div>
             </div>
             <div>
-                <a href="<?php echo current_url();?>"><img width="166" height="30" border="0" alt="Refreak" src="<?php echo base_url() . $theme;?>/images/logo.png"></a></div>
+                <a href="<?php echo site_url();?>"><img width="166" height="30" border="0" alt="Refreak" src="<?php echo base_url() . $theme;?>/images/logo.png"></a>
+            </div>
         </header>
         <nav>
             <?php echo ul($menu_left,   array('class' => 'nav')); 
