@@ -343,9 +343,7 @@ $sql_insert_users_groups = "
         (1, 1, 1),
         (3, 2, 2),
         (4, 3, 3),
-        (5, 4, 4),
-        (10, 9, 4),
-        (11, 10, 4);";
+        (5, 4, 4)";
         
 $sql_create_project_status = "
     CREATE TABLE IF NOT EXISTS `{$pre}project_status` (
