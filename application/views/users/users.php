@@ -22,17 +22,18 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($users as $table_user) : ?>
-            <tr>
+            <?php foreach ($users as $table_user) : 
+                        $user_status    = $table_user->active ? 'ena' : 'dis';
+                        $user_status   .= ($actual_user->id != $table_user->id && $this->ion_auth->is_admin()) ? 'y' : 'n';
+                        $url_active     = $table_user->active ? 'deactivate' : 'activate';
+                        $tr_class       = $table_user->active ? '' : 'class = "disabled"';
+            ?>
+            <tr <?php echo $tr_class; ?>>
                 <td><a href="<?php echo site_url();?>/users/details/<?php echo $table_user->id;?>"><?php echo $table_user->first_name.' '.$table_user->last_name ?></a></td>
                 <td><?php echo $table_user->group_desc; ?></td>
                 <td><?php echo date('D d/m/Y G:i', $table_user->last_login); ?></td>
                 <td align="center">
                         <?php 
-                        $user_status = $table_user->active ? 'ena' : 'dis';
-                        $user_status .= ($actual_user->id != $table_user->id && $this->ion_auth->is_admin()) ? 'y' : 'n';
-                        $url_active = $table_user->active ? 'deactivate' : 'activate';
-                        
                         if ($actual_user->id != $table_user->id && $this->ion_auth->is_admin()) : ?>
                             <a href="<?php echo site_url();?>/users/<?php echo $url_active;?>/<?php echo $table_user->id;?>">
                                 <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $user_status; ?>.png" />
