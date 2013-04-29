@@ -7,6 +7,27 @@ Hi, I'm using Taskfreak from two or three years ago. I made many changes to the 
 
 Actually I'm in development stage.
 
+
+What is Refreak?
+----------------
+
+Refreak is a simple but efficient web based task manager written in PHP and Code Igniter.
+Originally created in September 2005 and maintained by Stan Ozier and Tirzen with their Tirzen Framework.
+
+
+###Features
+
+ - easy to use task manager
+ - order tasks by deadline, project, etc ..
+ - user management for tasks and system
+ - easy project management
+
+###Future Features
+
+ - Import from Taskfreak when Install.
+ - Plugin Ready
+
+
 TODO
 ----
 
