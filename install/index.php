@@ -172,8 +172,13 @@ pre {
                     <script type="text/javascript">
                         (function () {
                             var ib = document.querySelector(".install_button");
+                            var im = document.querySelector(".import_button");
+                            
                             ib.addEventListener("click", function() {
                                 window.location.href="?act=1";
+                            }, false);
+                            im.addEventListener("click", function() {
+                                window.location.href="?act=4";
                             }, false);
                         })();
                     </script>    
