@@ -62,6 +62,7 @@ pre {
     <p align="center">
         <a href="index.php">Check install</a> |
         <a href="?act=2">README!</a> |
+        <a href="?act=3">Import from Taskfreak!</a> |
         <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Support</a>
     </p>
     <div class="preview">
@@ -115,6 +116,18 @@ pre {
                 $text = file_get_contents('../README.md');
                 $html = Markdown::defaultTransform($text);
                 echo $html;
+                break;
+            
+            case 3: ?>
+                You can Import from Taskfreak! doing one of this two options:
+                <ul>
+                    <li>Install Refreak in same Taskfreak! database and click <i>Import from TF</i> button.<br/></li>
+                    <li>Adding Taskfreak database configuration in <b>application/config/database.php</b>. 
+                        Uncomment TF database configuration and fill empty config and click <i>Import from TF</i> button.</li>
+                </ul>
+                <input type="button" value="Import" name="import_button" class="Import from TF" />
+                
+            <?php 
                 break;
             
             case 0:
