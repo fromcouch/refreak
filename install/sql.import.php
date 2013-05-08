@@ -45,3 +45,16 @@ $sql_insert_tasks = "
         INSERT INTO {$db_new}.`{$pre_new}tasks` (`task_id`, `project_id`, `task_parent_id`, `priority`, `context`, `title`, `description`, `deadline_date`, `expected_duration`, `private`, `user_id`,`author_id`) VALUES 
         SELECT itemId, projectId, itemParentId, priority, context, title, description, deadlineDate, expectedDuration, showPrivate, memberId, authorId FROM {$db_old}.`{$pre_old}item`
 ;";
+        
+
+$sql_truncate_tasks_status = "TRUNCATE TABLE {$db_new}.`{$pre_new}task_status`";
+$sql_insert_tasks_status = "
+        INSERT INTO {$db_new}.`{$pre_new}task_status` (`task_status_id`, `task_id`, `status_date`, `status`, `user_id`) VALUES 
+        SELECT itemStatusId, itemId, statusDate, statusKey, memberId FROM {$db_old}.`{$pre_old}itemstatus`
+;";
+        
+$sql_truncate_tasks_comment = "TRUNCATE TABLE {$db_new}.`{$pre_new}task_comment`";
+$sql_insert_tasks_comment = "
+        INSERT INTO {$db_new}.`{$pre_new}task_status` (task_comment_id, task_id, user_id, post_date, comment, last_change_date) VALUES 
+        SELECT `itemCommentId`, `itemId`, `memberId`, `postDate`, `body`, `lastChangeDate` FROM {$db_old}.`{$pre_old}itemcomment`
+;";
