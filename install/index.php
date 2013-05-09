@@ -1,6 +1,8 @@
 <?php
 use \Michelf\Markdown;
 
+//error_reporting(0);
+
 include 'Install.php';
 include 'InstallDecorator.php';
 include 'Markdown.php';
@@ -125,11 +127,59 @@ pre {
                     <li>Adding Taskfreak database configuration in <b>application/config/database.php</b>. 
                         Uncomment TF database configuration and fill empty config and click <i>Import from TF</i> button.</li>
                 </ul>
-                <input type="button" value="Import" name="import_button" class="Import from TF" />
+                <p>&nbsp;</p>
+                <ul>
+                    <?php
+                        echo InstallDecorator::show_li_element('Check Taskfreak! Tables in same database', $inst->check_tf_exists_tables());
+                        echo InstallDecorator::show_li_element('Check Taskfreak! Database parameters', $inst->check_tf_exists_config());
+                        echo InstallDecorator::show_li_element('Check Taskfreak! Connection', $inst->check_tf_exists_connection());
+                    ?>
+                </ul>
+                <?php if ($inst->check_tf_exists_tables() && $inst->check_tf_exists_connection()) : ?>
+                <ul>
+                    <li>Detected existing tables in same database and Taskfreak! database. Existing tables will be used.</li>
+                </ul>
+                <?php endif; ?>
+                
+                <p>Import DELETE actual tables data!</p>
+                <input type="button" value="Import" name="import_button" class="import_button" />
                 
             <?php 
                 break;
-            
+                
+            case 4:
+                $inst->check_database_parameters();
+                $inst->check_connection();
+                
+                $db_new     = $inst->rfk_db['database'];
+                $pre_new    = $inst->rfk_db['dbprefix'];
+                
+                $db_old     = $inst->frk_db['database'];
+                $pre_old    = $inst->frk_db['dbprefix'];
+                
+                include_once 'sql.import.php'; ?>
+        
+                <p>Importing Data</p>
+                <ul>
+                    <?php
+                        echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_create_projects) && $inst->install_table($sql_truncate_projects) && $inst->install_table($sql_insert_projects));
+                        echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_insert_users));
+                        echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_insert_users_groups));
+                        echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_insert_project_status)); 
+                        echo InstallDecorator::show_li_element('Import Users Project Data', $inst->install_table($sql_insert_user_project));
+                        echo InstallDecorator::show_li_element('Import Tasks Data', $inst->install_table($sql_insert_tasks));
+                        echo InstallDecorator::show_li_element('Import Tasks Status Data', $inst->install_table($sql_insert_tasks_status));
+                        echo InstallDecorator::show_li_element('Import Tasks Comment Data', $inst->install_table($sql_insert_tasks_comment));
+                    ?>
+                </ul>
+                <p align="center">
+                    Remember, user are administrator with word password as password.<br>
+                    <a href="../">Go to Refreak</a>
+                </p>
+                
+                
+            <?php 
+                break;
             case 0:
             default: ?>
                 <p>Check configuration files</p>

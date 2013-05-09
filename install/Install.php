@@ -169,13 +169,13 @@ class Install {
                 $db_param = TRUE;
             }
             
-            if (!empty($db['tf']['hostname']) &&
-                !empty($db['tf']['username']) &&
-                !empty($db['tf']['password']) &&
-                !empty($db['tf']['database']) &&
-                !empty($db['tf']['dbprefix'])) {
+            if (!empty($db['import_tf']['hostname']) &&
+                !empty($db['import_tf']['username']) &&
+                !empty($db['import_tf']['password']) &&
+                !empty($db['import_tf']['database']) &&
+                !empty($db['import_tf']['dbprefix'])) {
                 
-                $this->frk_db = $db['tf'];
+                $this->frk_db = $db['import_tf'];
             }
             
         }
@@ -224,7 +224,7 @@ class Install {
         
         $connection         = FALSE;
         
-        $msi                = new $this->connect($this->rfk_db);
+        $msi                = $this->connect($this->rfk_db);
         
         if ($msi->connect_errno) {
             $this->connection_error = $msi->connect_error;
@@ -290,10 +290,13 @@ class Install {
      * @access public
      */
     public function check_tf_exists_tables() {
-                       
+        
+        $this->check_database_parameters(); //dependency
+        $this->check_connection(); //dependency
+        
         //first looking in same database
         //for frk_item (task table)
-        if(array_search('frk_item', $this->tables) === FALSE) {
+        if(is_array($this->tables) && array_search('frk_item', $this->tables) !== FALSE) {
             return TRUE;
         }
         
@@ -308,6 +311,8 @@ class Install {
      */
     public function check_tf_exists_config() {
        
+        $this->check_database_parameters(); //dependency
+        
         //look for existing config
         if (!is_null($this->frk_db)) {
             return TRUE;
