@@ -143,7 +143,15 @@ pre {
                 
                 <p>Import DELETE actual tables data!</p>
                 <input type="button" value="Import" name="import_button" class="import_button" />
-                
+                <script type="text/javascript">
+                        (function () {
+                            var im = document.querySelector(".import_button");
+
+                            im.addEventListener("click", function() {
+                                window.location.href="?act=4";
+                            }, false);
+                        })();
+                    </script>    
             <?php 
                 break;
                 
@@ -165,17 +173,27 @@ pre {
                         echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_create_projects) && 
                                                                                        $inst->install_table($sql_truncate_projects) && 
                                                                                        $inst->install_table($sql_insert_projects));
-                        echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_create_projects) && 
-                                                                                    $inst->install_table($sql_truncate_projects) && 
+                        echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_create_users) && 
+                                                                                    $inst->install_table($sql_truncate_users) && 
                                                                                     $inst->install_table($sql_insert_users));
-                        echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_create_projects) && 
-                                                                                           $inst->install_table($sql_truncate_projects) && 
+                        echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_create_users_groups) && 
+                                                                                           $inst->install_table($sql_truncate_users_groups) && 
                                                                                            $inst->install_table($sql_insert_users_groups));
-                        echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_insert_project_status)); 
-                        echo InstallDecorator::show_li_element('Import Users Project Data', $inst->install_table($sql_insert_user_project));
-                        echo InstallDecorator::show_li_element('Import Tasks Data', $inst->install_table($sql_insert_tasks));
-                        echo InstallDecorator::show_li_element('Import Tasks Status Data', $inst->install_table($sql_insert_tasks_status));
-                        echo InstallDecorator::show_li_element('Import Tasks Comment Data', $inst->install_table($sql_insert_tasks_comment));
+                        echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_create_project_status) && 
+                                                                                             $inst->install_table($sql_truncate_project_status) && 
+                                                                                             $inst->install_table($sql_insert_project_status)); 
+                        echo InstallDecorator::show_li_element('Import Users Project Data', $inst->install_table($sql_create_user_project) && 
+                                                                                            $inst->install_table($sql_truncate_user_project) && 
+                                                                                            $inst->install_table($sql_insert_user_project));
+                        echo InstallDecorator::show_li_element('Import Tasks Data', $inst->install_table($sql_create_tasks) && 
+                                                                                    $inst->install_table($sql_truncate_tasks) && 
+                                                                                    $inst->install_table($sql_insert_tasks));
+                        echo InstallDecorator::show_li_element('Import Tasks Status Data', $inst->install_table($sql_create_tasks_status) && 
+                                                                                           $inst->install_table($sql_truncate_tasks_status) && 
+                                                                                           $inst->install_table($sql_insert_tasks_status));
+                        echo InstallDecorator::show_li_element('Import Tasks Comment Data', $inst->install_table($sql_create_tasks_comment) && 
+                                                                                            $inst->install_table($sql_truncate_tasks_comment) && 
+                                                                                            $inst->install_table($sql_insert_tasks_comment));
                     ?>
                 </ul>
                 <p align="center">
@@ -228,13 +246,9 @@ pre {
                     <script type="text/javascript">
                         (function () {
                             var ib = document.querySelector(".install_button");
-                            var im = document.querySelector(".import_button");
-                            
+
                             ib.addEventListener("click", function() {
                                 window.location.href="?act=1";
-                            }, false);
-                            im.addEventListener("click", function() {
-                                window.location.href="?act=4";
                             }, false);
                         })();
                     </script>    
