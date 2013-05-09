@@ -33,7 +33,7 @@ $sql_insert_users_groups = "
 ;";
                
 // Project Status
-$sql_create_projects_status = "CREATE TABLE {$db_new}.`bak_{$pre_new}project_status` LIKE {$db_new}.`{$pre_new}project_status`;
+$sql_create_project_status = "CREATE TABLE {$db_new}.`bak_{$pre_new}project_status` LIKE {$db_new}.`{$pre_new}project_status`;
                         INSERT INTO {$db_new}.`bak_{$pre_new}project_status` SELECT * FROM {$db_new}.`{$pre_new}project_status`;";                         
 $sql_truncate_project_status = "TRUNCATE TABLE {$db_new}.`{$pre_new}project_status`";
 $sql_insert_project_status = "
@@ -46,7 +46,7 @@ $sql_create_user_project = "CREATE TABLE {$db_new}.`bak_{$pre_new}user_project` 
                         INSERT INTO {$db_new}.`bak_{$pre_new}user_project` SELECT * FROM {$db_new}.`{$pre_new}user_project`;";
 $sql_truncate_user_project = "TRUNCATE TABLE {$db_new}.`{$pre_new}user_project`";
 $sql_insert_user_project = "    
-        INSERT INTO `{$pre}user_project` (`user_id`, `project_id`, `position`) VALUES
+        INSERT INTO {$db_new}.`{$pre_new}user_project` (`user_id`, `project_id`, `position`) VALUES
         SELECT memberId, projectId, position FROM {$db_old}.`{$pre_old}memberproject`
 ;";
 
