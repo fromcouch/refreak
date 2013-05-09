@@ -162,9 +162,15 @@ pre {
                 <p>Importing Data</p>
                 <ul>
                     <?php
-                        echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_create_projects) && $inst->install_table($sql_truncate_projects) && $inst->install_table($sql_insert_projects));
-                        echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_insert_users));
-                        echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_insert_users_groups));
+                        echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_create_projects) && 
+                                                                                       $inst->install_table($sql_truncate_projects) && 
+                                                                                       $inst->install_table($sql_insert_projects));
+                        echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_create_projects) && 
+                                                                                    $inst->install_table($sql_truncate_projects) && 
+                                                                                    $inst->install_table($sql_insert_users));
+                        echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_create_projects) && 
+                                                                                           $inst->install_table($sql_truncate_projects) && 
+                                                                                           $inst->install_table($sql_insert_users_groups));
                         echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_insert_project_status)); 
                         echo InstallDecorator::show_li_element('Import Users Project Data', $inst->install_table($sql_insert_user_project));
                         echo InstallDecorator::show_li_element('Import Tasks Data', $inst->install_table($sql_insert_tasks));
