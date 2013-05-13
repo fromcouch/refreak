@@ -171,29 +171,42 @@ pre {
                 <ul>
                     <?php
                         echo InstallDecorator::show_li_element('Import Projects Data', $inst->install_table($sql_create_projects) && 
-                                                                                       $inst->install_table($sql_truncate_projects) && 
+                                                                                       $inst->install_table($sql_create_insert_projects) && 
+                                                                                       $inst->install_table($sql_truncate_projects) &&                                                                                        
                                                                                        $inst->install_table($sql_insert_projects));
-                        print_r($inst->mys->error);echo $sql_create_projects;
+                        
                         echo InstallDecorator::show_li_element('Import Users Data', $inst->install_table($sql_create_users) && 
+                                                                                    $inst->install_table($sql_create_insert_users) && 
                                                                                     $inst->install_table($sql_truncate_users) && 
                                                                                     $inst->install_table($sql_insert_users));
                         print_r($inst->mys->error);
                         echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_create_users_groups) && 
+                                                                                           $inst->install_table($sql_create_insert_users_groups) && 
                                                                                            $inst->install_table($sql_truncate_users_groups) && 
                                                                                            $inst->install_table($sql_insert_users_groups));
+                        print_r($inst->mys->error);
                         echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_create_project_status) && 
+                                                                                             $inst->install_table($sql_create_insert_project_status) && 
                                                                                              $inst->install_table($sql_truncate_project_status) && 
                                                                                              $inst->install_table($sql_insert_project_status)); 
+                        
                         echo InstallDecorator::show_li_element('Import Users Project Data', $inst->install_table($sql_create_user_project) && 
+                                                                                            $inst->install_table($sql_create_insert_user_project) && 
                                                                                             $inst->install_table($sql_truncate_user_project) && 
                                                                                             $inst->install_table($sql_insert_user_project));
+                        
                         echo InstallDecorator::show_li_element('Import Tasks Data', $inst->install_table($sql_create_tasks) && 
+                                                                                    $inst->install_table($sql_create_insert_tasks) && 
                                                                                     $inst->install_table($sql_truncate_tasks) && 
                                                                                     $inst->install_table($sql_insert_tasks));
+                        
                         echo InstallDecorator::show_li_element('Import Tasks Status Data', $inst->install_table($sql_create_tasks_status) && 
+                                                                                           $inst->install_table($sql_create_insert_tasks_status) && 
                                                                                            $inst->install_table($sql_truncate_tasks_status) && 
                                                                                            $inst->install_table($sql_insert_tasks_status));
+                        
                         echo InstallDecorator::show_li_element('Import Tasks Comment Data', $inst->install_table($sql_create_tasks_comment) && 
+                                                                                            $inst->install_table($sql_create_insert_tasks_comment) && 
                                                                                             $inst->install_table($sql_truncate_tasks_comment) && 
                                                                                             $inst->install_table($sql_insert_tasks_comment));
                     ?>
