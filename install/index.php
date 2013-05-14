@@ -212,7 +212,7 @@ pre {
                     ?>
                 </ul>
                 <p align="center">
-                    Remember, user are administrator with word password as password.<br>
+                    Remember, all users resets their password to password word.<br>
                     <a href="../">Go to Refreak</a>
                 </p>
                 

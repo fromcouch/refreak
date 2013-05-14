@@ -15,7 +15,7 @@ $sql_create_insert_users        = "INSERT INTO {$db_new}.`bak_{$pre_new}users` S
 $sql_truncate_users             = "TRUNCATE TABLE {$db_new}.`{$pre_new}users`";
 $sql_insert_users               = "
     INSERT INTO {$db_new}.`{$pre_new}users` (`id`, `username`, `password`, `salt`, `email`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `phone`, title, `country_id`, `author_id`, `city`)
-    SELECT memberId, username, password, salt, email, creationDate, lastLoginDate, enabled, firstName, lastName, phone, title, countryId, authorId, city FROM {$db_old}.`{$pre_old}member
+    SELECT memberId, username, '59beecdf7fc966e2f17fd8f65a4a9aeb09d4a3d4', salt, email, creationDate, lastLoginDate, enabled, firstName, lastName, phone, title, countryId, authorId, city FROM {$db_old}.`{$pre_old}member
 ;";
 
 // Users Groups
