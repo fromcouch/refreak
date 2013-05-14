@@ -1,6 +1,6 @@
 <?php
 
-class PluginHandler {
+class Plugin_handler {
     
     protected $events = array();
     
@@ -17,6 +17,14 @@ class PluginHandler {
         
     }
     
+    public function dettach($event_name, $offset) {
+        
+        if (!isset($this->events[$event_name][$offset])) {
+            unset($this->events[$event_name][$offset]);
+        }
+        
+    }
+    
     public function trigger($event_name, $data = null, $offset = null) {
         
         foreach ($this->events[$event_name] as $callback) {
@@ -28,7 +36,7 @@ class PluginHandler {
 }
 
 /*
-$p = new PluginHandler();
+$p = new Plugin_handler();
 $p->attach('load', function() { echo "Loading"; });
 $p->attach('stop', function() { echo "Stopping"; });
 $p->attach('stop', function() { echo "Stopped"; });
