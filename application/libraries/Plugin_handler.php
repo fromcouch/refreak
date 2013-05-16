@@ -28,7 +28,10 @@ class Plugin_handler {
     public function trigger($event_name, $data = null, $offset = null) {
         
         foreach ($this->events[$event_name] as $callback) {
-            $data = $callback($event_name, $data);
+            
+            if (is_callable($callback)) { //call
+                $data = $callback($event_name, $data);
+            }
         }
         
         return $data;
