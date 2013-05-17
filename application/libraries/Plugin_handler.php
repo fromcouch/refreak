@@ -3,7 +3,7 @@
  * Refreak Plugin Handler Library
  *
  * @package	Refreak
- * @subpackage	base
+ * @subpackage	plugin
  * @category	library
  * @author	Víctor <victor@ebavs.net> fromcouch
  * @link	https://github.com/fromcouch/refreak
@@ -16,6 +16,38 @@ class Plugin_handler {
      * @var array Events list
      */
     protected $events = array();
+    
+    /**
+     * Code Igniter reference for callback functions
+     * 
+     * @var object CI Instance
+     */
+    protected $_ci = null;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+
+        $this->_ci = &get_instance();
+       
+        /**
+         * TODO:
+         * detect controller
+         * only load plugins for specified controller
+         */
+        // detecting controller
+        $controller = $this->_ci->router->fetch_class();
+    }
+    
+    /**
+     * Load plugins 
+     * 
+     * @param string $controller
+     */
+    protected function load_plugins($controller) {
+        
+    }
     
     /**
      * Attach Event 
@@ -58,9 +90,9 @@ class Plugin_handler {
     /**
      * Launch functions from specified event
      * 
-     * @param string $event_name Event name     
-     * @param string $offset function name
+     * @param string $event_name Event name          
      * @param string $data Data to send to function
+     * @param string $offset function name
      * @return mixed return data processed
      * @access public
      */
@@ -69,7 +101,7 @@ class Plugin_handler {
         foreach ($this->events[$event_name] as $callback) {
             
             if (is_callable($callback)) { //call
-                $data = $callback($event_name, $data);
+                $data = $callback($event_name, &$this->ci, $data);
             }
         }
         

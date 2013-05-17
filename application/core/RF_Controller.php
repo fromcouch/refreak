@@ -52,6 +52,7 @@ class RF_Controller extends CI_Controller {
             $selected_time                  = $params['time'];
         }
 
+        // preparing javascript variables
         $this->data['js_vars'] =         
                     'var user_id    = ' . $selected_user . ";\n" .
                     'var context_id = ' . $selected_context . ";\n" .
@@ -61,6 +62,7 @@ class RF_Controller extends CI_Controller {
                     'var s_url      = "' . site_url() . '";' . "\n"
                 ;
         
+        // preparing user variables
         $this->data['users']                = $this->user_model->get_all_users_with_group();
         $this->data['actual_user']          = $actual_user;
         $this->data['groups']               = $this->ion_auth->groups()->result_array();
