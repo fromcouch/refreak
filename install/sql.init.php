@@ -431,4 +431,43 @@ $sql_create_user_project = "
 $sql_insert_user_project = "    
         INSERT INTO `{$pre}user_project` (`user_id`, `project_id`, `position`) VALUES
         (1, 1, 5);";
+
+$sql_create_plugins = "
+    CREATE TABLE IF NOT EXISTS `{$pre}plugins` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `name` varchar(50) NOT NULL,
+        `directory` varchar(250) NOT NULL,
+        `active` tinyint(1) NOT NULL,
+        PRIMARY KEY (`id`)
+    ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+";
     
+$sql_insert_plugins = "";
+
+$sql_create_controllers = "
+    CREATE TABLE IF NOT EXISTS `{$pre}controllers` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `controller_name` varchar(25) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;    
+";
+    
+$sql_insert_controllers = "    
+        INSERT INTO `{$pre}controllers` (`id`, `controller_name`) VALUES
+        (1, 'tasks'),
+        (2, 'projects'),
+        (3, 'users'),
+        (4, 'auth');
+";
+
+$sql_create_plugins_controllers = "
+    CREATE TABLE IF NOT EXISTS `{$pre}plugin_controller` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `plugin_id` int(11) NOT NULL,
+      `controller_id` int(11) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+";
+    
+$sql_insert_plugins_controllers = "";
+

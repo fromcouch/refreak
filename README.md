@@ -21,25 +21,18 @@ Originally created in September 2005 and maintained by Stan Ozier and Tirzen wit
  - order tasks by deadline, project, etc ..
  - user management for tasks and system
  - easy project management
+ - import from Taskfreak! when install.
 
 ###Future Features
 
- - Import from Taskfreak when Install.
  - Plugin Ready
 
 
 TODO
 ----
 
-
-### Stage 1
-
-+ Revise Code Comments
-
-Finishing Stage 1.
-
 ### Stage 2
-+ Import on Install tasks from TF
++ ~~Import on Install tasks from TF~~
 + Pluginize project
     + Pluginize Controlers and models
     + Decorators for views
