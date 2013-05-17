@@ -29,7 +29,7 @@ class Plugin_handler {
      */
     public function __construct() {
 
-        $this->_ci = &get_instance();
+        $this->_ci              = &get_instance();
        
         /**
          * TODO:
@@ -37,7 +37,7 @@ class Plugin_handler {
          * only load plugins for specified controller
          */
         // detecting controller
-        $controller = $this->_ci->router->fetch_class();
+        $controller             = $this->_ci->router->fetch_class();
     }
     
     /**
@@ -46,6 +46,10 @@ class Plugin_handler {
      * @param string $controller
      */
     protected function load_plugins($controller) {
+        
+        $this->_ci->load->model('plugin_handler_model');
+        $plugins                = $this->_ci->plugin_handler_model->get_plugins($controller);
+        
         
     }
     
@@ -61,13 +65,13 @@ class Plugin_handler {
     public function attach($event_name, $callback, $offset = null) {
         
         if (!isset($this->events[$event_name])) {
-            $this->events[$event_name] = array();
+            $this->events[$event_name]                  = array();
         }
         
         if (!is_null($offset))
-            $this->events[$event_name][$offset] = $callback;
+            $this->events[$event_name][$offset]         = $callback;
         else
-            $this->events[$event_name][] = $callback;
+            $this->events[$event_name][]                = $callback;
         
     }
     
@@ -101,7 +105,7 @@ class Plugin_handler {
         foreach ($this->events[$event_name] as $callback) {
             
             if (is_callable($callback)) { //call
-                $data = $callback($event_name, &$this->ci, $data);
+                $data           = $callback($event_name, &$this->ci, $data);
             }
         }
         
