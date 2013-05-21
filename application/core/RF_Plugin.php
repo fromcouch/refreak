@@ -1,5 +1,4 @@
-<?php
- if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Refreak Base Plugin
  *
@@ -20,18 +19,22 @@ class RF_Plugin {
     public $_ci = null;
     
     public function __construct() {
-        
         $this->_ci =& get_instance(); 
-        $this->_ci->load->library('plugin_handler');
-                
+        $this->_ci->load->library('plugin_handler');        
     }
     
-    public function init() {
+    protected function init() {
+        
+        
         
     }
     
     
     public function attach($event_name, $callback, $offset = null) {
+        
+//        if (is_null($this->_ci)) {
+//            $this->init();            
+//        }
         
         $this->_ci->plugin_handler->attach($event_name, $callback, $offset);
         
@@ -39,6 +42,10 @@ class RF_Plugin {
     
     
     public function dettach($event_name, $offset = null) {
+        
+//        if (is_null($this->_ci)) {
+//            $this->init();            
+//        }
         
         $this->_ci->plugin_handler->dettach($event_name, $offset);
         

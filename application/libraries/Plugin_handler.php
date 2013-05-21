@@ -24,6 +24,7 @@ class Plugin_handler {
      */
     protected $_ci = null;
     
+    protected $_plugins_loaded = array();
     /**
      * Constructor
      */
@@ -31,11 +32,9 @@ class Plugin_handler {
 
         $this->_ci              =& get_instance();
        
-        /**
-         * TODO:
-         * detect controller
-         * only load plugins for specified controller
-         */
+        //load plugin base
+        $this->_ci->load->file(APPPATH . 'core' . DIRECTORY_SEPARATOR . 'RF_Plugin.php');
+        
         // detecting controller
         $controller             = $this->_ci->router->fetch_class();
         $this->load_plugins($controller);               
@@ -51,16 +50,23 @@ class Plugin_handler {
         
         $this->_ci->load->model('plugin_handler_model');
         $plugins                = $this->_ci->plugin_handler_model->get_plugins($controller);
-        
-        load_class('Plugin', 'core', 'RF_');
+                
         
         foreach ($plugins as $plugin) {            
             if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
                 include(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php');
                 $class_name     = ucfirst($plugin->directory);
 
-                $p = new $class_name;
+                $this->_plugins_loaded []= $class_name;
             }
+        }
+        
+    }
+    
+    public function initialize_plugins() {
+        
+        foreach ($this->_plugins_loaded as $class) {
+            new $class;
         }
         
     }
@@ -108,11 +114,10 @@ class Plugin_handler {
      * 
      * @param string $event_name Event name          
      * @param string $data Data to send to function
-     * @param string $offset function name
      * @return mixed return data processed
      * @access public
      */
-    public function trigger($event_name, $data = null, $offset = null) {
+    public function trigger($event_name, $data = null) {
         
         if (isset($this->events[$event_name])) {
         
@@ -128,12 +133,3 @@ class Plugin_handler {
     }
     
 }
-
-/*
-$p = new Plugin_handler();
-$p->attach('load', function() { echo "Loading"; });
-$p->attach('stop', function() { echo "Stopping"; });
-$p->attach('stop', function() { echo "Stopped"; });
-$p->trigger('load'); // prints "Loading"
-$p->trigger('stop'); // prints "StoppingStopped"
-*/

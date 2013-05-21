@@ -24,7 +24,9 @@ class RF_Controller extends CI_Controller {
     {
         parent::__construct();
         
-        //$this->output->enable_profiler(TRUE);
+        $this->plugin_handler->initialize_plugins();
+        
+        $this->output->enable_profiler(TRUE);
 
         $this->plugin_handler->trigger('base_pre_init');
         
