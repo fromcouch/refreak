@@ -11,6 +11,14 @@ class Example extends RF_Plugin {
             return $data;
             
         });
+        
+        $this->attach('', array($this, 'testing'));
+    }
+    
+    public function testing($evt, $data) {
+        
+        return $data;
+        
     }
         
 }

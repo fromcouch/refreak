@@ -57,5 +57,9 @@ Additionaly you can configure some parameters in:
 
 EVENTS
 ======
-+ base_pre_init : first event fired before init base Refreak system. (always)
-+ base_set_theme: set theme directory. (always)
++ Base Controller
+    + base_pre_init : first event fired before init base Refreak system. (always)
+    + base_set_theme: set theme directory. (always)
+    + base_user_loaded: loaded actual user. (always)
+    + base_create_left_menu: create array with left menu items. (always)
+    + base_create_right_menu: create array with right menu items. (always)

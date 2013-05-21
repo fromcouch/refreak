@@ -24,10 +24,12 @@ class RF_Controller extends CI_Controller {
     {
         parent::__construct();
         
-        $this->plugin_handler->initialize_plugins();
-        
         $this->output->enable_profiler(TRUE);
+        
+        //init plugin system
+        $this->plugin_handler->initialize_plugins();
 
+        //trigger first event
         $this->plugin_handler->trigger('base_pre_init');
         
         $this->load->helper(array( 'url' ));
@@ -46,7 +48,7 @@ class RF_Controller extends CI_Controller {
         $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form'));
         
         $params                             = $this->_detect_user_project();
-        $actual_user                        = $this->ion_auth->user()->row();
+        $actual_user                        = $this->plugin_handler->trigger('base_user_loaded', $this->ion_auth->user()->row());
         $actual_user_id                     = $actual_user->id;
         $selected_user                      = 0;
         $selected_context                   = 0;
@@ -75,8 +77,8 @@ class RF_Controller extends CI_Controller {
         $this->data['actual_user']          = $actual_user;
         $this->data['groups']               = $this->ion_auth->groups()->result_array();
         $this->data['user_projects']        = $this->user_model->get_projects_user($actual_user_id);
-        $this->data['menu_left']            = $this->_create_left_menu($this->data['user_projects'], $params);
-        $this->data['menu_right']           = $this->_create_right_menu($actual_user_id, $params, $selected_user, $selected_context);
+        $this->data['menu_left']            = $this->plugin_handler->trigger('base_create_left_menu', $this->_create_left_menu($this->data['user_projects'], $params) );
+        $this->data['menu_right']           = $this->plugin_handler->trigger('base_create_right_menu', $this->_create_right_menu($actual_user_id, $params, $selected_user, $selected_context) );
         
         $this->data['js_vars'] .=         "\n" .
                     'var genmessage_ajax_error_security    = "' . $this->lang->line('genmessage_ajax_error_security') . "\";\n" .
@@ -162,7 +164,7 @@ class RF_Controller extends CI_Controller {
     }
     
     /**
-     * Prepare array to draw left header menu
+     * Prepare array to draw right header menu
      * 
      * @param int $user_id Actual user id
      * @param array $params Array with user id, project id and context
