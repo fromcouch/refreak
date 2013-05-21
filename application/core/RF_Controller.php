@@ -23,7 +23,9 @@ class RF_Controller extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-
+        
+        $this->output->enable_profiler(TRUE);
+        
         $this->load->helper(array( 'url' ));
         $this->data['theme']                = $this->config->item('rfk_theme_dir') . '/' . $this->config->item('rfk_theme_selected');
         

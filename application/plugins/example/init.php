@@ -7,10 +7,5 @@ class Example extends RF_Plugin {
         parent::__construct();
         
     }
-    
-    public function init() {
         
-        parent::init();
-        
-    }
 }
