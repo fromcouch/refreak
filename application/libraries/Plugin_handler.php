@@ -38,6 +38,8 @@ class Plugin_handler {
          */
         // detecting controller
         $controller             = $this->_ci->router->fetch_class();
+        $this->load_plugins($controller);               
+        
     }
     
     /**
@@ -50,6 +52,17 @@ class Plugin_handler {
         $this->_ci->load->model('plugin_handler_model');
         $plugins                = $this->_ci->plugin_handler_model->get_plugins($controller);
         
+        print_r($plugins);
+        
+        foreach ($plugins as $plugin) {
+            
+            include(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin['directory'] . DIRECTORY_SEPARATOR . 'init.php');
+            $class_name = ucfirst($plugin['directory']);
+            
+            $p = new $class_name;
+            $p->init();
+            
+        }
         
     }
     
@@ -105,7 +118,7 @@ class Plugin_handler {
         foreach ($this->events[$event_name] as $callback) {
             
             if (is_callable($callback)) { //call
-                $data           = $callback($event_name, &$this->ci, $data);
+                $data           = $callback($event_name, $data);
             }
         }
         
