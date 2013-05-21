@@ -29,7 +29,7 @@ class Plugin_handler {
      */
     public function __construct() {
 
-        $this->_ci              = &get_instance();
+        $this->_ci              =& get_instance();
        
         /**
          * TODO:
@@ -52,14 +52,12 @@ class Plugin_handler {
         $this->_ci->load->model('plugin_handler_model');
         $plugins                = $this->_ci->plugin_handler_model->get_plugins($controller);
         
-        print_r($plugins);
-        
         load_class('Plugin', 'core', 'RF_');
         
         foreach ($plugins as $plugin) {            
             if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
                 include(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php');
-                $class_name = ucfirst($plugin->directory);
+                $class_name     = ucfirst($plugin->directory);
 
                 $p = new $class_name;
             }
@@ -116,13 +114,16 @@ class Plugin_handler {
      */
     public function trigger($event_name, $data = null, $offset = null) {
         
-        foreach ($this->events[$event_name] as $callback) {
-            
-            if (is_callable($callback)) { //call
-                $data           = $callback($event_name, $data);
-            }
-        }
+        if (isset($this->events[$event_name])) {
         
+            foreach ($this->events[$event_name] as $callback) {
+
+                if (is_callable($callback)) { //call
+                    $data           = $callback($event_name, $data);
+                }
+            }
+
+        }
         return $data;
     }
     

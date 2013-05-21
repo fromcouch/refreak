@@ -53,3 +53,9 @@ then access to www.yourdomain.com/install and click Install button.
 Additionaly you can configure some parameters in:
 
     application/config/refreak.php
+
+
+EVENTS
+======
++ base_pre_init : first event fired before init base Refreak system. (always)
++ base_set_theme: set theme directory. (always)

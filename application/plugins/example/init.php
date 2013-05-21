@@ -6,6 +6,9 @@ class Example extends RF_Plugin {
         
         parent::__construct();
         
+        $this->attach('base_set_theme', function () {
+            print_r($this);
+        });
     }
         
 }
