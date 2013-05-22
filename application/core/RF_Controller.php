@@ -80,14 +80,17 @@ class RF_Controller extends CI_Controller {
         $this->data['menu_left']            = $this->plugin_handler->trigger('base_create_left_menu', $this->_create_left_menu($this->data['user_projects'], $params) );
         $this->data['menu_right']           = $this->plugin_handler->trigger('base_create_right_menu', $this->_create_right_menu($actual_user_id, $params, $selected_user, $selected_context) );
         
-        $this->data['js_vars'] .=         "\n" .
+        $this->data['js_vars']             .= "\n" .
                     'var genmessage_ajax_error_security    = "' . $this->lang->line('genmessage_ajax_error_security') . "\";\n" .
                     'var genmessage_ajax_error_server    = "' . $this->lang->line('genmessage_ajax_error_server') . "\";\n";
+        
+        $this->data['js_vars']              = $this->plugin_handler->trigger('base_set_js_var', $this->data['js_vars'] );
         
         $this->javascript->js->script(base_url() . 'js/refreak.js');
         $this->css->add_style(base_url() . $this->data['theme'] . '/css/refreak.css', 'core');
         
         unset($params, $actual_user);
+        $this->plugin_handler->trigger('base_post_init');
     } 
     
     /**

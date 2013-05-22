@@ -58,8 +58,15 @@ Additionaly you can configure some parameters in:
 EVENTS
 ======
 + Base Controller
-    + base_pre_init : first event fired before init base Refreak system. (always)
-    + base_set_theme: set theme directory. (always)
-    + base_user_loaded: loaded actual user. (always)
-    + base_create_left_menu: create array with left menu items. (always)
-    + base_create_right_menu: create array with right menu items. (always)
+    + base_pre_init:            first event fired before init base Refreak system. (always)
+    + base_set_theme:           set theme directory. (always)
+    + base_user_loaded:         loaded actual user. (always)
+    + base_create_left_menu:    create array with left menu items. (always)
+    + base_create_right_menu:   create array with right menu items. (always)
+    + base_set_js_vars:         Set base javascript variables and messages. (always)
+    + base_post_init:           last event fired after init base Refreak system. (always)
+
++ Projects 
+    + projects_pre_init:        first event fired before init project Refreak controller. (projects)
+    + projects_post_init:       last event fired after init project Refreak controller. (projects)
+    + projects_list:            Get list of projects. (projects)

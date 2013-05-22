@@ -29,7 +29,7 @@
                     <td><a href="<?php echo site_url();?>/projects/edit/<?php echo $table_project->project_id;?>"><?php echo $table_project->name; ?></a></td>
                     <td><?php echo $position[$table_project->position]; ?></td>
                     <td><?php echo $table_project->users; ?></td>
-                    <td><?php echo $status[$table_project->status_id]; ?></td>
+                    <td><?php echo $status[empty($table_project->status_id) ? 1 : $table_project->status_id]; ?></td>
                     <td><?php echo $table_project->tasks; ?></td>
                     <td align="center">
                             <?php 

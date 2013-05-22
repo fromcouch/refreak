@@ -15,13 +15,18 @@ class Projects extends RF_Controller {
      * 
      */
     public function __construct() {
+        
         parent::__construct();        
-        //$this->output->enable_profiler(TRUE);
+        
+        $this->plugin_handler->trigger('projects_pre_init');
+        
         $this->lang->load('projects');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
-        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        
+        $this->plugin_handler->trigger('projects_post_init');
     }
 
     /**
@@ -32,10 +37,9 @@ class Projects extends RF_Controller {
      */
     public function index()
     {
-        $this->load->database();
         $this->load->model('project_model');
         
-        $this->data['projects'] = $this->project_model->get_projects_list($this->data['actual_user']->id);
+        $this->data['projects']             = $this->plugin_handler->trigger('projects_list', $this->project_model->get_projects_list($this->data['actual_user']->id) );
 
         $this->load->view('projects/projects', $this->data);        
     }
