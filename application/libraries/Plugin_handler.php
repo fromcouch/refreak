@@ -24,7 +24,13 @@ class Plugin_handler {
      */
     protected $_ci = null;
     
+    /**
+     * plugin list to be executed on init
+     * 
+     * @var array Clases array 
+     */
     protected $_plugins_loaded = array();
+    
     /**
      * Constructor
      */
@@ -42,9 +48,12 @@ class Plugin_handler {
     }
     
     /**
-     * Load plugins 
+     * Load plugins. THis function look $controller var for load only plugins 
+     * associated to the controller.
      * 
-     * @param string $controller
+     * @param string $controller Name of the loaded controller.
+     * @return void
+     * @access public
      */
     protected function load_plugins($controller) {
         
@@ -63,6 +72,12 @@ class Plugin_handler {
         
     }
     
+    /**
+     * Initialize all plugins
+     * 
+     * @return void
+     * @access public
+     */
     public function initialize_plugins() {
         
         foreach ($this->_plugins_loaded as $class) {
