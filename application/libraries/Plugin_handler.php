@@ -37,12 +37,16 @@ class Plugin_handler {
     public function __construct() {
 
         $this->_ci              =& get_instance();
-       
+
+        //
+                
         //load plugin base
         $this->_ci->load->file(APPPATH . 'core' . DIRECTORY_SEPARATOR . 'RF_Plugin.php');
         
         // detecting controller
         $controller             = $this->_ci->router->fetch_class();
+        
+        // load plugins
         $this->load_plugins($controller);               
         
     }
@@ -138,8 +142,8 @@ class Plugin_handler {
         
             foreach ($this->events[$event_name] as $callback) {
 
-                if (is_callable($callback)) { //call
-                    $data           = $callback($event_name, $data);
+                if (is_callable($callback)) { //call                    
+                    $data           = call_user_func_array($callback, array($event_name, $data));
                 }
             }
 

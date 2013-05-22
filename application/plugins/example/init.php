@@ -32,6 +32,8 @@ class Example extends RF_Plugin {
          * We have another way to add function to event
          */        
         $this->attach('base_create_left_menu', array($this, 'testing'));
+        
+        $this->activate_lib_mode();
     }
     
     /**
@@ -42,7 +44,7 @@ class Example extends RF_Plugin {
      * @return mixed data to return
      */
     public function testing($evt, $data) {
-        
+                        
         return $data;
         
     }
