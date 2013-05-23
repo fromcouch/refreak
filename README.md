@@ -74,3 +74,8 @@ EVENTS
     + projects_create_pre_prepare_data: Create project form, event previous setting data for form. (project)
     + projects_create_post_prepare_data: Create project form, event post setting data for form. (project)
     + projects_edit_validation_form: Validate data form for edit project. (in revision, needs form_validation parameter by ref?) (project)
+    + projects_edit_get_project: Get project by id. (project)
+    + projects_edit_get_project_users: Get users from project. (project)
+    + projects_edit_saved: Just after update project. (Move from controller to model??) (project)
+    + projects_edit_pre_prepare_data: Edit project form, event previous setting data for form. (project)
+    + projects_edit_post_prepare_data: Edit project form, event post setting data for form. (project)

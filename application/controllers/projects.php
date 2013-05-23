@@ -130,8 +130,8 @@ class Projects extends RF_Controller {
             $this->load->model('project_model');
             
             //get project and users
-            $project            = $this->project_model->get_project($id);
-            $project_users      = $this->project_model->get_users_project($id);
+            $project            = $this->plugin_handler->trigger('projects_edit_get_project', $this->project_model->get_project($id) );
+            $project_users      = $this->plugin_handler->trigger('projects_edit_get_project_users', $this->project_model->get_users_project($id) );
             
             if ($this->ion_auth->in_group(array(1,2)) && $this->input->post('id'))
             {
@@ -148,11 +148,16 @@ class Projects extends RF_Controller {
                             $status         = $this->input->post('status');
                             
                             $this->project_model->update($id, $name, $this->data['actual_user']->id, $description, $status);
+                            
+                            $this->plugin_handler->trigger('projects_edit_saved');
+                            
                             $this->session->set_flashdata('message', $this->lang->line('projectsmessage_saved'));
                             redirect("projects", 'refresh');
                     }
                     
             }
+            
+            $this->data     = $this->plugin_handler->trigger('projects_edit_pre_prepare_data', $this->data);
             
             //search permisions for user in project
             $user_position      = $this->project_model->get_user_position($id, $this->data['actual_user']->id);
@@ -205,9 +210,10 @@ class Projects extends RF_Controller {
                     });
                 ');
                     
+            $this->data     = $this->plugin_handler->trigger('projects_edit_post_prepare_data', $this->data);
+            
             unset($users, $project_users, $result_users);            
             $this->load->view('projects/edit', $this->data);
-            
         
     }
     
