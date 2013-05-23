@@ -58,6 +58,8 @@ class Projects extends RF_Controller {
             $this->form_validation->set_rules('description', 'Description', 'xss_clean');
             $this->form_validation->set_rules('status', 'Status', 'required|xss_clean');
 
+            $this->plugin_handler->trigger('projects_create_validation_form');
+            
             if ($this->form_validation->run() === TRUE)
             {
                     $name           = $this->input->post('name');
@@ -70,12 +72,13 @@ class Projects extends RF_Controller {
                     
                     $this->project_model->save($name, $this->data['actual_user']->id, $description, $status);
                     $this->session->set_flashdata('message', $this->lang->line('projectsmessage_created'));
-                    redirect("projects", 'refresh');
+                    redirect('projects', 'refresh');
             }
             else
-            { 
-                    //display the create project form
+            {                     
+                    $this->data     = $this->plugin_handler->trigger('projects_create_pre_prepare_data', $this->data);
                     
+                    //display the create project form
                     $this->data['name'] = array(
                             'name'  => 'name',
                             'id'    => 'name',
@@ -92,9 +95,16 @@ class Projects extends RF_Controller {
 
                     $this->data['status'] = $this->lang->line('project_status');
                     
+                    $this->data     = $this->plugin_handler->trigger('projects_create_post_prepare_data', $this->data);
+                    
                     $this->load->view('projects/create', $this->data);
             }
         }
+        else {
+            $this->session->set_flashdata('message', $this->lang->line('genmessage_no_permissions'));
+            redirect('projects', 'refresh');
+        }
+        
     }
     
     /**
@@ -115,6 +125,8 @@ class Projects extends RF_Controller {
             }
             $this->form_validation->set_rules('status', 'Status', 'required|xss_clean');            
 
+            $this->plugin_handler->trigger('projects_edit_validation_form');
+            
             $this->load->model('project_model');
             
             //get project and users

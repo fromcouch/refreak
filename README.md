@@ -70,3 +70,7 @@ EVENTS
     + projects_pre_init:        first event fired before init project Refreak controller. (projects)
     + projects_post_init:       last event fired after init project Refreak controller. (projects)
     + projects_list:            Get list of projects. (projects)
+    + projects_create_validation_form: Validate data form for create project. (in revision, needs form_validation parameter by ref?) (project)
+    + projects_create_pre_prepare_data: Create project form, event previous setting data for form. (project)
+    + projects_create_post_prepare_data: Create project form, event post setting data for form. (project)
+    + projects_edit_validation_form: Validate data form for edit project. (in revision, needs form_validation parameter by ref?) (project)
