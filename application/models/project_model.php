@@ -31,6 +31,7 @@ class Project_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->plugin_handler->trigger('projects_model_init');
     }
     
     /**

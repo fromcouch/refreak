@@ -232,9 +232,15 @@ class Projects extends RF_Controller {
             $this->load->model('project_model');
             
             $this->project_model->delete($project_id, $this->data['actual_user']->id);
+            
+            $this->plugin_handler->trigger('projects_edit_deleted');
+            
             $this->session->set_flashdata('message', $this->lang->line('projectsmessage_deleted'));
             redirect("projects", 'refresh');
             
+        } else {
+            $this->session->set_flashdata('message', $this->lang->line('genmessage_no_permissions'));
+            redirect('projects', 'refresh');
         }
     }
     
@@ -254,6 +260,7 @@ class Projects extends RF_Controller {
                     $this->input->post('project_id'),
                     $this->input->post('position')
             );
+            $this->plugin_handler->trigger('projects_ajax_added_user_project');
             
             echo json_encode(array('response' => 'rfk_ok'));
         }
@@ -280,6 +287,8 @@ class Projects extends RF_Controller {
                     $this->input->post('user_id'),
                     $this->input->post('project_id')
             );
+            
+            $this->plugin_handler->trigger('projects_ajax_remove_user_project');
             
             echo json_encode(array('response' => 'rfk_ok'));
         }
@@ -308,6 +317,8 @@ class Projects extends RF_Controller {
                     $this->input->post('project_id'),
                     $this->input->post('position')
             );
+            
+            $this->plugin_handler->trigger('projects_ajax_change_user_position');
             
             echo json_encode(array('response' => 'rfk_ok'));
         }
