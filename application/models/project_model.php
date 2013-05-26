@@ -44,18 +44,19 @@ class Project_model extends CI_Model
     public function get_projects_list($user_id)
     {
 
-        return $this->db
-                ->select('projects.*, up1.position, ps.status_id, COUNT( DISTINCT up2.user_id ) AS users,  COUNT( DISTINCT t.task_id ) AS tasks, MAX( ps.status_date ) AS status_date')                
-                ->join('user_project up1', 'up1.project_id = projects.project_id AND up1.user_id = ' . $user_id, 'inner' )
-                ->join('user_project up2', 'up2.project_id = projects.project_id', 'left' )
-                //->join('project_status ps', 'ps.project_id = projects.project_id  AND ps.status_date = (' . $subquery . ')', 'inner')
-                ->join('(SELECT * FROM rfk_project_status ORDER BY status_date DESC) ps', 'ps.project_id = projects.project_id', 'inner')
-                ->join('tasks t', 't.project_id = projects.project_id', 'left')
-                ->group_by('ps.project_id')
-                ->order_by('ps.status_id','asc')
-                ->order_by('projects.name','asc')
-                ->get('projects')
-                ->result_object();
+        $db     = $this->db
+                        ->select('projects.*, up1.position, ps.status_id, COUNT( DISTINCT up2.user_id ) AS users,  COUNT( DISTINCT t.task_id ) AS tasks, MAX( ps.status_date ) AS status_date')                
+                        ->join('user_project up1', 'up1.project_id = projects.project_id AND up1.user_id = ' . $user_id, 'inner' )
+                        ->join('user_project up2', 'up2.project_id = projects.project_id', 'left' )
+                        ->join('(SELECT * FROM rfk_project_status ORDER BY status_date DESC) ps', 'ps.project_id = projects.project_id', 'inner')
+                        ->join('tasks t', 't.project_id = projects.project_id', 'left')
+                        ->group_by('ps.project_id')
+                        ->order_by('ps.status_id','asc')
+                        ->order_by('projects.name','asc');
+        
+        $db     = $this->plugin_handler->trigger('projects_model_projects_list', $db);
+        
+        return $db->get('projects')->result_object();
                 
     }
     
