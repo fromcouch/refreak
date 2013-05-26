@@ -339,10 +339,12 @@ class Tasks extends RF_Controller {
                     $this->data['project_name']     = '';
             }
             
+            //echo '<pre>'; print_r($this->data); echo '</pre>';
             $context                        = $this->lang->line('task_context');
             $context_letter                 = substr($context[$task[0]['context']], 0, 1);
             $visibility                     = $this->lang->line('task_visibility');
-            $user                           = $this->data['users'][$task[0]['user_id']];
+            $user_id                        = $task[0]['user_id'];
+            $user                           = $this->data['users'][$this->extract_user_id((int)$user_id)];
             $username                       = $user->first_name . ' ' . $user->last_name;
             $status                         = $this->lang->line('task_status');
             
@@ -358,6 +360,17 @@ class Tasks extends RF_Controller {
             $this->load->view('tasks/show', $this->data);
         }
         
+    }
+    
+    private function extract_user_id($user_id) {
+        
+        foreach ($this->data['users'] as $key => $value) {
+            
+            if ($value->id == $user_id) return $key;
+            
+        }
+        
+        return FALSE;
     }
     
     /**
