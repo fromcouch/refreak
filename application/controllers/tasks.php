@@ -339,7 +339,6 @@ class Tasks extends RF_Controller {
                     $this->data['project_name']     = '';
             }
             
-            //echo '<pre>'; print_r($this->data); echo '</pre>';
             $context                        = $this->lang->line('task_context');
             $context_letter                 = substr($context[$task[0]['context']], 0, 1);
             $visibility                     = $this->lang->line('task_visibility');
