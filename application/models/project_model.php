@@ -77,18 +77,14 @@ class Project_model extends CI_Model
             'name'          => $name,
             'description'   => $description
         );
+        
+        $project_data = $this->plugin_handler->trigger('projects_model_insert_data', $project_data); 
+        
         $this->db->insert('projects', $project_data); //get id from project
         
         $last_project_id = $this->db->insert_id();
         
-        // insert status
-        $status_data = array(
-            'project_id'    => $last_project_id,
-            'status_date'   => date(DATE_ATOM),
-            'status_id'     => $status,
-            'user_id'       => $user_id
-        );
-        $this->db->insert('project_status', $status_data);
+        $this->insert_status($last_project_id, $status, $user_id);
         
         // insert user to project
         // when create project fix position to leader        
@@ -115,7 +111,25 @@ class Project_model extends CI_Model
             'name'          => $name,
             'description'   => $description
         );
+        
+        $project_data = $this->plugin_handler->trigger('projects_model_update_data', $project_data); 
+        
         $this->db->update('projects', $project_data, array('project_id' => $project_id));
+        
+        $this->insert_status($project_id, $status, $user_id);
+        
+    }
+
+    /**
+     * Insert Status
+     * 
+     * @param int $project_id
+     * @param int $status Project Status
+     * @param int $user_id User Id
+     * @return void
+     * @access private
+     */
+    private function insert_status($project_id, $status, $user_id) {
         
         $status_data = array(
             'project_id'    => $project_id,
@@ -123,10 +137,13 @@ class Project_model extends CI_Model
             'status_id'     => $status,
             'user_id'       => $user_id
         );
+        
+        $status_data = $this->plugin_handler->trigger('projects_model_insert_status_data', $status_data); 
+        
         $this->db->insert('project_status', $status_data);
         
     }
-
+    
     /**
      * Delete Project
      * 
@@ -152,6 +169,8 @@ class Project_model extends CI_Model
                     'project_id'    => $project_id
                     )
         );
+        
+        $this->plugin_handler->trigger('projects_model_delete'); 
     }
 
     /**
@@ -162,12 +181,16 @@ class Project_model extends CI_Model
      * @access public
      */
     public function get_project($project_id) {
-        return $this->db                
+        
+        $db = $this->db
                 ->where('projects.project_id', $project_id)
                 ->join('project_status', 'project_status.project_id = projects.project_id', 'inner')
-                ->order_by('project_status.project_status_id','desc')
-                ->get('projects')
-                ->row();
+                ->order_by('project_status.project_status_id','desc');
+        
+        $db = $this->plugin_handler->trigger('projects_model_get_project', $db); 
+                
+        return $db->get('projects')->row();
+        
     }
     
     /**
