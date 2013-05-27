@@ -89,3 +89,8 @@ EVENTS
     + projects_model_insert_status_data:    Inserting status project. (project)
     + projects_model_update_data:           Updating projects. (project)
     + projects_model_get_project:           Get Project. (project)
+    + projects_model_get_users_project:     Get Users of Project. (project)
+    + projects_model_get_user_project_position:     Get Users position of Project. (project)
+    + projects_model_set_user_project:      Set User of Project. (project)
+    + projects_model_remove_user_project:   Remove User of Project. (project)
+    + projects_model_update_user_position:  Change User Posintion in Project. (project)

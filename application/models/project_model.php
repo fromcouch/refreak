@@ -202,12 +202,14 @@ class Project_model extends CI_Model
      */
     public function get_users_project($project_id) {
         
-        return $this->db
+        $db = $this->db
                 ->select('user_project.user_id, user_project.position, users.first_name, users.last_name')
                 ->where('project_id', $project_id)
-                ->join('users', 'user_project.user_id = users.id', 'inner')
-                ->get('user_project')
-                ->result_object();
+                ->join('users', 'user_project.user_id = users.id', 'inner');
+        
+        $db = $this->plugin_handler->trigger('projects_model_get_users_project', $db);
+        
+        return $db->get('user_project')->result_object();
         
     }
     
@@ -221,12 +223,14 @@ class Project_model extends CI_Model
      */
     public function get_user_position($project_id, $user_id) {
         
-        return $this->db
+        $db = $this->db
                 ->select('user_project.position')
                 ->where('project_id', $project_id)
-                ->where('user_id', $user_id)                
-                ->get('user_project')
-                ->result_object();
+                ->where('user_id', $user_id);
+        
+        $db = $this->plugin_handler->trigger('projects_model_get_user_project_position', $db);
+        
+        return $db->get('user_project')->result_object();
         
     }
     
@@ -246,6 +250,9 @@ class Project_model extends CI_Model
             'project_id'    => $project_id,
             'position'      => $position
         );
+        
+        $user_data = $this->plugin_handler->trigger('projects_model_set_user_project', $user_data);
+        
         $this->db->insert('user_project', $user_data);
         
     }
@@ -265,6 +272,9 @@ class Project_model extends CI_Model
                     'user_id'       => $user_id,
                     'project_id'    => $project_id
         );
+        
+        $user_data = $this->plugin_handler->trigger('projects_model_remove_user_project', $user_data);
+        
         $this->db->delete('user_project', $user_data);              
         
     }
@@ -284,11 +294,14 @@ class Project_model extends CI_Model
                     'position'      => $position
         );
         
-        $user_where = array('user_id'       => $user_id,
+        $user_where = array(
+                    'user_id'       => $user_id,
                     'project_id'    => $project_id
         );
         
-        $this->db->update('user_project', $user_data, $user_where);
+        $data       = $this->plugin_handler->trigger('projects_model_update_user_position', array($user_data, $user_where));
+        
+        $this->db->update('user_project', $data[0], $data[1]);
         
     }
 }
