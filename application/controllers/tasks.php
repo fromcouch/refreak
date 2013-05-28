@@ -18,6 +18,9 @@ class Tasks extends RF_Controller {
         
         parent::__construct();
         //$this->output->enable_profiler(TRUE);
+        
+        $this->plugin_handler->trigger('tasks_pre_init');
+        
         $this->lang->load('tasks');
         $this->load->library('form_validation');
         $this->load->model('task_model');        
@@ -48,6 +51,8 @@ class Tasks extends RF_Controller {
                     'var tasksmessage_deleted    = "' . $this->lang->line('tasksmessage_deleted') . "\";\n" .
                     'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" 
                 ;
+        
+        $this->data                         = $this->plugin_handler->trigger('tasks_post_init', $this->data);
     }
 
     /**
@@ -59,7 +64,10 @@ class Tasks extends RF_Controller {
     public function index()
     {
         
-        $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id);
+        $this->data['tasks']        = $this->plugin_handler->trigger(
+                                                        'tasks_list', 
+                                                        $this->task_model->get_tasks($this->data['actual_user']->id) 
+                                       );
         $this->load->view('tasks/tasks', $this->data);
         
     }

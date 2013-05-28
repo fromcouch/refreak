@@ -26,7 +26,7 @@ class Projects extends RF_Controller {
         
         $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
         
-        $this->plugin_handler->trigger('projects_post_init');
+        $this->data                         = $this->plugin_handler->trigger('projects_post_init', $this->data);
     }
 
     /**
@@ -39,7 +39,10 @@ class Projects extends RF_Controller {
     {
         $this->load->model('project_model');
         
-        $this->data['projects']             = $this->plugin_handler->trigger('projects_list', $this->project_model->get_projects_list($this->data['actual_user']->id) );
+        $this->data['projects']             = $this->plugin_handler->trigger(
+                                                            'projects_list', 
+                                                            $this->project_model->get_projects_list($this->data['actual_user']->id) 
+                                               );
 
         $this->load->view('projects/projects', $this->data);        
     }
