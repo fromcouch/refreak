@@ -326,6 +326,8 @@ class Tasks extends RF_Controller {
             }
         }
         
+        $projects                   = $this->plugin_handler->trigger('tasks_list_projects_from_user', $projects );
+        
         return $projects;
     }
     
@@ -348,10 +350,9 @@ class Tasks extends RF_Controller {
 
             //inform system don't use layout, don't need for this ajax call
             $this->config->set_item('layout_use', false);
-            
-            $this->load->model('project_model');
-            
+                                   
             if ($task[0]['project_id'] != 0) {
+                    $this->load->model('project_model');
                     $project                = $this->project_model->get_project($task[0]['project_id']);
                     $this->data['project_name']     = $project->name;
             }
@@ -374,10 +375,15 @@ class Tasks extends RF_Controller {
             $this->data['username']         = $username;
             $this->data['status']           = $status;
             
+            $this->data                     = $this->plugin_handler->trigger('tasks_show_task', $this->data );
+            
             unset($user, $project);
             
             $this->load->view('tasks/show', $this->data);
         }
+        else {
+            show_error("Isn't Ajax Call. What are you thinking about?", 403);
+        }       
         
     }
     
@@ -579,6 +585,8 @@ class Tasks extends RF_Controller {
                 $this->task_model->close_task($task_id);
             }
                 
+            $this->plugin_handler->trigger('tasks_change_status');
+            
             echo json_encode(
                                 array(
                                     'response'          => 'rfk_ok'

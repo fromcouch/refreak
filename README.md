@@ -106,3 +106,6 @@ EVENTS
     + tasks_save_task_validation:           Validation form on save task.  (tasks)
     + tasks_save_task_data:                 Fires before save data.  (tasks)
     + tasks_save_task_saved:                Fires after save task.  (tasks)
+    + tasks_list_projects_from_user:        Gets projects of especified user.  (tasks)
+    + tasks_show_task:                      Popup show task layer.  (tasks)
+    + tasks_change_status:                  Fires when user change status.  (tasks)
