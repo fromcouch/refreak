@@ -98,3 +98,11 @@ EVENTS
 + Tasks
     + tasks_pre_init:                       first event fired before init task Refreak controller. (tasks)
     + tasks_post_init:                      lost event fired after init task Refreak controller. (tasks)
+    + tasks_list:                           Get list of tasks. (tasks)
+    + tasks_search_result_list:             Get list of tasks after search. (need to send parameters?) (tasks)
+    + tasks_list_from_project:              Get list of tasks from project.  (tasks)
+    + tasks_list_from_user:                 Get list of tasks from user.  (tasks)
+    + tasks_show_edit_task:                 When load task for edit popup.  (tasks)
+    + tasks_save_task_validation:           Validation form on save task.  (tasks)
+    + tasks_save_task_data:                 Fires before save data.  (tasks)
+    + tasks_save_task_saved:                Fires after save task.  (tasks)

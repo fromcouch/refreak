@@ -93,18 +93,13 @@ class Tasks extends RF_Controller {
         $projects                   = array();
         
         if (!is_null($user_id)) {
-            $projects               = $this->_get_user_projects($user_id);
-            //store user for render menus in render
-            $this->session->set_flashdata('menu_user_id', $user_id);
-        }
-        
-        if(!is_null($project_id)) {
-            //store user for render menus in render
-            $this->session->set_flashdata('menu_project_id', $project_id);
-        }
-            
+            $projects               = $this->_get_user_projects($user_id);           
+        }                    
                 
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects);
+        
+        $this->data['tasks']        = $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -120,6 +115,9 @@ class Tasks extends RF_Controller {
     {
         
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, null, $project_id);
+        
+        $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_project', $this->data['tasks'] );
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -141,6 +139,9 @@ class Tasks extends RF_Controller {
         }
                 
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, null, 0, $projects);
+        
+        $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_user', $this->data['tasks'] );
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -196,7 +197,7 @@ class Tasks extends RF_Controller {
             }
             else {
                 $data                       = $defaults;
-            }            
+            }                                    
             
             $this->data                     = array_merge($data, $this->data);
             
@@ -206,9 +207,14 @@ class Tasks extends RF_Controller {
             
             $this->data['user_p']           = $ups;
             
+            $this->data                     = $this->plugin_handler->trigger('tasks_show_edit_task', $this->data );
+            
             unset($ups, $defaults, $task);
 
             $this->load->view('tasks/edit', $this->data);
+        }
+        else {
+            show_error("Isn't Ajax Call. What are you thinking about?", 403);
         }
     }
     
@@ -236,9 +242,13 @@ class Tasks extends RF_Controller {
                 $this->form_validation->set_rules('task_status', 'Status', 'xss_clean');
                 $this->form_validation->set_rules('task_id', 'Status', 'xss_clean');
                 
+                $this->form_validation          = $this->plugin_handler->trigger('tasks_save_task_validation', $this->form_validation );
+                
                 if ($this->form_validation->run() === TRUE) {
                     // save task here
                     $task_id                    = $this->input->post('task_id');
+                    
+                    $this->input                = $this->plugin_handler->trigger('tasks_save_task_data', $this->input );
                     
                     $task_id                    = $this->task_model->save_task(
                                                         $this->input->post('task_title'),
@@ -254,6 +264,8 @@ class Tasks extends RF_Controller {
                                                         $this->data['actual_user']->id,
                                                         (int)$task_id
                     );
+                    
+                    $this->plugin_handler->trigger('tasks_save_task_saved' );
                     
                     $response['response']       = 'rfk_ok';
                     $response['tid']            = $task_id;
