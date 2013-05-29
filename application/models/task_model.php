@@ -178,12 +178,18 @@ class Task_model extends CI_Model {
         
         // task id 0 is for insert, if task_id have non zero value is an update
         if ($task_id === 0) {
+            
+            $task_data         = $this->plugin_handler->trigger( 'tasks_model_insert_task', $task_data );
+            
             $this->db->insert('tasks', $task_data); 
             $task_id           = $this->db->insert_id();   //get id from project
         }
         else {
-            $this->db->where('task_id', $task_id);
-            $this->db->update('tasks', $task_data); 
+            
+            $tdata             = $this->plugin_handler->trigger( 'tasks_model_update_task', array($task_id, $task_data) );
+            
+            $this->db->where('task_id', $tdata[0]);
+            $this->db->update('tasks', $tdata[1]); 
         }                
         
         $this->set_status($task_id, $status, $author_id);

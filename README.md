@@ -112,3 +112,5 @@ EVENTS
     + tasks_model_get_tasks:                Get task list.  (tasks)
     + tasks_model_get_users:                Get Users.  (tasks)
     + tasks_model_get_project_users:        Get users from project.  (tasks)
+    + tasks_model_insert_task:              Insert task.  (tasks)
+    + tasks_model_update_task:              Update task.  (tasks)
