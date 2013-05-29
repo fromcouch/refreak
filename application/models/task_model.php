@@ -79,6 +79,13 @@ class Task_model extends CI_Model {
             
         }
         
+        $params                     = array(
+                                       $actual_user_id, $user_id, $project_id, $time_concept, $projects 
+                                    );
+        
+        $data                       = $this->plugin_handler->trigger( 'tasks_model_get_tasks', array( $this->db, $params ));
+        $this->db                   = $data[0];
+        
         return $this->db->get('tasks')->result_object();
         
     }
@@ -92,17 +99,28 @@ class Task_model extends CI_Model {
      */
     public function get_users_project($project_id = 0) {
         
+        $db         = $this->db;
+        
         if ($project_id == 0) {
-            return $this->db
-                        ->select('users.id, users.first_name, users.last_name')
+            $db->select('users.id, users.first_name, users.last_name');
+            
+            $db   = $this->plugin_handler->trigger( 'tasks_model_get_users', $db);
+            
+            return $db
                         ->get('users')
                         ->result_array();
         }
         else {
-            return $this->db
-                        ->select('users.id, users.first_name, users.last_name')
-                        ->join('users', 'users.id = user_project.user_id', 'inner')
-                        ->where('user_project.project_id', $project_id)
+            
+            $db
+                ->select('users.id, users.first_name, users.last_name')
+                ->join('users', 'users.id = user_project.user_id', 'inner')
+                ->where('user_project.project_id', $project_id);
+            
+            $data       = $this->plugin_handler->trigger( 'tasks_model_get_project_users', array( $db, $project_id ) );
+            $db         = $data[0];
+            
+            return $db
                         ->get('user_project')
                         ->result_array();
             

@@ -109,3 +109,6 @@ EVENTS
     + tasks_list_projects_from_user:        Gets projects of especified user.  (tasks)
     + tasks_show_task:                      Popup show task layer.  (tasks)
     + tasks_change_status:                  Fires when user change status.  (tasks)
+    + tasks_model_get_tasks:                Get task list.  (tasks)
+    + tasks_model_get_users:                Get Users.  (tasks)
+    + tasks_model_get_project_users:        Get users from project.  (tasks)
