@@ -201,7 +201,7 @@ class Tasks extends RF_Controller {
             
             $this->data                     = array_merge($data, $this->data);
             
-            if ($this->data['deadline_date'] === '0000-00-00') {
+            if ($this->data['deadline_date'] === '0000-00-00' || $this->data['deadline_date'] === '9999-00-00') {
                 $this->data['deadline_date'] = null;
             }
             
