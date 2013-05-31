@@ -380,6 +380,8 @@ class Task_model extends CI_Model {
                                     'user_id'           => $user_id
         );
         
+        $status_data            = $this->plugin_handler->trigger( 'tasks_model_set_status', $status_data );
+        
         $this->db->set('status_date', 'NOW()', FALSE);
         $this->db->insert('task_status', $status_data);
         
@@ -394,8 +396,11 @@ class Task_model extends CI_Model {
      */
     public function close_task($task_id) {
         
-        $this->db->set('deadline_date', 'CURDATE()', FALSE);
+        $this->db->set('deadline_date', 'CURDATE()', FALSE);        
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_close_task', array($task_id, $this->db ) );
+        $this->db               = $data[1];
         $this->db->update('tasks');
         
     }
@@ -413,6 +418,10 @@ class Task_model extends CI_Model {
         $this->delete_task_status($task_id);
         
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_delete_task', array($task_id, $this->db) );
+        $this->db               = $data[1];
+        
         $this->db->delete('tasks');
     }
     
@@ -426,6 +435,9 @@ class Task_model extends CI_Model {
     public function delete_task_status($task_id) {
         
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_delete_task_status', array($task_id, $this->db) );
+        $this->db               = $data[1];
         $this->db->delete('task_status');
         
     }
@@ -440,6 +452,9 @@ class Task_model extends CI_Model {
     public function delete_task_comments($task_id) {
         
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_delete_task_comments', array($task_id, $this->db) );
+        $this->db               = $data[1];
         $this->db->delete('task_comment');
         
     }
@@ -463,6 +478,8 @@ class Task_model extends CI_Model {
         
         $project_id             = $project->project_id;
         
+        $this->plugin_handler->trigger('tasks_model_get_user_project_position', array($task_id, $user_id, $project_id));
+        
         $this->load->model('project_model');
         $up                     = $this->project_model->get_user_position($project_id, $user_id);
         
@@ -484,6 +501,8 @@ class Task_model extends CI_Model {
     public function is_owner($task_id, $user_id) {
         
         $task                   = $this->get_task($task_id, $user_id);
+        
+        $this->plugin_handler->trigger('tasks_model_is_owner', array($task_id, $user_id));
         
         if ((int)$task[0]['author_id'] === $user_id) {
             return true;
