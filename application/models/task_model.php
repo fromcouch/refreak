@@ -206,15 +206,21 @@ class Task_model extends CI_Model {
      */
     public function get_task($task_id, $user_id) {
         
-        return $this->db 	 	 
-                        ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
-                                  tasks.title, tasks.description, tasks.deadline_date, tasks.private,
-                                  tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
-                        ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
-                        ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
-                        ->join('user_project', 'user_project.project_id = tasks.project_id AND rfk_user_project.user_id = ' . $user_id, 'left')
-                        ->where('tasks.task_id', $task_id)
-                        ->get('tasks')
+        
+        
+        $this->db
+                    ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
+                              tasks.title, tasks.description, tasks.deadline_date, tasks.private,
+                              tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
+                    ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
+                    ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
+                    ->join('user_project', 'user_project.project_id = tasks.project_id AND rfk_user_project.user_id = ' . $user_id, 'left')
+                    ->where('tasks.task_id', $task_id);
+                        
+        $data               = $this->plugin_handler->trigger( 'tasks_model_get_task', array( $this->db, $task_id ) );
+        $this->db           = $data[0];
+                
+        return $this->db->get('tasks')
                         ->result_array();
         
     }
@@ -228,10 +234,15 @@ class Task_model extends CI_Model {
      */
     public function get_task_description($task_id) {
         
-        $task           = $this->db
+        
+        $db             = $this->db
                             ->select('tasks.description')                
-                            ->where('tasks.task_id', $task_id)
-                            ->get('tasks')
+                            ->where('tasks.task_id', $task_id);
+        
+        $data           = $this->plugin_handler->trigger( 'tasks_model_get_task_description', array( $this->db, $task_id ) );
+        $db             = $data[0];
+        
+        $task           = $db->get('tasks')
                             ->result_object();
         
         if (count($task)>0) {
@@ -252,12 +263,16 @@ class Task_model extends CI_Model {
      */
     public function get_task_comments($task_id) {
         
-        $comments       = $this->db
+        $db         = $this->db
                             ->select('task_comment.task_comment_id, users.first_name, users.last_name, task_comment.comment, task_comment.last_change_date')
                             ->select("DATE_FORMAT(rfk_task_comment.post_date,'%d %b %Y %T') AS post_date",FALSE)
                             ->join('users', 'task_comment.user_id = users.id', 'inner' )
-                            ->where('task_comment.task_id', $task_id)
-                            ->get('task_comment')
+                            ->where('task_comment.task_id', $task_id);
+        
+        $data           = $this->plugin_handler->trigger( 'tasks_model_get_task_comment', array( $db, $task_id ) );
+        $db             = $data[0];
+        
+        $comments       = $db->get('task_comment')
                             ->result_array();
         
         return $comments;
@@ -273,12 +288,16 @@ class Task_model extends CI_Model {
      */
     public function get_status_history($task_id) {
         
-        $history        = $this->db
+        $db             = $this->db
                             ->select('task_status.status, users.first_name, users.last_name')
                             ->select("DATE_FORMAT(rfk_task_status.status_date,'%d %b %Y %T') AS status_date",FALSE)
                             ->join('users', 'task_status.user_id = users.id', 'inner' )
-                            ->where('task_status.task_id', $task_id)
-                            ->get('task_status')
+                            ->where('task_status.task_id', $task_id);
+        
+        $data           = $this->plugin_handler->trigger( 'tasks_model_get_task_history', array( $db, $task_id ) );
+        $db             = $data[0];
+                            
+        $history        = $db->get('task_status')
                             ->result_array();               
         
         return $history;
@@ -304,12 +323,20 @@ class Task_model extends CI_Model {
         if ($task_comment_id === 0) {
             
             $comment['task_id']     = $task_id;
+            
+            $comment                = $this->plugin_handler->trigger( 'tasks_model_insert_comment_data', $comment );
+            
             $this->db->set('post_date', 'NOW()', FALSE);
             $this->db->insert('task_comment', $comment);
             $task_comment_id        = $this->db->insert_id();
             
         }
         else {
+            
+            $cdata                  = $this->plugin_handler->trigger( 'tasks_model_update_comment_data', array( $task_comment_id, $comment ) );
+            
+            $task_comment_id        = $cdata[0];
+            $comment                = $cdata[1];
             
             $this->db->set('last_change_date', 'NOW()', FALSE);
             $this->db->where('task_comment_id', $task_comment_id);
@@ -328,6 +355,8 @@ class Task_model extends CI_Model {
      * @access public
      */
     public function delete_comment($task_comment_id) {
+        
+        $task_comment_id            = $this->plugin_handler->trigger( 'tasks_model_delete_comment', $task_comment_id );
         
         $this->db->where('task_comment_id', $task_comment_id);
         $this->db->delete('task_comment');
