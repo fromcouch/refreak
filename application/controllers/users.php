@@ -194,6 +194,8 @@ class Users extends RF_Controller {
             $this->form_validation->set_rules('company', 'Company Name', 'required|xss_clean');
             $this->form_validation->set_rules('email', 'Email', 'required|xss_clean');
 
+            $this->plugin_handler->trigger('users_edit_validation_form');
+            
             if ($this->input->post('id') && $this->input->post('first_name'))
             {
                     // do we have a valid request?
@@ -222,14 +224,20 @@ class Users extends RF_Controller {
                             $data['password'] = $this->input->post('password');
                     }
 
+                    $datos              = $this->plugin_handler->trigger('users_edit_update', array($user, $data));
+                    $data               = $datos[1];
+                    
                     if ($this->form_validation->run() === TRUE)
                     { 
                             $this->ion_auth->update($user->id, $data);
-                            
+                                                       
                             if ($this->input->post('group')) {                                
                                 $this->ion_auth->remove_from_group(null, $user->id);
                                 $this->ion_auth->add_to_group($this->input->post('group'), $user->id);
+                                $this->plugin_handler->trigger('users_edit_group_updated', array($this->input->post('group'), $user));
                             }
+                           
+                            $this->plugin_handler->trigger('users_edit_updated');
                             
                             //check to see if we are creating the user
                             //redirect them back to the admin page
@@ -305,6 +313,8 @@ class Users extends RF_Controller {
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
             $this->data['groups_show'] = $user->active ? '' : ' style = "display:none" ';
             
+            $this->data     = $this->plugin_handler->trigger('users_edit_post_prepare_data', $this->data);
+            
             $this->load->view('auth/edit_user', $this->data);
     }
     
@@ -336,6 +346,8 @@ class Users extends RF_Controller {
             $this->data['user_groups']  = $this->ion_auth->get_users_groups($id)->result_object();
             $this->data['groups']       = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 
+            $this->data                 = $this->plugin_handler->trigger('users_details_post_prepare_data', $this->data);
+            
             $this->load->view('users/details', $this->data);
     }
     
@@ -350,6 +362,8 @@ class Users extends RF_Controller {
         
         if ($this->ion_auth->is_admin() && !empty($id) && $id != false && !is_null($id)) {
             $this->ion_auth->delete_user($id);
+            
+            $this->plugin_handler->trigger('users_edit_deleted', $id);
             
             $this->session->set_flashdata('message', "User Deleted");
             redirect("users", 'refresh');
@@ -371,6 +385,7 @@ class Users extends RF_Controller {
 
             if ($activation)
             {
+                    $this->plugin_handler->trigger('users_edit_activated', $id);
                     //redirect them to the auth page
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                     redirect("users", 'refresh');
@@ -397,6 +412,7 @@ class Users extends RF_Controller {
             
             if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin())
             {
+                    $this->plugin_handler->trigger('users_edit_deactivated', $id);
                     //redirect them to the user page
                     $this->session->set_flashdata('message', 'User Deactivated');
                     $this->ion_auth->deactivate($id);
