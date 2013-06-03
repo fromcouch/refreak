@@ -22,13 +22,16 @@ class Users extends RF_Controller {
         parent::__construct();            
         //$this->output->enable_profiler(TRUE);
         
+        $this->plugin_handler->trigger('users_pre_init');
+        
         $this->lang->load('users');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
         //set the flash data error message if there is one
-        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 
+        $this->data                         = $this->plugin_handler->trigger('users_post_init', $this->data);
     }
 
     /**
@@ -39,6 +42,8 @@ class Users extends RF_Controller {
      */
     public function index()
     {
+        
+        $this->plugin_handler->trigger('users_list');
         
         $this->load->view('users/users', $this->data);
         
@@ -61,26 +66,37 @@ class Users extends RF_Controller {
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
             $this->form_validation->set_rules('password_confirm', 'Password Confirmation', 'required');
 
+            $this->plugin_handler->trigger('users_create_validation_form');
+            
             if ($this->form_validation->run() === TRUE)
             {
-                    $username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
+                    $username       = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
                     $email    = $this->input->post('email');
                     $password = $this->input->post('password');
                     $group    = $this->input->post('group');
                     
-                    $additional_data = array(
-                            'first_name' => $this->input->post('first_name'),
-                            'last_name'  => $this->input->post('last_name'),
-                            'company'    => $this->input->post('company'),
-                            'author_id'  => $this->data['actual_user']->id,
-                            'title'      => $this->input->post('title'),
-                            'city'       => $this->input->post('city'),
-                            'country_id' => $this->input->post('country_id'),
-                            'active'     => $this->input->post('active_user') === 'ok' ? true : false,
-                    );
+                    $data           = array(
+                                           'username'           => strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name')),
+                                           'email'              => $this->input->post('email'),
+                                           'password'           => $this->input->post('password'),
+                                           'group'              => $this->input->post('group'),
+                                           'additional_data'    => array(
+                                                    'first_name' => $this->input->post('first_name'),
+                                                    'last_name'  => $this->input->post('last_name'),
+                                                    'company'    => $this->input->post('company'),
+                                                    'author_id'  => $this->data['actual_user']->id,
+                                                    'title'      => $this->input->post('title'),
+                                                    'city'       => $this->input->post('city'),
+                                                    'country_id' => $this->input->post('country_id'),
+                                                    'active'     => $this->input->post('active_user') === 'ok' ? true : false,
+                                            )
+                    );                                       
                     
-                    if ($this->ion_auth->register($username, $password, $email, $additional_data, array($group)))
+                    $data           = $this->plugin_handler->trigger('users_pre_register', $data);
+                    
+                    if ($this->ion_auth->register($data['username'], $data['password'], $data['email'], $data['additional_data'], array($data['group'])))
                     { 
+                            $this->plugin_handler->trigger('users_registered', $data);
                             //check to see if we are creating the user
                             //redirect them back to the admin page
                             $this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -151,6 +167,8 @@ class Users extends RF_Controller {
 
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 
+            $this->data     = $this->plugin_handler->trigger('users_create_post_prepare_data', $this->data);
+            
             $this->load->view('auth/create_user', $this->data);
 
         }

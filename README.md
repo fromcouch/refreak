@@ -128,3 +128,12 @@ EVENTS
     + tasks_model_delete_task_comments:     Delete task Comments.  (tasks)
     + tasks_model_get_user_project_position:Get Users position of Task. (tasks)
     + tasks_model_is_owner:                 Know if user is owner of task. (tasks)
+
++ Users
+    + users_pre_init:                       first event fired before init users Refreak controller. (users)
+    + users_post_init:                      lost event fired after init users Refreak controller. (users)
+    + users_list:                           Get list of Users. (users)
+    + users_create_validation_form:         Validate data form for create users. (in revision, needs form_validation parameter by ref?) (users)
+    + users_pre_register:                   Before Register User. (users)
+    + users_registered:                     After Register User. (users)
+    + users_create_post_prepare_data:       Create user form, event previous setting data for form. (users)
