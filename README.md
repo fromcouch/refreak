@@ -155,3 +155,8 @@ EVENTS
 + Auth
     + auth_logged_in:                       When users logged
     + auth_login_error:                     When error login
+    + auth_logged_out:                      Logged out user
+    + auth_password_changed:                Password Changed
+    + auth_password_forgot:                 Password Forgot
+    + auth_user_activated:                  User Activated
+    + auth_user_deactivated:                User Deactivated
