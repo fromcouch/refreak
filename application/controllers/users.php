@@ -289,6 +289,7 @@ class Users extends RF_Controller {
                     'name' => 'username',
                     'id'   => 'username',
                     'type' => 'username',
+                    'value' => $this->form_validation->set_value('username', $user->username),
                     'autocomplete'  => 'off'
             );
             $this->data['password'] = array(

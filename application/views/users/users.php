@@ -35,7 +35,7 @@
                 <td align="center">
                         <?php 
                         if ($actual_user->id != $table_user->id && $this->ion_auth->is_admin()) : ?>
-                            <a href="<?php echo site_url();?>/users/<?php echo $url_active;?>/<?php echo $table_user->id;?>">
+                            <a href="<?php echo site_url();?>users/<?php echo $url_active;?>/<?php echo $table_user->id;?>">
                                 <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $user_status; ?>.png" />
                             </a>
                         <?php else : ?>
