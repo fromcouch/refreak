@@ -44,13 +44,13 @@
                         
                         if ($actual_user->id == $table_user->id || $this->ion_auth->is_admin()) :                                                    
                         ?>
-                            <a href="<?php echo site_url();?>/users/edit_user/<?php echo $table_user->id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" border="0" /></a>
+                            <a href="<?php echo site_url();?>users/edit_user/<?php echo $table_user->id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" border="0" /></a>
                         <?php else : ?>
                             <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" />
                         <?php endif; ?>
 
                         <?php if ($actual_user->id != $table_user->id && $this->ion_auth->is_admin()) : ?>
-                            <a href="<?php echo site_url();?>/users/delete_user/<?php echo $table_user->id;?>" onclick="return confirm(<?php echo $this->lang->line('userstable_confirmdelete'); ?>);"><img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" border="0" /></a>
+                            <a href="<?php echo site_url();?>users/delete_user/<?php echo $table_user->id;?>" onclick="return confirm(<?php echo $this->lang->line('userstable_confirmdelete'); ?>);"><img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" border="0" /></a>
                         <?php else : ?>
                             <img src="<?php echo base_url() . $theme;?>/images/b_deln.png" width="20" height="16" border="0" />
                         <?php endif; ?>
