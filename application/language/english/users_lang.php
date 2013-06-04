@@ -27,6 +27,7 @@ $lang['userscrud_company']          = 'Company:';
 $lang['userscrud_email']            = 'Email:';
 $lang['userscrud_account']          = 'Account';
 $lang['userscrud_password']         = 'Password:';
+$lang['userscrud_username']         = 'Username:';
 $lang['userscrud_confirmpass']      = 'Confirm Password:';
 $lang['userscrud_enabled']          = 'Account is enabled:';
 $lang['userscrud_createuser']       = 'Create User';

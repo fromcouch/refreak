@@ -1,6 +1,6 @@
 <div class="center">
     <div class="horiz">
-        <div id="infoMessage"><?php echo $message;?></div>
+        <div id="infoMessage" class="error_box"><?php echo $message;?></div>
         <?php 
             $edit_button = '';
             if ($actual_user->id == $user->id || $this->ion_auth->is_admin()) : 

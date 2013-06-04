@@ -151,3 +151,7 @@ EVENTS
     + users_model_projects_user:            Get projects of user. (users)
     + users_model_users_with_group:         Get users with group. (users)
     + users_model_country:                  Get countries. (users)
+
++ Auth
+    + auth_logged_in:                       When users logged
+    + auth_login_error:                     When error login

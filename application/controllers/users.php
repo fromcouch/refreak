@@ -62,21 +62,18 @@ class Users extends RF_Controller {
             $this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
             $this->form_validation->set_rules('last_name', 'Last Name', 'required|xss_clean');
             $this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
-            $this->form_validation->set_rules('company', 'Company Name', 'required|xss_clean');
+            $this->form_validation->set_rules('company', 'Company Name', 'xss_clean');
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
             $this->form_validation->set_rules('password_confirm', 'Password Confirmation', 'required');
+            $this->form_validation->set_rules('username', 'Username', 'required');
 
             $this->plugin_handler->trigger('users_create_validation_form');
             
             if ($this->form_validation->run() === TRUE)
-            {
-                    $username       = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
-                    $email    = $this->input->post('email');
-                    $password = $this->input->post('password');
-                    $group    = $this->input->post('group');
+            {                    
                     
                     $data           = array(
-                                           'username'           => strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name')),
+                                           'username'           => strtolower($this->input->post('username')),
                                            'email'              => $this->input->post('email'),
                                            'password'           => $this->input->post('password'),
                                            'group'              => $this->input->post('group'),
@@ -135,6 +132,12 @@ class Users extends RF_Controller {
                     'type'  => 'text',
                     'value' => $this->form_validation->set_value('company'),
             );                    
+            $this->data['username'] = array(
+                    'name'  => 'username',
+                    'id'    => 'username',
+                    'type'  => 'username',
+                    'value' => $this->form_validation->set_value('username'),
+            );
             $this->data['password'] = array(
                     'name'  => 'password',
                     'id'    => 'password',
@@ -169,6 +172,12 @@ class Users extends RF_Controller {
 
             $this->data     = $this->plugin_handler->trigger('users_create_post_prepare_data', $this->data);
             
+            $errors         = $this->ion_auth->errors();
+            if (!empty($errors)) {
+                $this->data['message']  = $errors;
+                $this->session->set_flashdata('message', $errors);
+            }
+            
             $this->load->view('auth/create_user', $this->data);
 
         }
@@ -191,9 +200,10 @@ class Users extends RF_Controller {
             //validate form input
             $this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
             $this->form_validation->set_rules('last_name', 'Last Name', 'required|xss_clean');
-            $this->form_validation->set_rules('company', 'Company Name', 'required|xss_clean');
+            $this->form_validation->set_rules('company', 'Company Name', 'xss_clean');
             $this->form_validation->set_rules('email', 'Email', 'required|xss_clean');
-
+            $this->form_validation->set_rules('username', 'Username', 'required');
+            
             $this->plugin_handler->trigger('users_edit_validation_form');
             
             if ($this->input->post('id') && $this->input->post('first_name'))
@@ -205,6 +215,7 @@ class Users extends RF_Controller {
                     }
 
                     $data = array(
+                            'username'   => $this->input->post('username'),
                             'first_name' => $this->input->post('first_name'),
                             'last_name'  => $this->input->post('last_name'),
                             'company'    => $this->input->post('company'),                            
@@ -274,6 +285,12 @@ class Users extends RF_Controller {
                     'type'  => 'text',
                     'value' => $this->form_validation->set_value('company', $user->company),
             );            
+            $this->data['username'] = array(
+                    'name' => 'username',
+                    'id'   => 'username',
+                    'type' => 'username',
+                    'autocomplete'  => 'off'
+            );
             $this->data['password'] = array(
                     'name' => 'password',
                     'id'   => 'password',
@@ -331,7 +348,7 @@ class Users extends RF_Controller {
             if (!$id) $id = $this->data['actual_user']->id;
         
             //user to show
-            $user               = $this->ion_auth->user($id)->row();
+            $user               = $this->ion_auth->user($id)->row();            
             $author             = $this->ion_auth->user($user->author_id)->row()->first_name;
             
             //load projects language, we need here.

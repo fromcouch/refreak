@@ -46,27 +46,13 @@ class Auth extends CI_Controller {
 			//redirect('auth/login', 'refresh');
                         $this->login();
 		}
-		elseif (!$this->ion_auth->is_admin())
+		else
 		{
 			//redirect them to the home page because they must be an administrator to view this
 			redirect('/', 'refresh');
 		}
-		else
-		{
-			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-			//list the users
-			$this->data['users'] = $this->ion_auth->users()->result();
-			foreach ($this->data['users'] as $k => $user)
-			{
-				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-			}
-
-
-			$this->load->view('auth/index', $this->data);
-		}
-	}
+         }
 
         /**
          * log the user in
@@ -91,6 +77,9 @@ class Auth extends CI_Controller {
 			{ 
 				//if the login is successful
 				//redirect them back to the home page
+                            
+                                $this->plugin_handler->trigger('auth_logged_in',$this->input->post('identity'));
+                            
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
 				redirect('/', 'refresh');
 			}
@@ -98,6 +87,7 @@ class Auth extends CI_Controller {
 			{ 
 				//if the login was un-successful
 				//redirect them back to the login page
+                                $this->plugin_handler->trigger('auth_login_error',$this->input->post('identity'));
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
 				redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
