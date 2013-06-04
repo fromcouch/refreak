@@ -52,7 +52,7 @@ class User_model extends CI_Model {
         $data               = $this->plugin_handler->trigger('users_model_projects_user', array($user_id, $this->db) );
         $this->db           = $data[1];
         
-        $this->db->get('projects')
+        return $this->db->get('projects')
                 ->result_object();
 
     }

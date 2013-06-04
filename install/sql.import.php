@@ -38,7 +38,7 @@ $sql_create_insert_project_status = "INSERT INTO {$db_new}.`bak_{$pre_new}projec
 $sql_truncate_project_status    = "TRUNCATE TABLE {$db_new}.`{$pre_new}project_status`";
 $sql_insert_project_status      = "
     INSERT INTO {$db_new}.`{$pre_new}project_status` (`project_status_id`, `project_id`, `status_date`, `status_id`, `user_id`)
-    SELECT projectStatusId, projectId, statusDate, statusKey, memberId FROM {$db_old}.{$pre_old}projectstatus
+    SELECT projectStatusId, projectId, statusDate, (statusKey - 10) + 1, memberId FROM {$db_old}.{$pre_old}projectstatus
 ;";
     
 // User Project

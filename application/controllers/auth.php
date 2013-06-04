@@ -77,9 +77,7 @@ class Auth extends CI_Controller {
 	public function login()
 	{
                 
-		$this->data['title'] = "Login";
-
-		//validate form input
+        	//validate form input
 		$this->form_validation->set_rules('identity', 'Identity', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
                 
