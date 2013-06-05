@@ -18,6 +18,9 @@ class Tasks extends RF_Controller {
         
         parent::__construct();
         //$this->output->enable_profiler(TRUE);
+        
+        $this->plugin_handler->trigger('tasks_pre_init');
+        
         $this->lang->load('tasks');
         $this->load->library('form_validation');
         $this->load->model('task_model');        
@@ -48,6 +51,8 @@ class Tasks extends RF_Controller {
                     'var tasksmessage_deleted    = "' . $this->lang->line('tasksmessage_deleted') . "\";\n" .
                     'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" 
                 ;
+        
+        $this->data                         = $this->plugin_handler->trigger('tasks_post_init', $this->data);
     }
 
     /**
@@ -59,7 +64,10 @@ class Tasks extends RF_Controller {
     public function index()
     {
         
-        $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id);
+        $this->data['tasks']        = $this->plugin_handler->trigger(
+                                                        'tasks_list', 
+                                                        $this->task_model->get_tasks($this->data['actual_user']->id) 
+                                       );
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -85,18 +93,13 @@ class Tasks extends RF_Controller {
         $projects                   = array();
         
         if (!is_null($user_id)) {
-            $projects               = $this->_get_user_projects($user_id);
-            //store user for render menus in render
-            $this->session->set_flashdata('menu_user_id', $user_id);
-        }
-        
-        if(!is_null($project_id)) {
-            //store user for render menus in render
-            $this->session->set_flashdata('menu_project_id', $project_id);
-        }
-            
+            $projects               = $this->_get_user_projects($user_id);           
+        }                    
                 
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects);
+        
+        $this->data['tasks']        = $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -112,6 +115,9 @@ class Tasks extends RF_Controller {
     {
         
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, null, $project_id);
+        
+        $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_project', $this->data['tasks'] );
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -133,6 +139,9 @@ class Tasks extends RF_Controller {
         }
                 
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, null, 0, $projects);
+        
+        $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_user', $this->data['tasks'] );
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -188,19 +197,24 @@ class Tasks extends RF_Controller {
             }
             else {
                 $data                       = $defaults;
-            }            
+            }                                    
             
             $this->data                     = array_merge($data, $this->data);
             
-            if ($this->data['deadline_date'] === '0000-00-00') {
+            if ($this->data['deadline_date'] === '0000-00-00' || $this->data['deadline_date'] === '9999-00-00') {
                 $this->data['deadline_date'] = null;
             }
             
             $this->data['user_p']           = $ups;
             
+            $this->data                     = $this->plugin_handler->trigger('tasks_show_edit_task', $this->data );
+            
             unset($ups, $defaults, $task);
 
             $this->load->view('tasks/edit', $this->data);
+        }
+        else {
+            show_error("Isn't Ajax Call. What are you thinking about?", 403);
         }
     }
     
@@ -228,9 +242,13 @@ class Tasks extends RF_Controller {
                 $this->form_validation->set_rules('task_status', 'Status', 'xss_clean');
                 $this->form_validation->set_rules('task_id', 'Status', 'xss_clean');
                 
+                $this->form_validation          = $this->plugin_handler->trigger('tasks_save_task_validation', $this->form_validation );
+                
                 if ($this->form_validation->run() === TRUE) {
                     // save task here
                     $task_id                    = $this->input->post('task_id');
+                    
+                    $this->input                = $this->plugin_handler->trigger('tasks_save_task_data', $this->input );
                     
                     $task_id                    = $this->task_model->save_task(
                                                         $this->input->post('task_title'),
@@ -246,6 +264,8 @@ class Tasks extends RF_Controller {
                                                         $this->data['actual_user']->id,
                                                         (int)$task_id
                     );
+                    
+                    $this->plugin_handler->trigger('tasks_save_task_saved' );
                     
                     $response['response']       = 'rfk_ok';
                     $response['tid']            = $task_id;
@@ -306,6 +326,8 @@ class Tasks extends RF_Controller {
             }
         }
         
+        $projects                   = $this->plugin_handler->trigger('tasks_list_projects_from_user', $projects );
+        
         return $projects;
     }
     
@@ -328,10 +350,9 @@ class Tasks extends RF_Controller {
 
             //inform system don't use layout, don't need for this ajax call
             $this->config->set_item('layout_use', false);
-            
-            $this->load->model('project_model');
-            
+                                   
             if ($task[0]['project_id'] != 0) {
+                    $this->load->model('project_model');
                     $project                = $this->project_model->get_project($task[0]['project_id']);
                     $this->data['project_name']     = $project->name;
             }
@@ -342,7 +363,8 @@ class Tasks extends RF_Controller {
             $context                        = $this->lang->line('task_context');
             $context_letter                 = substr($context[$task[0]['context']], 0, 1);
             $visibility                     = $this->lang->line('task_visibility');
-            $user                           = $this->data['users'][$task[0]['user_id']];
+            $user_id                        = $task[0]['user_id'];
+            $user                           = $this->data['users'][$this->extract_user_id((int)$user_id)];
             $username                       = $user->first_name . ' ' . $user->last_name;
             $status                         = $this->lang->line('task_status');
             
@@ -353,11 +375,27 @@ class Tasks extends RF_Controller {
             $this->data['username']         = $username;
             $this->data['status']           = $status;
             
+            $this->data                     = $this->plugin_handler->trigger('tasks_show_task', $this->data );
+            
             unset($user, $project);
             
             $this->load->view('tasks/show', $this->data);
         }
+        else {
+            show_error("Isn't Ajax Call. What are you thinking about?", 403);
+        }       
         
+    }
+    
+    private function extract_user_id($user_id) {
+        
+        foreach ($this->data['users'] as $key => $value) {
+            
+            if ($value->id == $user_id) return $key;
+            
+        }
+        
+        return FALSE;
     }
     
     /**
@@ -547,6 +585,8 @@ class Tasks extends RF_Controller {
                 $this->task_model->close_task($task_id);
             }
                 
+            $this->plugin_handler->trigger('tasks_change_status');
+            
             echo json_encode(
                                 array(
                                     'response'          => 'rfk_ok'
@@ -601,14 +641,18 @@ class Tasks extends RF_Controller {
      * @param int $level level to compare
      * @return boolean
      * @access private
-     * @uses RFK_Task_Helper Task Helper
      */
     private function can_do($task_id, $actual_user_id, $level) {
+                
+        $this->load->model('task_model');
         
-        $this->load->helper('rfk_task');
-        
-        return RFK_Task_Helper::can_do($task_id, $actual_user_id, $level);
-        
+        if ($this->task_model->get_user_position((int)$task_id, $user_id) >= $level ||         
+             $this->ion_auth->in_group(array(1,2)) ||
+             $this->task_model->is_owner((int)$task_id, (int)$user_id))
+                return true;
+        else 
+                return false;
+                     
     }
 }
 

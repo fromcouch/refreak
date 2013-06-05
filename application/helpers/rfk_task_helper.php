@@ -105,14 +105,15 @@ class RFK_Task_Helper {
         return $ret;
     }
     
-    public static function can_do($task_id, $user_id, $level = 1) {
+    public static function can_do($task_id, $user_id, $position, $author_id, $level = 1) {
         
         $ci =& get_instance();
         $ci->load->model('task_model');
         
-        if ($ci->task_model->get_user_position((int)$task_id, $user_id) >= $level || 
+        //if ($ci->task_model->get_user_position((int)$task_id, $user_id) >= $level || 
+        if ($position >= $level || 
              $ci->ion_auth->in_group(array(1,2)) ||
-             $ci->task_model->is_owner((int)$task_id, (int)$user_id))
+             $author_id === $user_id)
                 return true;
         else 
                 return false;

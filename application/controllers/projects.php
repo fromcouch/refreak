@@ -15,13 +15,18 @@ class Projects extends RF_Controller {
      * 
      */
     public function __construct() {
+        
         parent::__construct();        
-        //$this->output->enable_profiler(TRUE);
+        
+        $this->plugin_handler->trigger('projects_pre_init');
+        
         $this->lang->load('projects');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
-        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        
+        $this->data                         = $this->plugin_handler->trigger('projects_post_init', $this->data);
     }
 
     /**
@@ -32,10 +37,12 @@ class Projects extends RF_Controller {
      */
     public function index()
     {
-        $this->load->database();
         $this->load->model('project_model');
         
-        $this->data['projects'] = $this->project_model->get_projects_list($this->data['actual_user']->id);
+        $this->data['projects']             = $this->plugin_handler->trigger(
+                                                            'projects_list', 
+                                                            $this->project_model->get_projects_list($this->data['actual_user']->id) 
+                                               );
 
         $this->load->view('projects/projects', $this->data);        
     }
@@ -54,6 +61,8 @@ class Projects extends RF_Controller {
             $this->form_validation->set_rules('description', 'Description', 'xss_clean');
             $this->form_validation->set_rules('status', 'Status', 'required|xss_clean');
 
+            $this->plugin_handler->trigger('projects_create_validation_form');
+            
             if ($this->form_validation->run() === TRUE)
             {
                     $name           = $this->input->post('name');
@@ -66,12 +75,13 @@ class Projects extends RF_Controller {
                     
                     $this->project_model->save($name, $this->data['actual_user']->id, $description, $status);
                     $this->session->set_flashdata('message', $this->lang->line('projectsmessage_created'));
-                    redirect("projects", 'refresh');
+                    redirect('projects', 'refresh');
             }
             else
-            { 
-                    //display the create project form
+            {                     
+                    $this->data     = $this->plugin_handler->trigger('projects_create_pre_prepare_data', $this->data);
                     
+                    //display the create project form
                     $this->data['name'] = array(
                             'name'  => 'name',
                             'id'    => 'name',
@@ -88,9 +98,16 @@ class Projects extends RF_Controller {
 
                     $this->data['status'] = $this->lang->line('project_status');
                     
+                    $this->data     = $this->plugin_handler->trigger('projects_create_post_prepare_data', $this->data);
+                    
                     $this->load->view('projects/create', $this->data);
             }
         }
+        else {
+            $this->session->set_flashdata('message', $this->lang->line('genmessage_no_permissions'));
+            redirect('projects', 'refresh');
+        }
+        
     }
     
     /**
@@ -111,11 +128,13 @@ class Projects extends RF_Controller {
             }
             $this->form_validation->set_rules('status', 'Status', 'required|xss_clean');            
 
+            $this->plugin_handler->trigger('projects_edit_validation_form');
+            
             $this->load->model('project_model');
             
             //get project and users
-            $project            = $this->project_model->get_project($id);
-            $project_users      = $this->project_model->get_users_project($id);
+            $project            = $this->plugin_handler->trigger('projects_edit_get_project', $this->project_model->get_project($id) );
+            $project_users      = $this->plugin_handler->trigger('projects_edit_get_project_users', $this->project_model->get_users_project($id) );
             
             if ($this->ion_auth->in_group(array(1,2)) && $this->input->post('id'))
             {
@@ -132,11 +151,16 @@ class Projects extends RF_Controller {
                             $status         = $this->input->post('status');
                             
                             $this->project_model->update($id, $name, $this->data['actual_user']->id, $description, $status);
+                            
+                            $this->plugin_handler->trigger('projects_edit_saved');
+                            
                             $this->session->set_flashdata('message', $this->lang->line('projectsmessage_saved'));
                             redirect("projects", 'refresh');
                     }
                     
             }
+            
+            $this->data     = $this->plugin_handler->trigger('projects_edit_pre_prepare_data', $this->data);
             
             //search permisions for user in project
             $user_position      = $this->project_model->get_user_position($id, $this->data['actual_user']->id);
@@ -189,9 +213,10 @@ class Projects extends RF_Controller {
                     });
                 ');
                     
+            $this->data     = $this->plugin_handler->trigger('projects_edit_post_prepare_data', $this->data);
+            
             unset($users, $project_users, $result_users);            
             $this->load->view('projects/edit', $this->data);
-            
         
     }
     
@@ -210,9 +235,15 @@ class Projects extends RF_Controller {
             $this->load->model('project_model');
             
             $this->project_model->delete($project_id, $this->data['actual_user']->id);
+            
+            $this->plugin_handler->trigger('projects_edit_deleted');
+            
             $this->session->set_flashdata('message', $this->lang->line('projectsmessage_deleted'));
             redirect("projects", 'refresh');
             
+        } else {
+            $this->session->set_flashdata('message', $this->lang->line('genmessage_no_permissions'));
+            redirect('projects', 'refresh');
         }
     }
     
@@ -232,6 +263,7 @@ class Projects extends RF_Controller {
                     $this->input->post('project_id'),
                     $this->input->post('position')
             );
+            $this->plugin_handler->trigger('projects_ajax_added_user_project');
             
             echo json_encode(array('response' => 'rfk_ok'));
         }
@@ -258,6 +290,8 @@ class Projects extends RF_Controller {
                     $this->input->post('user_id'),
                     $this->input->post('project_id')
             );
+            
+            $this->plugin_handler->trigger('projects_ajax_remove_user_project');
             
             echo json_encode(array('response' => 'rfk_ok'));
         }
@@ -286,6 +320,8 @@ class Projects extends RF_Controller {
                     $this->input->post('project_id'),
                     $this->input->post('position')
             );
+            
+            $this->plugin_handler->trigger('projects_ajax_change_user_position');
             
             echo json_encode(array('response' => 'rfk_ok'));
         }

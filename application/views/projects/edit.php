@@ -128,7 +128,7 @@ if ($actual_user->project_position >= 4) :
 
                 $.call_ajax({
                         type:       "POST",
-                        url:        "<?php echo site_url(); ?>/projects/add_user_project/",
+                        url:        "<?php echo site_url(); ?>projects/add_user_project/",
                         data:       {  
                                         project_id: pid, 
                                         user_id: uid,
@@ -248,7 +248,7 @@ if ($actual_user->project_position >= 4) :
                     
                     $.call_ajax({
                         type:       "POST",
-                        url:        "<?php echo site_url(); ?>/projects/remove_user_project/",
+                        url:        "<?php echo site_url(); ?>projects/remove_user_project/",
                         data:       {  
                                         project_id: pid, 
                                         user_id: uid                                    
@@ -279,7 +279,7 @@ if ($actual_user->project_position >= 4) :
 
                 $.call_ajax({
                     type:       "POST",
-                    url:        "<?php echo site_url(); ?>/projects/change_user_position/",
+                    url:        "<?php echo site_url(); ?>projects/change_user_position/",
                     data:       {  
                                     project_id: pid, 
                                     user_id: uid,

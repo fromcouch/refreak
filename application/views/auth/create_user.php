@@ -1,6 +1,6 @@
 <div class="center">
     <div class="horiz">
-        <div id="infoMessage"><?php echo $message;?></div>
+        <div id="infoMessage" class="error_box"><?php echo $message;?></div>
         <?php 
             echo validation_errors(); 
             echo form_open("users/create_user");
@@ -45,6 +45,11 @@
 
             <?php echo form_fieldset_close(); 
                     echo form_fieldset($this->lang->line('userscrud_account'));?>
+            <p>
+                    <label class="password compulsory"><?php echo $this->lang->line('userscrud_username'); ?></label>
+                    <?php echo form_input($username);?>
+            </p>
+            
             <p>
                     <label class="password compulsory"><?php echo $this->lang->line('userscrud_password'); ?></label>
                     <?php echo form_input($password);?>

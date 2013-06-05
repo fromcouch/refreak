@@ -21,27 +21,19 @@ Originally created in September 2005 and maintained by Stan Ozier and Tirzen wit
  - order tasks by deadline, project, etc ..
  - user management for tasks and system
  - easy project management
+ - import from Taskfreak! when install.
 
 ###Future Features
-
- - Import from Taskfreak when Install.
  - Plugin Ready
 
 
 TODO
 ----
 
-
-### Stage 1
-
-+ Revise Code Comments
-
-Finishing Stage 1.
-
 ### Stage 2
-+ Import on Install tasks from TF
++ ~~Import on Install tasks from TF~~
 + Pluginize project
-    + Pluginize Controlers and models
+    + ~~Pluginize Controlers and models~~
     + Decorators for views
     + Pluginize JS
 + Printing Version
@@ -60,3 +52,110 @@ then access to www.yourdomain.com/install and click Install button.
 Additionaly you can configure some parameters in:
 
     application/config/refreak.php
+
+
+EVENTS
+======
++ Base Controller
+    + base_pre_init:            first event fired before init base Refreak system. (always)
+    + base_set_theme:           set theme directory. (always)
+    + base_user_loaded:         loaded actual user. (always)
+    + base_create_left_menu:    create array with left menu items. (always)
+    + base_create_right_menu:   create array with right menu items. (always)
+    + base_set_js_vars:         Set base javascript variables and messages. (always)
+    + base_post_init:           last event fired after init base Refreak system. (always)
+
++ Projects 
+    + projects_pre_init:                    first event fired before init project Refreak controller. (projects)
+    + projects_post_init:                   last event fired after init project Refreak controller. (projects)
+    + projects_list:                        Get list of projects. (projects)
+    + projects_create_validation_form:      Validate data form for create project. (in revision, needs form_validation parameter by ref?) (project)
+    + projects_create_pre_prepare_data:     Create project form, event previous setting data for form. (project)
+    + projects_create_post_prepare_data:    Create project form, event post setting data for form. (project)
+    + projects_edit_validation_form:        Validate data form for edit project. (in revision, needs form_validation parameter by ref?) (project)
+    + projects_edit_get_project:            Get project by id. (project)
+    + projects_edit_get_project_users:      Get users from project. (project)
+    + projects_edit_saved:                  Just after update project. (Move from controller to model??) (project)
+    + projects_edit_pre_prepare_data:       Edit project form, event previous setting data for form. (project)
+    + projects_edit_post_prepare_data:      Edit project form, event post setting data for form. (project)
+    + projects_edit_deleted:                After delete project. (project)
+    + projects_ajax_added_user_project:     After user added to project. (project)
+    + projects_ajax_remove_user_project:    After user is removed from project. (project)
+    + projects_ajax_change_user_position:   After user is changed their position in project. (project)
+    + projects_model_init:                  Initializing model. (project)
+    + projects_model_projects_list:         Selecting projects list. (project)
+    + projects_model_insert_data:           Inserting project. (project)
+    + projects_model_insert_status_data:    Inserting status project. (project)
+    + projects_model_update_data:           Updating projects. (project)
+    + projects_model_get_project:           Get Project. (project)
+    + projects_model_get_users_project:     Get Users of Project. (project)
+    + projects_model_get_user_project_position:     Get Users position of Project. (project)
+    + projects_model_set_user_project:      Set User of Project. (project)
+    + projects_model_remove_user_project:   Remove User of Project. (project)
+    + projects_model_update_user_position:  Change User Posintion in Project. (project)
+
++ Tasks
+    + tasks_pre_init:                       first event fired before init task Refreak controller. (tasks)
+    + tasks_post_init:                      lost event fired after init task Refreak controller. (tasks)
+    + tasks_list:                           Get list of tasks. (tasks)
+    + tasks_search_result_list:             Get list of tasks after search. (need to send parameters?) (tasks)
+    + tasks_list_from_project:              Get list of tasks from project.  (tasks)
+    + tasks_list_from_user:                 Get list of tasks from user.  (tasks)
+    + tasks_show_edit_task:                 When load task for edit popup.  (tasks)
+    + tasks_save_task_validation:           Validation form on save task.  (tasks)
+    + tasks_save_task_data:                 Fires before save data.  (tasks)
+    + tasks_save_task_saved:                Fires after save task.  (tasks)
+    + tasks_list_projects_from_user:        Gets projects of especified user.  (tasks)
+    + tasks_show_task:                      Popup show task layer.  (tasks)
+    + tasks_change_status:                  Fires when user change status.  (tasks)
+    + tasks_model_init:                     Init model. (tasks)
+    + tasks_model_get_tasks:                Get task list.  (tasks)
+    + tasks_model_get_users:                Get Users.  (tasks)
+    + tasks_model_get_project_users:        Get users from project.  (tasks)
+    + tasks_model_insert_task:              Insert task.  (tasks)
+    + tasks_model_update_task:              Update task.  (tasks)
+    + tasks_model_get_task:                 Get a single task.  (tasks)
+    + tasks_model_get_task_description:     Get task description.  (tasks)
+    + tasks_model_get_task_comment:         Get task comments.  (tasks)
+    + tasks_model_get_task_history:         Get task history.  (tasks)
+    + tasks_model_insert_comment_data:      Insert comment.  (tasks)
+    + tasks_model_update_comment_data:      Update comment.  (tasks)
+    + tasks_model_delete_comment:           Delete comment.  (tasks)
+    + tasks_model_set_status:               Change task status.  (tasks)
+    + tasks_model_close_task:               Close task.  (tasks)
+    + tasks_model_delete_task:              Delete task.  (tasks)
+    + tasks_model_delete_task_status:       Delete task Status.  (tasks)
+    + tasks_model_delete_task_comments:     Delete task Comments.  (tasks)
+    + tasks_model_get_user_project_position:Get Users position of Task. (tasks)
+    + tasks_model_is_owner:                 Know if user is owner of task. (tasks)
+
++ Users
+    + users_pre_init:                       first event fired before init users Refreak controller. (users)
+    + users_post_init:                      lost event fired after init users Refreak controller. (users)
+    + users_list:                           Get list of Users. (users)
+    + users_create_validation_form:         Validate data form for create users. (in revision, needs form_validation parameter by ref?) (users)
+    + users_pre_register:                   Before Register User. (users)
+    + users_registered:                     After Register User. (users)
+    + users_create_post_prepare_data:       Create user form, event previous setting data for form. (users)
+    + users_edit_validation_form:           Validate data form for edit users. (in revision, needs form_validation parameter by ref?) (users)
+    + users_edit_update:                    Validate user data for update users. (users)
+    + users_edit_group_updated:             Group changed. (users)
+    + users_edit_updated:                   User Updated. (users)
+    + users_edit_post_prepare_data:         Edit user form, event previous setting data for form. (users)
+    + users_details_post_prepare_data:      Details/Show user form, event previous setting data for form. (users)
+    + users_edit_deleted:                   User deleted. (users)
+    + users_edit_activated:                 User activated. (users)
+    + users_edit_deactivated:               User deactivated. (users)
+    + users_model_init:                     Init model. (users)
+    + users_model_projects_user:            Get projects of user. (users)
+    + users_model_users_with_group:         Get users with group. (users)
+    + users_model_country:                  Get countries. (users)
+
++ Auth
+    + auth_logged_in:                       When users logged
+    + auth_login_error:                     When error login
+    + auth_logged_out:                      Logged out user
+    + auth_password_changed:                Password Changed
+    + auth_password_forgot:                 Password Forgot
+    + auth_user_activated:                  User Activated
+    + auth_user_deactivated:                User Deactivated

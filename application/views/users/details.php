@@ -1,10 +1,10 @@
 <div class="center">
     <div class="horiz">
-        <div id="infoMessage"><?php echo $message;?></div>
+        <div id="infoMessage" class="error_box"><?php echo $message;?></div>
         <?php 
             $edit_button = '';
             if ($actual_user->id == $user->id || $this->ion_auth->is_admin()) : 
-                $edit_button = '<a href="' . site_url() . '/users/edit_user/' . $user->id . '"><img src="' . base_url() . $theme . '/images/b_edit.png" width="20" height="16" border="0" /></a>';
+                $edit_button = '<a href="' . site_url() . 'users/edit_user/' . $user->id . '"><img src="' . base_url() . $theme . '/images/b_edit.png" width="20" height="16" border="0" /></a>';
             endif; 
         
             echo form_open();
@@ -56,7 +56,7 @@
                         <?php foreach ($user_projects as $prj) : ?>
                         <tr>
                             <td>
-                                <a href="<?php echo site_url() . '/projects/edit/' . $prj->project_id; ?>">
+                                <a href="<?php echo site_url() . 'projects/edit/' . $prj->project_id; ?>">
                                     <?php echo $prj->name; ?>
                                 </a>
                             </td>

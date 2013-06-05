@@ -60,7 +60,7 @@
                                 <?php for ($cont = 0; $cont < 5; $cont++) : 
                                             $sts = ($cont < $tf->status_key) ? (5 - $cont) : 0; 
                                             $status_class = 'sts'.$sts;
-                                            if (RFK_Task_Helper::can_do($tf->task_id, $actual_user->id, 3)) :
+                                            if (RFK_Task_Helper::can_do($tf->task_id, $actual_user->id, $tf->position, $tf->author_id, 3)) :
                                                 $status_class .= ' status'.$cont;
                                             endif;
                                 ?>
