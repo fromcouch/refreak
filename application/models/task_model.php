@@ -17,6 +17,7 @@ class Task_model extends CI_Model {
     public function __construct() 
     {
         parent::__construct();
+        $this->plugin_handler->trigger('tasks_model_init');
     }
     
     /**
@@ -79,6 +80,13 @@ class Task_model extends CI_Model {
             
         }
         
+        $params                     = array(
+                                       $actual_user_id, $user_id, $project_id, $time_concept, $projects 
+                                    );
+        
+        $data                       = $this->plugin_handler->trigger( 'tasks_model_get_tasks', array( $this->db, $params ));
+        $this->db                   = $data[0];
+        
         return $this->db->get('tasks')->result_object();
         
     }
@@ -92,17 +100,28 @@ class Task_model extends CI_Model {
      */
     public function get_users_project($project_id = 0) {
         
+        $db         = $this->db;
+        
         if ($project_id == 0) {
-            return $this->db
-                        ->select('users.id, users.first_name, users.last_name')
+            $db->select('users.id, users.first_name, users.last_name');
+            
+            $db   = $this->plugin_handler->trigger( 'tasks_model_get_users', $db);
+            
+            return $db
                         ->get('users')
                         ->result_array();
         }
         else {
-            return $this->db
-                        ->select('users.id, users.first_name, users.last_name')
-                        ->join('users', 'users.id = user_project.user_id', 'inner')
-                        ->where('user_project.project_id', $project_id)
+            
+            $db
+                ->select('users.id, users.first_name, users.last_name')
+                ->join('users', 'users.id = user_project.user_id', 'inner')
+                ->where('user_project.project_id', $project_id);
+            
+            $data       = $this->plugin_handler->trigger( 'tasks_model_get_project_users', array( $db, $project_id ) );
+            $db         = $data[0];
+            
+            return $db
                         ->get('user_project')
                         ->result_array();
             
@@ -160,12 +179,18 @@ class Task_model extends CI_Model {
         
         // task id 0 is for insert, if task_id have non zero value is an update
         if ($task_id === 0) {
+            
+            $task_data         = $this->plugin_handler->trigger( 'tasks_model_insert_task', $task_data );
+            
             $this->db->insert('tasks', $task_data); 
             $task_id           = $this->db->insert_id();   //get id from project
         }
         else {
-            $this->db->where('task_id', $task_id);
-            $this->db->update('tasks', $task_data); 
+            
+            $tdata             = $this->plugin_handler->trigger( 'tasks_model_update_task', array($task_id, $task_data) );
+            
+            $this->db->where('task_id', $tdata[0]);
+            $this->db->update('tasks', $tdata[1]); 
         }                
         
         $this->set_status($task_id, $status, $author_id);
@@ -182,15 +207,21 @@ class Task_model extends CI_Model {
      */
     public function get_task($task_id, $user_id) {
         
-        return $this->db 	 	 
-                        ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
-                                  tasks.title, tasks.description, tasks.deadline_date, tasks.private,
-                                  tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
-                        ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
-                        ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
-                        ->join('user_project', 'user_project.project_id = tasks.project_id AND rfk_user_project.user_id = ' . $user_id, 'left')
-                        ->where('tasks.task_id', $task_id)
-                        ->get('tasks')
+        
+        
+        $this->db
+                    ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
+                              tasks.title, tasks.description, tasks.deadline_date, tasks.private,
+                              tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
+                    ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
+                    ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
+                    ->join('user_project', 'user_project.project_id = tasks.project_id AND rfk_user_project.user_id = ' . $user_id, 'left')
+                    ->where('tasks.task_id', $task_id);
+                        
+        $data               = $this->plugin_handler->trigger( 'tasks_model_get_task', array( $this->db, $task_id ) );
+        $this->db           = $data[0];
+                
+        return $this->db->get('tasks')
                         ->result_array();
         
     }
@@ -204,10 +235,15 @@ class Task_model extends CI_Model {
      */
     public function get_task_description($task_id) {
         
-        $task           = $this->db
+        
+        $db             = $this->db
                             ->select('tasks.description')                
-                            ->where('tasks.task_id', $task_id)
-                            ->get('tasks')
+                            ->where('tasks.task_id', $task_id);
+        
+        $data           = $this->plugin_handler->trigger( 'tasks_model_get_task_description', array( $this->db, $task_id ) );
+        $db             = $data[0];
+        
+        $task           = $db->get('tasks')
                             ->result_object();
         
         if (count($task)>0) {
@@ -228,12 +264,16 @@ class Task_model extends CI_Model {
      */
     public function get_task_comments($task_id) {
         
-        $comments       = $this->db
+        $db         = $this->db
                             ->select('task_comment.task_comment_id, users.first_name, users.last_name, task_comment.comment, task_comment.last_change_date')
                             ->select("DATE_FORMAT(rfk_task_comment.post_date,'%d %b %Y %T') AS post_date",FALSE)
                             ->join('users', 'task_comment.user_id = users.id', 'inner' )
-                            ->where('task_comment.task_id', $task_id)
-                            ->get('task_comment')
+                            ->where('task_comment.task_id', $task_id);
+        
+        $data           = $this->plugin_handler->trigger( 'tasks_model_get_task_comment', array( $db, $task_id ) );
+        $db             = $data[0];
+        
+        $comments       = $db->get('task_comment')
                             ->result_array();
         
         return $comments;
@@ -249,12 +289,16 @@ class Task_model extends CI_Model {
      */
     public function get_status_history($task_id) {
         
-        $history        = $this->db
+        $db             = $this->db
                             ->select('task_status.status, users.first_name, users.last_name')
                             ->select("DATE_FORMAT(rfk_task_status.status_date,'%d %b %Y %T') AS status_date",FALSE)
                             ->join('users', 'task_status.user_id = users.id', 'inner' )
-                            ->where('task_status.task_id', $task_id)
-                            ->get('task_status')
+                            ->where('task_status.task_id', $task_id);
+        
+        $data           = $this->plugin_handler->trigger( 'tasks_model_get_task_history', array( $db, $task_id ) );
+        $db             = $data[0];
+                            
+        $history        = $db->get('task_status')
                             ->result_array();               
         
         return $history;
@@ -280,12 +324,20 @@ class Task_model extends CI_Model {
         if ($task_comment_id === 0) {
             
             $comment['task_id']     = $task_id;
+            
+            $comment                = $this->plugin_handler->trigger( 'tasks_model_insert_comment_data', $comment );
+            
             $this->db->set('post_date', 'NOW()', FALSE);
             $this->db->insert('task_comment', $comment);
             $task_comment_id        = $this->db->insert_id();
             
         }
         else {
+            
+            $cdata                  = $this->plugin_handler->trigger( 'tasks_model_update_comment_data', array( $task_comment_id, $comment ) );
+            
+            $task_comment_id        = $cdata[0];
+            $comment                = $cdata[1];
             
             $this->db->set('last_change_date', 'NOW()', FALSE);
             $this->db->where('task_comment_id', $task_comment_id);
@@ -304,6 +356,8 @@ class Task_model extends CI_Model {
      * @access public
      */
     public function delete_comment($task_comment_id) {
+        
+        $task_comment_id            = $this->plugin_handler->trigger( 'tasks_model_delete_comment', $task_comment_id );
         
         $this->db->where('task_comment_id', $task_comment_id);
         $this->db->delete('task_comment');
@@ -327,6 +381,8 @@ class Task_model extends CI_Model {
                                     'user_id'           => $user_id
         );
         
+        $status_data            = $this->plugin_handler->trigger( 'tasks_model_set_status', $status_data );
+        
         $this->db->set('status_date', 'NOW()', FALSE);
         $this->db->insert('task_status', $status_data);
         
@@ -341,8 +397,11 @@ class Task_model extends CI_Model {
      */
     public function close_task($task_id) {
         
-        $this->db->set('deadline_date', 'CURDATE()', FALSE);
+        $this->db->set('deadline_date', 'CURDATE()', FALSE);        
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_close_task', array($task_id, $this->db ) );
+        $this->db               = $data[1];
         $this->db->update('tasks');
         
     }
@@ -360,6 +419,10 @@ class Task_model extends CI_Model {
         $this->delete_task_status($task_id);
         
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_delete_task', array($task_id, $this->db) );
+        $this->db               = $data[1];
+        
         $this->db->delete('tasks');
     }
     
@@ -373,6 +436,9 @@ class Task_model extends CI_Model {
     public function delete_task_status($task_id) {
         
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_delete_task_status', array($task_id, $this->db) );
+        $this->db               = $data[1];
         $this->db->delete('task_status');
         
     }
@@ -387,6 +453,9 @@ class Task_model extends CI_Model {
     public function delete_task_comments($task_id) {
         
         $this->db->where('task_id', $task_id);
+        
+        $data                   = $this->plugin_handler->trigger( 'tasks_model_delete_task_comments', array($task_id, $this->db) );
+        $this->db               = $data[1];
         $this->db->delete('task_comment');
         
     }
@@ -410,6 +479,8 @@ class Task_model extends CI_Model {
         
         $project_id             = $project->project_id;
         
+        $this->plugin_handler->trigger('tasks_model_get_user_project_position', array($task_id, $user_id, $project_id));
+        
         $this->load->model('project_model');
         $up                     = $this->project_model->get_user_position($project_id, $user_id);
         
@@ -431,6 +502,8 @@ class Task_model extends CI_Model {
     public function is_owner($task_id, $user_id) {
         
         $task                   = $this->get_task($task_id, $user_id);
+        
+        $this->plugin_handler->trigger('tasks_model_is_owner', array($task_id, $user_id));
         
         if ((int)$task[0]['author_id'] === $user_id) {
             return true;

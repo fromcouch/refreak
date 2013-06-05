@@ -46,6 +46,14 @@ class Install {
     public $rfk_db              = null;
     
     /**
+     * Database parameters for Taskfreak!
+     * 
+     * @var array
+     * @access public
+     */
+    public $frk_db              = null;
+    
+    /**
      * Conection error Message
      * 
      * @var string 
@@ -137,6 +145,12 @@ class Install {
         
     }
     
+    /**
+     * Check for Database parameters
+     * 
+     * @return boolean
+     * @access public
+     */
     public function check_database_parameters() {
         
         $db_param = FALSE;
@@ -155,6 +169,15 @@ class Install {
                 $db_param = TRUE;
             }
             
+            if (!empty($db['import_tf']['hostname']) &&
+                !empty($db['import_tf']['username']) &&
+                !empty($db['import_tf']['password']) &&
+                !empty($db['import_tf']['database']) &&
+                !empty($db['import_tf']['dbprefix'])) {
+                
+                $this->frk_db = $db['import_tf'];
+            }
+            
         }
         
         $this->can_be_installed = $this->can_be_installed && $db_param;
@@ -163,6 +186,12 @@ class Install {
         
     }
     
+    /**
+     * Check for configuration parameters
+     * 
+     * @return boolean
+     * @access public
+     */
     public function check_config_parameters() {
         
         $config_param = FALSE;
@@ -185,11 +214,17 @@ class Install {
         
     }
     
+    /**
+     * Check for Database Connection
+     * 
+     * @return boolean
+     * @access public
+     */
     public function check_connection() {
         
         $connection         = FALSE;
         
-        $msi                = new mysqli($this->rfk_db['hostname'], $this->rfk_db['username'], $this->rfk_db['password'], $this->rfk_db['database']);
+        $msi                = $this->connect($this->rfk_db);
         
         if ($msi->connect_errno) {
             $this->connection_error = $msi->connect_error;
@@ -205,6 +240,12 @@ class Install {
         return $connection;
     }
     
+    /**
+     * Get Table List from Database
+     * 
+     * @return void
+     * @access public
+     */
     private function show_tables() {
         
         $result             = $this->mys->query('SHOW TABLES');
@@ -213,15 +254,99 @@ class Install {
         while ($row = $result->fetch_row()) {
             $this->tables []= $row[0];
         }
-         
+        
     }
     
+    /**
+     * Connect to Database
+     * 
+     * @param array $config Configuration for connection
+     * @return \mysqli
+     * @access private
+     */
+    private function connect($config) {
+        $msi                = new mysqli($config['hostname'], $config['username'], $config['password'], $config['database']);
+        
+        return $msi;
+    }
+    
+    /**
+     * Execute a SQL Sentence
+     * 
+     * @param string $sql SQL Sentence
+     * @return boolean True for Success, False when fail
+     * @access public
+     */
     public function install_table($sql) {
         
         return (bool)$this->mys->query($sql);
         
     }
     
+    /**
+     * Check for Taskfreak Tables in DB 
+     * 
+     * @return boolean
+     * @access public
+     */
+    public function check_tf_exists_tables() {
+        
+        $this->check_database_parameters(); //dependency
+        $this->check_connection(); //dependency
+        
+        //first looking in same database
+        //for frk_item (task table)
+        if(is_array($this->tables) && array_search('frk_item', $this->tables) !== FALSE) {
+            return TRUE;
+        }
+        
+        return FALSE;
+    }
+    
+    /**
+     * Check for Taskfreak Configuration 
+     * 
+     * @return boolean
+     * @access public
+     */
+    public function check_tf_exists_config() {
+       
+        $this->check_database_parameters(); //dependency
+        
+        //look for existing config
+        if (!is_null($this->frk_db)) {
+            return TRUE;
+        }
+        
+        return FALSE;
+    }    
+    
+    /**
+     * Check for Taskfreak Database Connection
+     * 
+     * @return boolean
+     * @access public
+     */
+    public function check_tf_exists_connection() {
+    
+        $connected      = FALSE;
+        $msi            = $this->connect($this->frk_db);
+
+        if (!$msi->connect_errno) {                                    
+            $connected  = TRUE;
+        }
+        
+        $msi->close();
+        return $connected;
+        
+    }
+    
+    public function __destruct() {
+        
+        if (!is_null($this->mys))
+            $this->mys->close();
+        
+    }
 }
 
 /* End of file Install.php */

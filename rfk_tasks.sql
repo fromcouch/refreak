@@ -495,6 +495,51 @@ INSERT INTO `rfk_country` (`country_id`, `name`) VALUES
 ('ZM', 'Zambia'),
 ('ZW', 'Zimbabwe');
 
+
+--
+-- Estructura de tabla para la tabla `rfk_plugins`
+--
+
+CREATE TABLE IF NOT EXISTS `rfk_plugins` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `directory` varchar(250) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+--
+-- Estructura de tabla para la tabla `rfk_controllers`
+--
+
+CREATE TABLE IF NOT EXISTS `rfk_controllers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `controller_name` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `rfk_controllers`
+--
+
+INSERT INTO `rfk_controllers` (`id`, `controller_name`) VALUES
+(1, 'tasks'),
+(2, 'projects'),
+(3, 'users'),
+(4, 'auth');
+
+--
+-- Estructura de tabla para la tabla `rfk_plugin_controller`
+--
+
+CREATE TABLE IF NOT EXISTS `rfk_plugin_controller` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plugin_id` int(11) NOT NULL,
+  `controller_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

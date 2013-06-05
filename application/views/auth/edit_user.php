@@ -47,6 +47,11 @@
             <?php echo form_fieldset_close(); 
                     echo form_fieldset($this->lang->line('userscrud_account'));?>
             <p>
+                    <label class="password compulsory"><?php echo $this->lang->line('userscrud_username'); ?></label>
+                    <?php echo form_input($username);?>
+            </p>
+            
+            <p>
                     <label class="password compulsory"><?php echo $this->lang->line('userscrud_passwordchanging'); ?> </label>
                     <?php echo form_input($password);?>
             </p>

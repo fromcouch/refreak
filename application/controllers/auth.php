@@ -46,27 +46,13 @@ class Auth extends CI_Controller {
 			//redirect('auth/login', 'refresh');
                         $this->login();
 		}
-		elseif (!$this->ion_auth->is_admin())
+		else
 		{
 			//redirect them to the home page because they must be an administrator to view this
 			redirect('/', 'refresh');
 		}
-		else
-		{
-			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-			//list the users
-			$this->data['users'] = $this->ion_auth->users()->result();
-			foreach ($this->data['users'] as $k => $user)
-			{
-				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-			}
-
-
-			$this->load->view('auth/index', $this->data);
-		}
-	}
+         }
 
         /**
          * log the user in
@@ -77,9 +63,7 @@ class Auth extends CI_Controller {
 	public function login()
 	{
                 
-		$this->data['title'] = "Login";
-
-		//validate form input
+        	//validate form input
 		$this->form_validation->set_rules('identity', 'Identity', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
                 
@@ -93,6 +77,9 @@ class Auth extends CI_Controller {
 			{ 
 				//if the login is successful
 				//redirect them back to the home page
+                            
+                                $this->plugin_handler->trigger('auth_logged_in',$this->input->post('identity'));
+                            
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
 				redirect('/', 'refresh');
 			}
@@ -100,6 +87,7 @@ class Auth extends CI_Controller {
 			{ 
 				//if the login was un-successful
 				//redirect them back to the login page
+                                $this->plugin_handler->trigger('auth_login_error',$this->input->post('identity'));
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
 				redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
@@ -134,11 +122,11 @@ class Auth extends CI_Controller {
          */
 	public function logout()
 	{
-		$this->data['title'] = "Logout";
-
 		//log the user out
 		$logout = $this->ion_auth->logout();
 
+                $this->plugin_handler->trigger('auth_logged_out');
+                
 		//redirect them to the login page
 		$this->session->set_flashdata('message', $this->ion_auth->messages());
 		redirect('auth/login', 'refresh');
@@ -203,6 +191,8 @@ class Auth extends CI_Controller {
 
 			$change = $this->ion_auth->change_password($identity, $this->input->post('old'), $this->input->post('new'));
 
+                        $this->plugin_handler->trigger('auth_password_changed',$this->input->post('identity'));
+                        
 			if ($change)
 			{ 
 				//if the password was successfully changed
@@ -248,6 +238,8 @@ class Auth extends CI_Controller {
 			//run the forgotten password method to email an activation code to the user
 			$forgotten = $this->ion_auth->forgotten_password($this->input->post('email'));
 
+                        $this->plugin_handler->trigger('auth_password_forgot',$this->input->post('email'));
+                        
 			if ($forgotten)
 			{ 
 				//if there were no errors
@@ -386,6 +378,7 @@ class Auth extends CI_Controller {
 
 		if ($activation)
 		{
+                        $this->plugin_handler->trigger('auth_user_activated',$id);
 			//redirect them to the auth page
 			$this->session->set_flashdata('message', $this->ion_auth->messages());
 			redirect("auth", 'refresh');
@@ -437,6 +430,7 @@ class Auth extends CI_Controller {
 				if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin())
 				{
 					$this->ion_auth->deactivate($id);
+                                        $this->plugin_handler->trigger('auth_user_deactivated',$id);
 				}
 			}
 

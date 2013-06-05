@@ -20,6 +20,7 @@
 //messages
 $lang['genmessage_ajax_error_security']     = 'Error by security reasons';
 $lang['genmessage_ajax_error_server']       = 'Error on server side';
+$lang['genmessage_no_permissions']          = "You don't have permisions to do that!";
 
 //footer
 $lang['version']                            = 'v0.1 Beta';

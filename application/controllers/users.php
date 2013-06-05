@@ -22,13 +22,16 @@ class Users extends RF_Controller {
         parent::__construct();            
         //$this->output->enable_profiler(TRUE);
         
+        $this->plugin_handler->trigger('users_pre_init');
+        
         $this->lang->load('users');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
         //set the flash data error message if there is one
-        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 
+        $this->data                         = $this->plugin_handler->trigger('users_post_init', $this->data);
     }
 
     /**
@@ -39,6 +42,8 @@ class Users extends RF_Controller {
      */
     public function index()
     {
+        
+        $this->plugin_handler->trigger('users_list');
         
         $this->load->view('users/users', $this->data);
         
@@ -57,30 +62,38 @@ class Users extends RF_Controller {
             $this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
             $this->form_validation->set_rules('last_name', 'Last Name', 'required|xss_clean');
             $this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
-            $this->form_validation->set_rules('company', 'Company Name', 'required|xss_clean');
+            $this->form_validation->set_rules('company', 'Company Name', 'xss_clean');
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
             $this->form_validation->set_rules('password_confirm', 'Password Confirmation', 'required');
+            $this->form_validation->set_rules('username', 'Username', 'required');
 
+            $this->plugin_handler->trigger('users_create_validation_form');
+            
             if ($this->form_validation->run() === TRUE)
-            {
-                    $username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
-                    $email    = $this->input->post('email');
-                    $password = $this->input->post('password');
-                    $group    = $this->input->post('group');
+            {                    
                     
-                    $additional_data = array(
-                            'first_name' => $this->input->post('first_name'),
-                            'last_name'  => $this->input->post('last_name'),
-                            'company'    => $this->input->post('company'),
-                            'author_id'  => $this->data['actual_user']->id,
-                            'title'      => $this->input->post('title'),
-                            'city'       => $this->input->post('city'),
-                            'country_id' => $this->input->post('country_id'),
-                            'active'     => $this->input->post('active_user') === 'ok' ? true : false,
-                    );
+                    $data           = array(
+                                           'username'           => strtolower($this->input->post('username')),
+                                           'email'              => $this->input->post('email'),
+                                           'password'           => $this->input->post('password'),
+                                           'group'              => $this->input->post('group'),
+                                           'additional_data'    => array(
+                                                    'first_name' => $this->input->post('first_name'),
+                                                    'last_name'  => $this->input->post('last_name'),
+                                                    'company'    => $this->input->post('company'),
+                                                    'author_id'  => $this->data['actual_user']->id,
+                                                    'title'      => $this->input->post('title'),
+                                                    'city'       => $this->input->post('city'),
+                                                    'country_id' => $this->input->post('country_id'),
+                                                    'active'     => $this->input->post('active_user') === 'ok' ? true : false,
+                                            )
+                    );                                       
                     
-                    if ($this->ion_auth->register($username, $password, $email, $additional_data, array($group)))
+                    $data           = $this->plugin_handler->trigger('users_pre_register', $data);
+                    
+                    if ($this->ion_auth->register($data['username'], $data['password'], $data['email'], $data['additional_data'], array($data['group'])))
                     { 
+                            $this->plugin_handler->trigger('users_registered', $data);
                             //check to see if we are creating the user
                             //redirect them back to the admin page
                             $this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -119,6 +132,12 @@ class Users extends RF_Controller {
                     'type'  => 'text',
                     'value' => $this->form_validation->set_value('company'),
             );                    
+            $this->data['username'] = array(
+                    'name'  => 'username',
+                    'id'    => 'username',
+                    'type'  => 'username',
+                    'value' => $this->form_validation->set_value('username'),
+            );
             $this->data['password'] = array(
                     'name'  => 'password',
                     'id'    => 'password',
@@ -151,6 +170,14 @@ class Users extends RF_Controller {
 
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 
+            $this->data     = $this->plugin_handler->trigger('users_create_post_prepare_data', $this->data);
+            
+            $errors         = $this->ion_auth->errors();
+            if (!empty($errors)) {
+                $this->data['message']  = $errors;
+                $this->session->set_flashdata('message', $errors);
+            }
+            
             $this->load->view('auth/create_user', $this->data);
 
         }
@@ -173,9 +200,12 @@ class Users extends RF_Controller {
             //validate form input
             $this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
             $this->form_validation->set_rules('last_name', 'Last Name', 'required|xss_clean');
-            $this->form_validation->set_rules('company', 'Company Name', 'required|xss_clean');
+            $this->form_validation->set_rules('company', 'Company Name', 'xss_clean');
             $this->form_validation->set_rules('email', 'Email', 'required|xss_clean');
-
+            $this->form_validation->set_rules('username', 'Username', 'required');
+            
+            $this->plugin_handler->trigger('users_edit_validation_form');
+            
             if ($this->input->post('id') && $this->input->post('first_name'))
             {
                     // do we have a valid request?
@@ -185,6 +215,7 @@ class Users extends RF_Controller {
                     }
 
                     $data = array(
+                            'username'   => $this->input->post('username'),
                             'first_name' => $this->input->post('first_name'),
                             'last_name'  => $this->input->post('last_name'),
                             'company'    => $this->input->post('company'),                            
@@ -204,14 +235,20 @@ class Users extends RF_Controller {
                             $data['password'] = $this->input->post('password');
                     }
 
+                    $datos              = $this->plugin_handler->trigger('users_edit_update', array($user, $data));
+                    $data               = $datos[1];
+                    
                     if ($this->form_validation->run() === TRUE)
                     { 
                             $this->ion_auth->update($user->id, $data);
-                            
+                                                       
                             if ($this->input->post('group')) {                                
                                 $this->ion_auth->remove_from_group(null, $user->id);
                                 $this->ion_auth->add_to_group($this->input->post('group'), $user->id);
+                                $this->plugin_handler->trigger('users_edit_group_updated', array($this->input->post('group'), $user));
                             }
+                           
+                            $this->plugin_handler->trigger('users_edit_updated');
                             
                             //check to see if we are creating the user
                             //redirect them back to the admin page
@@ -248,6 +285,13 @@ class Users extends RF_Controller {
                     'type'  => 'text',
                     'value' => $this->form_validation->set_value('company', $user->company),
             );            
+            $this->data['username'] = array(
+                    'name' => 'username',
+                    'id'   => 'username',
+                    'type' => 'username',
+                    'value' => $this->form_validation->set_value('username', $user->username),
+                    'autocomplete'  => 'off'
+            );
             $this->data['password'] = array(
                     'name' => 'password',
                     'id'   => 'password',
@@ -287,6 +331,8 @@ class Users extends RF_Controller {
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
             $this->data['groups_show'] = $user->active ? '' : ' style = "display:none" ';
             
+            $this->data     = $this->plugin_handler->trigger('users_edit_post_prepare_data', $this->data);
+            
             $this->load->view('auth/edit_user', $this->data);
     }
     
@@ -303,7 +349,7 @@ class Users extends RF_Controller {
             if (!$id) $id = $this->data['actual_user']->id;
         
             //user to show
-            $user               = $this->ion_auth->user($id)->row();
+            $user               = $this->ion_auth->user($id)->row();            
             $author             = $this->ion_auth->user($user->author_id)->row()->first_name;
             
             //load projects language, we need here.
@@ -318,6 +364,8 @@ class Users extends RF_Controller {
             $this->data['user_groups']  = $this->ion_auth->get_users_groups($id)->result_object();
             $this->data['groups']       = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 
+            $this->data                 = $this->plugin_handler->trigger('users_details_post_prepare_data', $this->data);
+            
             $this->load->view('users/details', $this->data);
     }
     
@@ -332,6 +380,8 @@ class Users extends RF_Controller {
         
         if ($this->ion_auth->is_admin() && !empty($id) && $id != false && !is_null($id)) {
             $this->ion_auth->delete_user($id);
+            
+            $this->plugin_handler->trigger('users_edit_deleted', $id);
             
             $this->session->set_flashdata('message', "User Deleted");
             redirect("users", 'refresh');
@@ -353,6 +403,7 @@ class Users extends RF_Controller {
 
             if ($activation)
             {
+                    $this->plugin_handler->trigger('users_edit_activated', $id);
                     //redirect them to the auth page
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                     redirect("users", 'refresh');
@@ -379,6 +430,7 @@ class Users extends RF_Controller {
             
             if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin())
             {
+                    $this->plugin_handler->trigger('users_edit_deactivated', $id);
                     //redirect them to the user page
                     $this->session->set_flashdata('message', 'User Deactivated');
                     $this->ion_auth->deactivate($id);
