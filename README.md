@@ -24,7 +24,6 @@ Originally created in September 2005 and maintained by Stan Ozier and Tirzen wit
  - import from Taskfreak! when install.
 
 ###Future Features
-
  - Plugin Ready
 
 
