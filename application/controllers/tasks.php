@@ -176,7 +176,7 @@ class Tasks extends RF_Controller {
             
             $ups            = array($this->lang->line('task_edit_project_none'));
             foreach ($this->data['user_projects'] as $up) {
-                $ups[] = $up->name;
+                $ups[$up->project_id] = $up->name;
             }
 
             $defaults                       = array(
