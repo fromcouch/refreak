@@ -49,6 +49,10 @@ Parameters for database configuration are in:
 You only need configure hostname, username, password and database parameters inside database.php. Save it and 
 then access to www.yourdomain.com/install and click Install button.
 
+Also need to modify config variable $config['base_url'] value with your new url in:
+
+    application/config/config.php
+
 Additionaly you can configure some parameters in:
 
     application/config/refreak.php
