@@ -1,4 +1,6 @@
-<div class="infoMessage"><?php echo $message;?></div>
+<?php if (!empty($message)) : ?>
+<div id="infoMessage" class="error_box"><?php echo $message;?></div>
+<?php endif; ?>
 <table cellspacing="1" cellpadding="2" border="0" width="100%" class="sheet">
         <thead>            
             <tr align="left">

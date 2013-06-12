@@ -255,6 +255,11 @@ class Users extends RF_Controller {
                             $this->session->set_flashdata('message', "User Saved");
                             redirect("users", 'refresh');
                     }
+            } 
+            else 
+            {
+                //we need to run form to generate errors
+                $this->form_validation->run();
             }
 
 

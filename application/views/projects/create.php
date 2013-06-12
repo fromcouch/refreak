@@ -1,9 +1,9 @@
 
 <div class="center">
     <div class="horiz">
-        <div class="infoMessage"><?php echo $message;?></div>
-        <?php echo validation_errors(); ?>
-        <?php echo form_open("projects/create");
+        
+              echo validation_errors(); 
+              echo form_open("projects/create");
               echo form_fieldset($this->lang->line('projectscrud_info'));?>
               <p><?php echo $this->lang->line('projectscrud_compulsory'); ?></p>
               <p>
@@ -22,8 +22,8 @@
               </p>
               
               <p><?php echo form_submit('submit', $this->lang->line('projectscrud_create'));?></p>
-              <?php echo form_fieldset_close(); ?>
+              <?php echo form_fieldset_close(); 
               
-        <?php echo form_close();?>
+              echo form_close();?>
     </div>
 </div>

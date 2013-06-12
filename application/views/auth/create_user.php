@@ -1,7 +1,9 @@
 <div class="center">
     <div class="horiz">
+        <?php if (!empty($message)) : ?>
         <div id="infoMessage" class="error_box"><?php echo $message;?></div>
-        <?php 
+        <?php endif; 
+        
             echo validation_errors(); 
             echo form_open("users/create_user");
             echo form_fieldset($this->lang->line('userscrud_personalinfo'));?>

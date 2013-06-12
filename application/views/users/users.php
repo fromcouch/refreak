@@ -3,7 +3,9 @@
  * @todo faltan los permisos para mostrat los botones
  */
 ?>
+<?php if (!empty($message)) : ?>
 <div id="infoMessage"><?php echo $message;?></div>
+<?php endif; ?>
 <table cellspacing="1" cellpadding="2" border="0" width="100%" class="sheet">
         <thead>            
             <tr align="left">
