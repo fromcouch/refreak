@@ -24,7 +24,7 @@ class Projects extends RF_Controller {
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
-        $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message']              = ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'));
         
         $this->data                         = $this->plugin_handler->trigger('projects_post_init', $this->data);
     }

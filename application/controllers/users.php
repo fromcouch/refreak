@@ -29,7 +29,7 @@ class Users extends RF_Controller {
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
         
         //set the flash data error message if there is one
-        $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message']              = ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'));
 
         $this->data                         = $this->plugin_handler->trigger('users_post_init', $this->data);
     }

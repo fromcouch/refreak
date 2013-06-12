@@ -1,7 +1,7 @@
 
 <div class="center">
     <div class="horiz">
-        
+        <?php
               echo validation_errors(); 
               echo form_open("projects/create");
               echo form_fieldset($this->lang->line('projectscrud_info'));?>
