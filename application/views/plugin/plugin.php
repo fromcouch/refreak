@@ -18,7 +18,7 @@
                         $tr_class       = $table_plugin->active ? '' : 'class = "disabled"';
             ?>
             <tr <?php echo $tr_class; ?>>
-                <td><a href="<?php echo site_url();?>/plugin/config/<?php echo $table_plugin->id;?>"><?php $table_plugin->name ?></a></td>
+                <td><a href="<?php echo site_url();?>plugin/config/<?php echo $table_plugin->id;?>"><?php echo $table_plugin->name ?></a></td>
                 <td><?php echo $table_plugin->directory; ?></td>
                 <td align="center">
                         <?php if ($this->ion_auth->is_admin()) : ?>

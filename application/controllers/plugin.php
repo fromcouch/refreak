@@ -17,6 +17,8 @@ class Plugin extends RF_Controller {
         parent::__construct();
         $this->lang->load('plugin');
         
+        //$this->output->enable_profiler(TRUE);
+        
         $this->data['message']              = ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'));
     }
     
@@ -31,5 +33,3 @@ class Plugin extends RF_Controller {
     }
     
 }
-
-?>

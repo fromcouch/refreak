@@ -54,7 +54,7 @@ class plugin_handler_model extends CI_Model  {
         $this->db
                 ->select('plugins.id, plugins.name, plugins.directory, plugins.active, c.controller_name')
                 ->join('plugin_controller pc', 'pc.plugin_id = plugins.id', 'left')
-                ->join('controllers c', 'pc.controller_id = c.id OR pc.controller_id = 0', 'left');
+                ->join('controllers c', 'pc.controller_id = c.id', 'left');
         
         return $this->db
                 ->get('plugins')
