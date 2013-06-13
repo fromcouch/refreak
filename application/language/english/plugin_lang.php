@@ -20,4 +20,10 @@
 //table
 $lang['pluginstable_name']                  = 'Plugin Name';
 $lang['pluginstable_directory']             = 'Directory';
-$lang['pluginstable_action']                  = 'Action';
+$lang['pluginstable_action']                = 'Action';
+
+
+//messages
+$lang['pluginsmessage_activated']           = 'Plugin activated';
+$lang['pluginsmessage_deactivated']         = 'Plugin deactivated';
+$lang['pluginsmessage_noway']               = "You don't have permission to do that.";

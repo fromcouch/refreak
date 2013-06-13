@@ -48,6 +48,7 @@ class plugin_handler_model extends CI_Model  {
      * Get plugin list
      * 
      * @return object list of plugins
+     * @access public
      */
     public function get_plugin_list() {
         
@@ -62,7 +63,31 @@ class plugin_handler_model extends CI_Model  {
         
     }
     
+    /**
+     * Activate plugin
+     * 
+     * @param int $id plugin id
+     * @return void 
+     * @access public
+     */
+    public function activate($id) {
+        
+        $this->db->update('plugins', array('active' => '1'), array('id' => $id));∫
+        
+    }
     
+    /**
+     * Deactivate plugin
+     * 
+     * @param int $id plugin id
+     * @return void 
+     * @access public
+     */
+    public function deactivate($id) {
+        
+        $this->db->update('plugins', array('active' => '0'), array('id' => $id));∫
+        
+    }
     
 }
 
