@@ -72,7 +72,7 @@ class plugin_handler_model extends CI_Model  {
      */
     public function activate($id) {
         
-        $this->db->update('plugins', array('active' => '1'), array('id' => $id));∫
+        $this->db->update('plugins', array('active' => '1'), array('id' => $id));
         
     }
     
@@ -85,7 +85,7 @@ class plugin_handler_model extends CI_Model  {
      */
     public function deactivate($id) {
         
-        $this->db->update('plugins', array('active' => '0'), array('id' => $id));∫
+        $this->db->update('plugins', array('active' => '0'), array('id' => $id));
         
     }
     

@@ -160,6 +160,9 @@ class RF_Controller extends CI_Controller {
                                                             anchor('users', $this->lang->line('menu_manage_users')),
                                                             anchor('users/edit_user', $this->lang->line('menu_manage_profile'))
                                                                     ),
+                                anchor('#', $this->lang->line('menu_config'))    => array(
+                                                            anchor('plugin/', $this->lang->line('menu_config_plugin')) ),
+                                
         );
         
         

@@ -67,7 +67,7 @@
                                 <td class="<?php echo $status_class; ?>">&nbsp;</td>
                                 <?php endfor; ?>
                                 <td class="act">
-                                    <?php if ($this->ion_auth->in_group(array(1,2)) || $tf->position > 3) : //falta checkear permiso de proyecto ?>
+                                    <?php if ($this->ion_auth->in_group(array(1,2)) || $tf->position > 3) : ?>
                                         <a href="#" class="btn_task_edit">
                                             <img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" alt="edit" border="0" />
                                         </a>
@@ -75,7 +75,7 @@
                                         <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" alt="del" border="0" />
                                     <?php endif;
                                     // DELETE
-                                    if ($this->ion_auth->in_group(array(1,2))  || $tf->position > 3) : //falta checkear permiso de proyecto ?>
+                                    if ($this->ion_auth->in_group(array(1,2))  || $tf->position > 3) : ?>
                                         <a href="#" class="btn_task_delete">
                                             <img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" alt="del" border="0" />
                                         </a>

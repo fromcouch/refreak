@@ -29,6 +29,11 @@ $lang['menu_manage_projects']       = 'Projects';
 $lang['menu_manage_users']          = 'Users';
 $lang['menu_manage_profile']        = 'Profile';
 
+$lang['menu_config']                = 'Config';
+$lang['menu_config_plugin']         = 'Plugin';
+
+
+
 $lang['combo_context_all_contexts'] = 'All contexts';
 
 

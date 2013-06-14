@@ -58,7 +58,7 @@ class Plugin extends RF_Controller {
         }
         
         
-        redirect("users", 'refresh');
+        redirect("plugin", 'refresh');
     }
     
     /**
@@ -81,7 +81,7 @@ class Plugin extends RF_Controller {
         }
         
         
-        redirect("users", 'refresh');
+        redirect("plugin", 'refresh');
     }
     
 }
