@@ -1,8 +1,3 @@
-<?php
-/***
- * @todo faltan los permisos para mostrat los botones
- */
-?>
 <?php if (!empty($message)) : ?>
 <div class="error_box"><?php echo $message;?></div>
 <?php endif; ?>
