@@ -19,6 +19,8 @@ class Plugin extends RF_Controller {
         
         //$this->output->enable_profiler(TRUE);
         
+        $this->plugin_handler->trigger('plugin_pre_init');
+        
         $this->data['message']              = ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'));
     }
     

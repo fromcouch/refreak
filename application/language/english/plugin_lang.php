@@ -21,6 +21,8 @@
 $lang['pluginstable_name']                  = 'Plugin Name';
 $lang['pluginstable_directory']             = 'Directory';
 $lang['pluginstable_action']                = 'Action';
+$lang['pluginstable_section']               = 'Section';
+$lang['pluginstable_all']                   = 'All';
 
 
 //messages

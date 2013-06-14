@@ -6,6 +6,7 @@
             <tr align="left">
                 <th width="25%"><?php echo $this->lang->line('pluginstable_name'); ?></th>                
                 <th width="50%"><?php echo $this->lang->line('pluginstable_directory'); ?></th>
+                <th width="15%"><?php echo $this->lang->line('pluginstable_section'); ?></th>
                 <th width="10%" style="text-align:center">
                     <?php echo $this->lang->line('pluginstable_action'); ?>
                 </th>
@@ -20,6 +21,7 @@
             <tr <?php echo $tr_class; ?>>
                 <td><a href="<?php echo site_url();?>plugin/config/<?php echo $table_plugin->id;?>"><?php echo $table_plugin->name ?></a></td>
                 <td><?php echo $table_plugin->directory; ?></td>
+                <td><?php echo empty($table_plugin->controller_name) ? $this->lang->line('pluginstable_all') : $table_plugin->controller_name; ?></td>
                 <td align="center">
                         <?php if ($this->ion_auth->is_admin()) : ?>
                             <a href="<?php echo site_url();?>plugin/<?php echo $url_active;?>/<?php echo $table_plugin->id;?>">

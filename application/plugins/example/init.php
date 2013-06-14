@@ -18,7 +18,7 @@ class Example extends RF_Plugin {
     public function __construct() {
         
         parent::__construct();
-        
+       
         /**
          * We have attach method to add our function to event
          */        
@@ -44,7 +44,9 @@ class Example extends RF_Plugin {
      * @return mixed data to return
      */
     public function testing($evt, $data) {
-                        
+        
+        $data[anchor('#', 'example plugin menu')] = array( anchor('#', 'Deactivate and this menu hide') );
+        
         return $data;
         
     }
