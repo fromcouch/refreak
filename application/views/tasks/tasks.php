@@ -4,21 +4,17 @@
     <table cellpadding="2" cellspacing="1" border="0" class="sheet task_sheet" width="100%">
             <thead>
                 <tr>
-                    <th width="2%">&nbsp;</th>
-                    <th width="2%">&nbsp;</th>
-                    <th width="15%"><?php echo $this->lang->line('task_list_project'); ?></th>
-                    <th width="41%"><?php echo $this->lang->line('task_list_title'); ?></th>
-                    <th width="10%"><?php echo $this->lang->line('task_list_user'); ?></th>
-                    <th width="10%"><?php echo $this->lang->line('task_list_deadline'); ?></th>
-                    <th width="5%"><?php echo $this->lang->line('task_list_comments'); ?></th>
-                    <th width="10%" colspan="5"><?php echo $this->lang->line('task_list_status'); ?></th>
-                    <th width="5%" class="act">
-                        <?php if ($this->ion_auth->in_group(array(1,2))) : ?>
-                                <a href="#" class="btn_task_new">
-                                        <img src="<?php echo base_url() . $theme;?>/images/b_new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('task_list_new'); ?>" />
-                                </a>
-                        <?php endif; ?>
-                    </th>
+                    
+                    <?php echo task_helper::table_task_head_fields($this->lang->line('task_list_project'), 
+                                                                   $this->lang->line('task_list_title'), 
+                                                                   $this->lang->line('task_list_user'), 
+                                                                   $this->lang->line('task_list_deadline'), 
+                                                                   $this->lang->line('task_list_comments'), 
+                                                                   $this->lang->line('task_list_status'), 
+                                                                   $this->lang->line('task_list_new'), 
+                                                                   $this->ion_auth->in_group(array(1,2)),
+                                                                   base_url() . $theme); ?>
+                    
                 </tr>
             </thead>
             <tbody class="taskSheetData">
