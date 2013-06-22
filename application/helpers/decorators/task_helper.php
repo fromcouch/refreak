@@ -76,6 +76,36 @@ class task_helper {
         
     }
     
+    public static function table_task_body_fields() {
+        
+    }
+    
+    public static function table_no_task($no_task, $url, $new) {
+     
+        $tnotask = '<tr class="nothanks">
+                        <td colspan="14">
+                            <p>&nbsp;</p>
+                            <p align="center">- ' . $no_task . ' -</p>';
+                           
+        if ($access) {
+                   
+                $tnotask  = '<p align="center">
+                                        <a href="#" class="btn_task_new">
+                                            <img src="' . $url . '/images/b_new.png" width="39" height="16" border="0" hspace="3" 
+                                                alt="' . $new . '" />
+                                        </a>                                            
+                                    </p>';
+        }
+          
+        $tnotask = '        <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                        </td>
+                    </tr>';
+        
+        return $tnotask;
+    }
+    
+    
 }
 
 ?>

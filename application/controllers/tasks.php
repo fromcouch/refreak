@@ -24,7 +24,7 @@ class Tasks extends RF_Controller {
         $this->lang->load('tasks');
         $this->load->library('form_validation');
         $this->load->model('task_model');        
-        $this->load->helper('rfk_task');
+        $this->load->helper( array('rfk_task', 'decorators/task') );
         
         // add javascript for task system
         $this->javascript->output('

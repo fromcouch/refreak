@@ -81,27 +81,14 @@
                                 </td>
                             </tr>
                 <?php endforeach; 
-                else : ?>
-                            <tr class="nothanks">
-                                <td colspan="14">
-                                    <p>&nbsp;</p>
-                                    <p align="center">- <?php echo $this->lang->line('task_list_no_task'); ?> -</p>
-                                    <?php
-                                        if ($this->ion_auth->in_group(array(1,2))) :
-                                            ?>
-                                            <p align="center">
-                                                <a href="#" class="btn_task_new">
-                                                    <img src="<?php echo base_url() . $theme;?>/images/b_new.png" width="39" height="16" border="0" hspace="3" alt="<?php echo $this->lang->line('task_list_new'); ?>" />
-                                                </a>                                            
-                                            </p>
-                                            <?php
-                                        endif;
-                                    ?>
-                                    <p>&nbsp;</p>
-                                    <p>&nbsp;</p>
-                                </td>
-                            </tr>
-                <?php endif; ?>
+                else : 
+                    
+                        echo task_helper::table_no_task($this->lang->line('task_list_no_task'), 
+                                                        base_url() . $theme, 
+                                                        $this->ion_auth->in_group(array(1,2)), 
+                                                        $this->lang->line('task_list_new'));
+                    
+                endif; ?>
             </tbody>
     </table>
 <script type="text/javascript">
