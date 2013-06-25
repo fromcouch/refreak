@@ -353,25 +353,99 @@ class task_helper {
                         </div>            
         ';
         
-        $parts['user'] = '
+        $parts['visibility'] = '
                         <div class="task_show_visibility">
                             <div class="label">' . $visibility . '</div>
                             <div class="vvisi">
                                     ' . $vis_array[$tf['private']];
         
         if ($tf['private'] > 0) {
-                        $parts['user'] .= '
+                        $parts['visibility'] .= '
                             <img src="' . $url_theme . '/images/priv' . $tf['private'] . '.png" width="12" height="16" align="absmiddle" border="0" alt="" />
                         ';
         }
                                             
-        $parts['user'] .= '                  
+        $parts['visibility'] .= '                  
                             </div>
                         </div>    
         ';
         
         return implode('', $parts);
         
+    }
+    
+    
+    /**
+     * Render tabs in show task
+     * 
+     * @param string $description_text
+     * @param string $comment_text
+     * @param string $history_text
+     * @param string $save_text
+     * @param string $cancel_text
+     * @param string $description
+     * @return string tabs rendered in HTML
+     * @access public
+     * @static
+     */
+    public static function show_tabs($description_text, $comment_text, $history_text, $save_text, $cancel_text, $description ) {
+        
+    
+        $tabs['menu'] = '
+                        <div class="tabmenu">
+                            <ul>
+                                <li class="tab tab_desc active"><a href="#">' . $description_text . '</a></li>
+                                <li class="tab tab_comm"><a href="#">' . $comment_text . '</a></li>
+                                <li class="tab tab_hist"><a href="#">' . $history_text . '</a></li>
+                            </ul>
+                        </div>    
+        ';
+        
+        
+        $tabs['content'] = '
+                        <div class="tabcontent">
+                                <div class="tabcontent_content">
+                                    <div class="tabcontent_edit">
+                                            <div>
+                                                    <input class="veditid" type="hidden" name="veditid" value="0" />
+                                                    <textarea class="veditbody" name="veditbody"></textarea>
+                                            </div>
+                                            <div>
+                                                    <input type="button" name="veditsubmit" class="veditsubmit" value="' . $save_text . '"> &nbsp;
+                                                    <input type="button" name="veditcancel" class="veditcancel" value="' . $cancel_text . '">
+                                            </div>
+                                    </div>
+                                    <div class="vmore tab_description_content">' . $description . '</div>
+                                    <div class="vmore tab_comments_content"></div>
+                                    <div class="vmore tab_history_content"></div>
+                                </div>
+                        </div>    
+        ';
+        
+        return implode('', $tabs);
+    }
+    
+    /**
+     * Render status part
+     * 
+     * @param string $status_text Status text
+     * @param string $status status
+     * @return string rendered status part
+     * @static
+     * @access public
+     */
+    public static function show_status($status_text, $status) {
+        
+        $stat = '
+                        <div class="task_show_status">
+                            <div class="label2">' . $status_text . '</div>
+                            <div class="task_show_status_inside">
+                                  ' . $status . '
+                            </div>
+                        </div>
+        ';
+
+        return $stat;
     }
 }
 
