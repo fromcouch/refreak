@@ -1,25 +1,28 @@
 <?php //copied from tf ?>
-        <div class="task_show_menu">
-            <div class="task_show_close">
-                <a href="#">
-                    <?php echo $this->lang->line('task_show_close'); ?>
-                    <img src="<?php echo base_url() . $theme;?>/images/b_disn.png" width="20" height="16" border="0" alt="close" />
-                </a>
-            </div>
-            <?php if ($tf['position'] > 3) : ?>
-            <div class="task_show_edit">
-                <a href="#"><?php echo $this->lang->line('task_show_edit'); ?>
-                    <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" alt="edit" />
-                </a>
-            </div>
-            <div class="task_show_delete">
-                <a href="#">
-                    <?php echo $this->lang->line('task_show_delete');  ?>
-                    <img src="<?php echo base_url() . $theme;?>/images/b_deln.png" width="20" height="16" border="0" alt="delete" />
-                </a>
-            </div>
-            <?php endif; ?>
-        </div>
+
+        <?php 
+        
+        echo task_helper::show_buttons($this->lang->line('task_show_close'), 
+                                             $this->lang->line('task_show_edit'), 
+                                             $this->lang->line('task_show_delete'), 
+                                             $tf['position'],
+                                             base_url() . $theme); 
+
+        echo task_helper::show_task_info($tf, 
+                                         $this->lang->line('task_show_priority'), 
+                                         $this->lang->line('task_show_deadline'), 
+                                         $this->lang->line('task_show_context'), 
+                                         $context_letter, 
+                                         $context, 
+                                         $this->lang->line('task_show_project'), 
+                                         $project_name, 
+                                         $this->lang->line('task_show_title'), 
+                                         $this->lang->line('task_show_user'), 
+                                         $username, 
+                                         $this->lang->line('task_show_visibility'), 
+                                         $visibility, 
+                                         base_url() . $theme);
+        ?>
         <div class="task_show_priority">
             <div class="label"><?php echo $this->lang->line('task_show_priority'); ?></div>
             <div class="vprio">

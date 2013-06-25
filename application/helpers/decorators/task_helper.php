@@ -236,7 +236,143 @@ class task_helper {
         return $tnotask;
     }
     
+ 
+    /**
+     * Render close, edit, delete buttons
+     * 
+     * @param string $close Close text
+     * @param string $edit Edit text
+     * @param string $delete Delete text
+     * @param integer $position User task position
+     * @param string $url_theme Theme Url
+     * @return string Buttons rendered
+     * @access public
+     * @static
+     */
+    public static function show_buttons($close, $edit, $delete, $position, $url_theme) {
+        
+        $buttons = '    
+                <div class="task_show_menu">
+                   <div class="task_show_close">
+                       <a href="#">
+                           ' . $close . ' 
+                           <img src="' . $url_theme . '/images/b_disn.png" width="20" height="16" border="0" alt="close" />
+                       </a>
+                   </div> ';
+        
+        if ($position > 3) {
+            
+                $buttons .= ' <div class="task_show_edit">
+                                    <a href="#">' . $edit . '
+                                        <img src="' . $url_theme . '/images/b_edin.png" width="20" height="16" border="0" alt="edit" />
+                                    </a>
+                                </div>
+                                <div class="task_show_delete">
+                                    <a href="#">
+                                        ' . $delete . '
+                                        <img src="' . $url_theme . '/images/b_deln.png" width="20" height="16" border="0" alt="delete" />
+                                    </a>
+                                </div>';
+
+        }
+                  
+        $buttons .= '</div>';
+        
+        return $buttons;
+        
+    }
     
+    /**
+     * Render show task upper part
+     * 
+     * @param array $tf
+     * @param string $priority_text
+     * @param string $deadline_text
+     * @param string $context_text
+     * @param char $context_letter
+     * @param array $context
+     * @param string $project_text
+     * @param string $project_name
+     * @param string $title_text
+     * @param string $user_text
+     * @param string $username
+     * @param string $visibility
+     * @param array $vis_array
+     * @param string $url_theme
+     * @return string popup upper part
+     * @access public
+     * @static
+     */
+    public static function show_task_info($tf, $priority_text, $deadline_text, $context_text, $context_letter, $context, $project_text, $project_name, $title_text, $user_text, $username, $visibility, $vis_array, $url_theme) {
+        
+        $parts = array();
+    
+        $parts['priority'] = '
+                        <div class="task_show_priority">
+                            <div class="label">' . $priority_text . '</div>
+                            <div class="vprio">
+                                <span class="task_pr' . $tf['priority'] . '">' . $tf['priority'] . '</span>
+                            </div>
+                        </div>
+        ';
+        
+        $parts['content'] = '
+                        <div class="task_show_content">
+                            <div class="label">' . $deadline_text .'</div>
+                            <div id="vdead">' . RFK_Task_Helper::calculate_deadline($tf['deadline_date'], $tf['status']) . '</div>
+                        </div>
+        ';
+        
+        $parts['context'] = '
+                        <div class="task_show_content">
+                            <div class="label">' . $context_text . '</div>
+                            <div class="task_ctx' . $context_letter . '">
+                                ' . $context[$tf['context']] . '
+                            </div>
+                        </div>
+        ';
+        
+        $parts['project'] = '
+                        <div class="task_show_project">
+                            <div class="label">' . $project_text . '</div>
+                            <div class="vproj">' . $project_name . '</div>
+                        </div> 
+        ';
+        
+        $parts['title'] = '
+                        <div class="task_show_title">
+                            <div class="label">' . $title_text . '</div>
+                            <div class="vtitl">' . $tf['title'] . '</div>
+                        </div>
+        ';
+        
+        $parts['user'] = '
+                        <div class="task_show_user">
+                            <div class="label">' . $user_text . '</div>
+                            <div class="vuser">' . $username . '</div>
+                        </div>            
+        ';
+        
+        $parts['user'] = '
+                        <div class="task_show_visibility">
+                            <div class="label">' . $visibility . '</div>
+                            <div class="vvisi">
+                                    ' . $vis_array[$tf['private']];
+        
+        if ($tf['private'] > 0) {
+                        $parts['user'] .= '
+                            <img src="' . $url_theme . '/images/priv' . $tf['private'] . '.png" width="12" height="16" align="absmiddle" border="0" alt="" />
+                        ';
+        }
+                                            
+        $parts['user'] .= '                  
+                            </div>
+                        </div>    
+        ';
+        
+        return implode('', $parts);
+        
+    }
 }
 
 ?>
