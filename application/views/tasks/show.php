@@ -1,6 +1,4 @@
-<?php //copied from tf ?>
-
-        <?php 
+<?php 
         
         echo task_helper::show_buttons($this->lang->line('task_show_close'), 
                                              $this->lang->line('task_show_edit'), 
@@ -35,6 +33,3 @@
         
         echo task_helper::show_status($this->lang->line('task_show_status'), 
                                       $status[$st]);
-        ?>
-        
-        

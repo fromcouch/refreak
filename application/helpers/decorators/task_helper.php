@@ -447,6 +447,149 @@ class task_helper {
 
         return $stat;
     }
+    
+    /**
+     * Edit priority and context
+     * 
+     * @param string $edit_priority_text Text for priority
+     * @param array $priority_list priority list of items
+     * @param integer $priority task priority
+     * @param string $edit_context_text Text for context
+     * @param array $context_list context list of items
+     * @param string $context context text
+     * @param string $deadline_text deadline text
+     * @param date $deadline_date deadline date
+     * @return string html for edit priority and context
+     * @static
+     * @access public
+     */
+    public static function edit_priority_dead($edit_priority_text, $priority_list, $priority, $edit_context_text, $context_list, $context, $deadline_text, $deadline_date) {
+        
+        $tr = array();
+        $tr ['priority_context']= '
+                <tr>
+                        <th>' . $edit_priority_text . ':</th>
+                        <td>' . form_dropdown('task_priority', $priority_list, $priority, 'class="task_priority"') . '</td>
+                        <th style="text-align:right">' . $edit_context_text . ':</td>
+                        <td>' . form_dropdown('task_context', $context_list, $context, 'class="task_context"') . '</td>
+                </tr>
+        ';
+        
+        $tr ['deadline']= '
+                <tr>
+                        <th>' . $deadline_text . ':</th>
+                        <td colspan="3">
+                            ' . form_input('deadline',$deadline_date, 'class="task_dead"') . '
+                        </td>
+                </tr>
+        ';
+        
+        return implode('', $tr);
+    }
+    
+    /**
+     * Render project selector
+     * 
+     * @param string $edit_project_text Project text
+     * @param array $user_projects User project list
+     * @param integer $project_id selected project
+     * @param string $edit_new_text New project text
+     * @param string $edit_list_text list project text
+     * @return string project part rendered
+     * @static
+     * @access public
+     */
+    public static function edit_project($edit_project_text, $user_projects, $project_id, $edit_new_text, $edit_list_text) {
+        
+        $tr = '
+                <tr>
+                        <th>' . $edit_project_text . ':</th>
+                        <td colspan="3">
+                            <span class="project_sel">
+                                ' .  form_dropdown('task_projects', $user_projects, $project_id, 'class="task_projects"') . '                               				                                
+                                <a href="#" class="small task_edit_new_project">&gt; ' . $edit_new_text . '</a>
+                            </span>
+                            <span class="project_txt">
+                                ' . form_input('task_project_name', '', 'class = "task_edit_project_new_name"') . '
+                                <a href="#" class="small task_edit_list_project">&lt; ' . $edit_list_text . '</a>
+                            </span>
+                        </td>
+                </tr>
+        ';
+                
+        return $tr;        
+    }
+    
+    /**
+     * Title and Description part
+     * 
+     * @param string $edit_title_text Title text
+     * @param string $title task title
+     * @param string $edit_description_text description text
+     * @param string $description task description
+     * @return string input and textarea  rendered
+     * @access public
+     * @static
+     */
+    public static function edit_title_desc($edit_title_text, $title, $edit_description_text, $description) {
+        
+        $tr = '
+                <tr>
+                        <th>' . $edit_title_text . ':</th>
+                        <td colspan="3">
+                            ' . form_input('task_title', $title, 'class="task_full task_edit_title"') . '
+                        </td>
+                </tr>
+                <tr valign="top">
+                        <th>' . $edit_description_text . ':</th>
+                        <td colspan="3">
+                            ' . form_textarea('task_description', $description, 'class="task_full"') . '
+                        </td>
+                </tr>        
+        ';
+        
+        return $tr;
+    }
+    
+    
+    public static function edit_user_status($edit_user_text, $actual_user_id, $private, $edit_public_text, $edit_internal_text, $edit_private_text, $edit_status_text, $status_list, $status) {
+        
+        $tr = array();
+        
+        $tr []= '
+                <tr>
+                        <th>' . $edit_user_text . ':</th>
+                        <td colspan="3">
+                                ' . form_dropdown_users('task_users','-',$actual_user_id,'task_users') . '
+                                <span>
+                                    ' . form_radio('showPrivate', '0', (int)$private === 0 ? true : false) . '
+                                    <label>' . $edit_public_text . '</label>
+                                </span>
+                                <span>
+                                    ' . form_radio('showPrivate', '1', (int)$private === 1 ? true : false) . '
+                                    <label>' . $edit_internal_text . '</label>
+                                </span>
+                                <span>
+                                    ' . form_radio('showPrivate', '2', (int)$private === 2 ? true : false) . '
+                                    <label>' . $edit_private_text . '</label>
+                                </span>
+                        </td>
+                </tr>
+        ';
+        
+        $tr []= '
+                <tr>
+                        <th>' . $edit_status_text . ':</th>
+                        <td colspan="3">
+                            ' . form_dropdown('task_status', $status_list, $status,'class="task_status"') . '
+                        </td>
+                </tr>
+        ';
+        
+        return implode('', $tr);
+        
+    }
+            
 }
 
 ?>
