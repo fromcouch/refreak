@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['home']['hostname'] = '127.0.0.1';
 $db['home']['username'] = 'root';
-$db['home']['password'] = 'root';
+$db['home']['password'] = '';
 $db['home']['database'] = 'refreak';
 $db['home']['dbdriver'] = 'mysqli';
 $db['home']['dbprefix'] = 'rfk_';
@@ -66,7 +66,7 @@ $db['home']['stricton'] = FALSE;
 
 $db['import_tf']['hostname'] = '127.0.0.1';
 $db['import_tf']['username'] = 'root';
-$db['import_tf']['password'] = 'root';
+$db['import_tf']['password'] = '';
 $db['import_tf']['database'] = 'taskfreak';
 $db['import_tf']['dbdriver'] = 'mysqli';
 $db['import_tf']['dbprefix'] = 'frk_';

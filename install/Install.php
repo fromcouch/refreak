@@ -161,8 +161,7 @@ class Install {
             $this->rfk_db = $db[$active_group];
             
             if (!empty($db[$active_group]['hostname']) &&
-                !empty($db[$active_group]['username']) &&
-                !empty($db[$active_group]['password']) &&
+                !empty($db[$active_group]['username']) &&               
                 !empty($db[$active_group]['database']) &&
                 !empty($db[$active_group]['dbprefix'])) {
                 
@@ -171,7 +170,6 @@ class Install {
             
             if (!empty($db['import_tf']['hostname']) &&
                 !empty($db['import_tf']['username']) &&
-                !empty($db['import_tf']['password']) &&
                 !empty($db['import_tf']['database']) &&
                 !empty($db['import_tf']['dbprefix'])) {
                 
