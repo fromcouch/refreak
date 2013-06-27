@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * General Decorator Helper
+ * Task Decorator Helper
  *
  * @package	Refreak
  * @subpackage	helper
