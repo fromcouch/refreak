@@ -1,12 +1,28 @@
 <div class="center">
     <div class="horiz">
         <?php 
+            echo form_open();
+            
+            echo user_helper::detail_user_personal_info($user, 
+                                                        $groups, 
+                                                        $user_groups[0]->id,
+                                                        $author,
+                                                        base_url() . $theme, 
+                                                        site_url() . 'users/edit_user/', 
+                                                        $this->ion_auth->is_admin(), 
+                                                        $actual_user->id, 
+                                                        $this->lang->line('usersdetails_personalinfo'), 
+                                                        $this->lang->line('usersdetails_createdon'), 
+                                                        $this->lang->line('usersdetails_createdonby'), 
+                                                        $this->lang->line('usersdetails_name'),
+                                                        $this->lang->line('usersdetails_level'));
+            
             $edit_button = '';
             if ($actual_user->id == $user->id || $this->ion_auth->is_admin()) : 
                 $edit_button = '<a href="' . site_url() . 'users/edit_user/' . $user->id . '"><img src="' . base_url() . $theme . '/images/b_edit.png" width="20" height="16" border="0" /></a>';
             endif; 
         
-            echo form_open();
+            
             echo form_fieldset($this->lang->line('usersdetails_personalinfo') . ' (' . $user->username . ') ' . $edit_button);?>
         
             <div align="right">
