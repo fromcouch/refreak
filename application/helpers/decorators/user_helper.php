@@ -251,6 +251,52 @@ class user_helper {
         
         return $fieldset;        
     }
+    
+    /**
+     * Project List for details 
+     * 
+     * @param array $user_projects
+     * @param array $position
+     * @param string $listproject
+     * @param string $projects_text
+     * @param string $listposition_text
+     * @param string $project_edit_url
+     * @return string Project lis for user in HTML
+     * @static
+     * @access public
+     */
+    public static function detail_user_projects($user_projects, $position, $listproject, $projects_text, $listposition_text, $project_edit_url) {
+        
+        $fieldset = form_fieldset($projects_text);
+        
+        $fieldset .= '
+                    <table class="data" width="100%">
+                        <tr>
+                            <th width="80%" align="left">' . $listproject . '</th>
+                            <th align="left">' . $listposition_text . '</th>
+                        </tr>
+        ';                       
+        
+        foreach ($user_projects as $prj) {
+            
+            $fieldset .= '
+                        <tr>
+                            <td>
+                                <a href="' . $project_edit_url . $prj->project_id . '">
+                                    ' . $prj->name . '
+                                </a>
+                            </td>
+                            <td>
+                                ' . $position[$prj->position] . '</td>
+                        </tr>
+             ';
+        }                    
+
+        $fieldset .= '</table>';                  
+        $fieldset .= form_fieldset_close(); 
+        
+        return $fieldset;
+    }
             
 }
 
