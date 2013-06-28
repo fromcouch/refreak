@@ -297,7 +297,168 @@ class user_helper {
         
         return $fieldset;
     }
+    
+    
+    /**
+     * Edit user personal info part
+     * 
+     * @param string $compulsory_text Compulsory text
+     * @param string $title_text Title text
+     * @param string $title title 
+     * @param string $titleexample title example
+     * @param string $firstname_text First name example
+     * @param string $first_name First name
+     * @param string $lastname_text Last name text
+     * @param string $last_name Last name
+     * @param string $company_text Company text
+     * @param string $company Company
+     * @param string $email_text Email text
+     * @param string $email email
+     * @param string $city_text City Text
+     * @param string $city City
+     * @param string $country_text Country text
+     * @param array $country Country
+     * @param string $personal_text Personal info text
+     * @return string Upper HTML  part for edit user
+     * @static
+     * @access public
+     */
+    public static function edit_user_personal_info($compulsory_text, $title_text, $title, $titleexample, $firstname_text, $first_name, $lastname_text, $last_name, $company_text, $company, $email_text, $email, $city_text, $city, $country_text, $country, $personal_text  ) {
+        
+        $part = array();
             
+        $part['compulsory'] = '
+            <p>
+                    ' . $compulsory_text . '
+            </p>
+        ';
+        
+        $part['title'] = '
+            <p>
+                    <label>' . $title_text . '</label>
+                    ' . form_input($title, '', 'class ="shortest"') . '
+                    <small>' . $titleexample . '</small>
+            </p>
+        ';
+        
+        $part['firstname'] = '
+            <p>
+                    <label class="compulsory">' . $firstname_text . '</label>
+                    ' . form_input($first_name) . '
+            </p>
+        ';
+
+        $part['lastname'] = '
+            <p>
+                    <label class="compulsory">' . $lastname_text . '</label>
+                    ' . form_input($last_name) .'
+            </p>
+        ';
+        
+        $part['company'] = '
+            <p>
+                    <label>' . $company_text . '</label>
+                    ' . form_input($company) . '
+            </p>
+        ';
+
+        $part['email'] = '
+            <p>
+                    <label class="compulsory">' . $email_text . '</label>
+                    ' . form_input($email) . '
+            </p>  
+        ';
+        
+        $part['city'] = '
+            <p>
+                    <label>' . $city_text . '</label>
+                    ' . form_input($city) . '
+            </p>     
+        ';
+        
+        $part['country'] = '
+            <p>
+                    <label>' . $country_text . '</label>
+                    ' . form_dropdown($country['name'], $country['data'], $country['value']) . '
+            </p>
+        ';
+                
+        $html = form_fieldset($personal_text) . 
+                implode('', $part) .
+                form_fieldset_close(); 
+        
+        unset($part);
+        
+        return $html;
+    }
+            
+    /**
+     * Account part 
+     * 
+     * @param string $username_text
+     * @param string $username
+     * @param string $passwordchanging
+     * @param string $password
+     * @param string $confirmpasschanging
+     * @param string $password_confirm
+     * @param bool $access
+     * @param string $active_user
+     * @param string $enabled_text
+     * @param array $groups
+     * @param integer $user_id
+     * @param string $groups_show
+     * @param string $account_text
+     * @return string Account HTML part
+     * @access public
+     * @static
+     */        
+    public static function edit_user_account($username_text, $username, $passwordchanging, $password, $confirmpasschanging, $password_confirm, $access, $active_user, $enabled_text, $groups, $user_id, $groups_show, $account_text ) {
+        
+        $part = array();
+        
+        $part['username']= '
+            <p>
+                    <label class="password compulsory">' . $username_text . '</label>
+                    ' . form_input($username) . '
+            </p>
+        ';
+
+        $part['password']= '
+            <p>
+                    <label class="password compulsory">' . $passwordchanging . ' </label>
+                    ' . form_input($password) . '
+            </p>
+        ';
+
+        $part['confirm']= '
+            <p>
+                    <label class="password compulsory">' . $confirmpasschanging . ' </label>
+                    ' . form_input($password_confirm) . '
+            </p>
+        ';
+        
+        if ($access) {
+            
+            $part['active']= '
+                <p>
+                        ' . form_checkbox($active_user) . '
+                        <span>' . $enabled_text . '</span>
+                        ' . form_dropdown('group', $groups, $user_id, 'class="group"' . $groups_show) . '
+                </p>
+            ';
+            
+        }
+
+        $html = 
+                form_fieldset($account_text) . 
+                implode('', $part) . 
+                form_fieldset_close() .
+                form_hidden('id', $user_id);
+
+        
+        return $html;
+
+    }
 }
 
 ?>
