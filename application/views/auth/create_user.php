@@ -6,69 +6,43 @@
         
             echo validation_errors(); 
             echo form_open("users/create_user");
-            echo form_fieldset($this->lang->line('userscrud_personalinfo'));?>
-            <p>
-                    <?php echo $this->lang->line('userscrud_compulsory'); ?>
-            </p>
-            <p>
-                    <label><?php echo $this->lang->line('userscrud_title'); ?> </label>
-                    <?php echo form_input($title, '', 'class ="shortest"');?>
-                    <small><?php echo $this->lang->line('userscrud_titleexample'); ?></small>
-            </p>            
-            <p>
-                    <label class="compulsory"><?php echo $this->lang->line('userscrud_firstname'); ?></label>
-                    <?php echo form_input($first_name);?>
-            </p>
-
-            <p>
-                    <label class="compulsory"><?php echo $this->lang->line('userscrud_lastname'); ?></label>
-                    <?php echo form_input($last_name);?>
-            </p>
-
-            <p>
-                    <label><?php echo $this->lang->line('userscrud_company'); ?></label>
-                    <?php echo form_input($company);?>
-            </p>
-
-            <p>
-                    <label class="compulsory"><?php echo $this->lang->line('userscrud_email'); ?></label>
-                    <?php echo form_input($email);?>
-            </p>     
-             <p>
-                    <label><?php echo $this->lang->line('userscrud_city'); ?></label>
-                    <?php echo form_input($city);?>
-            </p>     
             
-            <p>
-                    <label><?php echo $this->lang->line('userscrud_country'); ?></label>
-                    <?php echo form_dropdown($country['name'], $country['data'], $country['value']); ?>
-            </p>     
-
-
-            <?php echo form_fieldset_close(); 
-                    echo form_fieldset($this->lang->line('userscrud_account'));?>
-            <p>
-                    <label class="password compulsory"><?php echo $this->lang->line('userscrud_username'); ?></label>
-                    <?php echo form_input($username);?>
-            </p>
+            echo user_helper::edit_user_personal_info($this->lang->line('userscrud_compulsory'), 
+                                                      $this->lang->line('userscrud_title'), 
+                                                      $title, 
+                                                      $this->lang->line('userscrud_titleexample'), 
+                                                      $this->lang->line('userscrud_firstname'), 
+                                                      $first_name, 
+                                                      $this->lang->line('userscrud_lastname'), 
+                                                      $last_name, 
+                                                      $this->lang->line('userscrud_company'), 
+                                                      $company, 
+                                                      $this->lang->line('userscrud_email'), 
+                                                      $email, 
+                                                      $this->lang->line('userscrud_city'), 
+                                                      $city, 
+                                                      $this->lang->line('userscrud_country'), 
+                                                      $country, 
+                                                      $this->lang->line('userscrud_personalinfo'));
             
-            <p>
-                    <label class="password compulsory"><?php echo $this->lang->line('userscrud_password'); ?></label>
-                    <?php echo form_input($password);?>
-            </p>
-
-            <p>
-                    <label class="password compulsory"><?php echo $this->lang->line('userscrud_confirmpass'); ?></label>
-                    <?php echo form_input($password_confirm);?>
-            </p>
-
-            <p>
-                    <?php echo form_checkbox($active_user); ?>
-                    <span><?php echo $this->lang->line('userscrud_enabled'); ?></span>
-                    <?php echo form_dropdown('group', $groups, null, 'class="group" style="display:none"');?>
-            </p>
-
-            <?php echo form_fieldset_close(); ?>
+            $groups_show = $active_user ? 'style = "display:none"' : '';
+            
+            echo user_helper::edit_user_account($this->lang->line('userscrud_username'), 
+                                                $username, 
+                                                $this->lang->line('userscrud_passwordchanging'), 
+                                                $password, 
+                                                $this->lang->line('userscrud_confirmpasschanging'), 
+                                                $password_confirm, 
+                                                $this->ion_auth->is_admin(), 
+                                                $active_user, 
+                                                $this->lang->line('userscrud_enabled'), 
+                                                $groups, 
+                                                0, 
+                                                $groups_show, 
+                                                $this->lang->line('userscrud_account')); 
+            
+           ?>
+        
             <p><?php echo form_submit('submit', $this->lang->line('userscrud_createuser'));?></p>
 
         <?php echo form_close();?>
