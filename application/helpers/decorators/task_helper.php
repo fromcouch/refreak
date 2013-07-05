@@ -34,12 +34,12 @@ class task_helper {
      * Create table head columns
      * 
      * @param string $project header text for project column
-     * @param string $title header text for project column
-     * @param string $user header text for project column
-     * @param string $deadline header text for project column
-     * @param string $comments header text for project column
-     * @param string $status header text for project column
-     * @param string $new header text for project column
+     * @param string $title header text for title column
+     * @param string $user header text for useR column
+     * @param string $deadline header text for deadline column
+     * @param string $comments header text for comments column
+     * @param string $status header text for status column
+     * @param string $new alternate text for new button image
      * @param bool $access permission to show new task button
      * @param string $url url for image
      * @return string return columns for task table header
@@ -97,21 +97,21 @@ class task_helper {
                 $context_letter     = substr($context[$tf->context], 0, 1);
         
                 //priority 
-                $tcol []= '
+                $tcol ['priority']= '
                     <td class="task_prio">
                             <span class="task_pr' . $tf->priority . '">' . $tf->priority . '</span>
                     </td>
                 ';
                 
                 //context
-                $tcol []= '
+                $tcol ['context']= '
                     <td class="task_ctsh">
                             <span class="task_ctx' . $context_letter . '">' . $context_letter . '</span>
                     </td>
                 ';
                 
                 //project name
-                $tcol []= '
+                $tcol ['project']= '
                     <td>' . $tf->project_name . '</td>
                 ';
                 
@@ -132,16 +132,16 @@ class task_helper {
                         ';
                 }
 
-                $tcol []= '<td>' . $title . '</td>';
+                $tcol ['title']= '<td>' . $title . '</td>';
 
                 // first name
-                $tcol []= '<td>' . $tf->first_name . '</td>';
+                $tcol ['first_name']= '<td>' . $tf->first_name . '</td>';
                 
                 //deadline
-                $tcol []= '<td>' . RFK_Task_Helper::calculate_deadline($tf->deadline_date, $tf->status_key) . '</td>';
+                $tcol ['deadline']= '<td>' . RFK_Task_Helper::calculate_deadline($tf->deadline_date, $tf->status_key) . '</td>';
                 
                 //comments
-                $tcol []= '
+                $tcol ['comments']= '
                     <td>
                         <div class="comment_count">
                             ' . $tf->comment_count . '
@@ -165,7 +165,7 @@ class task_helper {
                     $stats .= '<td class="' . $status_class .'">&nbsp;</td>';
                     
                 }
-                $tcol []= $stats;
+                $tcol ['status']= $stats;
                 
                 //buttons
                 if ($access || $tf->position > 3) {
@@ -180,7 +180,7 @@ class task_helper {
                                     <img src="' . $theme_url . '/images/b_deln.png" width="20" height="16" alt="del" border="0" />';
                 }
                 
-                $tcol []= '
+                $tcol ['buttons']= '
                     <td class="act"> 
                         ' . $buttons . '
                     </td>
@@ -592,4 +592,5 @@ class task_helper {
             
 }
 
-?>
+/* End of file task_helper.php */
+/* Location: ./application/helpers/decorators/task_helper.php */

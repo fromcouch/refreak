@@ -26,4 +26,5 @@ class general_helper {
     
 }
 
-?>
+/* End of file general_helper.php */
+/* Location: ./application/helpers/decorators/general_helper.php */

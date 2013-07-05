@@ -23,6 +23,7 @@ class Projects extends RF_Controller {
         $this->lang->load('projects');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
+        $this->load->helper( array( 'decorators/project' ) );
         
         $this->data['message']              = ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'));
         

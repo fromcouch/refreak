@@ -461,4 +461,5 @@ class user_helper {
     }
 }
 
-?>
+/* End of file user_helper.php */
+/* Location: ./application/helpers/decorators/user_helper.php */
