@@ -42,11 +42,12 @@ class project_helper {
      * @param string $access have access to button?
      * @param string $create_url url for create project
      * @param string $theme_url theme url
+     * @param string $action Action text
      * @return string header table part
      * @access public
      * @static
      */
-    public static function table_project_head_fields($project, $position, $members, $status, $tasks, $new, $access, $create_url, $theme_url) {
+    public static function table_project_head_fields($project, $position, $members, $status, $tasks, $new, $access, $create_url, $theme_url, $action) {
         
         $btn_new = '';
         
@@ -182,7 +183,7 @@ class project_helper {
      * @param string $project_name_text Project name text
      * @param string $project_desc_text Project description text
      * @param string $project_status_text Project status text
-     * @param string $project_create_text Create project text
+     * @param string $project_button_text Create project text
      * @param string $name project name
      * @param string $description project description
      * @param array $status list of status
@@ -190,7 +191,7 @@ class project_helper {
      * @access public
      * @static
      */
-    public static function create_project($project_info_text, $compulsory_text, $project_name_text, $project_desc_text, $project_status_text, $project_create_text, $name, $description, $status) {
+    public static function create_project($project_info_text, $compulsory_text, $project_name_text, $project_desc_text, $project_status_text, $project_button_text, $name, $description, $status) {
         
         $part = array();
         
@@ -226,7 +227,7 @@ class project_helper {
 
         $part['submit'] = '
                 <p>
-                    '. form_submit('submit', $project_create_text) . '
+                    '. form_submit('submit', $project_button_text) . '
                 </p>    
         ';
 

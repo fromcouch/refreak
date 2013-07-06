@@ -13,7 +13,8 @@
                                                                        $this->lang->line('projectstable_new'), 
                                                                        $this->ion_auth->in_group(array(1,2)), 
                                                                        site_url() . 'projects/create/', 
-                                                                       base_url() . $theme);
+                                                                       base_url() . $theme,
+                                                                       $this->lang->line('projectstable_action'));
                     ?>
             </tr>
         </thead>

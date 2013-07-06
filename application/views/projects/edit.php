@@ -18,7 +18,7 @@
                     <?php if($actual_user->project_position == 5) :
                                 echo form_textarea($description);
                           else :
-                                echo $description['value'];
+                                echo empty($description['value']) ? '-' : $description['value'];
                           endif;?>            
               </p>
 
