@@ -173,7 +173,67 @@ class project_helper {
            
         return implode('', $trow);
     }
-            
+ 
+    /**
+     * Create project form
+     * 
+     * @param string $project_info_text Project info text
+     * @param string $compulsory_text Compulsory text
+     * @param string $project_name_text Project name text
+     * @param string $project_desc_text Project description text
+     * @param string $project_status_text Project status text
+     * @param string $project_create_text Create project text
+     * @param string $name project name
+     * @param string $description project description
+     * @param array $status list of status
+     * @return string html form for create project
+     * @access public
+     * @static
+     */
+    public static function create_project($project_info_text, $compulsory_text, $project_name_text, $project_desc_text, $project_status_text, $project_create_text, $name, $description, $status) {
+        
+        $part = array();
+        
+        //open fieldset
+        $part['fieldset_open'] = form_fieldset($project_info_text);
+        
+        //compulsory
+        $part['compulsory'] = '<p>' . $compulsory_text . '</p>';
+        
+        //project name
+        $part['name'] = '
+                <p>
+                    <label class="compulsory">' . $project_name_text . '</label>
+                    ' . form_input($name) . '
+                </p>
+        ';
+        
+        //project description
+        $part['description'] = '
+                <p>
+                    <label>' . $project_desc_text . '</label>
+                    ' . form_textarea($description) . '
+                </p>
+        ';
+        
+        //project status
+        $part['status'] = '
+                <p>
+                    <label>' . $project_status_text . '</label>
+                    ' . form_dropdown('status', $status) . '
+                </p>
+        ';
+
+        $part['submit'] = '
+                <p>
+                    '. form_submit('submit', $project_create_text) . '
+                </p>    
+        ';
+
+        $part['fieldset_close'] = form_fieldset_close();
+              
+        return implode('', $part);
+    }
 }
 
 /* End of file project_helper.php */
