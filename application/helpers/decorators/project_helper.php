@@ -184,8 +184,8 @@ class project_helper {
      * @param string $project_desc_text Project description text
      * @param string $project_status_text Project status text
      * @param string $project_button_text Create project text
-     * @param string $name project name
-     * @param string $description project description
+     * @param array $name project name
+     * @param array $description project description
      * @param array $status list of status
      * @return string html form for create project
      * @access public
@@ -233,6 +233,158 @@ class project_helper {
 
         $part['fieldset_close'] = form_fieldset_close();
               
+        return implode('', $part);
+    }
+    
+    
+    /**
+     * Edit project upper part 
+     * 
+     * @param string $project_info_text Project info text
+     * @param string $compulsory_text Compulsory text
+     * @param string $project_name_text Project name text
+     * @param string $project_desc_text Project description text
+     * @param string $project_status_text Project status text
+     * @param string $project_button_text Create project text
+     * @param array $name project name
+     * @param array $description project description
+     * @param array $status list of status
+     * @param integer $project_position actual user project position
+     * @param string $selected_status selected status
+     * @return string head html form for edit project
+     * @access public
+     * @static
+     */
+    public static function edit_project_info($project_info_text, $compulsory_text, $project_name_text, $project_desc_text, $project_status_text, $project_button_text, $name, $description, $status, $project_position, $selected_status) {
+        
+        $part = array();
+        
+        if ($project_position == 5) {
+            $temp_name = form_input($name);
+            $temp_desc = form_textarea($description);
+        } else {
+            $temp_name = $name['value'];
+            $temp_desc = empty($description['value']) ? '-' : $description['value'];
+        };
+        
+        //open fieldset
+        $part['fieldset_open'] = form_fieldset($project_info_text);
+        
+        //compulsory
+        $part['compulsory'] = '<p>' . $compulsory_text . '</p>';
+        
+        //project name
+        $part['name'] = '
+                <p>
+                    <label class="compulsory">' . $project_name_text . '</label>
+                    ' . $temp_name  . '
+                </p>
+        ';
+        
+        //project description
+        $part['description'] = '
+                <p>
+                    <label>' . $project_desc_text . '</label>
+                    ' . $temp_desc . '
+                </p>
+        ';
+        
+        //project status
+        $part['status'] = '
+                <p>
+                    <label>' . $project_status_text . '</label>
+                    ' . form_dropdown('status', $status, $selected_status) . '
+                </p>
+        ';
+
+        $part['submit'] = '
+                <p>
+                    '. form_submit('submit', $project_button_text) . '
+                </p>    
+        ';
+
+        $part['fieldset_close'] = form_fieldset_close();
+              
+        return implode('', $part);
+    }
+    
+    /**
+     * Add user to project
+     * 
+     * @param string $theme_url Theme url
+     * @param string $add_members_text Add members text
+     * @param string $user_text user text
+     * @param string $position_text position text
+     * @param array $dropdown_users user list
+     * @param array $position position list
+     * @return html part to select user to project
+     * @access public
+     * @static
+     */
+    public static function edit_add_user_to_project($theme_url, $add_members_text, $user_text, $position_text, $dropdown_users, $position)
+    {
+        
+        $part = array();
+        
+        $part['selector'] = '
+                <p>
+                    <img src="' . $theme_url . '/images/bullet.png" /> 
+                    <a href="" class="project_members">
+                        ' . $add_members_text . '
+                    </a>
+                </p>
+        ';
+        
+        $part['open_invitation'] = '
+            <div class="invitation">
+        ';
+        
+        $part['open_fieldset'] = form_fieldset();
+        
+        $part['open_table'] = '
+            <table cellspacing="0" cellpadding="3" border="0" class="form">
+        ';
+        
+        $part['users'] = '
+                <tr>
+                    <th>' . $user_text . ':</th>
+                    <td>' . form_dropdown('dropdown_users', $dropdown_users, array(), 'class="dropdown_users"') . '</td>
+                </tr>
+        ';
+        
+        $part['position'] = '
+                <tr>
+                    <th>' . $position_text . ':</th>
+                    <td>' . 
+                        form_dropdown('project_position', $position, array(), 'class="project_position"')
+                  . '</td>
+                </tr>
+        ';
+        
+        $part['add_button'] = '
+                <tr>
+                    <th>&nbsp;</th>
+                    <td>' .
+                        form_input(array(
+                            'type'      => 'button',
+                            'class'     => 'project_invite',
+                            'value'     => $add_members_text,
+                            'name'      => 'project_invite'
+                        ))
+                  . '</td>                            
+                </tr>
+        ';
+        
+        $part['close_table'] = '
+                </table>
+        ';
+        
+        $part['close_fieldset'] = form_fieldset_close();
+        
+        $part['close_invitation'] = '
+                </div>
+        ';
+                
         return implode('', $part);
     }
 }
