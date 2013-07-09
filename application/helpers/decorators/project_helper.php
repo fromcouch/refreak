@@ -388,6 +388,21 @@ class project_helper {
         return implode('', $part);
     }
     
+    
+    /**
+     * table user part
+     * 
+     * @param string $theme_url Theme url
+     * @param string $user_text User text
+     * @param string $position_text position text
+     * @param string $action_text action text
+     * @param array $position postiion array
+     * @param array $project_users project users list
+     * @param object $actual_user actual user object
+     * @return string html table part
+     * @access public
+     * @static
+     */
     public static function edit_table_user($theme_url, $user_text, $position_text, $action_text, $position, $project_users, $actual_user)
     {
         $action = '';
@@ -396,6 +411,10 @@ class project_helper {
         }
         
         $part = array();
+        
+        $part['open_table'] = '
+                <table cellspacing="0" cellpadding="3" border="0" width="100%" class="data">
+        ';
         
         //head
         $part['open_head'] = '<thead>';
@@ -430,18 +449,20 @@ class project_helper {
                 
                     if($pu->position === 5 || $actual_user->id == $pu->user_id || $pu->position >= $actual_user->project_position) {
                         $tcol['buttons'] = '
-                            - 
+                            <td> - </td>
                         ';
                     }
                     else
                     {
                         $tcol['buttons'] = '
+                            <td>
                                 <a href="#" class="project_members_edit">
                                         <img src="' . $theme_url . '/images/b_edit.png" width="20" height="16" border="0" />
                                 </a>
                                 <a href="#" class="project_members_delete">
                                         <img src="' . $theme_url . '/images/b_dele.png" width="20" height="16" border="0" />
-                                </a> 
+                                </a>
+                            </td>
                         ';
                     }
             }
@@ -454,7 +475,60 @@ class project_helper {
                
         }
         
+        $part['rows'] = implode('', $trow);
+        
         $part['close_body'] = '</tbody>';
+        
+        $part['close_table'] = '</table>';
+        
+        return implode('', $part);
+    }
+    
+    /**
+     * bottom part
+     * 
+     * @param string $theme_url Theme url
+     * @param string $add_members_text add members text
+     * @param string $user_text User text
+     * @param string $position_text position text
+     * @param string $action_text action text
+     * @param string $members_text members text
+     * @param array $position position array
+     * @param array $project_users project users list
+     * @param object $actual_user actual user object
+     * @param array $dropdown_users user list
+     * @return string html table part
+     * @access public
+     * @static
+     */
+    public static function edit_bottom_part($theme_url, $add_members_text, $user_text, $position_text, $action_text, $members_text, $position, $project_users, $actual_user, $dropdown_users) {
+        
+        $part = array();
+        
+        $part['open_field'] = form_fieldset($members_text);
+
+        if ($actual_user->project_position >= 4) {
+                  
+                  $part['user_to_project'] = project_helper::edit_add_user_to_project($theme_url, 
+                                                                                      $add_members_text, 
+                                                                                      $user_text, 
+                                                                                      $position_text,
+                                                                                      $dropdown_users, 
+                                                                                      $position);
+                  
+        }
+              
+        $part['table_user'] = project_helper::edit_table_user($theme_url, 
+                                                              $user_text, 
+                                                              $position_text, 
+                                                              $action_text, 
+                                                              $position, 
+                                                              $project_users, 
+                                                              $actual_user);
+        
+        $part['close_field'] =  form_fieldset_close(); 
+        
+        return implode('', $part);
         
     }
 }

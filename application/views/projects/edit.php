@@ -15,53 +15,21 @@
                                                   $actual_user->project_position,
                                                   $status);
               
-              echo form_fieldset($this->lang->line('projectscrud_members'));?>
+              echo project_helper::edit_bottom_part(base_url() . $theme, 
+                                                    $this->lang->line('projectscrud_add_members'), 
+                                                    $this->lang->line('projectscrud_user'), 
+                                                    $this->lang->line('projectscrud_position'), 
+                                                    $this->lang->line('projectscrud_action'), 
+                                                    $this->lang->line('projectscrud_members'), 
+                                                    $this->lang->line('project_position'), 
+                                                    $project_users, 
+                                                    $actual_user,
+                                                    $dropdown_users);
+              
+              
+              echo form_hidden('id', $pid);
 
-              <?php if ($actual_user->project_position >= 4) : 
-                  
-                  echo project_helper::edit_add_user_to_project(base_url() . $theme, 
-                                                                $this->lang->line('projectscrud_add_members'), 
-                                                                $this->lang->line('projectscrud_user'), 
-                                                                $this->lang->line('projectscrud_position'),
-                                                                $dropdown_users, 
-                                                                $this->lang->line('project_position'));
-              endif; ?>
-              <table cellspacing="0" cellpadding="3" border="0" width="100%" class="data">
-                    <thead>
-                            <tr align="left">
-                                    <th width="45%"><?php echo $this->lang->line('projectscrud_user'); ?></th>
-                                    <th width="15%"><?php echo $this->lang->line('projectscrud_position'); ?></th>                            
-                                <?php if ($actual_user->project_position >= 4) : ?>
-                                    <th width="10%"><?php echo $this->lang->line('projectscrud_action'); ?></th>
-                                <?php endif; ?>
-                            </tr>
-                    </thead>
-                    <tbody>
-                        <?php   
-                                $position = $this->lang->line('project_position');
-                                foreach ($project_users as $pu) :  ?>
-                            <tr data-id="<?php echo $pu->user_id; ?>" class="project_data">
-                                <td><?php echo $pu->first_name . ' ' . $pu->last_name; ?></td>
-                                <td><?php echo $position[$pu->position]; ?></td>
-                                <?php if ($actual_user->project_position >= 4) : ?>
-                                <td>
-                                    <?php if($pu->position === 5 || $actual_user->id == $pu->user_id || $pu->position >= $actual_user->project_position) : 
-                                                echo '-';
-                                          else : ?>
-                                              <a href="#" class="project_members_edit"><img src="<?php echo base_url() . $theme; ?>/images/b_edit.png" width="20" height="16" border="0" /></a>
-                                              <a href="#" class="project_members_delete"><img src="<?php echo base_url() . $theme; ?>/images/b_dele.png" width="20" height="16" border="0" /></a> 
-                                    <?php endif; ?>                           
-                                </td>
-                                <?php endif; ?>
-                            </tr>
-                        <?php   endforeach;   ?>
-                    </tbody>
-              </table>
-
-              <?php echo form_fieldset_close(); 
-                    echo form_hidden('id', $pid);
-
-            echo form_close();
+              echo form_close();
 
 if ($actual_user->project_position >= 4) :
     
