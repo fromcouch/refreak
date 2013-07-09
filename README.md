@@ -96,7 +96,17 @@ EVENTS
     + projects_model_get_user_project_position:     Get Users position of Project. (project)
     + projects_model_set_user_project:      Set User of Project. (project)
     + projects_model_remove_user_project:   Remove User of Project. (project)
-    + projects_model_update_user_position:  Change User Posintion in Project. (project)
+    + projects_model_update_user_position:  Change User Position in Project. (project)
+    + projects_list_head_table
+    + projects_list_content_table_column
+    + projects_list_content_table_row
+    + projects_create_project_form
+    + projects_edit_project_info
+    + projects_edit_add_user_to_project
+    + projects_edit_user_columns
+    + projects_edit_user_rows
+    + projects_edit_select_user
+    + projects_edit_project_user
 
 + Tasks
     + tasks_pre_init:                       first event fired before init task Refreak controller. (tasks)

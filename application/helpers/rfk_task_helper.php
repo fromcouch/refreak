@@ -1,12 +1,14 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-
 /**
- * Description of rfk_task_helper
+ * Task Helper
  *
- * @author victor
+ * @package	Refreak
+ * @subpackage	helper
+ * @category	task
+ * @author	Víctor <victor@ebavs.net> fromcouch
+ * @link	https://github.com/fromcouch/refreak
  */
-class RFK_Task_Helper {
+class rfk_task_helper {
     
     public static function calculate_deadline($deadline, $status_key) {
         
