@@ -387,6 +387,76 @@ class project_helper {
                 
         return implode('', $part);
     }
+    
+    public static function edit_table_user($theme_url, $user_text, $position_text, $action_text, $position, $project_users, $actual_user)
+    {
+        $action = '';
+        if ($actual_user->project_position >= 4) {
+                $action = '<th width="10%">' . $action_text . '</th>';
+        }
+        
+        $part = array();
+        
+        //head
+        $part['open_head'] = '<thead>';
+        
+        $part['header'] = '
+                    <tr align="left">
+                            <th width="45%">' . $user_text . '</th>
+                            <th width="15%">' . $position_text . '</th>                            
+                            ' . $action . '
+                    </tr>
+        ';
+
+        $part['close_head'] = '</thead>';
+        
+        $part['open_body'] = '<tbody>';
+            
+        foreach ($project_users as $pu) {
+            
+            $tcol = array();
+            
+            //user name
+            $tcol['name'] = '
+                    <td>' . $pu->first_name . ' ' . $pu->last_name . '</td>
+            ';
+            
+            //position
+            $tcol['position'] = '
+                    <td>' . $position[$pu->position] . '</td>
+            ';
+            
+            if ($actual_user->project_position >= 4) {
+                
+                    if($pu->position === 5 || $actual_user->id == $pu->user_id || $pu->position >= $actual_user->project_position) {
+                        $tcol['buttons'] = '
+                            - 
+                        ';
+                    }
+                    else
+                    {
+                        $tcol['buttons'] = '
+                                <a href="#" class="project_members_edit">
+                                        <img src="' . $theme_url . '/images/b_edit.png" width="20" height="16" border="0" />
+                                </a>
+                                <a href="#" class="project_members_delete">
+                                        <img src="' . $theme_url . '/images/b_dele.png" width="20" height="16" border="0" />
+                                </a> 
+                        ';
+                    }
+            }
+            
+            $trow[] = '
+                <tr data-id="' . $pu->user_id . '" class="project_data">
+                    ' . implode('', $tcol) . '
+                </tr>
+            ';
+               
+        }
+        
+        $part['close_body'] = '</tbody>';
+        
+    }
 }
 
 /* End of file project_helper.php */
