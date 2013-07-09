@@ -138,7 +138,7 @@ class task_helper {
                 $tcol ['first_name']= '<td>' . $tf->first_name . '</td>';
                 
                 //deadline
-                $tcol ['deadline']= '<td>' . RFK_Task_Helper::calculate_deadline($tf->deadline_date, $tf->status_key) . '</td>';
+                $tcol ['deadline']= '<td>' . rfk_task_helper::calculate_deadline($tf->deadline_date, $tf->status_key) . '</td>';
                 
                 //comments
                 $tcol ['comments']= '
@@ -158,7 +158,7 @@ class task_helper {
                     
                     $sts = ($cont < $tf->status_key) ? (5 - $cont) : 0; 
                     $status_class = 'sts'.$sts;
-                    if (RFK_Task_Helper::can_do($tf->task_id, $actual_user_id, $tf->position, $tf->author_id, 3)) {
+                    if (rfk_task_helper::can_do($tf->task_id, $actual_user_id, $tf->position, $tf->author_id, 3)) {
                         $status_class .= ' status'.$cont;
                     }
                     
@@ -319,7 +319,7 @@ class task_helper {
         $parts['content'] = '
                         <div class="task_show_content">
                             <div class="label">' . $deadline_text .'</div>
-                            <div id="vdead">' . RFK_Task_Helper::calculate_deadline($tf['deadline_date'], $tf['status']) . '</div>
+                            <div id="vdead">' . rfk_task_helper::calculate_deadline($tf['deadline_date'], $tf['status']) . '</div>
                         </div>
         ';
         
