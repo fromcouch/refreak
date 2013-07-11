@@ -166,10 +166,10 @@ EVENTS
     + users_model_country:                  Get countries. (users)
 
 + Auth
-    + auth_logged_in:                       When users logged
-    + auth_login_error:                     When error login
-    + auth_logged_out:                      Logged out user
-    + auth_password_changed:                Password Changed
-    + auth_password_forgot:                 Password Forgot
-    + auth_user_activated:                  User Activated
-    + auth_user_deactivated:                User Deactivated
+    + auth_logged_in:                       When users logged (auth)
+    + auth_login_error:                     When error login (auth)
+    + auth_logged_out:                      Logged out user (auth)
+    + auth_password_changed:                Password Changed (auth)
+    + auth_password_forgot:                 Password Forgot (auth)
+    + auth_user_activated:                  User Activated (auth)
+    + auth_user_deactivated:                User Deactivated (auth)
