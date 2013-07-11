@@ -66,6 +66,8 @@ class user_helper {
             '<th width="10%" style="text-align:center">' . $btn_new . '</th>'
         );              
                 
+        $tfields = rfk_plugin_helper::trigger_event('users_view_list_head_table', $tfields);
+        
         return implode('',$tfields);
         
     }
@@ -161,6 +163,8 @@ class user_helper {
                         </td>
                 ';
                 
+                $tcol = rfk_plugin_helper::trigger_event('users_view_list_content_table_column', $tcol);
+                
                 $trow []= '
                     <tr ' . $tr_class . '>
                         ' . implode('', $tcol) . '
@@ -169,6 +173,8 @@ class user_helper {
                 
                 unset($tcol);
             }        
+            
+        $trow = rfk_plugin_helper::trigger_event('users_view_list_content_table_row', $trow);
         
         return implode('', $trow);
                             
