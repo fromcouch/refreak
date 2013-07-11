@@ -71,7 +71,7 @@ class project_helper {
             '<th width="10%"  style="text-align:center">' . $btn_new . '</th>',
         );
         
-        $tfields = rfk_plugin_helper::trigger_event('projects_list_head_table', $tfields);
+        $tfields = rfk_plugin_helper::trigger_event('projects_view_list_head_table', $tfields);
         
         return implode('',$tfields);
         
@@ -158,13 +158,13 @@ class project_helper {
                     ';
                 }
                 
-                $tcol []= '
+                $tcol ['buttons']= '
                     <td align="center"> 
                         ' . $btn_edit . $btn_delete . '
                     </td>
                 ';
                 
-                $tcol = rfk_plugin_helper::trigger_event('projects_list_content_table_column', $tcol);
+                $tcol = rfk_plugin_helper::trigger_event('projects_view_list_content_table_column', $tcol);
                 
                 $trow [] = '
                     <tr>
@@ -175,7 +175,7 @@ class project_helper {
                 unset($tcol);
         }
             
-        $trow = rfk_plugin_helper::trigger_event('projects_list_content_table_row', $trow);
+        $trow = rfk_plugin_helper::trigger_event('projects_view_list_content_table_row', $trow);
         
         return implode('', $trow);
     }
@@ -238,7 +238,7 @@ class project_helper {
 
         $part['fieldset_close'] = form_fieldset_close();
               
-        $part = rfk_plugin_helper::trigger_event('projects_create_project_form', $part);
+        $part = rfk_plugin_helper::trigger_event('projects_view_create_project_form', $part);
         
         return implode('', $part);
     }
@@ -312,7 +312,7 @@ class project_helper {
 
         $part['fieldset_close'] = form_fieldset_close();
               
-        $part = rfk_plugin_helper::trigger_event('projects_edit_project_info', $part);
+        $part = rfk_plugin_helper::trigger_event('projects_view_edit_project_info', $part);
         
         return implode('', $part);
     }
@@ -394,7 +394,7 @@ class project_helper {
                 </div>
         ';
                 
-        $part = rfk_plugin_helper::trigger_event('projects_edit_add_user_to_project', $part);
+        $part = rfk_plugin_helper::trigger_event('projects_view_edit_add_user_to_project', $part);
         
         return implode('', $part);
     }
@@ -478,7 +478,7 @@ class project_helper {
                     }
             }
             
-            $tcol = rfk_plugin_helper::trigger_event('projects_edit_user_columns', $tcol);
+            $tcol = rfk_plugin_helper::trigger_event('projects_view_edit_user_columns', $tcol);
             
             $trow[] = '
                 <tr data-id="' . $pu->user_id . '" class="project_data">
@@ -488,7 +488,7 @@ class project_helper {
                
         }
         
-        $trow = rfk_plugin_helper::trigger_event('projects_edit_user_rows', $trow);
+        $trow = rfk_plugin_helper::trigger_event('projects_view_edit_user_rows', $trow);
         
         $part['rows'] = implode('', $trow);
         
@@ -496,7 +496,7 @@ class project_helper {
         
         $part['close_table'] = '</table>';
         
-        $part = rfk_plugin_helper::trigger_event('projects_edit_select_user', $part);
+        $part = rfk_plugin_helper::trigger_event('projects_view_edit_select_user', $part);
         
         return implode('', $part);
     }
@@ -545,7 +545,7 @@ class project_helper {
         
         $part['close_field'] =  form_fieldset_close(); 
         
-        $part = rfk_plugin_helper::trigger_event('projects_edit_project_user', $part);
+        $part = rfk_plugin_helper::trigger_event('projects_view_edit_project_user', $part);
         
         return implode('', $part);
         
