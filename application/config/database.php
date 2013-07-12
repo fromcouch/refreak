@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['home']['hostname'] = '127.0.0.1';
 $db['home']['username'] = 'root';
-$db['home']['password'] = '';
+$db['home']['password'] = 'root';
 $db['home']['database'] = 'refreak';
 $db['home']['dbdriver'] = 'mysqli';
 $db['home']['dbprefix'] = 'rfk_';
@@ -64,21 +64,21 @@ $db['home']['swap_pre'] = '';
 $db['home']['autoinit'] = TRUE;
 $db['home']['stricton'] = FALSE;
 
-$db['import_tf']['hostname'] = '127.0.0.1';
-$db['import_tf']['username'] = 'root';
-$db['import_tf']['password'] = '';
-$db['import_tf']['database'] = 'taskfreak';
-$db['import_tf']['dbdriver'] = 'mysqli';
-$db['import_tf']['dbprefix'] = 'frk_';
-$db['import_tf']['pconnect'] = TRUE;
-$db['import_tf']['db_debug'] = TRUE;
-$db['import_tf']['cache_on'] = FALSE;
-$db['import_tf']['cachedir'] = '';
-$db['import_tf']['char_set'] = 'utf8';
-$db['import_tf']['dbcollat'] = 'utf8_general_ci';
-$db['import_tf']['swap_pre'] = '';
-$db['import_tf']['autoinit'] = TRUE;
-$db['import_tf']['stricton'] = FALSE;
+//$db['import_tf']['hostname'] = '127.0.0.1';
+//$db['import_tf']['username'] = 'root';
+//$db['import_tf']['password'] = '';
+//$db['import_tf']['database'] = 'taskfreak';
+//$db['import_tf']['dbdriver'] = 'mysqli';
+//$db['import_tf']['dbprefix'] = 'frk_';
+//$db['import_tf']['pconnect'] = TRUE;
+//$db['import_tf']['db_debug'] = TRUE;
+//$db['import_tf']['cache_on'] = FALSE;
+//$db['import_tf']['cachedir'] = '';
+//$db['import_tf']['char_set'] = 'utf8';
+//$db['import_tf']['dbcollat'] = 'utf8_general_ci';
+//$db['import_tf']['swap_pre'] = '';
+//$db['import_tf']['autoinit'] = TRUE;
+//$db['import_tf']['stricton'] = FALSE;
 
 
 /* End of file database.php  */
