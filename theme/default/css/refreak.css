@@ -536,6 +536,8 @@ div.task_ctxO {
     border: 1px dotted #666666;
     margin: 0 5px 15px;
     padding: 15px;
+    font-family: Arial, Helvetica;
+    font-size: 12px;
 }
 
 /* end panels */

@@ -18,9 +18,9 @@ class Example extends RF_Plugin {
     public function __construct() {
         
         parent::__construct();
-        
+       
         /**
-         * We have attach method to add our function to event
+         * I attach method to add our function to event
          */        
         $this->attach('base_set_theme', function ($evt, $data) {
             
@@ -29,7 +29,7 @@ class Example extends RF_Plugin {
         });
         
         /**
-         * We have another way to add function to event
+         * I have another way to add function to event
          */        
         $this->attach('base_create_left_menu', array($this, 'testing'));
         
@@ -44,7 +44,9 @@ class Example extends RF_Plugin {
      * @return mixed data to return
      */
     public function testing($evt, $data) {
-                        
+        
+        $data[anchor('#', 'example plugin menu')] = array( anchor('#', 'Deactivate and this menu hide') );
+        
         return $data;
         
     }

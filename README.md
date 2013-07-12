@@ -34,8 +34,10 @@ TODO
 + ~~Import on Install tasks from TF~~
 + Pluginize project
     + ~~Pluginize Controlers and models~~
-    + Decorators for views
+    + ~~Decorators for views~~
     + Pluginize JS
+    + Plugin Installer
+    + Plugin Configuration
 + Printing Version
 
 Please, feel free to add issue or comment.
@@ -58,8 +60,19 @@ Additionaly you can configure some parameters in:
     application/config/refreak.php
 
 
+PLUGINS
+=======
+You can easy create plugin. I have this part of project in a very beginning stage, but actually anyone can write a plugin.
+A little example can be found in:
+
+    application/plugin/example
+
+Next, you need to add row in rfk_plugin table. I promise an installer in near future.
+
+You can attach the next events. (The parentesis word references the refreak section that plugin fires, every plugin needs to be limited to one section or always section )
+
 EVENTS
-======
+------
 + Base Controller
     + base_pre_init:            first event fired before init base Refreak system. (always)
     + base_set_theme:           set theme directory. (always)
@@ -73,30 +86,41 @@ EVENTS
     + projects_pre_init:                    first event fired before init project Refreak controller. (projects)
     + projects_post_init:                   last event fired after init project Refreak controller. (projects)
     + projects_list:                        Get list of projects. (projects)
-    + projects_create_validation_form:      Validate data form for create project. (in revision, needs form_validation parameter by ref?) (project)
-    + projects_create_pre_prepare_data:     Create project form, event previous setting data for form. (project)
-    + projects_create_post_prepare_data:    Create project form, event post setting data for form. (project)
-    + projects_edit_validation_form:        Validate data form for edit project. (in revision, needs form_validation parameter by ref?) (project)
-    + projects_edit_get_project:            Get project by id. (project)
-    + projects_edit_get_project_users:      Get users from project. (project)
-    + projects_edit_saved:                  Just after update project. (Move from controller to model??) (project)
-    + projects_edit_pre_prepare_data:       Edit project form, event previous setting data for form. (project)
-    + projects_edit_post_prepare_data:      Edit project form, event post setting data for form. (project)
-    + projects_edit_deleted:                After delete project. (project)
-    + projects_ajax_added_user_project:     After user added to project. (project)
-    + projects_ajax_remove_user_project:    After user is removed from project. (project)
-    + projects_ajax_change_user_position:   After user is changed their position in project. (project)
-    + projects_model_init:                  Initializing model. (project)
-    + projects_model_projects_list:         Selecting projects list. (project)
-    + projects_model_insert_data:           Inserting project. (project)
-    + projects_model_insert_status_data:    Inserting status project. (project)
-    + projects_model_update_data:           Updating projects. (project)
-    + projects_model_get_project:           Get Project. (project)
-    + projects_model_get_users_project:     Get Users of Project. (project)
-    + projects_model_get_user_project_position:     Get Users position of Project. (project)
-    + projects_model_set_user_project:      Set User of Project. (project)
-    + projects_model_remove_user_project:   Remove User of Project. (project)
-    + projects_model_update_user_position:  Change User Posintion in Project. (project)
+    + projects_create_validation_form:      Validate data form for create project. (in revision, needs form_validation parameter by ref?) (projects)
+    + projects_create_pre_prepare_data:     Create project form, event previous setting data for form. (projects)
+    + projects_create_post_prepare_data:    Create project form, event post setting data for form. (projects)
+    + projects_edit_validation_form:        Validate data form for edit project. (in revision, needs form_validation parameter by ref?) (projects)
+    + projects_edit_get_project:            Get project by id. (projects)
+    + projects_edit_get_project_users:      Get users from project. (projects)
+    + projects_edit_saved:                  Just after update project. (Move from controller to model??) (projects)
+    + projects_edit_pre_prepare_data:       Edit project form, event previous setting data for form. (projects)
+    + projects_edit_post_prepare_data:      Edit project form, event post setting data for form. (projects)
+    + projects_edit_deleted:                After delete project. (projects)
+    + projects_ajax_added_user_project:     After user added to project. (projects)
+    + projects_ajax_remove_user_project:    After user is removed from project. (projects)
+    + projects_ajax_change_user_position:   After user is changed their position in project. (projects)
+    + projects_model_init:                  Initializing model. (projects)
+    + projects_model_projects_list:         Selecting projects list. (projects)
+    + projects_model_insert_data:           Inserting project. (projects)
+    + projects_model_insert_status_data:    Inserting status project. (projects)
+    + projects_model_update_data:           Updating projects. (projects)
+    + projects_model_get_project:           Get Project. (projects)
+    + projects_model_get_users_project:     Get Users of Project. (projects)
+    + projects_model_get_user_project_position:     Get Users position of Project. (projects)
+    + projects_model_set_user_project:      Set User of Project. (projects)
+    + projects_model_remove_user_project:   Remove User of Project. (projects)
+    + projects_model_update_user_position:  Change User Position in Project. (projects)
+    + projects_view_list_head_table:        Project list table head columns. (projects) 
+    + projects_view_list_content_table_column: Fires every project row with columns (projects)
+    + projects_view_list_content_table_row: Project list rows for table (projects)
+    + projects_view_create_project_form:    Create project form view (projects)
+    + projects_view_edit_project_info:      Fires after construct upper part for project edit (projects)
+    + projects_view_edit_add_user_to_project: Show add user tot project selectors (projects)
+    + projects_view_edit_user_columns:      Fires every project row with columns (projects)
+    + projects_view_edit_user_rows:         Assigned users to project (projects)
+    + projects_view_edit_select_user:       All user table for project (projects)
+    + projects_view_edit_project_user:      Before render all edit screen (projects)
+
 
 + Tasks
     + tasks_pre_init:                       first event fired before init task Refreak controller. (tasks)
@@ -132,6 +156,19 @@ EVENTS
     + tasks_model_delete_task_comments:     Delete task Comments.  (tasks)
     + tasks_model_get_user_project_position:Get Users position of Task. (tasks)
     + tasks_model_is_owner:                 Know if user is owner of task. (tasks)
+    + tasks_view_list_head_table:           Tasks list table head columns. (tasks)
+    + tasks_view_list_content_table_column: Fires every task row with columns (tasks)
+    + tasks_view_list_content_table_row:    Tasks list rows for table (tasks)
+    + tasks_view_table_no_tasks:            No task table part (tasks)
+    + tasks_view_show_task_buttons:         Close, edit, delete task buttons (tasks)
+    + tasks_view_show_task_info:            Show task info part (tasks)
+    + tasks_view_show_task_tabs:            Show task tabs part (tasks)
+    + tasks_view_show_task_status:          Show task status part (tasks)
+    + tasks_view_edit_task_pr_dead:         Edit task, first line with priority and deadline date (tasks)
+    + tasks_view_edit_task_project:         Edit task, project selector (tasks)
+    + tasks_view_edit_title_description:    Edit task, title description (tasks)
+    + tasks_view_edit_user_status:          Edit task, user status (tasks)
+
 
 + Users
     + users_pre_init:                       first event fired before init users Refreak controller. (users)
@@ -154,12 +191,20 @@ EVENTS
     + users_model_projects_user:            Get projects of user. (users)
     + users_model_users_with_group:         Get users with group. (users)
     + users_model_country:                  Get countries. (users)
+    + users_view_list_head_table:           Users list table head columns. (users)
+    + users_view_list_content_table_column: Fires every user row with columns (users)
+    + users_view_list_content_table_row:    User list rows for table (users)
+    + users_view_detail_user_info:          User detail page user info part (users)
+    + users_view_detail_user_projects:      User detail page user projects part (users)
+    + users_view_edit_user_info:            Edit user personal info (users)
+    + users_view_edit_user_account:         Edit user account (users)
+    
 
 + Auth
-    + auth_logged_in:                       When users logged
-    + auth_login_error:                     When error login
-    + auth_logged_out:                      Logged out user
-    + auth_password_changed:                Password Changed
-    + auth_password_forgot:                 Password Forgot
-    + auth_user_activated:                  User Activated
-    + auth_user_deactivated:                User Deactivated
+    + auth_logged_in:                       When users logged (auth)
+    + auth_login_error:                     When error login (auth)
+    + auth_logged_out:                      Logged out user (auth)
+    + auth_password_changed:                Password Changed (auth)
+    + auth_password_forgot:                 Password Forgot (auth)
+    + auth_user_activated:                  User Activated (auth)
+    + auth_user_deactivated:                User Deactivated (auth)

@@ -32,7 +32,7 @@ class RF_Controller extends CI_Controller {
         //trigger first event
         $this->plugin_handler->trigger('base_pre_init');
         
-        $this->load->helper(array( 'url' ));
+        $this->load->helper(array( 'url', 'rfk_plugin' ));
         $this->data['theme']                = $this->config->item('rfk_theme_dir') . '/' . $this->config->item('rfk_theme_selected');
         
         $this->data['theme']                = $this->plugin_handler->trigger('base_set_theme', $this->data['theme']);
@@ -160,6 +160,9 @@ class RF_Controller extends CI_Controller {
                                                             anchor('users', $this->lang->line('menu_manage_users')),
                                                             anchor('users/edit_user', $this->lang->line('menu_manage_profile'))
                                                                     ),
+                                anchor('#', $this->lang->line('menu_config'))    => array(
+                                                            anchor('plugin/', $this->lang->line('menu_config_plugin')) ),
+                                
         );
         
         

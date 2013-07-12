@@ -2,102 +2,34 @@
     <div class="horiz">
         <?php echo validation_errors(); 
               echo form_open("projects/edit/".$pid);
-              echo form_fieldset($this->lang->line('projectscrud_info'));?>
-              <p><?php echo $this->lang->line('projectscrud_compulsory'); ?></p>
-              <p>
-                    <label class="compulsory"><?php echo $this->lang->line('projectscrud_name'); ?> </label>
-                    <?php if($actual_user->project_position == 5) :
-                                echo form_input($name);
-                          else :
-                                echo $name['value'];
-                          endif;?>
-              </p>
+              
+              echo project_helper::edit_project_info($this->lang->line('projectscrud_info'), 
+                                                  $this->lang->line('projectscrud_compulsory'), 
+                                                  $this->lang->line('projectscrud_name'), 
+                                                  $this->lang->line('projectscrud_description'), 
+                                                  $this->lang->line('projectscrud_status'), 
+                                                  $this->lang->line('projectscrud_save'), 
+                                                  $name, 
+                                                  $description, 
+                                                  $this->lang->line('project_status'),
+                                                  $actual_user->project_position,
+                                                  $status);
+              
+              echo project_helper::edit_bottom_part(base_url() . $theme, 
+                                                    $this->lang->line('projectscrud_add_members'), 
+                                                    $this->lang->line('projectscrud_user'), 
+                                                    $this->lang->line('projectscrud_position'), 
+                                                    $this->lang->line('projectscrud_action'), 
+                                                    $this->lang->line('projectscrud_members'), 
+                                                    $this->lang->line('project_position'), 
+                                                    $project_users, 
+                                                    $actual_user,
+                                                    $dropdown_users);
+              
+              
+              echo form_hidden('id', $pid);
 
-              <p>
-                    <label><?php echo $this->lang->line('projectscrud_description'); ?> </label>
-                    <?php if($actual_user->project_position == 5) :
-                                echo form_textarea($description);
-                          else :
-                                echo $description['value'];
-                          endif;?>            
-              </p>
-
-              <p>
-                    <label><?php echo $this->lang->line('projectscrud_status'); ?> </label>
-                    <?php echo form_dropdown('status', $this->lang->line('project_status'), $status);?>
-              </p>
-              <p>
-                    <?php echo form_submit('submit', $this->lang->line('projectscrud_save'));?> 
-              </p>
-              <?php echo form_fieldset_close();
-              echo form_fieldset($this->lang->line('projectscrud_members'));?>
-
-              <?php if ($actual_user->project_position >= 4) : ?>                
-              <p><img src="<?php echo base_url() . $theme;?>/images/bullet.png" /> <a href="" class="project_members"><?php echo $this->lang->line('projectscrud_add_members'); ?></a></p>
-                <div class="invitation">
-                    <?php echo form_fieldset();?>
-                        <table cellspacing="0" cellpadding="3" border="0" class="form">
-                            <tr>
-                                <th><?php echo $this->lang->line('projectscrud_user'); ?>:</th>
-                                <td><?php echo form_dropdown('dropdown_users', $dropdown_users, array(), 'class="dropdown_users"'); ?></td>
-                            </tr>
-                            <tr>
-                                <th><?php echo $this->lang->line('projectscrud_position'); ?>:</th>
-                                <td><?php 
-                                    echo form_dropdown('project_position', $this->lang->line('project_position'), array(), 'class="project_position"');
-                                ?></td>
-                            </tr>
-                            <tr>
-                                <th>&nbsp;</th>
-                                <td><?php
-                                    echo form_input(array(
-                                        'type'      => 'button',
-                                        'class'     => 'project_invite',
-                                        'value'     => $this->lang->line('projectscrud_add_members'),
-                                        'name'      => 'project_invite'
-                                    ));
-                                ?></td>                            
-                            </tr>
-                        </table>
-                    <?php echo form_fieldset_close(); ?>
-                </div>      
-              <?php endif; ?>
-              <table cellspacing="0" cellpadding="3" border="0" width="100%" class="data">
-                    <thead>
-                            <tr align="left">
-                                    <th width="45%"><?php echo $this->lang->line('projectscrud_user'); ?></th>
-                                    <th width="15%"><?php echo $this->lang->line('projectscrud_position'); ?></th>                            
-                                <?php if ($actual_user->project_position >= 4) : ?>
-                                    <th width="10%"><?php echo $this->lang->line('projectscrud_action'); ?></th>
-                                <?php endif; ?>
-                            </tr>
-                    </thead>
-                    <tbody>
-                        <?php   
-                                $position = $this->lang->line('project_position');
-                                foreach ($project_users as $pu) :  ?>
-                            <tr data-id="<?php echo $pu->user_id; ?>" class="project_data">
-                                <td><?php echo $pu->first_name . ' ' . $pu->last_name; ?></td>
-                                <td><?php echo $position[$pu->position]; ?></td>
-                                <?php if ($actual_user->project_position >= 4) : ?>
-                                <td>
-                                    <?php if($pu->position === 5 || $actual_user->id == $pu->user_id || $pu->position >= $actual_user->project_position) : 
-                                                echo '-';
-                                          else : ?>
-                                              <a href="#" class="project_members_edit"><img src="<?php echo base_url() . $theme; ?>/images/b_edit.png" width="20" height="16" border="0" /></a>
-                                              <a href="#" class="project_members_delete"><img src="<?php echo base_url() . $theme; ?>/images/b_dele.png" width="20" height="16" border="0" /></a> 
-                                    <?php endif; ?>                           
-                                </td>
-                                <?php endif; ?>
-                            </tr>
-                        <?php   endforeach;   ?>
-                    </tbody>
-              </table>
-
-              <?php echo form_fieldset_close(); 
-                    echo form_hidden('id', $pid);
-
-            echo form_close();
+              echo form_close();
 
 if ($actual_user->project_position >= 4) :
     

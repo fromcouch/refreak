@@ -27,9 +27,9 @@ class Users extends RF_Controller {
         $this->lang->load('users');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error_box">', '</div>');
-        
+        $this->load->helper( array( 'decorators/user' ) );
         //set the flash data error message if there is one
-        $this->data['message']              = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message']              = ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'));
 
         $this->data                         = $this->plugin_handler->trigger('users_post_init', $this->data);
     }
@@ -255,6 +255,11 @@ class Users extends RF_Controller {
                             $this->session->set_flashdata('message', "User Saved");
                             redirect("users", 'refresh');
                     }
+            } 
+            else 
+            {
+                //we need to run form to generate errors
+                $this->form_validation->run();
             }
 
 
