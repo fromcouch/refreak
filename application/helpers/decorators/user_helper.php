@@ -255,6 +255,8 @@ class user_helper {
         
         $fieldset .= form_fieldset_close(); 
         
+        $fieldset = rfk_plugin_helper::trigger_event('users_view_detail_user_info', $fieldset);
+        
         return $fieldset;        
     }
     
@@ -301,6 +303,8 @@ class user_helper {
         $fieldset .= '</table>';                  
         $fieldset .= form_fieldset_close(); 
         
+        $fieldset = rfk_plugin_helper::trigger_event('users_view_detail_user_projects', $fieldset);
+        
         return $fieldset;
     }
     
@@ -333,6 +337,8 @@ class user_helper {
         
         $part = array();
             
+        $part['open_fieldset'] = form_fieldset($personal_text);
+        
         $part['compulsory'] = '
             <p>
                     ' . $compulsory_text . '
@@ -389,13 +395,11 @@ class user_helper {
             </p>
         ';
                 
-        $html = form_fieldset($personal_text) . 
-                implode('', $part) .
-                form_fieldset_close(); 
+        $part['close_fieldset'] = form_fieldset_close(); 
         
-        unset($part);
+        $part = rfk_plugin_helper::trigger_event('users_view_edit_user_info', $part);
         
-        return $html;
+        return implode('', $part);
     }
             
     /**
@@ -421,6 +425,8 @@ class user_helper {
     public static function edit_user_account($username_text, $username, $passwordchanging, $password, $confirmpasschanging, $password_confirm, $access, $active_user, $enabled_text, $groups, $user_id, $groups_show, $account_text ) {
         
         $part = array();
+        
+        $part['open_fieldset'] = form_fieldset($account_text);
         
         $part['username']= '
             <p>
@@ -455,14 +461,13 @@ class user_helper {
             
         }
 
-        $html = 
-                form_fieldset($account_text) . 
-                implode('', $part) . 
-                form_fieldset_close() .
-                form_hidden('id', $user_id);
-
+        $part['close_fieldset'] = form_fieldset_close();
         
-        return $html;
+        $part['hidden'] = form_hidden('id', $user_id);
+        
+        $part = rfk_plugin_helper::trigger_event('users_view_edit_user_account', $part);
+
+        return implode('', $part);
 
     }
 }

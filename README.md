@@ -164,9 +164,14 @@ EVENTS
     + users_model_projects_user:            Get projects of user. (users)
     + users_model_users_with_group:         Get users with group. (users)
     + users_model_country:                  Get countries. (users)
-    + users_view_list_head_table:           Users list table head columns. (project)
-    + users_view_list_content_table_column: Fires every user row with columns (project)
-    + users_view_list_content_table_row:    User list rows for table (project)
+    + users_view_list_head_table:           Users list table head columns. (users)
+    + users_view_list_content_table_column: Fires every user row with columns (users)
+    + users_view_list_content_table_row:    User list rows for table (users)
+    + users_view_detail_user_info:          User detail page user info part (users)
+    + users_view_detail_user_projects:      User detail page user projects part (users)
+    + users_view_edit_user_info:            Edit user personal info (users)
+    + users_view_edit_user_account:         Edit user account (users)
+    
 
 + Auth
     + auth_logged_in:                       When users logged (auth)
