@@ -36,6 +36,8 @@ TODO
     + ~~Pluginize Controlers and models~~
     + ~~Decorators for views~~
     + Pluginize JS
+    + Plugin Installer
+    + Plugin Configuration
 + Printing Version
 
 Please, feel free to add issue or comment.
