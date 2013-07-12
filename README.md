@@ -34,7 +34,7 @@ TODO
 + ~~Import on Install tasks from TF~~
 + Pluginize project
     + ~~Pluginize Controlers and models~~
-    + Decorators for views
+    + ~~Decorators for views~~
     + Pluginize JS
 + Printing Version
 
@@ -58,8 +58,19 @@ Additionaly you can configure some parameters in:
     application/config/refreak.php
 
 
+PLUGINS
+=======
+You can easy create plugin. I have this part of project in a very beginning stage, but actually anyone can write a plugin.
+A little example can be found in:
+
+    application/plugin/example
+
+Next, you need to add row in rfk_plugin table. I promise an installer in near future.
+
+You can attach the next events. (The parentesis word references the refreak section that plugin fires, every plugin needs to be limited to one section or always section )
+
 EVENTS
-======
+------
 + Base Controller
     + base_pre_init:            first event fired before init base Refreak system. (always)
     + base_set_theme:           set theme directory. (always)
