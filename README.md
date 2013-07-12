@@ -143,6 +143,18 @@ EVENTS
     + tasks_model_delete_task_comments:     Delete task Comments.  (tasks)
     + tasks_model_get_user_project_position:Get Users position of Task. (tasks)
     + tasks_model_is_owner:                 Know if user is owner of task. (tasks)
+    + tasks_view_list_head_table:           Tasks list table head columns. (tasks)
+    + tasks_view_list_content_table_column: Fires every task row with columns (tasks)
+    + tasks_view_list_content_table_row:    Tasks list rows for table (tasks)
+    + tasks_view_table_no_tasks:            No task table part (tasks)
+    + tasks_view_show_task_buttons:         Close, edit, delete task buttons (tasks)
+    + tasks_view_show_task_info:            Show task info part (tasks)
+    + tasks_view_show_task_tabs:            Show task tabs part (tasks)
+    + tasks_view_show_task_status:          Show task status part (tasks)
+    + tasks_view_edit_task_pr_dead:         Edit task, first line with priority and deadline date (tasks)
+    + tasks_view_edit_task_project:         Edit task, project selector (tasks)
+    + tasks_view_edit_title_description:    Edit task, title description (tasks)
+    + tasks_view_edit_user_status:          Edit task, user status (tasks)
 
 
 + Users

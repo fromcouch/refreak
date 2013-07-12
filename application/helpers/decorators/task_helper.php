@@ -70,7 +70,7 @@ class task_helper {
             '<th width="5%" class="act">' . $btn_new . '</th>'
         );
         
-        
+        $tfields = rfk_plugin_helper::trigger_event('tasks_view_list_head_table', $tfields);
         
         return implode('',$tfields);
         
@@ -186,6 +186,8 @@ class task_helper {
                     </td>
                 ';
                 
+                $tcol = rfk_plugin_helper::trigger_event('tasks_view_list_content_table_column', $tcol);
+                
                 $trow [] = '
                     <tr data-id="' . $tf->task_id . '">
                         ' . implode('', $tcol) . '
@@ -195,6 +197,8 @@ class task_helper {
                 unset($tcol);
 
         }
+        
+        $trow = rfk_plugin_helper::trigger_event('tasks_view_list_content_table_row', $trow);
         
         return implode('', $trow);
                             
@@ -232,6 +236,8 @@ class task_helper {
                             <p>&nbsp;</p>
                         </td>
                     </tr>';
+        
+        $tnotask = rfk_plugin_helper::trigger_event('tasks_view_table_no_tasks', $tnotask);
         
         return $tnotask;
     }
@@ -277,6 +283,8 @@ class task_helper {
         }
                   
         $buttons .= '</div>';
+        
+        $buttons = rfk_plugin_helper::trigger_event('tasks_view_show_task_buttons', $buttons);
         
         return $buttons;
         
@@ -370,6 +378,8 @@ class task_helper {
                         </div>    
         ';
         
+        $parts = rfk_plugin_helper::trigger_event('tasks_view_show_task_info', $parts);
+        
         return implode('', $parts);
         
     }
@@ -422,6 +432,8 @@ class task_helper {
                         </div>    
         ';
         
+        $tabs = rfk_plugin_helper::trigger_event('tasks_view_show_task_tabs', $tabs);
+        
         return implode('', $tabs);
     }
     
@@ -445,6 +457,8 @@ class task_helper {
                         </div>
         ';
 
+        $stat = rfk_plugin_helper::trigger_event('tasks_view_show_task_status', $stat);
+        
         return $stat;
     }
     
@@ -484,6 +498,8 @@ class task_helper {
                 </tr>
         ';
         
+        $tr = rfk_plugin_helper::trigger_event('tasks_view_edit_task_pr_dead', $tr);
+        
         return implode('', $tr);
     }
     
@@ -517,6 +533,8 @@ class task_helper {
                 </tr>
         ';
                 
+        $tr = rfk_plugin_helper::trigger_event('tasks_view_edit_task_project', $tr);
+        
         return $tr;        
     }
     
@@ -547,6 +565,8 @@ class task_helper {
                         </td>
                 </tr>        
         ';
+        
+        $tr = rfk_plugin_helper::trigger_event('tasks_view_edit_title_description', $tr);
         
         return $tr;
     }
@@ -585,6 +605,8 @@ class task_helper {
                         </td>
                 </tr>
         ';
+        
+        $tr = rfk_plugin_helper::trigger_event('tasks_view_edit_user_status', $tr);
         
         return implode('', $tr);
         
