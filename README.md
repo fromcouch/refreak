@@ -108,6 +108,7 @@ EVENTS
     + projects_view_edit_select_user:       All user table for project (project)
     + projects_view_edit_project_user:      Before render all edit screen (project)
 
+
 + Tasks
     + tasks_pre_init:                       first event fired before init task Refreak controller. (tasks)
     + tasks_post_init:                      lost event fired after init task Refreak controller. (tasks)
@@ -142,6 +143,7 @@ EVENTS
     + tasks_model_delete_task_comments:     Delete task Comments.  (tasks)
     + tasks_model_get_user_project_position:Get Users position of Task. (tasks)
     + tasks_model_is_owner:                 Know if user is owner of task. (tasks)
+
 
 + Users
     + users_pre_init:                       first event fired before init users Refreak controller. (users)
