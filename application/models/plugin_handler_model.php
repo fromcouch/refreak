@@ -89,6 +89,34 @@ class plugin_handler_model extends CI_Model  {
         
     }
     
+    /**
+     * Install plugin
+     * 
+     * @param string $name Plugin name
+     * @param string $directory Directory name
+     * @access public
+     */
+    public function install($name, $directory) {
+        
+        $this->db->insert('plugins', array(
+                                        'name'      => $name,
+                                        'directory' => $directory
+                                    )
+        );
+        
+    }
+    
+    /**
+     * Uninstall orfan plugin
+     * 
+     * @param integer $id plugin id
+     */
+    public function uninstall($id) {
+        
+        $this->db->delete('plugins', array( 'id' => $id ));
+        
+    }
+    
 }
 
 /* End of file plugin_handler_model.php */

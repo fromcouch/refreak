@@ -85,5 +85,34 @@ class Plugin extends RF_Controller {
         
         redirect("plugin", 'refresh');
     }
-    
+ 
+    public function install() {
+        
+        $this->load->model('plugin_handler_model');
+        $plugins                = $this->plugin_handler_model->get_plugin_list();
+        
+        $copied_plugins         = scandir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR);
+        
+        //remove . and ..
+        $copied_plugins         = array_diff($copied_plugins, array('..', '.'));
+        
+        $fisical_plugins        = array();
+        foreach ($copied_plugins as $cp) {
+            //i need to test if element is directory
+            if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $cp))
+            {
+                $fisical_plugins []= $cp;
+            }
+        }
+        
+        if (count($plugins) != count($fisical_plugins)) {
+            //install and uninstall
+            
+            //look $plugins and match $fisical_plugins, if not, delete from db
+            
+            //then match $fisical_plugins with $plugins and install not matched plugins
+        }
+            
+        print_r($plugins);
+    }
 }
