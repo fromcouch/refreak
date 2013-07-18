@@ -648,7 +648,7 @@ class Tasks extends RF_Controller {
         
         if ($this->task_model->get_user_position((int)$task_id, $actual_user_id) >= $level ||         
              $this->ion_auth->in_group(array(1,2)) ||
-             $this->task_model->is_owner((int)$task_id, (int)$user_id))
+             $this->task_model->is_owner((int)$task_id, (int)$actual_user_id))
                 return true;
         else 
                 return false;
