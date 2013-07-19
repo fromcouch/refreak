@@ -44,7 +44,7 @@ class user_helper {
      * @access public
      * @static
      */    
-    public static function table_user_head_fields($user, $level, $lastlogin, $access, $create_url, $url_theme, $new) {
+    public static function table_user_head_fields($user, $level, $lastlogin, $access, $create_url, $url_theme, $new, $action) {
         
         $btn_new = '';
         
