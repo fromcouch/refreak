@@ -222,9 +222,13 @@ class Users extends RF_Controller {
                             'email'      => $this->input->post('email'),
                             'title'      => $this->input->post('title'),
                             'city'       => $this->input->post('city'),
-                            'country_id' => $this->input->post('country_id'),
-                            'active'     => $this->input->post('active_user') === 'ok' ? true : false,
+                            'country_id' => $this->input->post('country_id')
                     );
+                    
+                    if ($this->input->post('active_user')) {
+                        
+                            $data['active']     = $this->input->post('active_user') === 'ok' ? true : false;
+                    }
 
                     //update the password if it was posted
                     if ($this->input->post('password'))
@@ -261,7 +265,6 @@ class Users extends RF_Controller {
                 //we need to run form to generate errors
                 $this->form_validation->run();
             }
-
 
             //pass the user to the view
             $this->data['user'] = $user;
@@ -334,6 +337,9 @@ class Users extends RF_Controller {
             );
             
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
+            $grps = $this->ion_auth->get_users_groups($user->id)->row();
+            $this->data['user_group_id'] =  $grps->id;
+            
             $this->data['groups_show'] = $user->active ? '' : ' style = "display:none" ';
             
             $this->data     = $this->plugin_handler->trigger('users_edit_post_prepare_data', $this->data);
@@ -361,11 +367,12 @@ class Users extends RF_Controller {
             $this->lang->load('projects');
             
             $this->load->model('user_model');
-            //$project_list = $this->user_model->get_projects_user($id); //don't need, is loaded in RF_BaseController
+            $project_list = $this->user_model->get_projects_user($id);
             
             //pass the user to the view
             $this->data['user']         = $user;
             $this->data['author']       = $author;
+            $this->data['project_list'] = $project_list;
             $this->data['user_groups']  = $this->ion_auth->get_users_groups($id)->result_object();
             $this->data['groups']       = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 

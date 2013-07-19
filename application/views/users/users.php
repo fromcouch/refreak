@@ -11,7 +11,8 @@
                                                              $this->ion_auth->is_admin(), 
                                                              site_url() . '/users/create_user/', 
                                                              base_url() . $theme, 
-                                                             $this->lang->line('userstable_new'));
+                                                             $this->lang->line('userstable_new'),
+                                                             $this->lang->line('userstable_action'));
                 ?>                
             </tr>
         </thead>
