@@ -224,7 +224,7 @@ class task_helper {
                            
         if ($access) {
                    
-                $tnotask  = '<p align="center">
+                $tnotask  .= '<p align="center">
                                         <a href="#" class="btn_task_new">
                                             <img src="' . $url . '/images/b_new.png" width="39" height="16" border="0" hspace="3" 
                                                 alt="' . $new . '" />
@@ -232,7 +232,7 @@ class task_helper {
                                     </p>';
         }
           
-        $tnotask = '        <p>&nbsp;</p>
+        $tnotask .= '        <p>&nbsp;</p>
                             <p>&nbsp;</p>
                         </td>
                     </tr>';
