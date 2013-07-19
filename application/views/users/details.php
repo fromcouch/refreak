@@ -18,7 +18,7 @@
                                                         $this->lang->line('usersdetails_level'),
                                                         $this->lang->line('usersdetails_disabled'));
             
-             echo user_helper::detail_user_projects($user_projects, 
+             echo user_helper::detail_user_projects($project_list, 
                                                     $this->lang->line('project_position'), 
                                                     $this->lang->line('usersdetails_listproject'), 
                                                     $this->lang->line('usersdetails_projects'), 

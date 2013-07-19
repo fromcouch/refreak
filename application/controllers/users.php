@@ -367,11 +367,12 @@ class Users extends RF_Controller {
             $this->lang->load('projects');
             
             $this->load->model('user_model');
-            //$project_list = $this->user_model->get_projects_user($id); //don't need, is loaded in RF_BaseController
+            $project_list = $this->user_model->get_projects_user($id);
             
             //pass the user to the view
             $this->data['user']         = $user;
             $this->data['author']       = $author;
+            $this->data['project_list'] = $project_list;
             $this->data['user_groups']  = $this->ion_auth->get_users_groups($id)->result_object();
             $this->data['groups']       = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
 
