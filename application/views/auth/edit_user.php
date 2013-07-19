@@ -35,6 +35,7 @@
                                                 $groups, 
                                                 $user->id, 
                                                 $groups_show, 
+                                                $user_group_id,
                                                 $this->lang->line('userscrud_account')); 
             ?>
             

@@ -262,7 +262,6 @@ class Users extends RF_Controller {
                 $this->form_validation->run();
             }
 
-
             //pass the user to the view
             $this->data['user'] = $user;
 
@@ -334,6 +333,9 @@ class Users extends RF_Controller {
             );
             
             $this->data['groups'] = $this->to_dropdown_array($this->data['groups'], 'id', 'description');
+            $grps = $this->ion_auth->get_users_groups($user->id)->row();
+            $this->data['user_group_id'] =  $grps->id;
+            
             $this->data['groups_show'] = $user->active ? '' : ' style = "display:none" ';
             
             $this->data     = $this->plugin_handler->trigger('users_edit_post_prepare_data', $this->data);

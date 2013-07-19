@@ -418,12 +418,13 @@ class user_helper {
      * @param array $groups
      * @param integer $user_id
      * @param string $groups_show
+     * @param string $user_group_id
      * @param string $account_text
      * @return string Account HTML part
      * @access public
      * @static
      */        
-    public static function edit_user_account($username_text, $username, $passwordchanging, $password, $confirmpasschanging, $password_confirm, $access, $active_user, $enabled_text, $groups, $user_id, $groups_show, $account_text ) {
+    public static function edit_user_account($username_text, $username, $passwordchanging, $password, $confirmpasschanging, $password_confirm, $access, $active_user, $enabled_text, $groups, $user_id, $groups_show, $user_group_id, $account_text ) {
         
         $part = array();
         
@@ -456,7 +457,7 @@ class user_helper {
                 <p>
                         ' . form_checkbox($active_user) . '
                         <span>' . $enabled_text . '</span>
-                        ' . form_dropdown('group', $groups, $user_id, 'class="group"' . $groups_show) . '
+                        ' . form_dropdown('group', $groups, $user_group_id, 'class="group"' . $groups_show) . '
                 </p>
             ';
             
