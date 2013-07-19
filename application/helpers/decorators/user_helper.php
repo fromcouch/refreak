@@ -196,11 +196,12 @@ class user_helper {
      * @param string $createdonby_text
      * @param string $name_text
      * @param string $level_text
+     * @param string $disabled_text
      * @return string html upper part of detail user
      * @access public
      * @static
      */
-    public static function detail_user_personal_info($user, $groups, $user_group, $author, $url_theme, $edit_url, $access, $actual_user_id, $personalinfo_text, $createdon_text, $createdonby_text, $name_text, $level_text) {
+    public static function detail_user_personal_info($user, $groups, $user_group, $author, $url_theme, $edit_url, $access, $actual_user_id, $personalinfo_text, $createdon_text, $createdonby_text, $name_text, $level_text, $disabled_text) {
         
         //upper edit button
         $edit_button = '';

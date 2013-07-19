@@ -15,7 +15,8 @@
                                                         $this->lang->line('usersdetails_createdon'), 
                                                         $this->lang->line('usersdetails_createdonby'), 
                                                         $this->lang->line('usersdetails_name'),
-                                                        $this->lang->line('usersdetails_level'));
+                                                        $this->lang->line('usersdetails_level'),
+                                                        $this->lang->line('usersdetails_disabled'));
             
              echo user_helper::detail_user_projects($user_projects, 
                                                     $this->lang->line('project_position'), 
