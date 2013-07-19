@@ -27,10 +27,12 @@ class Task_model extends CI_Model {
      * @param int $user_id user to see tasks
      * @param int $project_id project id
      * @param int $time_concept 0 = future tasks , 1 = past tasks , 2 all tasks
+     * @param int $projects projects array
+     * @param int $context_id context identificator for tasks
      * @return array of objects with tasks
      * @access public
      */
-    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array()) {
+    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array(), $context_id = null) {
         
         $this->db
                 ->select('tasks.*, COUNT(DISTINCT rfk_task_comment.post_date) comment_count,
@@ -81,8 +83,14 @@ class Task_model extends CI_Model {
             
         }
         
+        if (!is_null($context_id)) {
+            
+            $this->db->where('tasks.context', $context_id);
+            
+        }
+        
         $params                     = array(
-                                       $actual_user_id, $user_id, $project_id, $time_concept, $projects 
+                                       $actual_user_id, $user_id, $project_id, $time_concept, $projects, $context_id
                                     );
         
         $data                       = $this->plugin_handler->trigger( 'tasks_model_get_tasks', array( $this->db, $params ));

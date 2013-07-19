@@ -95,7 +95,7 @@ class Tasks extends RF_Controller {
             $projects               = $this->_get_user_projects($user_id);           
         }                    
                 
-        $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects);
+        $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
         
