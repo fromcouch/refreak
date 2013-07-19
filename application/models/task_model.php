@@ -53,15 +53,18 @@ class Task_model extends CI_Model {
                 ->order_by('tasks.priority','asc');
         
       
+        $max_status = $this->config->item('rfk_status_levels');
+                
+        
         //if $time_concept == 2 do nothing to show all tasks
         switch ($time_concept) {
             
             case 0:
-                $this->db->having('(status_key = 5 AND DATE(status_date) > CURDATE()) OR status_key < 5');
+                $this->db->having('(status_key = ' . $max_status . ' AND DATE(status_date) > CURDATE()) OR status_key < ' . $max_status . '');
                 break;
 
             case 1:
-                $this->db->having('(DATE(rfk_tasks.deadline_date) <= CURDATE() OR status_key = 5)');
+                $this->db->having('(DATE(rfk_tasks.deadline_date) <= CURDATE() OR status_key = ' . $max_status . ')');
                 break;
             
         }

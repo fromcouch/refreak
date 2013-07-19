@@ -30,7 +30,8 @@
                                                        $this->lang->line('task_edit_private'), 
                                                        $this->lang->line('task_edit_status'), 
                                                        $this->lang->line('task_status'), 
-                                                       $status);
+                                                       $status,
+                                                       $max_status);
                 ?>
         </table>
         <p class="ctr">

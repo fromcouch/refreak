@@ -49,7 +49,9 @@ class Tasks extends RF_Controller {
                     'var tasksmessage_updated    = "' . $this->lang->line('tasksmessage_updated') . "\";\n" .
                     'var tasksmessage_deleted    = "' . $this->lang->line('tasksmessage_deleted') . "\";\n" .
                     'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" .
-                    'var tasksmessage_delete_comment     = "' . $this->lang->line('task_show_delete_comment_confirm') . "\";\n" 
+                    'var tasksmessage_delete_comment     = "' . $this->lang->line('task_show_delete_comment_confirm') . "\";\n" .
+                    'var task_list_close_task    = "' . $this->lang->line('task_list_close_task') . "\";\n" .
+                    'var maximum_status          = ' . $this->config->item('rfk_status_levels') . ";\n" 
                 ;
         
         $this->data                         = $this->plugin_handler->trigger('tasks_post_init', $this->data);
@@ -68,6 +70,9 @@ class Tasks extends RF_Controller {
                                                         'tasks_list', 
                                                         $this->task_model->get_tasks($this->data['actual_user']->id) 
                                        );
+        
+        $this->data['max_status']    = $this->config->item('rfk_status_levels');
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -99,6 +104,7 @@ class Tasks extends RF_Controller {
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
+        $this->data['max_status']   = $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
@@ -117,6 +123,7 @@ class Tasks extends RF_Controller {
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, null, $project_id);
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_project', $this->data['tasks'] );
+        $this->data['max_status']   = $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
@@ -141,6 +148,7 @@ class Tasks extends RF_Controller {
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, null, 0, $projects);
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_user', $this->data['tasks'] );
+        $this->data['max_status']   = $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
@@ -166,7 +174,6 @@ class Tasks extends RF_Controller {
             
             //load layout configuration
             $this->config->load('layout');
-            $this->config->load('refreak');
 
             //inform system don't use layout, don't need for this ajax call
             $this->config->set_item('layout_use', false);
@@ -206,6 +213,7 @@ class Tasks extends RF_Controller {
             }
             
             $this->data['user_p']           = $ups;
+            $this->data['max_status']       = $this->config->item('rfk_status_levels');
             
             $this->data                     = $this->plugin_handler->trigger('tasks_show_edit_task', $this->data );
             
@@ -581,7 +589,7 @@ class Tasks extends RF_Controller {
             
             $this->task_model->set_status($task_id, $status, $this->data['actual_user']->id);
             
-            if ($cd && $status == 5) {
+            if ($cd && $status == $this->config->item('rfk_status_levels')) {
                 $this->task_model->close_task($task_id);
             }
                 

@@ -671,44 +671,48 @@
                 
                 changestatus: function ( obj ) {
                     
-                        var task_id = this._(obj).parents("tr").attr("data-id");
-                        var row = this._(obj).parents("tr");
-                        var status  = 1;
+                            var task_id = this._(obj).parents("tr").attr("data-id");
+                            var row = this._(obj).parents("tr");
+                            var status  = 1;
 
-                        if ( this._(obj).hasClass("status1") ) {
-                            status = 2;                            
-                        } else if( this._(obj).hasClass("status2") ) {
-                            status = 3;                            
-                        } else if( this._(obj).hasClass("status3") ) {
-                            status = 4;                                                        
-                        } else if( this._(obj).hasClass("status4") ) {
-                            status = 5;                            
-                        } 
-                        
-                        for (var st = 0; st<=4; st++) {
-                            $(".status" + st, row).removeClass().addClass("status" + st);
-                            
-                            if (st<status)
-                                $(".status" + st, row).addClass("sts" + ((4-st) + 1));
-                            else
-                                $(".status" + st, row).addClass("sts0");
-                            
-                        }
+                            if ( this._(obj).hasClass("status1") ) {
+                                status = 2;                            
+                            } else if( this._(obj).hasClass("status2") ) {
+                                status = 3;                            
+                            } else if( this._(obj).hasClass("status3") ) {
+                                status = 4;                                                        
+                            } else if( this._(obj).hasClass("status4") ) {
+                                status = 5;                            
+                            } 
 
-                        $.call_ajax({
-                            type:       "POST",
-                            url:        s_url + "/tasks/change_status",
-                            data:       { 
-                                            tid: task_id ,
-                                            status: status
-                                        },
-                            onDone:     function(res) {
+                            if (status < maximum_status || confirm(task_list_close_task)) {
+    
+                                for (var st = 0; st<maximum_status; st++) {
+                                    $(".status" + st, row).removeClass().addClass("status" + st);
 
-                                            if (status === 5)
-                                                row.remove();
+                                    if (st<status)
+                                        $(".status" + st, row).addClass("sts" + ((4-st) + 1));
+                                    else
+                                        $(".status" + st, row).addClass("sts0");
 
-                                        }
-                        });
+                                }
+
+                                $.call_ajax({
+                                    type:       "POST",
+                                    url:        s_url + "/tasks/change_status",
+                                    data:       { 
+                                                    tid: task_id ,
+                                                    status: status
+                                                },
+                                    onDone:     function(res) {
+
+                                                    if (status === maximum_status)
+                                                        row.remove();
+
+                                                }
+                                });
+                                
+                            }
                                             
                 },
                 
