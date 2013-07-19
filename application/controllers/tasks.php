@@ -21,7 +21,6 @@ class Tasks extends RF_Controller {
         
         $this->plugin_handler->trigger('tasks_pre_init');
         
-        $this->lang->load('tasks');
         $this->load->library('form_validation');
         $this->load->model('task_model');        
         $this->load->helper( array('rfk_task', 'decorators/task') );
