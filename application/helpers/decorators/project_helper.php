@@ -102,13 +102,24 @@ class project_helper {
                 $tcol = array();
                 
                 //project name with link
-                $tcol['project_name'] = '
-                        <td>
-                            <a href="' . $edit_url . $table_project->project_id . '">
-                                ' . $table_project->name . '
-                            </a>
-                        </td>
-                ';
+                if ($access) 
+                {
+                    $tcol['project_name'] = '
+                            <td>
+                                <a href="' . $edit_url . $table_project->project_id . '">
+                                    ' . $table_project->name . '
+                                </a>
+                            </td>
+                    ';
+                }
+                else
+                {
+                    $tcol['project_name'] = '
+                            <td>
+                                    ' . $table_project->name . '
+                            </td>
+                    ';
+                }
                 
                 //position
                 $tcol['position'] = '
