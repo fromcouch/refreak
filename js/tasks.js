@@ -465,22 +465,24 @@
             
                         var me = this;
                         
+                        if (confirm(tasksmessage_delete_comment)) {
                         
-                        $.call_ajax({
-                            type:       "POST",
-                            url:        s_url + "/tasks/delete_comment",
-                            data:       { 
-                                            tcid: task_comment_id,
+                            $.call_ajax({
+                                type:       "POST",
+                                url:        s_url + "/tasks/delete_comment",
+                                data:       { 
+                                                tcid: task_comment_id,
+                                                tid: me.options.task_id
+                                            },
+                                async:      false,
+                                onDone:     function(res) {
 
-                                        },
-                            async:      false,
-                            onDone:     function(res) {
+                                                me._get_comm();
+                                                me.tabs(".tab_comm");                                   
 
-                                            me._get_comm();
-                                            me.tabs(".tab_comm");                                   
-
-                                        }                               
-                        });                                                
+                                            }                               
+                            });
+                        }
 
                 },
 

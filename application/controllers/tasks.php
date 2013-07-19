@@ -48,7 +48,8 @@ class Tasks extends RF_Controller {
                     'var tasksmessage_created    = "' . $this->lang->line('tasksmessage_created') . "\";\n" .
                     'var tasksmessage_updated    = "' . $this->lang->line('tasksmessage_updated') . "\";\n" .
                     'var tasksmessage_deleted    = "' . $this->lang->line('tasksmessage_deleted') . "\";\n" .
-                    'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" 
+                    'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" .
+                    'var tasksmessage_delete_comment     = "' . $this->lang->line('task_show_delete_comment_confirm') . "\";\n" 
                 ;
         
         $this->data                         = $this->plugin_handler->trigger('tasks_post_init', $this->data);
