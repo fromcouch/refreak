@@ -147,16 +147,15 @@ class Project_model extends CI_Model
     /**
      * Delete Project
      * 
-     * @todo faltan tareas y relacionados. Seguro usuario???????
+     * @todo faltan tareas y relacionados. 
      * 
      * @param int $project_id Project ID to remove
-     * @param int $user_id User Id to remove
      * @return void
      * @access public
      */
-    public function delete($project_id, $user_id)
+    public function delete($project_id)
     {
-        $this->remove_user_project($user_id, $project_id);
+        $this->remove_user_project(null, $project_id);
         
         $this->db->delete('project_status', 
                 array(                    
@@ -268,10 +267,12 @@ class Project_model extends CI_Model
      */
     public function remove_user_project($user_id, $project_id) {
         
-        $user_data = array(
-                    'user_id'       => $user_id,
-                    'project_id'    => $project_id
-        );
+        
+        $user_data['project_id'] = $project_id;
+        
+        if (!is_null($user_id))
+            $user_data['user_id'] = $user_id;
+        
         
         $user_data = $this->plugin_handler->trigger('projects_model_remove_user_project', $user_data);
         
