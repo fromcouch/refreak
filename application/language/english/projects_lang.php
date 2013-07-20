@@ -24,7 +24,7 @@ $lang['projectstable_members']         = 'Members';
 $lang['projectstable_status']          = 'Status';
 $lang['projectstable_tasks']           = 'Tasks';
 $lang['projectstable_action']          = 'Action';
-$lang['projectstable_confirmdelete']   = 'really delete this user?';
+$lang['projectstable_confirmdelete']   = 'really delete this project?';
 $lang['projectstable_new']             = 'New';
 $lang['projectstable_nofound']         = '- no project found -';
 
