@@ -391,6 +391,9 @@ class Users extends RF_Controller {
     public function delete_user($id) {
         
         if ($this->ion_auth->is_admin() && !empty($id) && $id != false && !is_null($id)) {
+            
+            $this->user_model->remove_users_tasks($id);
+            
             $this->ion_auth->delete_user($id);
             
             $this->plugin_handler->trigger('users_edit_deleted', $id);
