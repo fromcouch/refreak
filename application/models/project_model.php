@@ -157,6 +157,10 @@ class Project_model extends CI_Model
     {
         $this->remove_user_project(null, $project_id);
         
+        $this->delete_task_status_by_project($project_id);
+        
+        $this->delete_tasks_by_project($project_id);
+        
         $this->db->delete('project_status', 
                 array(                    
                     'project_id'    => $project_id
@@ -170,6 +174,34 @@ class Project_model extends CI_Model
         );
         
         $this->plugin_handler->trigger('projects_model_delete'); 
+    }
+
+    /**
+     * Delete task status from project
+     * 
+     * @param int $project_id Project id
+     * @access public
+     * @return void
+     */
+    public function delete_task_status_by_project($project_id) {
+        
+        $sql = 'delete from `rfk_task_status`
+                inner join  `rfk_tasks` on `rfk_tasks`.`task_id` = `rfk_task_status`.`task_id`
+                where `rfk_tasks`.`project_id` = ?';
+
+        $this->db->query($sql, array($project_id));
+        
+    }
+
+    
+    public function delete_tasks_by_project($project_id) {
+        
+        $this->db->delete('tasks', 
+                array(
+                    'project_id'    => $project_id
+                    )
+        );
+        
     }
 
     /**
