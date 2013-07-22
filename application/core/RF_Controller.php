@@ -44,6 +44,7 @@ class RF_Controller extends CI_Controller {
 
         $this->lang->load('layout/header');
         $this->lang->load('general');
+        $this->lang->load('tasks');
         $this->load->model('user_model');
         $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form'));
         

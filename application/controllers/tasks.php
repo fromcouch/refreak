@@ -21,7 +21,6 @@ class Tasks extends RF_Controller {
         
         $this->plugin_handler->trigger('tasks_pre_init');
         
-        $this->lang->load('tasks');
         $this->load->library('form_validation');
         $this->load->model('task_model');        
         $this->load->helper( array('rfk_task', 'decorators/task') );
@@ -49,7 +48,10 @@ class Tasks extends RF_Controller {
                     'var tasksmessage_created    = "' . $this->lang->line('tasksmessage_created') . "\";\n" .
                     'var tasksmessage_updated    = "' . $this->lang->line('tasksmessage_updated') . "\";\n" .
                     'var tasksmessage_deleted    = "' . $this->lang->line('tasksmessage_deleted') . "\";\n" .
-                    'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" 
+                    'var tasksmessage_delete     = "' . $this->lang->line('task_show_delete_confirm') . "\";\n" .
+                    'var tasksmessage_delete_comment     = "' . $this->lang->line('task_show_delete_comment_confirm') . "\";\n" .
+                    'var task_list_close_task    = "' . $this->lang->line('task_list_close_task') . "\";\n" .
+                    'var maximum_status          = ' . $this->config->item('rfk_status_levels') . ";\n" 
                 ;
         
         $this->data                         = $this->plugin_handler->trigger('tasks_post_init', $this->data);
@@ -68,6 +70,9 @@ class Tasks extends RF_Controller {
                                                         'tasks_list', 
                                                         $this->task_model->get_tasks($this->data['actual_user']->id) 
                                        );
+        
+        $this->data['max_status']    = $this->config->item('rfk_status_levels');
+        
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -96,9 +101,10 @@ class Tasks extends RF_Controller {
             $projects               = $this->_get_user_projects($user_id);           
         }                    
                 
-        $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects);
+        $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
+        $this->data['max_status']   = $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
@@ -117,6 +123,7 @@ class Tasks extends RF_Controller {
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, null, $project_id);
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_project', $this->data['tasks'] );
+        $this->data['max_status']   = $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
@@ -141,6 +148,7 @@ class Tasks extends RF_Controller {
         $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, null, 0, $projects);
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_user', $this->data['tasks'] );
+        $this->data['max_status']   = $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
@@ -166,7 +174,6 @@ class Tasks extends RF_Controller {
             
             //load layout configuration
             $this->config->load('layout');
-            $this->config->load('refreak');
 
             //inform system don't use layout, don't need for this ajax call
             $this->config->set_item('layout_use', false);
@@ -206,6 +213,7 @@ class Tasks extends RF_Controller {
             }
             
             $this->data['user_p']           = $ups;
+            $this->data['max_status']       = $this->config->item('rfk_status_levels');
             
             $this->data                     = $this->plugin_handler->trigger('tasks_show_edit_task', $this->data );
             
@@ -364,8 +372,13 @@ class Tasks extends RF_Controller {
             $context_letter                 = substr($context[$task[0]['context']], 0, 1);
             $visibility                     = $this->lang->line('task_visibility');
             $user_id                        = $task[0]['user_id'];
-            $user                           = $this->data['users'][$this->extract_user_id((int)$user_id)];
-            $username                       = $user->first_name . ' ' . $user->last_name;
+            $username                       = ' - ';
+            
+            if ($user_id > 0) {
+                $user                           = $this->data['users'][$this->extract_user_id((int)$user_id)];
+                $username                       = $user->first_name . ' ' . $user->last_name;
+            }
+            
             $status                         = $this->lang->line('task_status');
             
             $this->data['tf']               = $task[0];
@@ -581,7 +594,7 @@ class Tasks extends RF_Controller {
             
             $this->task_model->set_status($task_id, $status, $this->data['actual_user']->id);
             
-            if ($cd && $status == 5) {
+            if ($cd && $status == $this->config->item('rfk_status_levels')) {
                 $this->task_model->close_task($task_id);
             }
                 
@@ -646,9 +659,9 @@ class Tasks extends RF_Controller {
                 
         $this->load->model('task_model');
         
-        if ($this->task_model->get_user_position((int)$task_id, $user_id) >= $level ||         
+        if ($this->task_model->get_user_position((int)$task_id, $actual_user_id) >= $level ||         
              $this->ion_auth->in_group(array(1,2)) ||
-             $this->task_model->is_owner((int)$task_id, (int)$user_id))
+             $this->task_model->is_owner((int)$task_id, (int)$actual_user_id))
                 return true;
         else 
                 return false;

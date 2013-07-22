@@ -44,7 +44,7 @@ class user_helper {
      * @access public
      * @static
      */    
-    public static function table_user_head_fields($user, $level, $lastlogin, $access, $create_url, $url_theme, $new) {
+    public static function table_user_head_fields($user, $level, $lastlogin, $access, $create_url, $url_theme, $new, $action) {
         
         $btn_new = '';
         
@@ -196,11 +196,12 @@ class user_helper {
      * @param string $createdonby_text
      * @param string $name_text
      * @param string $level_text
+     * @param string $disabled_text
      * @return string html upper part of detail user
      * @access public
      * @static
      */
-    public static function detail_user_personal_info($user, $groups, $user_group, $author, $url_theme, $edit_url, $access, $actual_user_id, $personalinfo_text, $createdon_text, $createdonby_text, $name_text, $level_text) {
+    public static function detail_user_personal_info($user, $groups, $user_group, $author, $url_theme, $edit_url, $access, $actual_user_id, $personalinfo_text, $createdon_text, $createdonby_text, $name_text, $level_text, $disabled_text) {
         
         //upper edit button
         $edit_button = '';
@@ -417,12 +418,13 @@ class user_helper {
      * @param array $groups
      * @param integer $user_id
      * @param string $groups_show
+     * @param string $user_group_id
      * @param string $account_text
      * @return string Account HTML part
      * @access public
      * @static
      */        
-    public static function edit_user_account($username_text, $username, $passwordchanging, $password, $confirmpasschanging, $password_confirm, $access, $active_user, $enabled_text, $groups, $user_id, $groups_show, $account_text ) {
+    public static function edit_user_account($username_text, $username, $passwordchanging, $password, $confirmpasschanging, $password_confirm, $access, $active_user, $enabled_text, $groups, $user_id, $groups_show, $user_group_id, $account_text ) {
         
         $part = array();
         
@@ -455,7 +457,7 @@ class user_helper {
                 <p>
                         ' . form_checkbox($active_user) . '
                         <span>' . $enabled_text . '</span>
-                        ' . form_dropdown('group', $groups, $user_id, 'class="group"' . $groups_show) . '
+                        ' . form_dropdown('group', $groups, $user_group_id, 'class="group"' . $groups_show) . '
                 </p>
             ';
             

@@ -27,10 +27,12 @@ class Task_model extends CI_Model {
      * @param int $user_id user to see tasks
      * @param int $project_id project id
      * @param int $time_concept 0 = future tasks , 1 = past tasks , 2 all tasks
+     * @param int $projects projects array
+     * @param int $context_id context identificator for tasks
      * @return array of objects with tasks
      * @access public
      */
-    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array()) {
+    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array(), $context_id = null) {
         
         $this->db
                 ->select('tasks.*, COUNT(DISTINCT rfk_task_comment.post_date) comment_count,
@@ -41,24 +43,28 @@ class Task_model extends CI_Model {
                         user_project.position', false)
                 ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
                 ->join('projects', 'tasks.project_id = projects.project_id', 'left' )
-                ->join('user_project', 'user_project.project_id = tasks.project_id AND rfk_user_project.user_id = ' . $actual_user_id, 'left')
+                ->join('user_project', 'user_project.project_id = tasks.project_id', 'left')
                 ->join('users', 'users.id = tasks.user_id', 'left')
                 ->join('task_comment', 'tasks.task_id = task_comment.task_id', 'left')                
                 ->where('(rfk_tasks.private = 0 OR rfk_tasks.private = 1 OR (rfk_tasks.private = 2 AND (rfk_tasks.user_id=' . $actual_user_id . ' OR rfk_tasks.author_id = ' . $actual_user_id . ')))')
+                ->where('user_project.user_id', $actual_user_id)
                 ->group_by('tasks.task_id')                
                 ->order_by('tasks.deadline_date','asc')
                 ->order_by('tasks.priority','asc');
         
       
+        $max_status = $this->config->item('rfk_status_levels');
+                
+        
         //if $time_concept == 2 do nothing to show all tasks
         switch ($time_concept) {
             
             case 0:
-                $this->db->having('(status_key = 5 AND DATE(status_date) > CURDATE()) OR status_key < 5');
+                $this->db->having('(status_key = ' . $max_status . ' AND DATE(status_date) > CURDATE()) OR status_key < ' . $max_status . '');
                 break;
 
             case 1:
-                $this->db->having('(DATE(rfk_tasks.deadline_date) <= CURDATE() OR status_key = 5)');
+                $this->db->having('(DATE(rfk_tasks.deadline_date) <= CURDATE() OR status_key = ' . $max_status . ')');
                 break;
             
         }
@@ -80,8 +86,14 @@ class Task_model extends CI_Model {
             
         }
         
+        if (!is_null($context_id)) {
+            
+            $this->db->where('tasks.context', $context_id);
+            
+        }
+        
         $params                     = array(
-                                       $actual_user_id, $user_id, $project_id, $time_concept, $projects 
+                                       $actual_user_id, $user_id, $project_id, $time_concept, $projects, $context_id
                                     );
         
         $data                       = $this->plugin_handler->trigger( 'tasks_model_get_tasks', array( $this->db, $params ));

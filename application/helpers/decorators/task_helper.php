@@ -42,11 +42,12 @@ class task_helper {
      * @param string $new alternate text for new button image
      * @param bool $access permission to show new task button
      * @param string $url url for image
+     * @param int $max_status max status number
      * @return string return columns for task table header
      * @access public
      * @static
      */
-    public static function table_task_head_fields($project, $title, $user, $deadline, $comments, $status, $new, $access, $url) {
+    public static function table_task_head_fields($project, $title, $user, $deadline, $comments, $status, $new, $access, $url, $max_status) {
         
         $btn_new = '';
         
@@ -58,6 +59,10 @@ class task_helper {
                                 </a>';
         }
         
+        if ($max_status === 1) {
+            $status = 'X';
+        }
+        
         $tfields = array(
             '<th width="2%">&nbsp;</th>',
             '<th width="2%">&nbsp;</th>',
@@ -66,7 +71,7 @@ class task_helper {
             '<th width="10%">' . $user . '</th>',
             '<th width="10%">' . $deadline . '</th>',
             '<th width="5%">' . $comments . '</th>',
-            '<th width="10%" colspan="5">' . $status . '</th>',
+            '<th width="' . $max_status * 2 . '%" colspan="' . $max_status . '">' . $status . '</th>',
             '<th width="5%" class="act">' . $btn_new . '</th>'
         );
         
@@ -83,11 +88,13 @@ class task_helper {
      * @param array $tasks Task arrays
      * @param string $theme_url Theme url
      * @param bool $access permisions
+     * @param int $actual_user_id user id
+     * @param int $max_status max possible status
      * @return string task rows
      * @access public
      * @static
      */
-    public static function table_task_body_fields($context, $tasks, $theme_url, $access, $actual_user_id) {
+    public static function table_task_body_fields($context, $tasks, $theme_url, $access, $actual_user_id, $max_status) {
         
         foreach ($tasks as $tf) {
                 
@@ -135,7 +142,8 @@ class task_helper {
                 $tcol ['title']= '<td>' . $title . '</td>';
 
                 // first name
-                $tcol ['first_name']= '<td>' . $tf->first_name . '</td>';
+                $uname = $tf->user_id > 0 ? $tf->first_name : '-';
+                $tcol ['first_name']= '<td>' . $uname . '</td>';
                 
                 //deadline
                 $tcol ['deadline']= '<td>' . rfk_task_helper::calculate_deadline($tf->deadline_date, $tf->status_key) . '</td>';
@@ -154,7 +162,7 @@ class task_helper {
                 
                 //status
                 $stats = '';
-                for ($cont = 0; $cont < 5; $cont++) { 
+                for ($cont = 0; $cont < $max_status; $cont++) { 
                     
                     $sts = ($cont < $tf->status_key) ? (5 - $cont) : 0; 
                     $status_class = 'sts'.$sts;
@@ -224,7 +232,7 @@ class task_helper {
                            
         if ($access) {
                    
-                $tnotask  = '<p align="center">
+                $tnotask  .= '<p align="center">
                                         <a href="#" class="btn_task_new">
                                             <img src="' . $url . '/images/b_new.png" width="39" height="16" border="0" hspace="3" 
                                                 alt="' . $new . '" />
@@ -232,7 +240,7 @@ class task_helper {
                                     </p>';
         }
           
-        $tnotask = '        <p>&nbsp;</p>
+        $tnotask .= '        <p>&nbsp;</p>
                             <p>&nbsp;</p>
                         </td>
                     </tr>';
@@ -251,11 +259,12 @@ class task_helper {
      * @param string $delete Delete text
      * @param integer $position User task position
      * @param string $url_theme Theme Url
+     * @param bool $access 
      * @return string Buttons rendered
      * @access public
      * @static
      */
-    public static function show_buttons($close, $edit, $delete, $position, $url_theme) {
+    public static function show_buttons($close, $edit, $delete, $position, $url_theme, $access) {
         
         $buttons = '    
                 <div class="task_show_menu">
@@ -266,7 +275,7 @@ class task_helper {
                        </a>
                    </div> ';
         
-        if ($position > 3) {
+        if ($position > 3 || $access) {
             
                 $buttons .= ' <div class="task_show_edit">
                                     <a href="#">' . $edit . '
@@ -571,8 +580,23 @@ class task_helper {
         return $tr;
     }
     
-    
-    public static function edit_user_status($edit_user_text, $actual_user_id, $private, $edit_public_text, $edit_internal_text, $edit_private_text, $edit_status_text, $status_list, $status) {
+    /**
+     * 
+     * @param string $edit_user_text
+     * @param string $user_id
+     * @param string $private
+     * @param string $edit_public_text
+     * @param string $edit_internal_text
+     * @param string $edit_private_text
+     * @param string $edit_status_text
+     * @param array $status_list
+     * @param string $status
+     * @param type $max_status
+     * @return string 
+     * @static
+     * @access public
+     */
+    public static function edit_user_status($edit_user_text, $user_id, $private, $edit_public_text, $edit_internal_text, $edit_private_text, $edit_status_text, $status_list, $status, $max_status) {
         
         $tr = array();
         
@@ -580,7 +604,7 @@ class task_helper {
                 <tr>
                         <th>' . $edit_user_text . ':</th>
                         <td colspan="3">
-                                ' . form_dropdown_users('task_users','-',$actual_user_id,'task_users') . '
+                                ' . form_dropdown_users('task_users','-',$user_id,'task_users') . '
                                 <span>
                                     ' . form_radio('showPrivate', '0', (int)$private === 0 ? true : false) . '
                                     <label>' . $edit_public_text . '</label>
@@ -596,6 +620,12 @@ class task_helper {
                         </td>
                 </tr>
         ';
+        
+        if ($max_status < 5) {
+            for($x=$max_status + 1; $x<=5;$x++) {
+                unset($status_list[$x]);
+            }
+        }
         
         $tr []= '
                 <tr>

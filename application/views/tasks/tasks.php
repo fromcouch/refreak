@@ -13,7 +13,8 @@
                                                                    $this->lang->line('task_list_status'), 
                                                                    $this->lang->line('task_list_new'), 
                                                                    $this->ion_auth->in_group(array(1,2)),
-                                                                   base_url() . $theme); ?>
+                                                                   base_url() . $theme,
+                                                                   $max_status); ?>
                     
                 </tr>
             </thead>
@@ -25,7 +26,8 @@
                                                                  $tasks, 
                                                                  base_url() . $theme, 
                                                                  $this->ion_auth->in_group(array(1,2)),
-                                                                 $actual_user->id);
+                                                                 $actual_user->id,
+                                                                 $max_status);
                         
                         
                     else : 

@@ -101,6 +101,21 @@ class User_model extends CI_Model {
         
     }
     
+    /**
+     * When you delete user, reasing tasks to no one
+     * 
+     * @param int $user_id User id
+     * @access public
+     */
+    public function remove_users_tasks($user_id) {
+        
+        $this->db->update('tasks', 
+                array('user_id' => 0),
+                array('user_id' => $user_id)
+        );
+        
+    }
+    
 }
 
 /* End of file user_model.php */

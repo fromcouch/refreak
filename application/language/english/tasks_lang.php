@@ -46,6 +46,7 @@ $lang['task_list_status']               = 'Status';
 $lang['task_list_new']                  = 'New Task';
 $lang['task_list_no_task']              = 'no task match your criterions';
 $lang['task_list_create_task']          = 'Click here to make an attempt to create one';
+$lang['task_list_close_task']           = 'Really close this task?';
 
 //messages
 $lang['tasksmessage_created']                = 'task created!';
@@ -71,6 +72,7 @@ $lang['task_show_tab_history']          = 'history';
 $lang['task_show_tab_save']             = 'save';
 $lang['task_show_tab_cancel']           = 'cancel';
 $lang['task_show_status']               = 'status';
+$lang['task_show_delete_comment_confirm']       = 'Really delete this comment?';
 
 
 /*

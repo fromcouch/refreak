@@ -87,12 +87,20 @@ $config['rfk_task_visibility'] = 1;
 |  Update deadline on complete task
 |  
 |  
-|  posible values:  0 - public
-|                   1 - internal (default)
-|                   2 - private
+|  posible values:  TRUE, FALSE
 | -------------------------------------------------------------------
 */
 $config['rfk_complete_deadline'] = TRUE;
+
+/*
+| -------------------------------------------------------------------
+|  Status levels
+|  
+|  
+|  posible values:  1 to 5
+| -------------------------------------------------------------------
+*/
+$config['rfk_status_levels'] = 5;
 
 /* End of file refreak.php */
 /* Location: ./application/config/refreak.php */

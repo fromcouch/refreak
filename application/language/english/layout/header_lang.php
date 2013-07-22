@@ -37,18 +37,5 @@ $lang['menu_config_plugin']         = 'Plugin';
 $lang['combo_context_all_contexts'] = 'All contexts';
 
 
-// contexts
-$lang['task_context']                   = array(
-                                                1       => 'Work',
-                                                2       => 'Meeting',
-                                                3       => 'Document',
-                                                4       => 'Internet',	
-                                                5       => 'Phone',
-                                                6       => 'Email',
-                                                7       => 'Home',
-                                                8       => 'Other'
-);
-
-
 //footer
 $lang['footer_install_dir']         = 'Warning, Install folder still exists, you should delete it for security purposes.';
