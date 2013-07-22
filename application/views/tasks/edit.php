@@ -23,7 +23,7 @@
                                                       $description);
                     
                     echo task_helper::edit_user_status($this->lang->line('task_edit_user'), 
-                                                       $actual_user->id, 
+                                                       $user_id, 
                                                        $private, 
                                                        $this->lang->line('task_edit_public'), 
                                                        $this->lang->line('task_edit_internal'), 

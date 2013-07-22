@@ -4,7 +4,8 @@
                                              $this->lang->line('task_show_edit'), 
                                              $this->lang->line('task_show_delete'), 
                                              $tf['position'],
-                                             base_url() . $theme); 
+                                             base_url() . $theme,
+                                             $this->ion_auth->in_group(array(1,2))); 
 
         echo task_helper::show_task_info($tf, 
                                          $this->lang->line('task_show_priority'), 

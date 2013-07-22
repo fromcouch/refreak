@@ -372,8 +372,13 @@ class Tasks extends RF_Controller {
             $context_letter                 = substr($context[$task[0]['context']], 0, 1);
             $visibility                     = $this->lang->line('task_visibility');
             $user_id                        = $task[0]['user_id'];
-            $user                           = $this->data['users'][$this->extract_user_id((int)$user_id)];
-            $username                       = $user->first_name . ' ' . $user->last_name;
+            $username                       = ' - ';
+            
+            if ($user_id > 0) {
+                $user                           = $this->data['users'][$this->extract_user_id((int)$user_id)];
+                $username                       = $user->first_name . ' ' . $user->last_name;
+            }
+            
             $status                         = $this->lang->line('task_status');
             
             $this->data['tf']               = $task[0];

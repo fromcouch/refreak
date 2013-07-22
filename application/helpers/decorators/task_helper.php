@@ -142,7 +142,8 @@ class task_helper {
                 $tcol ['title']= '<td>' . $title . '</td>';
 
                 // first name
-                $tcol ['first_name']= '<td>' . $tf->first_name . '</td>';
+                $uname = $tf->user_id > 0 ? $tf->first_name : '-';
+                $tcol ['first_name']= '<td>' . $uname . '</td>';
                 
                 //deadline
                 $tcol ['deadline']= '<td>' . rfk_task_helper::calculate_deadline($tf->deadline_date, $tf->status_key) . '</td>';
@@ -258,11 +259,12 @@ class task_helper {
      * @param string $delete Delete text
      * @param integer $position User task position
      * @param string $url_theme Theme Url
+     * @param bool $access 
      * @return string Buttons rendered
      * @access public
      * @static
      */
-    public static function show_buttons($close, $edit, $delete, $position, $url_theme) {
+    public static function show_buttons($close, $edit, $delete, $position, $url_theme, $access) {
         
         $buttons = '    
                 <div class="task_show_menu">
@@ -273,7 +275,7 @@ class task_helper {
                        </a>
                    </div> ';
         
-        if ($position > 3) {
+        if ($position > 3 || $access) {
             
                 $buttons .= ' <div class="task_show_edit">
                                     <a href="#">' . $edit . '
@@ -581,7 +583,7 @@ class task_helper {
     /**
      * 
      * @param string $edit_user_text
-     * @param string $actual_user_id
+     * @param string $user_id
      * @param string $private
      * @param string $edit_public_text
      * @param string $edit_internal_text
@@ -594,7 +596,7 @@ class task_helper {
      * @static
      * @access public
      */
-    public static function edit_user_status($edit_user_text, $actual_user_id, $private, $edit_public_text, $edit_internal_text, $edit_private_text, $edit_status_text, $status_list, $status, $max_status) {
+    public static function edit_user_status($edit_user_text, $user_id, $private, $edit_public_text, $edit_internal_text, $edit_private_text, $edit_status_text, $status_list, $status, $max_status) {
         
         $tr = array();
         
@@ -602,7 +604,7 @@ class task_helper {
                 <tr>
                         <th>' . $edit_user_text . ':</th>
                         <td colspan="3">
-                                ' . form_dropdown_users('task_users','-',$actual_user_id,'task_users') . '
+                                ' . form_dropdown_users('task_users','-',$user_id,'task_users') . '
                                 <span>
                                     ' . form_radio('showPrivate', '0', (int)$private === 0 ? true : false) . '
                                     <label>' . $edit_public_text . '</label>
