@@ -186,7 +186,7 @@ class Project_model extends CI_Model
     public function delete_task_status_by_project($project_id) {
 
         
-        $sql = 'delete rfk_task_status.* from `rfk_task_status`
+        $sql = 'delete from `rfk_task_status`
                 inner join  `rfk_tasks` on `rfk_tasks`.`task_id` = `rfk_task_status`.`task_id`
                 where `rfk_tasks`.`project_id` = ?';
 
