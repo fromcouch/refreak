@@ -46,7 +46,7 @@ class RF_Controller extends CI_Controller {
         $this->lang->load('general');
         $this->lang->load('tasks');
         $this->load->model('user_model');
-        $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form'));
+        $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form', 'decorators/layout'));
         
         $params                             = $this->_detect_user_project();
         $actual_user                        = $this->plugin_handler->trigger('base_user_loaded', $this->ion_auth->user()->row());

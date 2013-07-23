@@ -17,15 +17,14 @@
 <body>
     <header class="head">
         <header class="header">
-            <div class="userlogout">
-                <a href="<?php echo site_url();?>auth/logout" title="<?php echo $this->lang->line('header_logout'); ?>">
-                    <img class="header-logout" src="<?php echo base_url() . $theme;?>/images/logout-off.png" width="13" height="13" border="0" onmouseover="this.src='<?php echo base_url() . $theme;?>/images/logout-on.png'" onmouseout="this.src='<?php echo base_url() . $theme;?>/images/logout-off.png'" />
-                </a>
-            </div>
-            <div class="user">
-                <div class="username"><a href="<?php echo site_url();?>users/edit_user/<?php echo $actual_user->id; ?>"><?php echo $actual_user->first_name.' '.$actual_user->last_name; ?></a></div>
-                <div class="userdate"><?php echo actual_text_date(); ?></div>
-            </div>
+            
+            <?php 
+                  echo layout_helper::header(site_url() . 'auth/logout',
+                                             $this->lang->line('header_logout'), 
+                                             base_url() . $theme, 
+                                             site_url() . 'users/edit_user/',
+                                             $actual_user);
+            ?>                        
             <div>
                 <a href="<?php echo site_url();?>"><img width="166" height="30" border="0" alt="Refreak" src="<?php echo base_url() . $theme;?>/images/logo.png"></a>
             </div>
