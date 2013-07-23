@@ -81,6 +81,7 @@ EVENTS
     + base_create_right_menu:   create array with right menu items. (always)
     + base_set_js_vars:         Set base javascript variables and messages. (always)
     + base_post_init:           last event fired after init base Refreak system. (always)
+    + layout_view_header:       Render header part. (always)
 
 + Projects 
     + projects_pre_init:                    first event fired before init project Refreak controller. (projects)
