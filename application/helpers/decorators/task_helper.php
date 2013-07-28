@@ -434,7 +434,7 @@ class task_helper {
                                                     <input type="button" name="veditcancel" class="veditcancel" value="' . $cancel_text . '">
                                             </div>
                                     </div>
-                                    <div class="vmore tab_description_content">' . $description . '</div>
+                                    <div class="vmore tab_description_content">' . nl2br($description, TRUE) . '</div>
                                     <div class="vmore tab_comments_content"></div>
                                     <div class="vmore tab_history_content"></div>
                                 </div>
