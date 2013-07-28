@@ -69,13 +69,13 @@
                                         $(this).val() + "/";
                 document.location = local_url;                    
             });
-            
+            <?php if($this->ion_auth->in_group(array(1,2))) : ?>
             $(".menu_new_task").on('click', function( event ) {
                 
                 $(".task_panel").newTask({ task_id: 0 });
                 
             });
-            
+            <?php endif; ?>
         })(jQuery);
     </script>
 </body>

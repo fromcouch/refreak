@@ -149,10 +149,15 @@ class RF_Controller extends CI_Controller {
             ); 
         }
             
+        $tasks_menu         = '';
+        
+        if ($this->ion_auth->in_group(array(1,2))) {
+            $tasks_menu         = anchor('#', $this->lang->line('menu_tasks_new'), array('class' => 'menu_new_task'));
+        }
         
         $menu               = array(
                                 anchor('#', $this->lang->line('menu_tasks'))    => array(
-                                                            anchor('#', $this->lang->line('menu_tasks_new'), array('class' => 'menu_new_task'))
+                                                                        $tasks_menu
                                                                     ),
                                 anchor('#', $this->lang->line('menu_view'))     => $view_menu,
                                 
