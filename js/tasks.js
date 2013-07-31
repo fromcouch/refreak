@@ -549,7 +549,7 @@
                 destroy: function() {
                         this.close();
                 }
-         }
+         };
  
          task_list.prototype = {
              
