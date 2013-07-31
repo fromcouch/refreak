@@ -314,6 +314,7 @@
                 _get_comm: function() {
             
                         var me = this;
+                        var comment_count = 0;
                         this._(".tab_comments_content").empty();
 
                         $.call_ajax({
@@ -322,7 +323,7 @@
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
-                                            
+                                            comment_count = res.comments.length;
                                             if (res.comments.length > 0) {
 
                                                     var $comms = me._(".tab_comments_content");
@@ -356,7 +357,8 @@
                                         }
                                 
                         });
-           
+                        
+                        return comment_count;
                 },
                                 
                 _get_hist: function() {
@@ -477,7 +479,9 @@
                                 async:      false,
                                 onDone:     function(res) {
 
-                                                me._get_comm();
+                                                me._update_comment_count( 
+                                                            me._get_comm() 
+                                                );
                                                 me.tabs(".tab_comm");                                   
 
                                             }                               
@@ -491,7 +495,7 @@
                         var me = this;
                         var comment_id = this._(".veditid").val();
                         var comment = this._(".veditbody").val();                                               
-
+                        
                         $.call_ajax({
                                 type:       "POST",
                                 url:        s_url + "/tasks/save_comment",
@@ -504,7 +508,9 @@
                                 onDone:     function (res) {
                                                     me._(".veditbody").val("");
                                                     me._(".veditid").val("0");
-                                                    me._get_comm();
+                                                    me._update_comment_count( 
+                                                            me._get_comm() 
+                                                    );
                                                     me.tabs(".tab_comm");
                                             }
                         });
@@ -512,6 +518,14 @@
                         
                 },
 
+                _update_comment_count: function (comment_count) {
+                        
+                        $row = $("tr[data-id='" + this.options.task_id + "']");
+                        $cc = $row.find(".comment_count");
+                        $cc.html(comment_count);
+                        
+                },
+                        
                 close: function() {
                         
                         this._(".task_show_close").off('click');
