@@ -166,9 +166,6 @@ class Task_model extends CI_Model {
             // Create new project
             $this->load->model('project_model');
             $project_id         = $this->project_model->save($project_name, $author_id);
-            
-            // assing position to Official to user
-            $this->project_model->set_user_project($user_id, $project_id, 2);
         }
         
         /**
