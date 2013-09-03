@@ -270,11 +270,12 @@ class user_helper {
      * @param string $projects_text
      * @param string $listposition_text
      * @param string $project_edit_url
+     * @param bool $access user can see edit project link
      * @return string Project lis for user in HTML
      * @static
      * @access public
      */
-    public static function detail_user_projects($user_projects, $position, $listproject, $projects_text, $listposition_text, $project_edit_url) {
+    public static function detail_user_projects($user_projects, $position, $listproject, $projects_text, $listposition_text, $project_edit_url, $access) {
         
         $fieldset = form_fieldset($projects_text);
         
@@ -290,11 +291,18 @@ class user_helper {
             
             $fieldset .= '
                         <tr>
-                            <td>
-                                <a href="' . $project_edit_url . $prj->project_id . '">
+                            <td> ';
+            
+            if ($access) {
+                    $fieldset .= '        <a href="' . $project_edit_url . $prj->project_id . '">
                                     ' . $prj->name . '
-                                </a>
-                            </td>
+                                </a>';
+            }
+            else {
+                    $fieldset .= $prj->name;
+            }
+
+            $fieldset .= '      </td>
                             <td>
                                 ' . $position[$prj->position] . '</td>
                         </tr>

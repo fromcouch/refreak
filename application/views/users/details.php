@@ -23,7 +23,8 @@
                                                     $this->lang->line('usersdetails_listproject'), 
                                                     $this->lang->line('usersdetails_projects'), 
                                                     $this->lang->line('usersdetails_listposition'), 
-                                                    site_url() . 'projects/edit/');
+                                                    site_url() . 'projects/edit/',
+                                                    $this->ion_auth->is_admin());
                                             
             echo form_close(); 
             ?>

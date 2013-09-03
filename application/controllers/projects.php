@@ -116,6 +116,7 @@ class Projects extends RF_Controller {
      * 
      * @param int $id project id
      * @todo status history
+     * @todo look for user permisions. Actual user can edit?
      * @return void 
      * @access public
      */
@@ -165,7 +166,13 @@ class Projects extends RF_Controller {
             
             //search permisions for user in project
             $user_position      = $this->project_model->get_user_position($id, $this->data['actual_user']->id);
-            $this->data['actual_user']->project_position = $user_position[0]->position;                        
+            
+            if (count($user_position) > 0)
+                    $position       = $user_position[0]->position;
+            else
+                    $position       = 0;
+            
+            $this->data['actual_user']->project_position = $position;
             
             //display the create project form
             $this->data['name'] = array(
