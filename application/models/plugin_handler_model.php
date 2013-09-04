@@ -110,10 +110,32 @@ class plugin_handler_model extends CI_Model  {
      * Uninstall orfan plugin
      * 
      * @param integer $id plugin id
+     * @access public
      */
     public function uninstall($id) {
         
         $this->db->delete('plugins', array( 'id' => $id ));
+        
+    }
+    
+    /**
+     * Get a single plugin
+     * 
+     * @param int $id plugin id
+     * @return object plugin
+     * @access public
+     */
+    public function get_plugin($id) {
+        
+        $this->db
+                ->select('plugins.id, plugins.name, plugins.directory, plugins.active, c.controller_name')
+                ->join('plugin_controller pc', 'pc.plugin_id = plugins.id', 'left')
+                ->join('controllers c', 'pc.controller_id = c.id', 'left')
+                ->where('plugins.id', $id);
+        
+        return $this->db
+                ->get('plugins')
+                ->result_object();
         
     }
     
