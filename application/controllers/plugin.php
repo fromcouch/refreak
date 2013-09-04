@@ -119,7 +119,11 @@ class Plugin extends RF_Controller {
     public function config($id) {
         
         $this->load->model('plugin_handler_model');
-        $plugins                = $this->plugin_handler_model->get_plugin($id);
+        $plugin                 = $this->plugin_handler_model->get_plugin($id);
+        
+        $this->data['plg']      = $plugin;
+        
+        $this->load->view('plugin/config', $this->data);
         
     }
 }
