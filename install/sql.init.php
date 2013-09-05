@@ -471,3 +471,13 @@ $sql_create_plugins_controllers = "
     
 $sql_insert_plugins_controllers = "";
 
+$sql_create_plugin_data = "
+    CREATE TABLE IF NOT EXISTS `{$pre}plugin_data` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `plugin_id` int(11) NOT NULL,
+      `data` text CHARACTER SET utf8 NOT NULL,
+      PRIMARY KEY (`id`)
+    ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+";
+    
+$sql_insert_plugin_data = "";
