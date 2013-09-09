@@ -33,3 +33,4 @@ $lang['pluginsmessage_noway']		    = "You don't have permission to do that.";
 $lang['pluginsmessage_notinstalled']	    = "Plugin not Installed";
 $lang['pluginsmessage_notexist']	    = "Plugin not Exist";
 $lang['pluginsmessage_uninstalled']	    = "Plugin Uninstalled";
+$lang['pluginsmessage_installed']	    = "Plugin Installed";
