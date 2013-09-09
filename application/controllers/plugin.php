@@ -49,16 +49,16 @@ class Plugin extends RF_Controller {
         $copied_plugins         = array_diff($copied_plugins, array('..', '.')); //remove . and ..
                 
         foreach ($copied_plugins as $cp) {
-	    $found = false;	    
+	    $found = FALSE;	    
 	    
             //search inside plugin oxject array
 	    foreach ($plugins as $plg) {
 		if ($plg->directory == $cp) {
-		    $found == true;
+		    $found = TRUE;
 		    break;		
 		}
 	    }
-
+	    
 	    if (!$found) {
 		$p		    = new stdClass();
 		$p->name	    = $cp;
@@ -179,12 +179,12 @@ class Plugin extends RF_Controller {
 	    
             $this->plugin_handler_model->deactivate($id);
             $this->plugin_handler_model->uninstall($id);
-
-	    if (is_object($plugin) && !empty($plugin->directory) &&
-		    is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
+	   
+	    if (is_object($plugin[0]) && !empty($plugin[0]->directory) &&
+		    is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin[0]->directory)) {
 		
 		$this->load->helper('file');
-		delete_files(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory, TRUE);
+		delete_files(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin[0]->directory, TRUE);
 	    }
 	    
 	    $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_uninstalled'));
