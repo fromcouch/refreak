@@ -114,6 +114,7 @@ class plugin_handler_model extends CI_Model  {
      */
     public function uninstall($id) {
         
+        $this->db->delete('plugin_controller', array( 'plugin_id' => $id ));
         $this->db->delete('plugins', array( 'id' => $id ));
         
     }
