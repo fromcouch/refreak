@@ -34,7 +34,47 @@ class Plugin extends RF_Controller {
     
         $this->load->model('plugin_handler_model');
         
-        $this->data['plugins']      = $this->plugin_handler_model->get_plugin_list();
+        $plugins		    = $this->plugin_handler_model->get_plugin_list();
+	
+	foreach ($plugins as $plg) {
+	    $plg->dir_exists = 1;
+	    if (!is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plg->directory)) {
+		//means plugin don't exist
+		$plg->dir_exists = 0;
+	    }
+	    $plg->installed = 1;
+	}
+	
+	$copied_plugins         = scandir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR);
+        $copied_plugins         = array_diff($copied_plugins, array('..', '.')); //remove . and ..
+                
+        foreach ($copied_plugins as $cp) {
+	    $found = false;	    
+	    
+            //search inside plugin oxject array
+	    foreach ($plugins as $plg) {
+		if ($plg->directory == $cp) {
+		    $found == true;
+		    break;		
+		}
+	    }
+
+	    if (!$found) {
+		$p		    = new stdClass();
+		$p->name	    = $cp;
+		$p->id		    = 0;
+		$p->directory	    = $cp;
+		$p->active	    = 0;
+		$p->controller_name = '';
+		$p->dir_exists	    = 1;
+		$p->installed	    = 0;
+		
+		$plugins	  []= $p;
+	    }
+	    
+        }
+	
+        $this->data['plugins']      = $plugins;
         
         $this->load->view('plugin/plugin', $this->data);
         
@@ -112,8 +152,11 @@ class Plugin extends RF_Controller {
             
             //then match $fisical_plugins with $plugins and install not matched plugins
         }
-            
+         
+	echo '<pre>';
         print_r($plugins);
+        print_r($copied_plugins);
+        print_r($fisical_plugins);
     }
     
     public function config($id) {
