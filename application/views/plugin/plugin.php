@@ -5,7 +5,7 @@
         <thead>            
             <tr align="left">
                 <th width="25%"><?php echo $this->lang->line('pluginstable_name'); ?></th>                
-                <th width="40%"><?php echo $this->lang->line('pluginstable_directory'); ?></th>
+                <th width="37%"><?php echo $this->lang->line('pluginstable_directory'); ?></th>
                 <th width="15%"><?php echo $this->lang->line('pluginstable_section'); ?></th>
                 <th width="15%"><?php echo $this->lang->line('pluginstable_observations'); ?></th>		
                 <th width="10%" style="text-align:center">
@@ -59,6 +59,11 @@
                             <a href="<?php echo site_url();?>plugin/delete/<?php echo $table_plugin->id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" border="0" /></a>
                         <?php else : ?>
                             <img src="<?php echo base_url() . $theme;?>/images/b_deln.png" width="20" height="16" border="0" />
+                        <?php endif;
+			
+			if ($this->ion_auth->is_admin() && !$table_plugin->installed) :                                                    
+                        ?>
+                            <a href="<?php echo site_url();?>plugin/install/<?php echo $table_plugin->directory;?>"><img src="<?php echo base_url() . $theme;?>/images/raz.png" width="20" height="16" border="0" /></a>                        
                         <?php endif; ?>
                             
                 </td>
