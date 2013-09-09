@@ -169,4 +169,30 @@ class Plugin extends RF_Controller {
         $this->load->view('plugin/config', $this->data);
         
     }
+    
+    public function delete($id) {
+	
+	if ($this->ion_auth->is_admin()) {
+            $this->load->model('plugin_handler_model');
+            
+	    $plugin		= $this->plugin_handler_model->get_plugin($id);
+	    
+            $this->plugin_handler_model->deactivate($id);
+            $this->plugin_handler_model->uninstall($id);
+
+	    if (is_object($plugin) && !empty($plugin->directory) &&
+		    is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
+		
+		$this->load->helper('file');
+		delete_files(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory, TRUE);
+	    }
+	    
+	    $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_uninstalled'));
+        }
+        else {
+            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
+        }
+	
+	redirect("plugin", 'refresh');
+    }
 }

@@ -41,21 +41,19 @@
 		    ?>
 		</td>
                 <td align="center">
-                        <?php if ($this->ion_auth->is_admin()) : ?>
+                        <?php if ($this->ion_auth->is_admin() && ($table_plugin->dir_exists && $table_plugin->installed)) : ?>
                             <a href="<?php echo site_url();?>plugin/<?php echo $url_active;?>/<?php echo $table_plugin->id;?>">
                                 <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $plugin_status; ?>.png" />
                             </a>
+			    
+			    <a href="<?php echo site_url();?>plugin/config/<?php echo $table_plugin->id;?>">
+				<img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" border="0" />
+			    </a>
                         <?php else : ?>
                                 <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $plugin_status; ?>.png" />
+				<img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" />
                         <?php endif; 
-                        
-                        if ($this->ion_auth->is_admin()) :                                                    
-                        ?>
-                            <a href="<?php echo site_url();?>plugin/config/<?php echo $table_plugin->id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" border="0" /></a>
-                        <?php else : ?>
-                            <img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" />
-                        <?php endif;
-			    
+                        			    
 			if ($this->ion_auth->is_admin()) :                                                    
                         ?>
                             <a href="<?php echo site_url();?>plugin/delete/<?php echo $table_plugin->id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" border="0" /></a>
