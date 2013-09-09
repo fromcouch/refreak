@@ -152,7 +152,7 @@ class Plugin extends RF_Controller {
         
 
         //first you need to get from database. 
-        //If database don't have values read config.json
+        //If database dosen't have values read config.json
         
         if (file_exists($plugin_path . 'config.json')) {
             $config             = file_get_contents($plugin_path . 'config.json');
