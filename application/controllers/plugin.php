@@ -151,6 +151,13 @@ class Plugin extends RF_Controller {
 	    $plugin                 = $plugin[0];
 	    $plugin_path            = APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR ;
 
+	    
+	    if ($this->input->post(NULL, TRUE) !== FALSE) {
+		$data = $this->input->post(NULL, TRUE);
+		unset($data['submit']); //remove button data
+		
+		$this->plugin_handler_model->set_data_plugin($id, $data);
+	    }
 
 	    $config		    = $this->plugin_handler_model->get_data_plugin($id);
 	    

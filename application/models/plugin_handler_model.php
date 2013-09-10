@@ -154,7 +154,7 @@ class plugin_handler_model extends CI_Model  {
                 ->where('plugin_data.plugin_id', $id);
         
         $data =	     $this->db
-			    ->get('plugins')
+			    ->get('plugin_data')
 			    ->result_object();
         
 	if ((is_array($data) || is_object($data)) && !empty($data->data)) {
@@ -181,14 +181,14 @@ class plugin_handler_model extends CI_Model  {
 	    
 	    $this->db->insert('plugin_data' , array(
 		    'plugin_id'	    => $id,
-		    'data'	    => $data
+		    'data'	    => json_encode( $data )
 	    ));
 	    
 	}
 	else
 	{
 	    $this->db->where('plugin_id', $id);
-	    $this->db->update('plugin_data', array($data));
+	    $this->db->update('plugin_data', array( json_encode($data) ) );
 	}
     } 
     

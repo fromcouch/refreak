@@ -4,5 +4,5 @@
 </p>
 <p>
     <label class="compulsory"><?php echo $config->title->label; ?> </label>
-    <input type="text" name="name" value="<?php echo $config->title->value;?>" />
+    <input type="text" name="title" value="<?php echo $config->title->value;?>" />
 </p>
