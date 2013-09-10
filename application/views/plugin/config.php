@@ -1,13 +1,21 @@
 
-<pre>
-<?php
-print_r($plg);
-?>
-</pre>
+<div class="center">
+    <div class="horiz">
 <?php
         echo validation_errors(); 
-        echo form_open("plugin/xxx/".$pid);
-
+        
+        echo form_open();
+        echo form_fieldset($plg->name);
+        
         echo $form;
         
+?>
+<p>
+        <?php echo form_submit('submit', $this->lang->line('pluginsform_submit')); ?>
+</p>      
+<?php
+        echo form_fieldset_close();
         echo form_close();
+?>
+    </div>
+</div>

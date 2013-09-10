@@ -1,11 +1,11 @@
 {
     "name": {
-        "label": "name",
+        "label": "Name:",
         "value": "test"
     },
 
     "title": {
-        "label": "title",
+        "label": "Title:",
         "value": "this is a title"
     }
             

@@ -145,34 +145,39 @@ class Plugin extends RF_Controller {
     
     public function config($id) {
         
-        $this->load->model('plugin_handler_model');
-        $plugin                 = $this->plugin_handler_model->get_plugin($id);
-        $plugin                 = $plugin[0];
-        $plugin_path            = APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR ;
-        
+	if ($this->ion_auth->is_admin()) {
+	    $this->load->model('plugin_handler_model');
+	    $plugin                 = $this->plugin_handler_model->get_plugin($id);
+	    $plugin                 = $plugin[0];
+	    $plugin_path            = APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR ;
 
-        //first you need to get from database. 
-        //If database dosen't have values read config.json
-        
-        if (file_exists($plugin_path . 'config.json')) {
-            $config             = file_get_contents($plugin_path . 'config.json');
-            $config                     = json_decode($config);
-            $this->data['config']       = $config;
-        }
-                
-        
-        if (file_exists($plugin_path . 'edit.php'))
-        {
-            ob_start();
-            include($plugin_path . 'edit.php');
-            
-            $this->data['form']     = ob_get_contents();
-            ob_end_clean();
-        }
-        
-        
-        $this->data['plg']      = $plugin;
-        ;
+
+	    //first you need to get from database. 
+	    //If database dosen't have values read config.json
+
+	    if (file_exists($plugin_path . 'config.json')) {
+		$config             = file_get_contents($plugin_path . 'config.json');
+		$config                     = json_decode($config);
+		$this->data['config']       = $config;
+	    }
+
+
+	    if (file_exists($plugin_path . 'edit.php'))
+	    {
+		ob_start();
+		include($plugin_path . 'edit.php');
+
+		$this->data['form']     = ob_get_contents();
+		ob_end_clean();
+	    }
+
+
+	    $this->data['plg']      = $plugin;
+	}
+        else {
+            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
+        }	
+	
         $this->load->view('plugin/config', $this->data);
         
     }

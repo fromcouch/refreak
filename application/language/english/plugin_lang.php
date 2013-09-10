@@ -34,3 +34,6 @@ $lang['pluginsmessage_notinstalled']	    = "Plugin not Installed";
 $lang['pluginsmessage_notexist']	    = "Plugin not Exist";
 $lang['pluginsmessage_uninstalled']	    = "Plugin Uninstalled";
 $lang['pluginsmessage_installed']	    = "Plugin Installed";
+
+//form
+$lang['pluginsform_submit']		    = "Send";
