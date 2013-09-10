@@ -140,6 +140,58 @@ class plugin_handler_model extends CI_Model  {
         
     }
     
+    /**
+     * Get plugin data from database
+     * 
+     * @param int $id plugin id
+     * @return object data object
+     * @access public
+     */
+    public function get_data_plugin($id) {
+        
+        $this->db
+                ->select('plugin_data.data')
+                ->where('plugin_data.plugin_id', $id);
+        
+        $data =	     $this->db
+			    ->get('plugins')
+			    ->result_object();
+        
+	if ((is_array($data) || is_object($data)) && !empty($data->data)) {
+	    return json_decode($data->data);
+	}
+	else {
+	    return NULL;
+	}
+    } 
+    
+    /**
+     * Set plugin data from database
+     * 
+     * @param int $id plugin id
+     * @param string $data plugin data
+     * @return void
+     * @access public
+     */
+    public function set_data_plugin($id, $data) {
+        
+        $old_data = $this->get_data_plugin($id);
+	
+	if ($old_data === NULL) {
+	    
+	    $this->db->insert('plugin_data' , array(
+		    'plugin_id'	    => $id,
+		    'data'	    => $data
+	    ));
+	    
+	}
+	else
+	{
+	    $this->db->where('plugin_id', $id);
+	    $this->db->update('plugin_data', array($data));
+	}
+    } 
+    
 }
 
 /* End of file plugin_handler_model.php */
