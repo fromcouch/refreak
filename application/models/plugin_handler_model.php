@@ -177,7 +177,7 @@ class plugin_handler_model extends CI_Model  {
         
         $old_data = $this->get_data_plugin($id);
 	
-	if ($old_data === NULL) {
+	if (is_null($old_data)) {
 	    
 	    $this->db->insert('plugin_data' , array(
 		    'plugin_id'	    => $id,
