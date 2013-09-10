@@ -126,6 +126,13 @@ class Plugin extends RF_Controller {
         redirect("plugin", 'refresh');
     }
  
+    /**
+     * Install Plugin
+     * 
+     * @param string $dir Plugin directory
+     * @return void
+     * @access public
+     */
     public function install($dir) {
         
 	if ($this->ion_auth->is_admin()) {
@@ -143,6 +150,13 @@ class Plugin extends RF_Controller {
 	redirect("plugin", 'refresh');
     }
     
+    /**
+     * Shows plugin edit page
+     * 
+     * @param int $id plugin identificator
+     * @return void
+     * @access public
+     */
     public function config($id) {
         
 	if ($this->ion_auth->is_admin()) {
@@ -188,21 +202,29 @@ class Plugin extends RF_Controller {
         
     }
     
+    /**
+     * Delete Plugin
+     * 
+     * @param int $id plugin identificator
+     * @return void
+     * @access public
+     */
     public function delete($id) {
 	
 	if ($this->ion_auth->is_admin()) {
             $this->load->model('plugin_handler_model');
             
+	    $plugin_dir         = APPPATH . 'plugins' . DIRECTORY_SEPARATOR;
 	    $plugin		= $this->plugin_handler_model->get_plugin($id);
 	    
             $this->plugin_handler_model->deactivate($id);
             $this->plugin_handler_model->uninstall($id);
 	   
 	    if (is_object($plugin[0]) && !empty($plugin[0]->directory) &&
-		    is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin[0]->directory)) {
+		    is_dir($plugin_dir . $plugin[0]->directory)) {
 		
 		$this->load->helper('file');
-		delete_files(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin[0]->directory, TRUE);
+		delete_files($plugin_dir . $plugin[0]->directory, TRUE);
 	    }
 	    
 	    $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_uninstalled'));
