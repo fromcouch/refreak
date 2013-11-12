@@ -33,7 +33,7 @@ class Example extends RF_Plugin {
          */        
         $this->attach('base_create_left_menu', array($this, 'testing'));
         
-        //$this->activate_lib_mode();
+        $this->activate_lib_mode('example');
     }
     
     /**

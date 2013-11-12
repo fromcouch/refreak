@@ -1,5 +1,5 @@
 <p>
-    <label class="compulsory">Name: </label>
+    <label class="compulsory"><?php echo $this->lang->line('form_name'); ?> </label>
     <input type="text" name="name" value="<?php echo $config->name;?>" />
 </p>
 <p>

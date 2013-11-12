@@ -66,9 +66,18 @@ class RF_Plugin {
         
     }
  
-    protected function activate_lib_mode() {
+    /**
+     * Activate MVC for a plugin
+     * 
+     * @param string $name plugin name
+     * @return void
+     * @access protected
+     */
+    protected function activate_lib_mode($name) {
         
-        $this->_ci->load->add_package_path(APPPATH . 'plugin' . DIRECTORY_SEPARATOR);
+	$name = strtolower($name);
+	
+        $this->_ci->load->add_package_path(APPPATH . 'plugin' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
         
     }
 }

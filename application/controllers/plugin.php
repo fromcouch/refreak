@@ -51,7 +51,7 @@ class Plugin extends RF_Controller {
         foreach ($copied_plugins as $cp) {
 	    $found = FALSE;	    
 	    
-            //search inside plugin oxject array
+            //search inside plugin object array
 	    foreach ($plugins as $plg) {
 		if ($plg->directory == $cp) {
 		    $found = TRUE;
@@ -179,7 +179,7 @@ class Plugin extends RF_Controller {
 		$config			    = file_get_contents($plugin_path . 'config.json');
 		$config                     = json_decode($config);
 	    }
-print_r($config);
+
 	    $this->data['config']       = $config;
 
 	    if (file_exists($plugin_path . 'edit.php'))
