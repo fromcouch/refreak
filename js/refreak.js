@@ -97,7 +97,7 @@
                         }
                         else {
                             
-                            me._executeCallBack('onDoneKo', [res])
+                            me._executeCallBack('onDoneKo', [res]);
                             $.boxes(genmessage_ajax_error_security);
                             
                         }
