@@ -31,7 +31,7 @@
            
                         $.ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/edit/",
+                            url:        s_url + "tasks/edit/",
                             data:       { tid: this.options.task_id },
                             dataType:   "html"
                         }).done(function(res) {
@@ -74,7 +74,7 @@
             
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_users_from_project/",
+                            url:        s_url + "tasks/get_users_from_project/",
                             async:      true,
                             data:       {
                                             project_id: $(obj).val()
@@ -118,7 +118,7 @@
 
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/save_task/",
+                                url:        s_url + "tasks/save_task/",
                                 data:       this._(".task_edit_form").serialize(),
                                 onDone:     function(res) {
                                         
@@ -188,7 +188,7 @@
 
                         $.ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/show/",
+                            url:        s_url + "tasks/show/",
                             data:       { tid: this.options.task_id },
                             dataType:   "html"
                         }).done(function(res) {
@@ -248,7 +248,7 @@
                             
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/delete",
+                                url:        s_url + "tasks/delete",
                                 data:       { 
                                                 tid: this.options.task_id
                                             },
@@ -299,7 +299,7 @@
 
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_description/",
+                            url:        s_url + "tasks/get_description/",
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
@@ -319,7 +319,7 @@
 
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_comments/",
+                            url:        s_url + "tasks/get_comments/",
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
@@ -367,7 +367,7 @@
 
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_history/",
+                            url:        s_url + "tasks/get_history/",
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
@@ -471,7 +471,7 @@
                         
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/delete_comment",
+                                url:        s_url + "tasks/delete_comment",
                                 data:       { 
                                                 tcid: task_comment_id,
                                                 tid: me.options.task_id
@@ -498,7 +498,7 @@
                         
                         $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/save_comment",
+                                url:        s_url + "tasks/save_comment",
                                 data:       { 
                                                 tid: this.options.task_id ,
                                                 tcid: comment_id,
@@ -667,7 +667,7 @@
                             
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/delete",
+                                url:        s_url + "tasks/delete",
                                 data:       { 
                                                 tid: task_id
                                             },
@@ -713,7 +713,7 @@
 
                                 $.call_ajax({
                                     type:       "POST",
-                                    url:        s_url + "/tasks/change_status",
+                                    url:        s_url + "tasks/change_status",
                                     data:       { 
                                                     tid: task_id ,
                                                     status: status

@@ -55,7 +55,7 @@
         (function($){
             
             $('.list_users').on('change', function() {
-                var local_url = s_url + '/tasks/s/' + project_id + "/" + 
+                var local_url = s_url + 'tasks/s/' + project_id + "/" + 
                                         $(this).val() + "/" + 
                                         time_concept + "/" + 
                                         context_id + "/";
@@ -63,7 +63,7 @@
             });
             
             $('.list_contexts').on('change', function() {
-                var local_url = s_url + '/tasks/s/' + project_id + "/" + 
+                var local_url = s_url + 'tasks/s/' + project_id + "/" + 
                                         user_id + "/" + 
                                         time_concept + "/" + 
                                         $(this).val() + "/";
