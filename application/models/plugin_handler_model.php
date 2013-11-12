@@ -16,6 +16,7 @@ class plugin_handler_model extends CI_Model  {
     public function __construct() 
     {
         parent::__construct();
+	//$this->output->enable_profiler(TRUE);
         $this->load->database();
     }
     
@@ -156,8 +157,12 @@ class plugin_handler_model extends CI_Model  {
         $data =	     $this->db
 			    ->get('plugin_data')
 			    ->result_object();
-        
-	if ((is_array($data) || is_object($data)) && !empty($data->data)) {
+	
+	if (is_array($data) && count($data) > 0) {
+	    $data = $data[0];
+	}
+	
+	if ((is_object($data)) && !empty($data->data)) {
 	    return json_decode($data->data);
 	}
 	else {
@@ -188,7 +193,7 @@ class plugin_handler_model extends CI_Model  {
 	else
 	{
 	    $this->db->where('plugin_id', $id);
-	    $this->db->update('plugin_data', array( json_encode($data) ) );
+	    $this->db->update('plugin_data', array( 'data' => json_encode($data) ) );
 	}
     } 
     

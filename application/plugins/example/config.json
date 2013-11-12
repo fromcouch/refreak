@@ -1,12 +1,5 @@
 {
-    "name": {
-        "label": "Name:",
-        "value": "test"
-    },
-
-    "title": {
-        "label": "Title:",
-        "value": "this is a title"
-    }
+    "name":  "test",
+    "title": "this is a title"
             
 }

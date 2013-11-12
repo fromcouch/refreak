@@ -176,11 +176,11 @@ class Plugin extends RF_Controller {
 	    $config		    = $this->plugin_handler_model->get_data_plugin($id);
 	    
 	    if (is_null($config) && file_exists($plugin_path . 'config.json')) {
-		$config             = file_get_contents($plugin_path . 'config.json');
+		$config			    = file_get_contents($plugin_path . 'config.json');
 		$config                     = json_decode($config);
-		$this->data['config']       = $config;
 	    }
-
+print_r($config);
+	    $this->data['config']       = $config;
 
 	    if (file_exists($plugin_path . 'edit.php'))
 	    {
