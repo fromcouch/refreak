@@ -36,9 +36,18 @@ TODO
     + ~~Pluginize Controlers and models~~
     + ~~Decorators for views~~
     + Pluginize JS
-    + Plugin Installer
-    + Plugin Configuration
+    + ~~Plugin Installer~~
+    + ~~Plugin Configuration~~
 + Printing Version
+
+### Stage 3
++ GTD Plugin
++ Subtasks plugin
++ E-Mail Notification Plugin
++ File Attachment Plugin
++ Google Docs Plugin
++ Time Tracking Plugin
+
 
 Please, feel free to add issue or comment.
 
@@ -67,7 +76,7 @@ A little example can be found in:
 
     application/plugin/example
 
-Next, you need to add row in rfk_plugin table. I promise an installer in near future.
+Then, go to menu config/Plugin and install.
 
 You can attach the next events. (The parentesis word references the refreak section that plugin fires, every plugin needs to be limited to one section or always section )
 
