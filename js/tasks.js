@@ -602,7 +602,8 @@
                         if (options !== undefined)
                             this.options = options;
                         
-                        
+                        this.element.trigger("refreak.task_list.init", this.options );
+			
                         this.element.tablesorter({
                                 0: { 
                                     sorter: false 
@@ -687,21 +688,28 @@
 
                         var settings = $.extend({}, tasks, options);
 
+			this.element.trigger("refreak.task_list.showtask", this.options );
+
                         $('.task_panel').showTask( settings );
 
                 },
                         
                 edittask: function (task_id) {
                 
+			this.element.trigger("refreak.task_list.edittask", this.options );
+			
                         $(".task_panel").newTask({ task_id: task_id });
 
                 },
                 
                 deletetask: function ( obj ) {
-                
+			
+			var me = this; 
                         var task_id = this._(obj).parents("tr").attr("data-id");
                         var row = this._(obj).parents("tr");
-                
+			
+			this.element.trigger("refreak.task_list.pre_delete", [ this.options, task_id ] );
+			
                         if (confirm(tasksmessage_delete)) {
                             
                             $.call_ajax({
@@ -712,6 +720,7 @@
                                             },
                                 onDone:     function(res) {
 
+						    me.element.trigger("refreak.task_list.deleted", [ this.options, res, task_id ] );
                                                     row.remove();
                                                     $.boxes(tasksmessage_deleted);
                                             }
@@ -724,6 +733,7 @@
                 
                 changestatus: function ( obj ) {
                     
+			    var me= this;
                             var task_id = this._(obj).parents("tr").attr("data-id");
                             var row = this._(obj).parents("tr");
                             var status  = 1;
@@ -737,6 +747,8 @@
                             } else if( this._(obj).hasClass("status4") ) {
                                 status = 5;                            
                             } 
+
+			    this.element.trigger("refreak.task_list.status_changing", [ this.options, task_id, status ] );
 
                             if (status < maximum_status || confirm(task_list_close_task)) {
     
@@ -759,6 +771,7 @@
                                                 },
                                     onDone:     function(res) {
 
+						    me.element.trigger("refreak.task_list.status_changed", [ me.options, task_id, status ] );
                                                     if (status === maximum_status)
                                                         row.remove();
 
@@ -776,6 +789,8 @@
                         this._("tbody").off("click", "tr");
                         this._(".status0, .status1, .status2, .status3, .status4").off("click");
                         this._(".comment_link").off("click");
+			this.element.trigger("refreak.task_list.close", this.options );
+			
                 }
          };
  
@@ -808,5 +823,5 @@
               return this;
               
          };
-        
+
 })(jQuery);

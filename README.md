@@ -253,3 +253,11 @@ EVENTS
 	+ refreak.task_show.deleted_comment: Comment Deleted
 	+ refreak.task_show.send_comment:   Send comment
 	+ refreak.task_show.close:	    Close and destroy show task window.
+	+ refreak.task_list.init:	    Initializing task list
+	+ refreak.task_list.showtask:	    Click on show task trigger
+	+ refreak.task_list.edittask:	    Edit task button
+	+ refreak.task_list.pre_delete:	    Pre deleting task
+	+ refreak.task_list.deleted:	    Deleted Task
+	+ refreak.task_list.status_changing: Change status
+	+ refreak.task_list.status_changed: Status Changed
+	+ refreak.task_list.close:	    Closing object
