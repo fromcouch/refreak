@@ -227,12 +227,29 @@ EVENTS
 	+ refreak.boxes.destroy:	    When message box hides.
 
     + Tasks:
-	+ refreak_task_new.init:	    Initialize new task window
-	+ refreak_task_new.render:	    Render new task window, fired after ajax call.
-	+ refreak_task_new.bind:	    When buttons and other events binded after show window
-	+ refreak_task_new.load_users:	    Load users to populate select box.
-	+ refreak_task_new.render_input_project: Shows input box for new project
-	+ refreak_task_new.render_list_project: Shows select box for projects
-	+ refreak_task_new.pre_send_data:   Before send data to server with new task.
-	+ refreak_task_new.send_data_done:  After send data to server.
-	+ refreak_task_new.close:	    Window close and object destroy.
+	+ refreak.task_new.init:	    Initialize new task window
+	+ refreak.task_new.render:	    Render new task window, fired after ajax call.
+	+ refreak.task_new.bind:	    When buttons and other events binded after show window
+	+ refreak.task_new.load_users:	    Load users to populate select box.
+	+ refreak.task_new.render_input_project: Shows input box for new project
+	+ refreak.task_new.render_list_project: Shows select box for projects
+	+ refreak.task_new.pre_send_data:   Before send data to server with new task.
+	+ refreak.task_new.send_data_done:  After send data to server.
+	+ refreak.task_new.close:	    Window close and object destroy.
+	+ refreak.task_show.init:	    Initialize show window
+	+ refreak.task_show.render:	    Render show window
+	+ refreak.task_show.bind:	    Bind other events.
+	+ refreak.task_show.to_edit:	    Jump to edit.
+	+ refreak.task_show.pre_delete:	    Pre delete task
+	+ refreak.task_show.deleted:	    Task deleted
+	+ refreak.task_show.show_description: Show tab description 
+	+ refreak.task_show.show_comments:  Show comments tab
+	+ refreak.task_show.show_history:   Show comments history
+	+ refreak.task_show.get_description: After ajax call for get task description
+	+ refreak.task_show.get_comments:   After ajax call for get task comments
+	+ refreak.task_show.get_history:    After ajax call for get task history
+	+ refreak.task_show.edit_comment:   When edit comment
+	+ refreak.task_show.pre_delete_comment: Before delete comment
+	+ refreak.task_show.deleted_comment: Comment Deleted
+	+ refreak.task_show.send_comment:   Send comment
+	+ refreak.task_show.close:	    Close and destroy show task window.

@@ -27,7 +27,7 @@
                         if (options !== undefined)
                             this.options = options;
 			
-			this.element.trigger("refreak_task_new.init", this.options );
+			this.element.trigger("refreak.task_new.init", this.options );
 			
                         this.element.show();
            
@@ -39,7 +39,7 @@
                         }).done(function(res) {
 
                                 me.element.html(res);
-                                me.element.trigger("refreak_task_new.render", [me.options, res] );
+                                me.element.trigger("refreak.task_new.render", [me.options, res] );
 				
                                 me._(".task_dead").datepicker({
                                         showOn: "button",
@@ -85,7 +85,7 @@
                                         },
                             onDone:     function(res) {
 					    
-					    me.element.trigger("refreak_task_new.load_users", [me.options, res] );
+					    me.element.trigger("refreak.task_new.load_users", [me.options, res] );
                                             var $select_users = me._(".task_users").empty();
 
                                             $.each(res.data, function(i,item) {
@@ -104,7 +104,7 @@
                     
                     this._(".project_sel").hide();
                     this._(".project_txt").show();
-		    this.element.trigger("refreak_task_new.render_input_project", this.options );
+		    this.element.trigger("refreak.task_new.render_input_project", this.options );
                     
                 },
                 
@@ -112,7 +112,7 @@
                     
                     this._(".project_txt").hide();
                     this._(".project_sel").show();
-		    this.element.trigger("refreak_task_new.render_list_project", this.options );
+		    this.element.trigger("refreak.task_new.render_list_project", this.options );
                     
                 },
                 
@@ -123,7 +123,7 @@
                         
                         if ($title_value.val() !== "") {
 			    
-			    me.element.trigger("refreak_task_new.pre_send_data", [me.options, this._(".task_edit_form").serialize()] );
+			    me.element.trigger("refreak.task_new.pre_send_data", [me.options, this._(".task_edit_form").serialize()] );
 			    
                             $.call_ajax({
                                 type:       "POST",
@@ -170,7 +170,7 @@
                                                           .addClass("loader")
                         
                         ).hide();
-			this.element.trigger("refreak_task_new.close", this.options );
+			this.element.trigger("refreak.task_new.close", this.options );
                         
                 },
                 
@@ -196,6 +196,8 @@
                         if (options !== undefined)
                             this.options = $.extend({}, this.options, options);
                         
+			this.element.trigger("refreak.task_show.init", this.options );
+			
                         this.element.show();
 
                         $.ajax({
@@ -206,7 +208,8 @@
                         }).done(function(res) {
 
                                 me.element.html(res);
-                                
+                                me.element.trigger("refreak.task_show.render", [me.options, res] );
+				
                                 me._(".task_show_close").on("click", function() { me.close(this); });
                                 me._(".task_show_edit").on("click", function() { me.edit(this); });
                                 me._(".task_show_delete").on("click", function() { me.del(this); });
@@ -229,7 +232,7 @@
                                         me.tabs( me._(".tab_hist") );
                                         break;
                                 }
-                                
+                                me.element.trigger("refreak.task_show.bind", [me.options, res] );
 
                         }).fail(function(res) {
                                 $.boxes(tasksmessage_ajax_error_server);
@@ -246,6 +249,7 @@
 
                 edit: function() {
                         
+			this.element.trigger("refreak.task_show.to_edit", this.options );
                         this.close();
                         $(this.element).show();
                         new task_new(this.element, { task_id: this.options.task_id });
@@ -254,10 +258,14 @@
                       
                 del: function() {
                         
+			var me = this; 
+			
                         if (confirm(tasksmessage_delete)) {
                             
                             $row = $("tr[data-id='" + this.options.task_id + "']");
                             
+			    me.element.trigger("refreak.task_show.pre_delete", me.options );
+			    
                             $.call_ajax({
                                 type:       "POST",
                                 url:        s_url + "tasks/delete",
@@ -265,9 +273,12 @@
                                                 tid: this.options.task_id
                                             },
                                 onDone:     function(res) {
-
+						    
+						    me.element.trigger("refreak.task_show.deleted", [me.options, res] );
+						    
                                                     $row.remove();
                                                     $.boxes(tasksmessage_deleted);
+						    
                                             }
                                     
                             });
@@ -286,17 +297,20 @@
                         
                         if (this._(obj).hasClass("tab_desc")) {
                             
+				this.element.trigger("refreak.task_show.show_description", this.options );
                                 if (!this.description) this._get_desc();                                
                                 this._(".tab_description_content").show();
                                 
                                 
                         } else if (this._(obj).hasClass("tab_comm")) {
                             
+				this.element.trigger("refreak.task_show.show_comments", this.options );
                                 if (!this.comment) this._get_comm();
                                 this._(".tab_comments_content").show();
                                 
                         } else if (this._(obj).hasClass("tab_hist")) {
                             
+				this.element.trigger("refreak.task_show.show_history", this.options );
                                 if (!this.history) this._get_hist();
                                 this._(".tab_history_content").show();
                                 
@@ -315,7 +329,8 @@
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
-
+					    
+					    me.element.trigger("refreak.task_show.get_description", [ me.options, res ] );
                                             me._(".tab_description_content").append( res.description );
 
                                         }
@@ -338,6 +353,7 @@
                                             comment_count = res.comments.length;
                                             if (res.comments.length > 0) {
 
+						    me.element.trigger("refreak.task_show.get_comments", [ me.options, res ] );
                                                     var $comms = me._(".tab_comments_content");
 
                                                     $.each(res.comments, function(key, value) {
@@ -384,6 +400,7 @@
                             async:      false,
                             onDone:     function(res) {
 
+					    me.element.trigger("refreak.task_show.get_history", [ me.options, res ] );
                                             var $tr_header      = $("<tr>").append(
                                                                                     $("<th>").html("date")
                                                                            ).append(
@@ -471,7 +488,9 @@
             
                         this._(".veditid").val(task_comment_id);
                         this._(".veditbody").val(comment);
-            
+			
+			this.element.trigger("refreak.task_show.edit_comment", [ this.options, task_comment_id, comment ] );
+			
                         this.show_edit_comment();
                 },
 
@@ -481,6 +500,8 @@
                         
                         if (confirm(tasksmessage_delete_comment)) {
                         
+			    me.element.trigger("refreak.task_show.pre_delete_comment", [ me.options, task_comment_id ] );
+			    
                             $.call_ajax({
                                 type:       "POST",
                                 url:        s_url + "tasks/delete_comment",
@@ -491,6 +512,8 @@
                                 async:      false,
                                 onDone:     function(res) {
 
+						me.element.trigger("refreak.task_show.deleted_comment", [ me.options, task_comment_id ] );
+						
                                                 me._update_comment_count( 
                                                             me._get_comm() 
                                                 );
@@ -518,6 +541,8 @@
                                             },
                                 async:      false,
                                 onDone:     function (res) {
+						    me.element.trigger("refreak.task_show.send_comment", [ me.options, res, comment_id, comment ] );
+						    
                                                     me._(".veditbody").val("");
                                                     me._(".veditid").val("0");
                                                     me._update_comment_count( 
@@ -555,6 +580,8 @@
                                                           .addClass("loader")
                         
                         ).hide();
+		
+			this.element.trigger("refreak.task_show.close", this.options );
                         
                 },
                 
