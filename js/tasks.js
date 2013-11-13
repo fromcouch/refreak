@@ -26,7 +26,9 @@
 
                         if (options !== undefined)
                             this.options = options;
-
+			
+			this.element.trigger("refreak_task_new.init", this.options );
+			
                         this.element.show();
            
                         $.ajax({
@@ -37,7 +39,8 @@
                         }).done(function(res) {
 
                                 me.element.html(res);
-                                
+                                me.element.trigger("refreak_task_new.render", [me.options, res] );
+				
                                 me._(".task_dead").datepicker({
                                         showOn: "button",
                                         buttonImage: theme_url + "/images/cal.gif",
@@ -54,9 +57,10 @@
 
                                 me._(".task_edit_save").on("click", function() { me.send_data(this); });
                        
+				me.element.trigger("refreak_task_new.bind", [me.options, res] );
 
                         }).fail(function(res) {
-                                alert(genmessage_ajax_error_server);
+                                $.boxes(genmessage_ajax_error_server);
                                 this.element.hide();
                         });
 
@@ -80,7 +84,8 @@
                                             project_id: $(obj).val()
                                         },
                             onDone:     function(res) {
-                                
+					    
+					    me.element.trigger("refreak_task_new.load_users", [me.options, res] );
                                             var $select_users = me._(".task_users").empty();
 
                                             $.each(res.data, function(i,item) {
@@ -99,6 +104,7 @@
                     
                     this._(".project_sel").hide();
                     this._(".project_txt").show();
+		    this.element.trigger("refreak_task_new.render_input_project", this.options );
                     
                 },
                 
@@ -106,6 +112,7 @@
                     
                     this._(".project_txt").hide();
                     this._(".project_sel").show();
+		    this.element.trigger("refreak_task_new.render_list_project", this.options );
                     
                 },
                 
@@ -114,14 +121,18 @@
                         var me = this;
                         var $title_value = this._(".task_edit_title");
                         
-                        if ($title_value.val() != "") {
-
+                        if ($title_value.val() !== "") {
+			    
+			    me.element.trigger("refreak_task_new.pre_send_data", [me.options, this._(".task_edit_form").serialize()] );
+			    
                             $.call_ajax({
                                 type:       "POST",
                                 url:        s_url + "tasks/save_task/",
                                 data:       this._(".task_edit_form").serialize(),
                                 onDone:     function(res) {
                                         
+					me.element.trigger("refreak_task_new.send_data_done", [me.options, res] );
+					
                                         if (res.tid > 0) {
                                             $.boxes(tasksmessage_updated);
                                             document.location.reload();
@@ -159,13 +170,14 @@
                                                           .addClass("loader")
                         
                         ).hide();
+			this.element.trigger("refreak_task_new.close", this.options );
                         
                 },
                 
                 destroy: function() {
                         this.close();
                 }
-         }
+         };
  
         task_show.prototype = {
              
@@ -220,7 +232,7 @@
                                 
 
                         }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                $.boxes(tasksmessage_ajax_error_server);
                                 me.element.hide();
                         });
 

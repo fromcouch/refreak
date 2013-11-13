@@ -225,3 +225,14 @@ EVENTS
 	+ refreak.boxes.init:		    Fires when message box initialize
 	+ refreak.boxes.show:		    When message box shows message
 	+ refreak.boxes.destroy:	    When message box hides.
+
+    + Tasks:
+	+ refreak_task_new.init:	    Initialize new task window
+	+ refreak_task_new.render:	    Render new task window, fired after ajax call.
+	+ refreak_task_new.bind:	    When buttons and other events binded after show window
+	+ refreak_task_new.load_users:	    Load users to populate select box.
+	+ refreak_task_new.render_input_project: Shows input box for new project
+	+ refreak_task_new.render_list_project: Shows select box for projects
+	+ refreak_task_new.pre_send_data:   Before send data to server with new task.
+	+ refreak_task_new.send_data_done:  After send data to server.
+	+ refreak_task_new.close:	    Window close and object destroy.

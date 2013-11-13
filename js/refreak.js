@@ -78,6 +78,7 @@
                 url: null,
                 async: false,
                 data: {},
+		onInit: null,
                 onDone: null,
                 onDoneKo: null,
                 onFail: null                
@@ -87,11 +88,12 @@
             
             this.init = function( options ) {
 
-                options = ((typeof options) == "string" ? {message: options} : options);
+                options = ((typeof options) === "string" ? {message: options} : options);
 
                 me.settings = $.extend({}, defaults, options);
 
-                //me._executeCallBack('onInit', null);
+                me._executeCallBack('onInit', null);
+		
                 me._callAjax();
                 
             };
@@ -159,7 +161,7 @@
 
             this.init = function ( options ) {
                 
-                    options = ((typeof options) == "string" ? {message: options} : options);
+                    options = ((typeof options) === "string" ? {message: options} : options);
 
                     me.settings = $.extend({}, defaults, options);
                 
