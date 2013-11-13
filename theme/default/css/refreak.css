@@ -514,8 +514,8 @@ div.task_ctxO {
 
 /* panels */
 .infoMessage {
-	position: absolute;
-	top: 5px;
+	position: fixed;
+	top: 65px;
 	left: 50%;
 	margin-left: -200px;
 	width: 400px;

@@ -8,20 +8,24 @@
             var me = this;
             
             var defaults = {
-                message: 'Message',
+                message: "Message",
                 onInit: null,
-                onShow: null
+                onShow: null,
+		onHide: null
             };
             
             this.settings = {};
             
             this.init = function( options ) {
 
-                options = ((typeof options) == "string" ? {message: options} : options);
+                options = ((typeof options) === "string" ? {message: options} : options);
 
                 me.settings = $.extend({}, defaults, options);
 
-                //me._executeCallBack('onInit', null);
+                me._executeCallBack('onInit', null);
+		
+		$(".infoMessage").trigger("refreak.boxes.init");
+		
                 me._createBox();
                 
             };
@@ -32,18 +36,34 @@
             };
             
             this._createBox = function() {
-                $(".content").prepend(
+		
+		me._executeCallBack("onShow", null);
+		
+                $(".content").before(
                     $("<div/>")
                         .addClass("infoMessage")
                         .html(me.settings.message)
                         .show(100)
+			.trigger("refreak.boxes.show")
                         .delay(5000)
-                        .hide(500, function() {
-                            $(this).remove();
-                        })
+			.hide(500, function() {
+			    me._destroy($(this));
+			})
+			.on("click", function () {
+			    me._destroy($(this));
+			})
                 );
+		
             };
             
+	    this._destroy = function (ele) {
+		
+		ele.trigger("refreak.boxes.destroy");
+		me._executeCallBack("onHide", null);
+		ele.remove();
+		
+	    };
+	    
             this.init( options );
     };
     

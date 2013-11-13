@@ -39,6 +39,7 @@ TODO
     + ~~Plugin Installer~~
     + ~~Plugin Configuration~~
 + Printing Version
++ Own dialog and alerts messages
 
 ### Stage 3
 + GTD Plugin
@@ -218,3 +219,9 @@ EVENTS
     + auth_password_forgot:                 Password Forgot (auth)
     + auth_user_activated:                  User Activated (auth)
     + auth_user_deactivated:                User Deactivated (auth)
+
++ Javascript General events
+    + Boxes: 
+	+ refreak.boxes.init:		    Fires when message box initialize
+	+ refreak.boxes.show:		    When message box shows message
+	+ refreak.boxes.destroy:	    When message box hides.
