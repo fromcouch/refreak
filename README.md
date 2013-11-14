@@ -261,3 +261,16 @@ EVENTS
 	+ refreak.task_list.status_changing: Change status
 	+ refreak.task_list.status_changed: Status Changed
 	+ refreak.task_list.close:	    Closing object
+
+    + Projects:
+	+ refreak.project_edit.invite_user: Inviting user to project in edit page
+	+ refreak.project_edit.nouser:	    No user was selected.
+	+ refreak.project_edit.user_invited:	User was invited
+	+ refreak.project_edit.user_added:  User added to table in edit project page
+	+ refreak.project_edit_member.init: Edit member in project initializing
+	+ refreak.project_edit_member.edit: Pre-edit member
+	+ refreak.project_edit_member.edited: Member edited
+	+ refreak.project_edit_member.delete:	Delete member from project
+	+ refreak.project_edit_member.deleted:	Member deleted
+	+ refreak.project_edit_member.change_position:	Change position in project
+	+ refreak.project_edit_member.changed_position:	Changed position in project

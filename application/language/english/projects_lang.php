@@ -53,8 +53,9 @@ $lang['projectsmessage_deleted']       = 'Project Deleted';
 $lang['projectsmessage_saved']         = 'Project Saved';
 $lang['projectsmessage_remove_user']   = 'really remove this user from the team?';
 $lang['projectsmessage_useradded']     = 'User added to project';
-$lang['projectsmessage_userremoved']   = 'User removed from project';
-$lang['projectsmessage_userchanged']   = 'User position changed';
+$lang['projectsmessage_userremoved']	= 'User removed from project';
+$lang['projectsmessage_userchanged']	= 'User position changed';
+$lang['projectsmessage_nouser']		= 'No User Selected';
 
 
 /*
