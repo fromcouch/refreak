@@ -222,7 +222,7 @@ EVENTS
 
 + Javascript General events
     + Boxes: 
-	- refreak.boxes.init:		    Fires when message box initialize
+	* refreak.boxes.init:		    Fires when message box initialize
 	+ refreak.boxes.show:		    When message box shows message
 	+ refreak.boxes.destroy:	    When message box hides.
 
