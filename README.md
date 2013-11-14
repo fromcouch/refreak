@@ -83,6 +83,9 @@ You can attach the next events. (The parentesis word references the refreak sect
 
 EVENTS
 ------
+List of plugin events fired in Refreak.
+
+### PHP Events
 + Base Controller
     + base_pre_init:            first event fired before init base Refreak system. (always)
     + base_set_theme:           set theme directory. (always)
@@ -220,9 +223,9 @@ EVENTS
     + auth_user_activated:                  User Activated (auth)
     + auth_user_deactivated:                User Deactivated (auth)
 
-+ Javascript General events
+###Javascript General events
     + Boxes: 
-	* refreak.boxes.init:		    Fires when message box initialize
+	+ refreak.boxes.init:		    Fires when message box initialize
 	+ refreak.boxes.show:		    When message box shows message
 	+ refreak.boxes.destroy:	    When message box hides.
 
