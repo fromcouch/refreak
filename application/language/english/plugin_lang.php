@@ -23,9 +23,17 @@ $lang['pluginstable_directory']             = 'Directory';
 $lang['pluginstable_action']                = 'Action';
 $lang['pluginstable_section']               = 'Section';
 $lang['pluginstable_all']                   = 'All';
+$lang['pluginstable_observations']	    = 'Observations';
 
 
 //messages
-$lang['pluginsmessage_activated']           = 'Plugin activated';
-$lang['pluginsmessage_deactivated']         = 'Plugin deactivated';
-$lang['pluginsmessage_noway']               = "You don't have permission to do that.";
+$lang['pluginsmessage_activated']	    = 'Plugin activated';
+$lang['pluginsmessage_deactivated']	    = 'Plugin deactivated';
+$lang['pluginsmessage_noway']		    = "You don't have permission to do that.";
+$lang['pluginsmessage_notinstalled']	    = "Plugin not Installed";
+$lang['pluginsmessage_notexist']	    = "Plugin not Exist";
+$lang['pluginsmessage_uninstalled']	    = "Plugin Uninstalled";
+$lang['pluginsmessage_installed']	    = "Plugin Installed";
+
+//form
+$lang['pluginsform_submit']		    = "Send";

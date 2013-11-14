@@ -16,6 +16,7 @@ class plugin_handler_model extends CI_Model  {
     public function __construct() 
     {
         parent::__construct();
+	//$this->output->enable_profiler(TRUE);
         $this->load->database();
     }
     
@@ -110,12 +111,91 @@ class plugin_handler_model extends CI_Model  {
      * Uninstall orfan plugin
      * 
      * @param integer $id plugin id
+     * @access public
      */
     public function uninstall($id) {
         
+        $this->db->delete('plugin_controller', array( 'plugin_id' => $id ));
         $this->db->delete('plugins', array( 'id' => $id ));
         
     }
+    
+    /**
+     * Get a single plugin
+     * 
+     * @param int $id plugin id
+     * @return object plugin
+     * @access public
+     */
+    public function get_plugin($id) {
+        
+        $this->db
+                ->select('plugins.id, plugins.name, plugins.directory, plugins.active, c.controller_name')
+                ->join('plugin_controller pc', 'pc.plugin_id = plugins.id', 'left')
+                ->join('controllers c', 'pc.controller_id = c.id', 'left')
+                ->where('plugins.id', $id);
+        
+        return $this->db
+                ->get('plugins')
+                ->result_object();
+        
+    }
+    
+    /**
+     * Get plugin data from database
+     * 
+     * @param int $id plugin id
+     * @return object data object
+     * @access public
+     */
+    public function get_data_plugin($id) {
+        
+        $this->db
+                ->select('plugin_data.data')
+                ->where('plugin_data.plugin_id', $id);
+        
+        $data =	     $this->db
+			    ->get('plugin_data')
+			    ->result_object();
+	
+	if (is_array($data) && count($data) > 0) {
+	    $data = $data[0];
+	}
+	
+	if ((is_object($data)) && !empty($data->data)) {
+	    return json_decode($data->data);
+	}
+	else {
+	    return NULL;
+	}
+    } 
+    
+    /**
+     * Set plugin data from database
+     * 
+     * @param int $id plugin id
+     * @param string $data plugin data
+     * @return void
+     * @access public
+     */
+    public function set_data_plugin($id, $data) {
+        
+        $old_data = $this->get_data_plugin($id);
+	
+	if (is_null($old_data)) {
+	    
+	    $this->db->insert('plugin_data' , array(
+		    'plugin_id'	    => $id,
+		    'data'	    => json_encode( $data )
+	    ));
+	    
+	}
+	else
+	{
+	    $this->db->where('plugin_id', $id);
+	    $this->db->update('plugin_data', array( 'data' => json_encode($data) ) );
+	}
+    } 
     
 }
 

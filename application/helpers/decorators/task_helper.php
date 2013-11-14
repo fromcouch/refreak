@@ -166,7 +166,7 @@ class task_helper {
                     
                     $sts = ($cont < $tf->status_key) ? (5 - $cont) : 0; 
                     $status_class = 'sts'.$sts;
-                    if (rfk_task_helper::can_do($tf->task_id, $actual_user_id, $tf->position, $tf->author_id, 3)) {
+                    if (rfk_task_helper::can_do($tf->task_id, $actual_user_id, $tf->position, $tf->author_id, 4)) {
                         $status_class .= ' status'.$cont;
                     }
                     
@@ -176,7 +176,7 @@ class task_helper {
                 $tcol ['status']= $stats;
                 
                 //buttons
-                if ($access || $tf->position > 3) {
+                if ($access ||  (int)$tf->position > 3) {
                         $buttons = '<a href="#" class="btn_task_edit">
                                             <img src="' . $theme_url . '/images/b_edit.png" width="20" height="16" alt="edit" border="0" />
                                    </a>
@@ -434,7 +434,7 @@ class task_helper {
                                                     <input type="button" name="veditcancel" class="veditcancel" value="' . $cancel_text . '">
                                             </div>
                                     </div>
-                                    <div class="vmore tab_description_content">' . $description . '</div>
+                                    <div class="vmore tab_description_content">' . nl2br($description, TRUE) . '</div>
                                     <div class="vmore tab_comments_content"></div>
                                     <div class="vmore tab_history_content"></div>
                                 </div>

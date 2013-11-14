@@ -66,10 +66,60 @@ class RF_Plugin {
         
     }
  
-    protected function activate_lib_mode() {
+    /**
+     * Activate MVC for a plugin
+     * 
+     * @param string $name plugin name
+     * @return void
+     * @access protected
+     * @deprecated
+     */
+    private function activate_lib_mode($name) {
         
-        $this->_ci->load->add_package_path(APPPATH . 'plugin' . DIRECTORY_SEPARATOR);
+	$name = strtolower($name);
+	
+        $this->_ci->load->add_package_path(APPPATH . 'plugin' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
         
+    }
+    
+    /**
+     * Add js file to view
+     * 
+     * @param string $js full url path to js
+     * @return void
+     * @access public
+     */
+    public function js_add($js) {
+	    
+	    $this->_ci->javascript->js->script( $js );
+	    
+    }
+    
+    /**
+     * Add css style to view
+     * 
+     * @param string $css full url path to css
+     * @param string $key key to group some css. You can't remove css from queue without key
+     * @return void
+     * @access public
+     */
+    public function css_add($css, $key) {
+	    
+	    $this->_ci->css->add_style( $css, $key );
+	    
+    }
+    
+    /**
+     * Remove css from queue
+     * 
+     * @param string $key key to remove. Can content some css files.
+     * @return void
+     * @access public
+     */
+    public function css_remove($key) {
+	    
+	    $this->_ci->css->remove_style( $key );
+	    
     }
 }
 

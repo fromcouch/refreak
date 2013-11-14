@@ -32,13 +32,23 @@ TODO
 
 ### Stage 2
 + ~~Import on Install tasks from TF~~
-+ Pluginize project
++ ~~Pluginize project~~
     + ~~Pluginize Controlers and models~~
     + ~~Decorators for views~~
-    + Pluginize JS
-    + Plugin Installer
-    + Plugin Configuration
+    + ~~Pluginize JS~~
+    + ~~Plugin Installer~~
+    + ~~Plugin Configuration~~
 + Printing Version
++ Own dialog and alerts messages
+
+### Stage 3
++ GTD Plugin
++ Subtasks plugin
++ E-Mail Notification Plugin
++ File Attachment Plugin
++ Google Docs Plugin
++ Time Tracking Plugin
+
 
 Please, feel free to add issue or comment.
 
@@ -67,12 +77,15 @@ A little example can be found in:
 
     application/plugin/example
 
-Next, you need to add row in rfk_plugin table. I promise an installer in near future.
+Then, go to menu config/Plugin and install.
 
 You can attach the next events. (The parentesis word references the refreak section that plugin fires, every plugin needs to be limited to one section or always section )
 
 EVENTS
 ------
+List of plugin events fired in Refreak.
+
+### PHP Events
 + Base Controller
     + base_pre_init:            first event fired before init base Refreak system. (always)
     + base_set_theme:           set theme directory. (always)
@@ -81,6 +94,7 @@ EVENTS
     + base_create_right_menu:   create array with right menu items. (always)
     + base_set_js_vars:         Set base javascript variables and messages. (always)
     + base_post_init:           last event fired after init base Refreak system. (always)
+    + layout_view_header:       Render header part. (always)
 
 + Projects 
     + projects_pre_init:                    first event fired before init project Refreak controller. (projects)
@@ -208,3 +222,58 @@ EVENTS
     + auth_password_forgot:                 Password Forgot (auth)
     + auth_user_activated:                  User Activated (auth)
     + auth_user_deactivated:                User Deactivated (auth)
+
+###Javascript General events
++ Boxes: 
+    + refreak.boxes.init:		    Fires when message box initialize
+    + refreak.boxes.show:		    When message box shows message
+    + refreak.boxes.destroy:	    When message box hides.
+
++ Tasks:
+    + refreak.task_new.init:	    Initialize new task window
+    + refreak.task_new.render:	    Render new task window, fired after ajax call.
+    + refreak.task_new.bind:	    When buttons and other events binded after show window
+    + refreak.task_new.load_users:	    Load users to populate select box.
+    + refreak.task_new.render_input_project: Shows input box for new project
+    + refreak.task_new.render_list_project: Shows select box for projects
+    + refreak.task_new.pre_send_data:   Before send data to server with new task.
+    + refreak.task_new.send_data_done:  After send data to server.
+    + refreak.task_new.close:	    Window close and object destroy.
+    + refreak.task_show.init:	    Initialize show window
+    + refreak.task_show.render:	    Render show window
+    + refreak.task_show.bind:	    Bind other events.
+    + refreak.task_show.to_edit:	    Jump to edit.
+    + refreak.task_show.pre_delete:	    Pre delete task
+    + refreak.task_show.deleted:	    Task deleted
+    + refreak.task_show.show_description: Show tab description 
+    + refreak.task_show.show_comments:  Show comments tab
+    + refreak.task_show.show_history:   Show comments history
+    + refreak.task_show.get_description: After ajax call for get task description
+    + refreak.task_show.get_comments:   After ajax call for get task comments
+    + refreak.task_show.get_history:    After ajax call for get task history
+    + refreak.task_show.edit_comment:   When edit comment
+    + refreak.task_show.pre_delete_comment: Before delete comment
+    + refreak.task_show.deleted_comment: Comment Deleted
+    + refreak.task_show.send_comment:   Send comment
+    + refreak.task_show.close:	    Close and destroy show task window.
+    + refreak.task_list.init:	    Initializing task list
+    + refreak.task_list.showtask:	    Click on show task trigger
+    + refreak.task_list.edittask:	    Edit task button
+    + refreak.task_list.pre_delete:	    Pre deleting task
+    + refreak.task_list.deleted:	    Deleted Task
+    + refreak.task_list.status_changing: Change status
+    + refreak.task_list.status_changed: Status Changed
+    + refreak.task_list.close:	    Closing object
+
++ Projects:
+    + refreak.project_edit.invite_user: Inviting user to project in edit page
+    + refreak.project_edit.nouser:	    No user was selected.
+    + refreak.project_edit.user_invited:	User was invited
+    + refreak.project_edit.user_added:  User added to table in edit project page
+    + refreak.project_edit_member.init: Edit member in project initializing
+    + refreak.project_edit_member.edit: Pre-edit member
+    + refreak.project_edit_member.edited: Member edited
+    + refreak.project_edit_member.delete:	Delete member from project
+    + refreak.project_edit_member.deleted:	Member deleted
+    + refreak.project_edit_member.change_position:	Change position in project
+    + refreak.project_edit_member.changed_position:	Changed position in project

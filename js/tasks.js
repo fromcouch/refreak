@@ -26,18 +26,21 @@
 
                         if (options !== undefined)
                             this.options = options;
-
+			
+			this.element.trigger("refreak.task_new.init", this.options );
+			
                         this.element.show();
            
                         $.ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/edit/",
+                            url:        s_url + "tasks/edit/",
                             data:       { tid: this.options.task_id },
                             dataType:   "html"
                         }).done(function(res) {
 
                                 me.element.html(res);
-                                
+                                me.element.trigger("refreak.task_new.render", [me.options, res] );
+				
                                 me._(".task_dead").datepicker({
                                         showOn: "button",
                                         buttonImage: theme_url + "/images/cal.gif",
@@ -54,9 +57,10 @@
 
                                 me._(".task_edit_save").on("click", function() { me.send_data(this); });
                        
+				me.element.trigger("refreak_task_new.bind", [me.options, res] );
 
                         }).fail(function(res) {
-                                alert(genmessage_ajax_error_server);
+                                $.boxes(genmessage_ajax_error_server);
                                 this.element.hide();
                         });
 
@@ -74,13 +78,14 @@
             
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_users_from_project/",
+                            url:        s_url + "tasks/get_users_from_project/",
                             async:      true,
                             data:       {
                                             project_id: $(obj).val()
                                         },
                             onDone:     function(res) {
-                                
+					    
+					    me.element.trigger("refreak.task_new.load_users", [me.options, res] );
                                             var $select_users = me._(".task_users").empty();
 
                                             $.each(res.data, function(i,item) {
@@ -99,6 +104,7 @@
                     
                     this._(".project_sel").hide();
                     this._(".project_txt").show();
+		    this.element.trigger("refreak.task_new.render_input_project", this.options );
                     
                 },
                 
@@ -106,6 +112,7 @@
                     
                     this._(".project_txt").hide();
                     this._(".project_sel").show();
+		    this.element.trigger("refreak.task_new.render_list_project", this.options );
                     
                 },
                 
@@ -114,14 +121,18 @@
                         var me = this;
                         var $title_value = this._(".task_edit_title");
                         
-                        if ($title_value.val() != "") {
-
+                        if ($title_value.val() !== "") {
+			    
+			    me.element.trigger("refreak.task_new.pre_send_data", [me.options, this._(".task_edit_form").serialize()] );
+			    
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/save_task/",
+                                url:        s_url + "tasks/save_task/",
                                 data:       this._(".task_edit_form").serialize(),
                                 onDone:     function(res) {
                                         
+					me.element.trigger("refreak_task_new.send_data_done", [me.options, res] );
+					
                                         if (res.tid > 0) {
                                             $.boxes(tasksmessage_updated);
                                             document.location.reload();
@@ -159,13 +170,14 @@
                                                           .addClass("loader")
                         
                         ).hide();
+			this.element.trigger("refreak.task_new.close", this.options );
                         
                 },
                 
                 destroy: function() {
                         this.close();
                 }
-         }
+         };
  
         task_show.prototype = {
              
@@ -184,17 +196,20 @@
                         if (options !== undefined)
                             this.options = $.extend({}, this.options, options);
                         
+			this.element.trigger("refreak.task_show.init", this.options );
+			
                         this.element.show();
 
                         $.ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/show/",
+                            url:        s_url + "tasks/show/",
                             data:       { tid: this.options.task_id },
                             dataType:   "html"
                         }).done(function(res) {
 
                                 me.element.html(res);
-                                
+                                me.element.trigger("refreak.task_show.render", [me.options, res] );
+				
                                 me._(".task_show_close").on("click", function() { me.close(this); });
                                 me._(".task_show_edit").on("click", function() { me.edit(this); });
                                 me._(".task_show_delete").on("click", function() { me.del(this); });
@@ -217,10 +232,10 @@
                                         me.tabs( me._(".tab_hist") );
                                         break;
                                 }
-                                
+                                me.element.trigger("refreak.task_show.bind", [me.options, res] );
 
                         }).fail(function(res) {
-                                alert(tasksmessage_ajax_error_server);
+                                $.boxes(tasksmessage_ajax_error_server);
                                 me.element.hide();
                         });
 
@@ -234,6 +249,7 @@
 
                 edit: function() {
                         
+			this.element.trigger("refreak.task_show.to_edit", this.options );
                         this.close();
                         $(this.element).show();
                         new task_new(this.element, { task_id: this.options.task_id });
@@ -242,20 +258,27 @@
                       
                 del: function() {
                         
+			var me = this; 
+			
                         if (confirm(tasksmessage_delete)) {
                             
                             $row = $("tr[data-id='" + this.options.task_id + "']");
                             
+			    me.element.trigger("refreak.task_show.pre_delete", me.options );
+			    
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/delete",
+                                url:        s_url + "tasks/delete",
                                 data:       { 
                                                 tid: this.options.task_id
                                             },
                                 onDone:     function(res) {
-
+						    
+						    me.element.trigger("refreak.task_show.deleted", [me.options, res] );
+						    
                                                     $row.remove();
                                                     $.boxes(tasksmessage_deleted);
+						    
                                             }
                                     
                             });
@@ -274,17 +297,20 @@
                         
                         if (this._(obj).hasClass("tab_desc")) {
                             
+				this.element.trigger("refreak.task_show.show_description", this.options );
                                 if (!this.description) this._get_desc();                                
                                 this._(".tab_description_content").show();
                                 
                                 
                         } else if (this._(obj).hasClass("tab_comm")) {
                             
+				this.element.trigger("refreak.task_show.show_comments", this.options );
                                 if (!this.comment) this._get_comm();
                                 this._(".tab_comments_content").show();
                                 
                         } else if (this._(obj).hasClass("tab_hist")) {
                             
+				this.element.trigger("refreak.task_show.show_history", this.options );
                                 if (!this.history) this._get_hist();
                                 this._(".tab_history_content").show();
                                 
@@ -299,11 +325,12 @@
 
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_description/",
+                            url:        s_url + "tasks/get_description/",
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
-
+					    
+					    me.element.trigger("refreak.task_show.get_description", [ me.options, res ] );
                                             me._(".tab_description_content").append( res.description );
 
                                         }
@@ -314,17 +341,19 @@
                 _get_comm: function() {
             
                         var me = this;
+                        var comment_count = 0;
                         this._(".tab_comments_content").empty();
 
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_comments/",
+                            url:        s_url + "tasks/get_comments/",
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
-                                            
+                                            comment_count = res.comments.length;
                                             if (res.comments.length > 0) {
 
+						    me.element.trigger("refreak.task_show.get_comments", [ me.options, res ] );
                                                     var $comms = me._(".tab_comments_content");
 
                                                     $.each(res.comments, function(key, value) {
@@ -356,7 +385,8 @@
                                         }
                                 
                         });
-           
+                        
+                        return comment_count;
                 },
                                 
                 _get_hist: function() {
@@ -365,11 +395,12 @@
 
                         $.call_ajax({
                             type:       "POST",
-                            url:        s_url + "/tasks/get_history/",
+                            url:        s_url + "tasks/get_history/",
                             data:       { tid: this.options.task_id },
                             async:      false,
                             onDone:     function(res) {
 
+					    me.element.trigger("refreak.task_show.get_history", [ me.options, res ] );
                                             var $tr_header      = $("<tr>").append(
                                                                                     $("<th>").html("date")
                                                                            ).append(
@@ -457,7 +488,9 @@
             
                         this._(".veditid").val(task_comment_id);
                         this._(".veditbody").val(comment);
-            
+			
+			this.element.trigger("refreak.task_show.edit_comment", [ this.options, task_comment_id, comment ] );
+			
                         this.show_edit_comment();
                 },
 
@@ -467,9 +500,11 @@
                         
                         if (confirm(tasksmessage_delete_comment)) {
                         
+			    me.element.trigger("refreak.task_show.pre_delete_comment", [ me.options, task_comment_id ] );
+			    
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/delete_comment",
+                                url:        s_url + "tasks/delete_comment",
                                 data:       { 
                                                 tcid: task_comment_id,
                                                 tid: me.options.task_id
@@ -477,7 +512,11 @@
                                 async:      false,
                                 onDone:     function(res) {
 
-                                                me._get_comm();
+						me.element.trigger("refreak.task_show.deleted_comment", [ me.options, task_comment_id ] );
+						
+                                                me._update_comment_count( 
+                                                            me._get_comm() 
+                                                );
                                                 me.tabs(".tab_comm");                                   
 
                                             }                               
@@ -491,10 +530,10 @@
                         var me = this;
                         var comment_id = this._(".veditid").val();
                         var comment = this._(".veditbody").val();                                               
-
+                        
                         $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/save_comment",
+                                url:        s_url + "tasks/save_comment",
                                 data:       { 
                                                 tid: this.options.task_id ,
                                                 tcid: comment_id,
@@ -502,9 +541,13 @@
                                             },
                                 async:      false,
                                 onDone:     function (res) {
+						    me.element.trigger("refreak.task_show.send_comment", [ me.options, res, comment_id, comment ] );
+						    
                                                     me._(".veditbody").val("");
                                                     me._(".veditid").val("0");
-                                                    me._get_comm();
+                                                    me._update_comment_count( 
+                                                            me._get_comm() 
+                                                    );
                                                     me.tabs(".tab_comm");
                                             }
                         });
@@ -512,6 +555,14 @@
                         
                 },
 
+                _update_comment_count: function (comment_count) {
+                        
+                        $row = $("tr[data-id='" + this.options.task_id + "']");
+                        $cc = $row.find(".comment_count");
+                        $cc.html(comment_count);
+                        
+                },
+                        
                 close: function() {
                         
                         this._(".task_show_close").off('click');
@@ -529,13 +580,15 @@
                                                           .addClass("loader")
                         
                         ).hide();
+		
+			this.element.trigger("refreak.task_show.close", this.options );
                         
                 },
                 
                 destroy: function() {
                         this.close();
                 }
-         }
+         };
  
          task_list.prototype = {
              
@@ -549,7 +602,8 @@
                         if (options !== undefined)
                             this.options = options;
                         
-                        
+                        this.element.trigger("refreak.task_list.init", this.options );
+			
                         this.element.tablesorter({
                                 0: { 
                                     sorter: false 
@@ -634,31 +688,39 @@
 
                         var settings = $.extend({}, tasks, options);
 
+			this.element.trigger("refreak.task_list.showtask", this.options );
+
                         $('.task_panel').showTask( settings );
 
                 },
                         
                 edittask: function (task_id) {
                 
+			this.element.trigger("refreak.task_list.edittask", this.options );
+			
                         $(".task_panel").newTask({ task_id: task_id });
 
                 },
                 
                 deletetask: function ( obj ) {
-                
+			
+			var me = this; 
                         var task_id = this._(obj).parents("tr").attr("data-id");
                         var row = this._(obj).parents("tr");
-                
+			
+			this.element.trigger("refreak.task_list.pre_delete", [ this.options, task_id ] );
+			
                         if (confirm(tasksmessage_delete)) {
                             
                             $.call_ajax({
                                 type:       "POST",
-                                url:        s_url + "/tasks/delete",
+                                url:        s_url + "tasks/delete",
                                 data:       { 
                                                 tid: task_id
                                             },
                                 onDone:     function(res) {
 
+						    me.element.trigger("refreak.task_list.deleted", [ this.options, res, task_id ] );
                                                     row.remove();
                                                     $.boxes(tasksmessage_deleted);
                                             }
@@ -671,6 +733,7 @@
                 
                 changestatus: function ( obj ) {
                     
+			    var me= this;
                             var task_id = this._(obj).parents("tr").attr("data-id");
                             var row = this._(obj).parents("tr");
                             var status  = 1;
@@ -684,6 +747,8 @@
                             } else if( this._(obj).hasClass("status4") ) {
                                 status = 5;                            
                             } 
+
+			    this.element.trigger("refreak.task_list.status_changing", [ this.options, task_id, status ] );
 
                             if (status < maximum_status || confirm(task_list_close_task)) {
     
@@ -699,13 +764,14 @@
 
                                 $.call_ajax({
                                     type:       "POST",
-                                    url:        s_url + "/tasks/change_status",
+                                    url:        s_url + "tasks/change_status",
                                     data:       { 
                                                     tid: task_id ,
                                                     status: status
                                                 },
                                     onDone:     function(res) {
 
+						    me.element.trigger("refreak.task_list.status_changed", [ me.options, task_id, status ] );
                                                     if (status === maximum_status)
                                                         row.remove();
 
@@ -723,6 +789,8 @@
                         this._("tbody").off("click", "tr");
                         this._(".status0, .status1, .status2, .status3, .status4").off("click");
                         this._(".comment_link").off("click");
+			this.element.trigger("refreak.task_list.close", this.options );
+			
                 }
          };
  

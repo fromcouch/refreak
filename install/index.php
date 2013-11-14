@@ -94,6 +94,7 @@ pre {
                         echo InstallDecorator::show_li_element('Creating Plugins Table', $inst->install_table($sql_create_plugins));
                         echo InstallDecorator::show_li_element('Creating Controllers Table', $inst->install_table($sql_create_controllers));
                         echo InstallDecorator::show_li_element('Creating Plugins Controllers Table', $inst->install_table($sql_create_plugins_controllers));
+                        echo InstallDecorator::show_li_element('Creating Plugins Data Table', $inst->install_table($sql_create_plugin_data));
                     ?>
                 </ul>
                 <p>Importing Basic Data</p>
@@ -183,12 +184,12 @@ pre {
                                                                                     $inst->install_table($sql_create_insert_users) && 
                                                                                     $inst->install_table($sql_truncate_users) && 
                                                                                     $inst->install_table($sql_insert_users));
-                        print_r($inst->mys->error);
+                        
                         echo InstallDecorator::show_li_element('Import Users Groups Data', $inst->install_table($sql_create_users_groups) && 
                                                                                            $inst->install_table($sql_create_insert_users_groups) && 
                                                                                            $inst->install_table($sql_truncate_users_groups) && 
                                                                                            $inst->install_table($sql_insert_users_groups));
-                        print_r($inst->mys->error);
+                        
                         echo InstallDecorator::show_li_element('Import Project Status Data', $inst->install_table($sql_create_project_status) && 
                                                                                              $inst->install_table($sql_create_insert_project_status) && 
                                                                                              $inst->install_table($sql_truncate_project_status) && 

@@ -34,7 +34,47 @@ class Plugin extends RF_Controller {
     
         $this->load->model('plugin_handler_model');
         
-        $this->data['plugins']      = $this->plugin_handler_model->get_plugin_list();
+        $plugins		    = $this->plugin_handler_model->get_plugin_list();
+	
+	foreach ($plugins as $plg) {
+	    $plg->dir_exists = 1;
+	    if (!is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plg->directory)) {
+		//means plugin don't exist
+		$plg->dir_exists = 0;
+	    }
+	    $plg->installed = 1;
+	}
+	
+	$copied_plugins         = scandir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR);
+        $copied_plugins         = array_diff($copied_plugins, array('..', '.')); //remove . and ..
+                
+        foreach ($copied_plugins as $cp) {
+	    $found = FALSE;	    
+	    
+            //search inside plugin object array
+	    foreach ($plugins as $plg) {
+		if ($plg->directory == $cp) {
+		    $found = TRUE;
+		    break;		
+		}
+	    }
+	    
+	    if (!$found) {
+		$p		    = new stdClass();
+		$p->name	    = $cp;
+		$p->id		    = 0;
+		$p->directory	    = $cp;
+		$p->active	    = 0;
+		$p->controller_name = '';
+		$p->dir_exists	    = 1;
+		$p->installed	    = 0;
+		
+		$plugins	  []= $p;
+	    }
+	    
+        }
+	
+        $this->data['plugins']      = $plugins;
         
         $this->load->view('plugin/plugin', $this->data);
         
@@ -76,7 +116,7 @@ class Plugin extends RF_Controller {
             $this->load->model('plugin_handler_model');
             
             $this->plugin_handler_model->deactivate($id);
-            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_deactivated'));
+            
         }
         else {
             $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
@@ -86,33 +126,113 @@ class Plugin extends RF_Controller {
         redirect("plugin", 'refresh');
     }
  
-    public function install() {
+    /**
+     * Install Plugin
+     * 
+     * @param string $dir Plugin directory
+     * @return void
+     * @access public
+     */
+    public function install($dir) {
         
-        $this->load->model('plugin_handler_model');
-        $plugins                = $this->plugin_handler_model->get_plugin_list();
+	if ($this->ion_auth->is_admin()) {
+	    $this->load->model('plugin_handler_model');
+
+	    if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir)) {
+		$this->plugin_handler_model->install($dir, $dir);
+	    }
+	    $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_installed'));
+	}
+	else {
+            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
+        }	
+	
+	redirect("plugin", 'refresh');
+    }
+    
+    /**
+     * Shows plugin edit page
+     * 
+     * @param int $id plugin identificator
+     * @return void
+     * @access public
+     */
+    public function config($id) {
         
-        $copied_plugins         = scandir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR);
+	if ($this->ion_auth->is_admin()) {
+	    $this->load->model('plugin_handler_model');
+	    $plugin                 = $this->plugin_handler_model->get_plugin($id);
+	    $plugin                 = $plugin[0];
+	    $plugin_path            = APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR ;
+
+	    
+	    if ($this->input->post(NULL, TRUE) !== FALSE) {
+		$data = $this->input->post(NULL, TRUE);
+		unset($data['submit']); //remove button data
+		
+		$this->plugin_handler_model->set_data_plugin($id, $data);
+	    }
+
+	    $config		    = $this->plugin_handler_model->get_data_plugin($id);
+	    
+	    if (is_null($config) && file_exists($plugin_path . 'config.json')) {
+		$config			    = file_get_contents($plugin_path . 'config.json');
+		$config                     = json_decode($config);
+	    }
+
+	    $this->data['config']       = $config;
+
+	    if (file_exists($plugin_path . 'edit.php'))
+	    {
+		ob_start();
+		include($plugin_path . 'edit.php');
+
+		$this->data['form']     = ob_get_contents();
+		ob_end_clean();
+	    }
+
+
+	    $this->data['plg']      = $plugin;
+	}
+        else {
+            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
+        }	
+	
+        $this->load->view('plugin/config', $this->data);
         
-        //remove . and ..
-        $copied_plugins         = array_diff($copied_plugins, array('..', '.'));
-        
-        $fisical_plugins        = array();
-        foreach ($copied_plugins as $cp) {
-            //i need to test if element is directory
-            if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $cp))
-            {
-                $fisical_plugins []= $cp;
-            }
+    }
+    
+    /**
+     * Delete Plugin
+     * 
+     * @param int $id plugin identificator
+     * @return void
+     * @access public
+     */
+    public function delete($id) {
+	
+	if ($this->ion_auth->is_admin()) {
+            $this->load->model('plugin_handler_model');
+            
+	    $plugin_dir         = APPPATH . 'plugins' . DIRECTORY_SEPARATOR;
+	    $plugin		= $this->plugin_handler_model->get_plugin($id);
+	    
+            $this->plugin_handler_model->deactivate($id);
+            $this->plugin_handler_model->uninstall($id);
+	   
+	    if (is_object($plugin[0]) && !empty($plugin[0]->directory) &&
+		    is_dir($plugin_dir . $plugin[0]->directory)) {
+		
+		$this->load->helper('file');
+		delete_files($plugin_dir . $plugin[0]->directory, TRUE);
+	    }
+	    
+	    $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_uninstalled'));
         }
-        
-        if (count($plugins) != count($fisical_plugins)) {
-            //install and uninstall
-            
-            //look $plugins and match $fisical_plugins, if not, delete from db
-            
-            //then match $fisical_plugins with $plugins and install not matched plugins
+        else {
+            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
         }
-            
-        print_r($plugins);
+	
+	redirect("plugin", 'refresh');
     }
 }

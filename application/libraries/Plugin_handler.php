@@ -71,6 +71,9 @@ class Plugin_handler {
                 $class_name     = ucfirst($plugin->directory);
 
                 $this->_plugins_loaded []= $class_name;
+		
+		//look for language file
+		$this->_ci->lang->load( $plugin->directory , '' , FALSE , TRUE , APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR);
             }
         }
         
@@ -105,10 +108,12 @@ class Plugin_handler {
             $this->events[$event_name]                  = array();
         }
         
-        if (!is_null($offset))
+        if (!is_null($offset)) {
             $this->events[$event_name][$offset]         = $callback;
-        else
+	}
+        else {
             $this->events[$event_name][]                = $callback;
+	}
         
     }
     

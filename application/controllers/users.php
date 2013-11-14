@@ -360,8 +360,14 @@ class Users extends RF_Controller {
             if (!$id) $id = $this->data['actual_user']->id;
         
             //user to show
-            $user               = $this->ion_auth->user($id)->row();            
-            $author             = $this->ion_auth->user($user->author_id)->row()->first_name;
+            $user               = $this->ion_auth->user($id)->row();
+            $author             = $this->ion_auth->user($user->author_id)->row();
+            
+            if (!is_object($author)) {
+                $author         = $user;
+            }            
+            
+            $author = $author->first_name;
             
             //load projects language, we need here.
             $this->lang->load('projects');

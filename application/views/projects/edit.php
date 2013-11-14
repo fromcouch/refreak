@@ -54,57 +54,73 @@ if ($actual_user->project_position >= 4) :
 
           $(".project_invite").on("click", function() {
 
+		var me = $(this);
                 var pid = $("input[name=id]").val();
                 var uid = $(".dropdown_users").val();
                 var pos = $(".project_position").val();
+		
+		if (uid > 0 ) {
+		
+			$(this).trigger("refreak.project_edit.invite_user", [ uid, pid, pos ]);
 
-                $.call_ajax({
-                        type:       "POST",
-                        url:        "<?php echo site_url(); ?>projects/add_user_project/",
-                        data:       {  
-                                        project_id: pid, 
-                                        user_id: uid,
-                                        position: pos
-                                    },
-                        onDone:     function(res) {
+			$.call_ajax({
+				type:       "POST",
+				url:        "<?php echo site_url(); ?>projects/add_user_project/",
+				data:       {  
+						project_id: pid, 
+						user_id: uid,
+						position: pos
+					    },
+				onDone:     function(res) {
 
-                                        var $tr = $("<tr></tr>").attr("data-id", uid).addClass("project_data");
-                                        $tr.append(
-                                                    $("<td></td>").html($(".dropdown_users option:selected").html())
-                                                ).append(
-                                                    $("<td></td>").html($(".project_position option:selected").html())
-                                                ).append(
-                                                    $("<td></td>").append(
-                                                            $("<a></a>").addClass("project_members_edit").attr("href","")
-                                                                    .append(
-                                                                        $("<img/>")
-                                                                                .attr("src","<?php echo base_url() . $theme; ?>/images/b_edit.png")  
-                                                                                .attr("width","20")  
-                                                                                .attr("height","16")  
-                                                                                .attr("border","0")
-                                                                    )
-                                                        ).append(
-                                                            $("<a></a>").addClass("project_members_delete").attr("href","")
-                                                                    .append(
-                                                                        $("<img/>")
-                                                                                .attr("src","<?php echo base_url() . $theme; ?>/images/b_dele.png")  
-                                                                                .attr("width","20")  
-                                                                                .attr("height","16")  
-                                                                                .attr("border","0")
-                                                                    )
-                                                       )                              
-                                                );
+						me.trigger("refreak.project_edit.user_invited", [ res, uid, pid, pos ]);
 
-                                        $("tbody",".data")
-                                                .append($tr);                                                                
+						var $tr = $("<tr></tr>").attr("data-id", uid).addClass("project_data");
+						$tr.append(
+							    $("<td></td>").html($(".dropdown_users option:selected").html())
+							).append(
+							    $("<td></td>").html($(".project_position option:selected").html())
+							).append(
+							    $("<td></td>").append(
+								    $("<a></a>").addClass("project_members_edit").attr("href","")
+									    .append(
+										$("<img/>")
+											.attr("src","<?php echo base_url() . $theme; ?>/images/b_edit.png")  
+											.attr("width","20")  
+											.attr("height","16")  
+											.attr("border","0")
+									    )
+								).append(
+								    $("<a></a>").addClass("project_members_delete").attr("href","")
+									    .append(
+										$("<img/>")
+											.attr("src","<?php echo base_url() . $theme; ?>/images/b_dele.png")  
+											.attr("width","20")  
+											.attr("height","16")  
+											.attr("border","0")
+									    )
+							       )                              
+							);
+						
+						me.trigger("refreak.project_edit.user_added", [ res, uid, pid, pos, $tr ]);
 
-                                        $tr.manageProject();
+						$("tbody",".data")
+							.append($tr);                                                                
 
-                                        $(".dropdown_users option:selected").remove();
+						$tr.manageProject();
 
-                                        $.boxes("<?php echo $this->lang->line('projectsmessage_useradded'); ?>");
-                                    }
-                });
+						$(".dropdown_users option:selected").remove();
+
+						$.boxes("<?php echo $this->lang->line('projectsmessage_useradded'); ?>");
+					    }
+			});
+		}
+		else
+		{
+			//no user selected
+			$(this).trigger("refreak.project_edit.nouser");
+			$.boxes("<?php echo $this->lang->line('projectsmessage_nouser'); ?>");
+		}
 
           });
           
@@ -122,6 +138,8 @@ if ($actual_user->project_position >= 4) :
                
                     var me = this;
                     
+		    this.element.trigger("refreak.project_edit_member.init", this.options );
+		    
                     if (options !== undefined)
                         this.options = options;
                     
@@ -145,6 +163,8 @@ if ($actual_user->project_position >= 4) :
                 var position_cell   = this.element.children("td").eq(1);
                 var position        = position_cell.text();                        
 
+		this.element.trigger("refreak.project_edit_member.edit", position );
+
                 position_cell.html("");            
                 position_cell.append($(".project_hidden_position").clone()
                                                                     .show()
@@ -162,7 +182,9 @@ if ($actual_user->project_position >= 4) :
                 );
 
 
-                $(".project_show_position option:contains(" + position + ")", this.element).attr('selected', 'selected'); 
+                this._(".project_show_position option:contains(" + position + ")").attr('selected', 'selected'); 
+		
+		this.element.trigger("refreak.project_edit_member.edited", position );
 
                 return false; 
             },
@@ -173,28 +195,32 @@ if ($actual_user->project_position >= 4) :
                 
                 if (confirm("<?php echo $this->lang->line('projectsmessage_remove_user'); ?>")) {
                     
-                    var me      = this.element;
-                    var pid     = $("input[name=id]").val();
-                    var uid     = me.attr("data-id");
-                    var uname   = me.children(":first").html()
+			var me      = this.element;
+			var pid     = $("input[name=id]").val();
+			var uid     = me.attr("data-id");
+			var uname   = me.children(":first").html()
                     
-                    $.call_ajax({
-                        type:       "POST",
-                        url:        "<?php echo site_url(); ?>projects/remove_user_project/",
-                        data:       {  
-                                        project_id: pid, 
-                                        user_id: uid                                    
-                                    },
-                        onDone:     function(res) {
+			this.element.trigger("refreak.project_edit_member.delete", [ pid, uid, uname ] );
+		    
+			$.call_ajax({
+			    type:       "POST",
+			    url:        "<?php echo site_url(); ?>projects/remove_user_project/",
+			    data:       {  
+					    project_id: pid, 
+					    user_id: uid                                    
+					},
+			    onDone:     function(res) {
 
-                                        me.remove();
+						me.trigger("refreak.project_edit_member.deleted", [ res, pid, uid, uname ] );
+						
+						me.remove();
 
-                                        $(".dropdown_users").append(new Option(uname, uid));
+						$(".dropdown_users").append(new Option(uname, uid));
 
-                                        $.boxes("<?php echo $this->lang->line('projectsmessage_userremoved'); ?>");
-                                    }
-                            
-                    });
+						$.boxes("<?php echo $this->lang->line('projectsmessage_userremoved'); ?>");
+					}
+
+			});
 
                 }
 
@@ -203,11 +229,13 @@ if ($actual_user->project_position >= 4) :
                 
             project_change: function (event) {
                 
+		var me		= this.element;
                 var pid         = $("input[name=id]").val();
                 var uid         = this.element.attr("data-id");
                 var $psp        = this.element.find(".project_show_position");
                 var position    = $psp.val();
 
+		this.element.trigger("refreak.project_edit_member.change_position", [ pid, uid, position ] );
 
                 $.call_ajax({
                     type:       "POST",
@@ -218,15 +246,17 @@ if ($actual_user->project_position >= 4) :
                                     position: position
                                 },
                     onDone:     function(res) {
+					
+					var new_position = $psp.find(":selected").html();
+					var $td = $psp.parents("td");
+					$psp.remove();
+					$td.html(new_position);
 
-                                    var new_position = $psp.find(":selected").html();
-                                    var $td = $psp.parents("td");
-                                    $psp.remove();
-                                    $td.html(new_position);
+					this.element.trigger("refreak.project_edit_member.changed_position", [ pid, uid, new_position ] );
 
-                                    $td.next().show().next().remove();
+					$td.next().show().next().remove();
 
-                                    $.boxes("<?php echo $this->lang->line('projectsmessage_userchanged'); ?>");
+					$.boxes("<?php echo $this->lang->line('projectsmessage_userchanged'); ?>");
                                 }
                         
                 });

@@ -46,7 +46,7 @@ class RF_Controller extends CI_Controller {
         $this->lang->load('general');
         $this->lang->load('tasks');
         $this->load->model('user_model');
-        $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form'));
+        $this->load->helper(array('rfk_date', 'html', 'form', 'rfk_form', 'decorators/layout'));
         
         $params                             = $this->_detect_user_project();
         $actual_user                        = $this->plugin_handler->trigger('base_user_loaded', $this->ion_auth->user()->row());
@@ -149,10 +149,15 @@ class RF_Controller extends CI_Controller {
             ); 
         }
             
+        $tasks_menu         = '';
+        
+        if ($this->ion_auth->in_group(array(1,2))) {
+            $tasks_menu         = anchor('#', $this->lang->line('menu_tasks_new'), array('class' => 'menu_new_task'));
+        }
         
         $menu               = array(
                                 anchor('#', $this->lang->line('menu_tasks'))    => array(
-                                                            anchor('#', $this->lang->line('menu_tasks_new'), array('class' => 'menu_new_task'))
+                                                                        $tasks_menu
                                                                     ),
                                 anchor('#', $this->lang->line('menu_view'))     => $view_menu,
                                 

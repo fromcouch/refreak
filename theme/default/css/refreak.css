@@ -405,7 +405,12 @@ span.ddone {
 span.dtodo {
 	color: #696;
 }
-
+table.sheet tr.not-installed td {
+	background-color: #fcc;
+}
+table.sheet tr.not-dir td {
+	background-color: #fcc;
+}
 /*** End Tables ***/
 
 /** Priority **/
@@ -509,8 +514,8 @@ div.task_ctxO {
 
 /* panels */
 .infoMessage {
-	position: absolute;
-	top: 5px;
+	position: fixed;
+	top: 65px;
 	left: 50%;
 	margin-left: -200px;
 	width: 400px;

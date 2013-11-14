@@ -45,8 +45,15 @@ class Task_model extends CI_Model {
                 ->join('projects', 'tasks.project_id = projects.project_id', 'left' )
                 ->join('user_project', 'user_project.project_id = tasks.project_id', 'left')
                 ->join('users', 'users.id = tasks.user_id', 'left')
-                ->join('task_comment', 'tasks.task_id = task_comment.task_id', 'left')                
-                ->where('(rfk_tasks.private = 0 OR rfk_tasks.private = 1 OR (rfk_tasks.private = 2 AND (rfk_tasks.user_id=' . $actual_user_id . ' OR rfk_tasks.author_id = ' . $actual_user_id . ')))')
+                ->join('task_comment', 'tasks.task_id = task_comment.task_id', 'left');
+        
+        $private = '(rfk_tasks.private = 0 OR';
+        if ($this->ion_auth->in_group(array(1,2,3))) {
+                $private .= ' rfk_tasks.private = 1 OR';
+        }
+        
+        $this->db                
+                ->where($private . ' (rfk_tasks.private = 2 AND (rfk_tasks.user_id=' . $actual_user_id . ' OR rfk_tasks.author_id = ' . $actual_user_id . ')))')
                 ->where('user_project.user_id', $actual_user_id)
                 ->group_by('tasks.task_id')                
                 ->order_by('tasks.deadline_date','asc')
@@ -166,9 +173,6 @@ class Task_model extends CI_Model {
             // Create new project
             $this->load->model('project_model');
             $project_id         = $this->project_model->save($project_name, $author_id);
-            
-            // assing position to Official to user
-            $this->project_model->set_user_project($user_id, $project_id, 2);
         }
         
         /**
