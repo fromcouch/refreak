@@ -72,13 +72,32 @@ class RF_Plugin {
      * @param string $name plugin name
      * @return void
      * @access protected
+     * @deprecated
      */
-    protected function activate_lib_mode($name) {
+    private function activate_lib_mode($name) {
         
 	$name = strtolower($name);
 	
         $this->_ci->load->add_package_path(APPPATH . 'plugin' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR);
         
+    }
+    
+    public function js_add($js) {
+	    
+	    $this->_ci->javascript->js->script( $js );
+	    
+    }
+    
+    public function css_add($css, $key) {
+	    
+	    $this->_ci->css->add_style( $css, $key );
+	    
+    }
+    
+    public function css_remove($key) {
+	    
+	    $this->_ci->css->remove_style( $key );
+	    
     }
 }
 
