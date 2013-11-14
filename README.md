@@ -32,10 +32,10 @@ TODO
 
 ### Stage 2
 + ~~Import on Install tasks from TF~~
-+ Pluginize project
++ ~~Pluginize project~~
     + ~~Pluginize Controlers and models~~
     + ~~Decorators for views~~
-    + Pluginize JS
+    + ~~Pluginize JS~~
     + ~~Plugin Installer~~
     + ~~Plugin Configuration~~
 + Printing Version
