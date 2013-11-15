@@ -641,7 +641,86 @@ class task_helper {
         return implode('', $tr);
         
     }
-            
+     
+    /**
+     * 
+     * @param array $tasks Task arrays
+     * @param string $project_text text for project
+     * @param string $priority_text text for priority
+     * @param string $user_text text for user
+     * @param string $deadline_text text for deadline
+     * @param string $status_text text for status
+     * @param array $status status text array
+     * @return string html for print
+     * @access public
+     * @static
+     */
+    public static function table_print($tasks, $project_text, $priority_text, $user_text, $deadline_text, $status_text, $status) {
+	    
+	    $part	= array();
+	    
+	    foreach ($tasks as $tf) {
+                
+			$tcol			= array();
+			
+			$tcol['begin_box']		= '
+				<div class="printbox">
+			';
+			
+			$tcol['title']		= '
+				<h2>' . $tf->title . '</h2>
+			';
+			
+			$tcol['begin_table']	= '
+				<table cellpadding="1" cellspacing="0" border="0" width="100%">
+			';
+			
+			$tcol['project']	= '
+				<tr>
+				    <td colspan="4"> ' .
+					$project_text . ': 
+					<strong>' . $tf->project_name . '</strong></td>
+				</tr>
+			';
+			
+			$tcol['info']		= '
+				<tr>
+					<td width="15%">' . 
+						$priority_text .': <strong>' . $tf->priority .'</strong>
+					</td>
+					<td width="35%">' .
+						$user_text . ': <strong>' . $tf->first_name . ' ' . $tf->last_name . '</strong>
+					</td>
+					<td width="35%">' .
+						$deadline_text . ': <strong>' . rfk_task_helper::calculate_deadline($tf->deadline_date, $tf->status_key) .'</strong>
+					</td>
+					<td width="15%">' .
+						$status_text . ': <strong>' . $status[$tf->status_key] . '</strong>
+					</td>
+				</tr>
+			';
+			
+			$tcol['end_table']	= '
+				</table>
+			';
+			
+			$tcol['description']	= '
+				<div class="printdescription">' . $tf->description . '</div>
+			';
+			
+			$tcol['end_box']		= '
+				</div>
+			';
+			
+			$tcol = rfk_plugin_helper::trigger_event('tasks_print_task_content', $tcol);
+			
+			$part []= implode('',$tcol);
+	    }
+	    
+	    $part	= rfk_plugin_helper::trigger_event('tasks_print_all_content', $part);
+	    
+	    return implode('',$part);
+    }
 }
 
 /* End of file task_helper.php */

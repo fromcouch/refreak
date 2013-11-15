@@ -90,24 +90,67 @@ class Tasks extends RF_Controller {
      */
     public function s($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
         
-        // transform 0 to null for task model. $time_concept don't need, 0 is future
-        // and init vars
-        $project_id                 = $project_id   == 0 ? null : $project_id;
-        $user_id                    = $user_id      == 0 ? null : $user_id;
-        $context_id                 = $context_id   == 0 ? null : $context_id;
-        $projects                   = array();
-        
-        if (!is_null($user_id)) {
-            $projects               = $this->_get_user_projects($user_id);           
-        }                    
-                
-        $this->data['tasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
-        
-        $this->data['tasks']        = $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
-        $this->data['max_status']   = $this->config->item('rfk_status_levels');
+        $this->data['tasks']		= $this->search($project_id, $user_id, $time_concept, $context_id);  
+	
+        $this->data['tasks']		= $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
+        $this->data['max_status']	= $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
+    }
+    
+    /**
+     * Print tasks. 
+     * All parameters are optional.
+     * 
+     * @param int $project_id Project ID
+     * @param int $user_id User ID
+     * @param int $time_concept 0 = future, 1 = past, 2 = all
+     * @param int $context_id Task Context
+     * @access public
+     * @return void
+     */
+    public function p($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
+	    
+	$this->css->add_style(base_url() . '/' . $this->data['theme'] . '/css/print.css', 'print');
+	
+	$this->data['tasks']		= $this->search($project_id, $user_id, $time_concept, $context_id);    
+	$this->data['max_status']	= $this->config->item('rfk_status_levels');
+     
+	$this->data['tasks']		= $this->plugin_handler->trigger('tasks_search_result_print', $this->data['tasks'] );
+	
+        $this->load->view('tasks/print', $this->data);
+	    
+    }
+    
+    /**
+     * Search Action for Tasks. Is called when need to find tasks in more specific way.
+     * All parameters are optional.
+     * 
+     * @param int $project_id Project ID
+     * @param int $user_id User ID
+     * @param int $time_concept 0 = future, 1 = past, 2 = all
+     * @param int $context_id Task Context
+     * @access private
+     * @return object/array list of tasks
+     */
+    private function search($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
+	    
+	// transform 0 to null for task model. $time_concept don't need, 0 is future
+	// and init vars
+	$project_id                 = $project_id   == 0 ? null : $project_id;
+	$user_id                    = $user_id      == 0 ? null : $user_id;
+	$context_id                 = $context_id   == 0 ? null : $context_id;
+	$projects                   = array();
+
+	if (!is_null($user_id)) {
+	    $projects		= $this->_get_user_projects($user_id);           
+	}                    
+
+	$tasks			= $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
+
+	return $tasks;
+	    
     }
     
     /**
