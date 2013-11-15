@@ -158,7 +158,7 @@ class project_helper {
                 if ($table_project->position == 5 || $access) {
                     $btn_delete = '
                         <a href="' . $delete_url . $table_project->project_id . '" 
-                                onclick="return confirm(\'' . $confirmdelete . '\');">
+                                onclick="return $.confirm(\'' . $confirmdelete . '\');">
                                     <img src="' . $theme_url . '/images/b_dele.png" width="20" height="16" border="0" />
                         </a>
                     ';

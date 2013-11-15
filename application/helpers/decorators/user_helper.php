@@ -127,7 +127,7 @@ class user_helper {
                         ';
                         
                         $btn_delete = '
-                            <a href="' . $delete_url . $table_user->id .'" onclick="return confirm(\'' . $confirmdelete . '\');">
+                            <a href="' . $delete_url . $table_user->id .'" onclick="return $.confirm(\'' . $confirmdelete . '\');">
                                 <img src="' . $theme_url. '/images/b_dele.png" width="20" height="16" border="0" />
                             </a>
                         ';
