@@ -1,8 +1,6 @@
 
 (function( $ ){
     
-    
-
     $.boxes = function (options) {                          
 
             var me = this;
@@ -170,6 +168,59 @@
             };
 
             this.init( options );       
+    };
+    
+    $.alert = function ( options ) {
+	
+	    var me = this;
+	
+	    var defaults = {
+		message: "Default alert message"
+	    };
+
+	    this.settings = {};
+
+	    this.init = function ( options ) {
+                
+                    options = ((typeof options) === "string" ? {message: options} : options);
+                    me.settings = $.extend({}, defaults, options);
+                
+		    me.show_alert();
+            };
+
+	    this.show_alert = function() {
+		    
+		    alert(me.settings.message);
+		    
+	    };
+
+            this.init( options );     
+    };
+    
+    $.confirm = function ( options ) {
+	    var me = this;
+	
+	    var defaults = {
+		message: "Default confirm message"
+	    };
+
+	    this.settings = {};
+
+	    this.init = function ( options ) {
+                
+                    options = ((typeof options) === "string" ? {message: options} : options);
+                    me.settings = $.extend({}, defaults, options);
+                
+		    return me.show_confirm();
+            };
+
+	    this.show_confirm = function() {
+		    
+		    return confirm(me.settings.message);
+		    
+	    };
+
+            return this.init( options );     
     };
     
     window.setInterval("$.clock( { class_name: '.userdate' } )",1000);

@@ -124,14 +124,16 @@ class RF_Controller extends CI_Controller {
      */
     protected function _create_left_menu($user_projects, $params) {
         
-        $user_id            = 0;
-        $project_id         = 0;
-        $context_id         = 0;
+        $user_id		= 0;
+        $project_id		= 0;
+        $time_id		= 0;
+        $context_id		= 0;
         
         if ($params !== false && is_array($params)) {
-            $user_id        = $params['user'];
-            $project_id     = $params['project'];
-            $context_id     = $params['context'];
+            $user_id		= $params['user'];
+            $project_id		= $params['project'];
+            $time_id		= $params['time'];
+            $context_id		= $params['context'];
         }
         
         $view_menu          = array(
@@ -155,9 +157,11 @@ class RF_Controller extends CI_Controller {
             $tasks_menu         = anchor('#', $this->lang->line('menu_tasks_new'), array('class' => 'menu_new_task'));
         }
         
+	$print_menu	    = anchor('tasks/p/' . $project_id . '/' . $user_id . '/' .$time_id . '/' . $context_id . '/', $this->lang->line('menu_tasks_print'));
+	
         $menu               = array(
                                 anchor('#', $this->lang->line('menu_tasks'))    => array(
-                                                                        $tasks_menu
+                                                                        $tasks_menu, $print_menu
                                                                     ),
                                 anchor('#', $this->lang->line('menu_view'))     => $view_menu,
                                 

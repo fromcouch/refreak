@@ -260,7 +260,7 @@
                         
 			var me = this; 
 			
-                        if (confirm(tasksmessage_delete)) {
+                        if ($.confirm(tasksmessage_delete)) {
                             
                             $row = $("tr[data-id='" + this.options.task_id + "']");
                             
@@ -498,7 +498,7 @@
             
                         var me = this;
                         
-                        if (confirm(tasksmessage_delete_comment)) {
+                        if ($.confirm(tasksmessage_delete_comment)) {
                         
 			    me.element.trigger("refreak.task_show.pre_delete_comment", [ me.options, task_comment_id ] );
 			    
@@ -710,7 +710,7 @@
 			
 			this.element.trigger("refreak.task_list.pre_delete", [ this.options, task_id ] );
 			
-                        if (confirm(tasksmessage_delete)) {
+                        if ($.confirm(tasksmessage_delete)) {
                             
                             $.call_ajax({
                                 type:       "POST",
@@ -750,7 +750,7 @@
 
 			    this.element.trigger("refreak.task_list.status_changing", [ this.options, task_id, status ] );
 
-                            if (status < maximum_status || confirm(task_list_close_task)) {
+                            if (status < maximum_status || $.confirm(task_list_close_task)) {
     
                                 for (var st = 0; st<maximum_status; st++) {
                                     $(".status" + st, row).removeClass().addClass("status" + st);

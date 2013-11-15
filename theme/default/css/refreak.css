@@ -85,7 +85,7 @@ small {
 
 ul.navright {
     float: right;
-    height: 30px;
+    height: 25px;
     font-size:11px;
     font-weight:bold;
     font-family: Verdana, Arial;
@@ -98,7 +98,12 @@ ul.navright {
 ul.navright li {
     display:inline;        
     position:relative;   
-    
+    font-size:11px;
+    font-weight:bold;
+    font-family: Verdana, Arial;
+    margin:0;
+    padding:0;
+    float:left;
 }
 
 ul.navright li a {
@@ -108,6 +113,7 @@ ul.navright li a {
     text-decoration:none;
     display:inline-block;    
     padding:5px 10px;
+    height: 15px;
     
     -webkit-transition:color 0.2s linear, background 0.2s linear;  
     -moz-transition:color 0.2s linear, background 0.2s linear; 
@@ -125,6 +131,7 @@ ul.navright select {
 	font-size: 9px;
 	font-weight: normal;
 	border: 0px solid #933;
+	margin: 5px 10px;
 }
 /*** END Right Navigation panel ***/
 
@@ -147,6 +154,7 @@ ul.nav {
     margin:0px auto;
     position:relative;
     padding: 0px;
+    height: 25px;
     /*border-left:1px solid #c4dbe7;
     border-right:1px solid #c4dbe7;*/
 }
@@ -170,10 +178,8 @@ ul.nav li a {
     text-shadow:1px 1px 0px #000;
     text-decoration:none;
     display:inline-block;
-    /*border-right:1px solid #fff;
-    border-left:1px solid #C2C2C2;
-    border-top:1px solid #fff;*/
-     
+    height: 15px;
+    
     -webkit-transition:color 0.2s linear, background 0.2s linear;  
     -moz-transition:color 0.2s linear, background 0.2s linear; 
     -o-transition:color 0.2s linear, background 0.2s linear;   
@@ -255,6 +261,7 @@ ul.nav ul li a {
     float:left;
     clear:both;
     width:120px;
+    height: 15px;
 }
 /*** END Menu ***/
 

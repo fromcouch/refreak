@@ -193,7 +193,7 @@ if ($actual_user->project_position >= 4) :
 
                 event.preventDefault();
                 
-                if (confirm("<?php echo $this->lang->line('projectsmessage_remove_user'); ?>")) {
+                if ($.confirm("<?php echo $this->lang->line('projectsmessage_remove_user'); ?>")) {
                     
 			var me      = this.element;
 			var pid     = $("input[name=id]").val();

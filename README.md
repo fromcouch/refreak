@@ -22,24 +22,14 @@ Originally created in September 2005 and maintained by Stan Ozier and Tirzen wit
  - user management for tasks and system
  - easy project management
  - import from Taskfreak! when install.
+ - Plugin Ready
 
 ###Future Features
- - Plugin Ready
+ - a lot of plugins 
 
 
 TODO
 ----
-
-### Stage 2
-+ ~~Import on Install tasks from TF~~
-+ ~~Pluginize project~~
-    + ~~Pluginize Controlers and models~~
-    + ~~Decorators for views~~
-    + ~~Pluginize JS~~
-    + ~~Plugin Installer~~
-    + ~~Plugin Configuration~~
-+ Printing Version
-+ Own dialog and alerts messages
 
 ### Stage 3
 + GTD Plugin
@@ -182,6 +172,9 @@ List of plugin events fired in Refreak.
     + tasks_view_edit_task_project:         Edit task, project selector (tasks)
     + tasks_view_edit_title_description:    Edit task, title description (tasks)
     + tasks_view_edit_user_status:          Edit task, user status (tasks)
+    + tasks_search_result_print:	    Return list of tasks for print
+    + tasks_print_task_content:		    Fire for every task with their html content
+    + tasks_print_all_content:		    Return all html content for print
 
 
 + Users
