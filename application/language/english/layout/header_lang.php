@@ -17,6 +17,7 @@ $lang['header_logout']              = 'Logout';
 //menu
 $lang['menu_tasks']                 = 'Tasks';
 $lang['menu_tasks_new']             = 'New To Do';
+$lang['menu_tasks_print']           = 'Print Tasks';
 
 $lang['menu_view']                  = 'View';
 $lang['menu_view_all_projects']     = 'All Projects';
