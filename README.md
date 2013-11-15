@@ -22,24 +22,14 @@ Originally created in September 2005 and maintained by Stan Ozier and Tirzen wit
  - user management for tasks and system
  - easy project management
  - import from Taskfreak! when install.
+ - Plugin Ready
 
 ###Future Features
- - Plugin Ready
+ - a lot of plugins 
 
 
 TODO
 ----
-
-### Stage 2
-+ ~~Import on Install tasks from TF~~
-+ ~~Pluginize project~~
-    + ~~Pluginize Controlers and models~~
-    + ~~Decorators for views~~
-    + ~~Pluginize JS~~
-    + ~~Plugin Installer~~
-    + ~~Plugin Configuration~~
-+ ~~Printing Version~~
-+ ~~Own dialog and alerts messages~~
 
 ### Stage 3
 + GTD Plugin
