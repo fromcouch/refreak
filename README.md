@@ -38,8 +38,8 @@ TODO
     + ~~Pluginize JS~~
     + ~~Plugin Installer~~
     + ~~Plugin Configuration~~
-+ Printing Version
-+ Own dialog and alerts messages
++ ~~Printing Version~~
++ ~~Own dialog and alerts messages~~
 
 ### Stage 3
 + GTD Plugin
