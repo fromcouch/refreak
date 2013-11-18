@@ -438,6 +438,7 @@ $sql_create_plugins = "
         `name` varchar(50) NOT NULL,
         `directory` varchar(250) NOT NULL,
         `active` tinyint(1) NOT NULL,
+	`class` varchar(250) DEFAULT NULL,
         PRIMARY KEY (`id`)
     ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 ";
@@ -457,7 +458,8 @@ $sql_insert_controllers = "
         (1, 'tasks'),
         (2, 'projects'),
         (3, 'users'),
-        (4, 'auth');
+        (4, 'auth'),
+        (5, 'plugin');
 ";
 
 $sql_create_plugins_controllers = "

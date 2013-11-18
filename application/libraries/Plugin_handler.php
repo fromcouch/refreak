@@ -68,7 +68,7 @@ class Plugin_handler {
         foreach ($plugins as $plugin) {            
             if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
                 include(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php');
-                $class_name     = ucfirst($plugin->directory);
+                $class_name     = ucfirst($plugin->name);
 
                 $this->_plugins_loaded []= $class_name;
 		

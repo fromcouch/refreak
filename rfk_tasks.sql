@@ -505,6 +505,7 @@ CREATE TABLE IF NOT EXISTS `rfk_plugins` (
   `name` varchar(50) NOT NULL,
   `directory` varchar(250) NOT NULL,
   `active` tinyint(1) NOT NULL,
+  `class` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -527,7 +528,8 @@ INSERT INTO `rfk_controllers` (`id`, `controller_name`) VALUES
 (1, 'tasks'),
 (2, 'projects'),
 (3, 'users'),
-(4, 'auth');
+(4, 'auth'),;
+(5, 'plugin');
 
 --
 -- Estructura de tabla para la tabla `rfk_plugin_controller`

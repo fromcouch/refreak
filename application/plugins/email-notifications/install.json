@@ -1,0 +1,4 @@
+{
+    "plugin_name": "Email Notification",
+    "class": "Email_Notification"
+}

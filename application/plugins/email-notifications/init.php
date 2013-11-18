@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Refreak Plugin Example
+ * Email Notification Refreak Plugin
  *
  * @package	Refreak
  * @subpackage	plugin
@@ -8,7 +8,7 @@
  * @author	Víctor <victor@ebavs.net> fromcouch
  * @link	https://github.com/fromcouch/refreak
  */
-class Example extends RF_Plugin {
+class Email_Notification extends RF_Plugin {
     
     /**
      * Constructor
