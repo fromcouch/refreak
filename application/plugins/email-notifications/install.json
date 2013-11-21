@@ -1,4 +1,5 @@
 {
     "plugin_name": "Email Notification",
-    "class": "Email_Notification"
+    "class": "Email_Notification",
+    "controller": "All"
 }

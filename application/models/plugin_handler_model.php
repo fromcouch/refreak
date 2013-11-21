@@ -95,17 +95,40 @@ class plugin_handler_model extends CI_Model  {
      * 
      * @param string $name Plugin name
      * @param string $directory Directory name
+     * @param string $clase Class to instantiate
+     * @param string $controller Controller where execute plugin
      * @access public
      */
-    public function install($name, $directory) {
+    public function install($name, $directory, $clase, $controller) {
         
         $this->db->insert('plugins', array(
-                                        'name'      => $name,
-                                        'directory' => $directory
+                                        'name'		=> $name,
+                                        'directory'	=> $directory,
+                                        'class'		=> $clase
                                     )
         );
-        
+	
+	$controller_id	= 0;
+	$id	= $this->db->insert_id();
+	
+	if (strtolower($controller) !== 'all') {
+		$r	= $this->db
+				->select('controllers.id')
+				->where('controllers.controller_name', $controller)
+				->get('controllers')
+				->result();
+		print_r($r);
+		if (!is_null($r) && is_array($r)) {
+			$controller_id	= $r[0]->id;
+		}
+	}
+	$this->db->insert('plugin_controller', array(
+                                        'plugin_id'	=> $id,
+                                        'controller_id'	=> $controller_id
+                                    )
+        );
     }
+    
     
     /**
      * Uninstall orfan plugin

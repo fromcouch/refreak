@@ -140,14 +140,20 @@ class Plugin extends RF_Controller {
 
 	    if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir)) {
 		    
-		$name = $dir;
-
+		$name		= $dir;
+		$clase		= $dir;
+		$controller	= 'all';
+		
 		if (is_file(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json')) {
 			$install_json	= file_get_contents(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json');
-			$name		= json_decode($install_json)->plugin_name;
+			$plg_install	= json_decode($install_json);
+			
+			$name		= property_exists($plg_install, 'plugin_name') ? $plg_install->plugin_name : $dir;
+			$clase		= property_exists($plg_install, 'class') ? $plg_install->class : $dir;
+			$controller	= property_exists($plg_install, 'controller') ? $plg_install->controller : 'all';
 		}
 		    
-		$this->plugin_handler_model->install($name, $dir);
+		$this->plugin_handler_model->install($name, $dir, $clase, $controller);
 	    }
 	    $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_installed'));
 	}
