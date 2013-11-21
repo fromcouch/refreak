@@ -3,6 +3,6 @@
     <input type="text" name="name" value="<?php echo $config->name;?>" />
 </p>
 <p>
-    <label class="compulsory">Title: </label>
+    <label class="compulsory"><?php echo $this->lang->line('form_title'); ?> </label>
     <input type="text" name="title" value="<?php echo $config->title;?>" />
 </p>
