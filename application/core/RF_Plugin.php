@@ -18,6 +18,24 @@ class RF_Plugin {
      */
     public $_ci = null;
     
+    /**
+     * Singleton instance variable
+     * 
+     * @var object instance for singleton 
+     */
+    protected static $instance = null;
+    
+    public static function getInstance() {
+	    
+	   if (  !self::$instance instanceof self) {
+	      self::$instance = new self;
+	   }
+	   return self::$instance;
+    }
+    
+    /**
+     * Constructor
+     */
     public function __construct() {
         $this->_ci =& get_instance(); 
         $this->_ci->load->library('plugin_handler');        

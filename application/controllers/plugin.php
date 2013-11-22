@@ -173,42 +173,50 @@ class Plugin extends RF_Controller {
      */
     public function config($id) {
         
-	if ($this->ion_auth->is_admin()) {
-	    $this->load->model('plugin_handler_model');
-	    $plugin                 = $this->plugin_handler_model->get_plugin($id);
-	    $plugin                 = $plugin[0];
-	    $plugin_path            = APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR ;
-
-	    
-	    if ($this->input->post(NULL, TRUE) !== FALSE) {
-		$data = $this->input->post(NULL, TRUE);
-		unset($data['submit']); //remove button data
-		
-		$this->plugin_handler_model->set_data_plugin($id, $data);
-	    }
-
-	    $config		    = $this->plugin_handler_model->get_data_plugin($id);
-	    
-	    if (is_null($config) && file_exists($plugin_path . 'config.json')) {
-		$config			    = file_get_contents($plugin_path . 'config.json');
-		$config                     = json_decode($config);
-	    }
-
-	    $this->data['config']       = $config;
-
-	    if (file_exists($plugin_path . 'edit.php'))
-	    {
-		$this->data['form']     = $plugin_path . 'edit.php';
-	    }
+		if ($this->ion_auth->is_admin()) {
+			$this->load->model('plugin_handler_model');
+			$plugin                 = $this->plugin_handler_model->get_plugin($id);
+			$plugin                 = $plugin[0];
+			$plugin_path            = APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR ;
 
 
-	    $this->data['plg']      = $plugin;
-	}
-        else {
-            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
-        }	
-	
-        $this->load->view('plugin/config', $this->data);
+			if ($this->input->post(NULL, TRUE) !== FALSE) {
+				$data = $this->input->post(NULL, TRUE);
+				unset($data['submit']); //remove button data
+
+				$this->plugin_handler_model->set_data_plugin($id, $data);
+			}
+
+			$config		    = $this->plugin_handler_model->get_data_plugin($id);
+
+			if (is_null($config) && file_exists($plugin_path . 'config.json')) {
+				$config			    = file_get_contents($plugin_path . 'config.json');
+				$config				= json_decode($config);
+			}
+
+			$this->data['config']       = $config;
+
+			if (file_exists($plugin_path . 'edit.php'))
+			{
+				$this->data['form']     = $plugin_path . 'edit.php';
+			}
+			
+			//look for class
+			$plg_class		= $plugin->class;
+			
+			//if exist edit method
+			if (method_exists($plg_class, 'edit')) {
+				$pc_init		= $plg_class::getInstance();	//load class
+				$pc_init->edit();								//and execute edit method before load view
+			}
+			
+			$this->data['plg']      = $plugin;
+		}
+		else {
+				$this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
+		}	
+
+		$this->load->view('plugin/config', $this->data);
         
     }
     
