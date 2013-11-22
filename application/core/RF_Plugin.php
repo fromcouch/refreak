@@ -9,7 +9,7 @@
  * @link	https://github.com/fromcouch/refreak
  *  
  */
-class RF_Plugin {
+abstract class RF_Plugin {
     
     /**
      * CodeIgniter Base object
@@ -23,16 +23,46 @@ class RF_Plugin {
      * 
      * @var object instance for singleton 
      */
-    protected static $instance = null;
+    protected static $instances = array();
     
-    public static function getInstance() {
-	    
-	   if (  !self::$instance instanceof self) {
-	      self::$instance = new self;
-	   }
-	   return self::$instance;
+	/**
+	 * Plugin Name
+	 * 
+	 * @var string
+	 */
+	protected $name;
+	
+	/**
+	 * Plugin Directory
+	 * 
+	 * @var string
+	 */
+	protected $directory;
+	
+	/**
+	 * Original plugin class name
+	 * 
+	 * @var string
+	 */
+	protected $class;
+	
+    final public static function getInstance() {
+
+        $calledClass = get_called_class();
+
+        if (!isset(self::$instances[$calledClass]))
+        {
+            self::$instances[$calledClass] = new $calledClass();
+        }
+
+        return self::$instances[$calledClass];
     }
     
+	/**
+	 * clone function
+	 */
+	final private function __clone() {}
+	
     /**
      * Constructor
      */
@@ -40,6 +70,14 @@ class RF_Plugin {
         $this->_ci =& get_instance(); 
         $this->_ci->load->library('plugin_handler');        
     }
+	
+	public function plugin_data($plugin) {
+		
+		$this->name			= $plugin->name;
+		$this->directory	= $plugin->directory;
+		$this->class		= $plugin->class;
+		
+	}
           
     /**
      * Attach Event 

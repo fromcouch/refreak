@@ -203,7 +203,7 @@ class Plugin extends RF_Controller {
 			
 			//look for class
 			$plg_class		= $plugin->class;
-			
+			echo $plg_class;var_dump(method_exists($plg_class, 'edit'));
 			//if exist edit method
 			if (method_exists($plg_class, 'edit')) {
 				$pc_init		= $plg_class::getInstance();	//load class

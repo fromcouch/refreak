@@ -153,7 +153,7 @@ class plugin_handler_model extends CI_Model  {
     public function get_plugin($id) {
         
         $this->db
-                ->select('plugins.id, plugins.name, plugins.directory, plugins.active, c.controller_name')
+                ->select('plugins.id, plugins.name, plugins.directory, plugins.active, plugins.class, c.controller_name')
                 ->join('plugin_controller pc', 'pc.plugin_id = plugins.id', 'left')
                 ->join('controllers c', 'pc.controller_id = c.id', 'left')
                 ->where('plugins.id', $id);

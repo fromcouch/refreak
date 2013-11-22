@@ -52,7 +52,7 @@ class Plugin_handler {
     }
     
     /**
-     * Load plugins. THis function look $controller var for load only plugins 
+     * Load plugins. This function look $controller var for load only plugins 
      * associated to the controller.
      * 
      * @param string $controller Name of the loaded controller.
@@ -73,7 +73,7 @@ class Plugin_handler {
 		
 					$class_name     = ucfirst($plugin->class);
 
-					$this->_plugins_loaded []= $class_name;
+					$this->_plugins_loaded [$class_name]	= $plugin;
 		
 					//look for language file
 					$this->_ci->lang->load( $plugin->directory , '' , FALSE , TRUE , APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR);
@@ -90,9 +90,9 @@ class Plugin_handler {
      */
     public function initialize_plugins() {
         
-        foreach ($this->_plugins_loaded as $class) {
+        foreach ($this->_plugins_loaded as $class => $plugin) {
             //new $class;
-			$class::getInstance();
+			$class::getInstance()->plugin_data($plugin);
         }
         
     }
