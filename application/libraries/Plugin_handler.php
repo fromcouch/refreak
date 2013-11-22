@@ -66,8 +66,8 @@ class Plugin_handler {
                 
         
         foreach ($plugins as $plugin) {            
-            if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
-                include(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php');
+            if (is_dir(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
+                include(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php');
 				if (is_null($plugin->class) || empty($plugin->class))
 					$plugin->class	= $plugin->name;
 		
@@ -76,7 +76,7 @@ class Plugin_handler {
 					$this->_plugins_loaded [$class_name]	= $plugin;
 		
 					//look for language file
-					$this->_ci->lang->load( $plugin->directory , '' , FALSE , TRUE , APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR);
+					$this->_ci->lang->load( $plugin->directory , '' , FALSE , TRUE , FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR);
 				}
         }
         

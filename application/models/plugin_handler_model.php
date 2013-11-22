@@ -16,7 +16,7 @@ class plugin_handler_model extends CI_Model  {
     public function __construct() 
     {
         parent::__construct();
-	//$this->output->enable_profiler(TRUE);
+		//$this->output->enable_profiler(TRUE);
         $this->load->database();
     }
     
@@ -108,24 +108,24 @@ class plugin_handler_model extends CI_Model  {
                                     )
         );
 	
-	$controller_id	= 0;
-	$id	= $this->db->insert_id();
-	
-	if (strtolower($controller) !== 'all') {
-		$r	= $this->db
-				->select('controllers.id')
-				->where('controllers.controller_name', $controller)
-				->get('controllers')
-				->result();
-		print_r($r);
-		if (!is_null($r) && is_array($r)) {
-			$controller_id	= $r[0]->id;
+		$controller_id	= 0;
+		$id	= $this->db->insert_id();
+
+		if (strtolower($controller) !== 'all') {
+			$r	= $this->db
+					->select('controllers.id')
+					->where('controllers.controller_name', $controller)
+					->get('controllers')
+					->result();
+			print_r($r);
+			if (!is_null($r) && is_array($r)) {
+				$controller_id	= $r[0]->id;
+			}
 		}
-	}
-	$this->db->insert('plugin_controller', array(
-                                        'plugin_id'	=> $id,
-                                        'controller_id'	=> $controller_id
-                                    )
+		$this->db->insert('plugin_controller', array(
+											'plugin_id'	=> $id,
+											'controller_id'	=> $controller_id
+										)
         );
     }
     
@@ -181,16 +181,16 @@ class plugin_handler_model extends CI_Model  {
 			    ->get('plugin_data')
 			    ->result_object();
 	
-	if (is_array($data) && count($data) > 0) {
-	    $data = $data[0];
-	}
-	
-	if ((is_object($data)) && !empty($data->data)) {
-	    return json_decode($data->data);
-	}
-	else {
-	    return NULL;
-	}
+		if (is_array($data) && count($data) > 0) {
+			$data = $data[0];
+		}
+
+		if ((is_object($data)) && !empty($data->data)) {
+			return json_decode($data->data);
+		}
+		else {
+			return NULL;
+		}
     } 
     
     /**
@@ -205,19 +205,19 @@ class plugin_handler_model extends CI_Model  {
         
         $old_data = $this->get_data_plugin($id);
 	
-	if (is_null($old_data)) {
-	    
-	    $this->db->insert('plugin_data' , array(
-		    'plugin_id'	    => $id,
-		    'data'	    => json_encode( $data )
-	    ));
-	    
-	}
-	else
-	{
-	    $this->db->where('plugin_id', $id);
-	    $this->db->update('plugin_data', array( 'data' => json_encode($data) ) );
-	}
+		if (is_null($old_data)) {
+
+			$this->db->insert('plugin_data' , array(
+				'plugin_id'	    => $id,
+				'data'	    => json_encode( $data )
+			));
+
+		}
+		else
+		{
+			$this->db->where('plugin_id', $id);
+			$this->db->update('plugin_data', array( 'data' => json_encode($data) ) );
+		}
     } 
     
 }

@@ -9,7 +9,7 @@
  * @link	https://github.com/fromcouch/refreak
  *  
  */
-abstract class RF_Plugin {
+class RF_Plugin {
     
     /**
      * CodeIgniter Base object
