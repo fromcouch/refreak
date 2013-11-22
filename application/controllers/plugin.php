@@ -198,11 +198,7 @@ class Plugin extends RF_Controller {
 
 	    if (file_exists($plugin_path . 'edit.php'))
 	    {
-		ob_start();
-		include($plugin_path . 'edit.php');
-
-		$this->data['form']     = ob_get_contents();
-		ob_end_clean();
+		$this->data['form']     = $plugin_path . 'edit.php';
 	    }
 
 
