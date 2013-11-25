@@ -206,7 +206,7 @@
 		</p>
 		<p>
                     <label>Body</label>
-                    <?php echo form_textarea('project_user_email_body_subject'); ?>
+                    <?php echo form_textarea('project_user_email_body'); ?>
 		</p>
 	</div>
 </fieldset>
@@ -252,7 +252,7 @@
 		</p>
 		<p>
                     <label>Body</label>
-                    <?php echo form_textarea('user_email_body_subject'); ?>
+                    <?php echo form_textarea('user_email_body'); ?>
 		</p>
 	</div>
 </fieldset>
