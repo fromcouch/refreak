@@ -173,48 +173,40 @@
 	</div>
 </fieldset>
 <fieldset>
-	<legend>User</legend>
+	<legend><?php echo $this->lang->line('user_title'); ?></legend>
 	<p>
-		<?php 
-			echo form_label('Activated');
-			echo form_checkbox('user_activated');
-		?>
+		<label><?php echo $this->lang->line('user_activated'); ?></label>
+		<?php echo form_checkbox('user_activated', '1', $config->user_activated);	?>
 	</p>
-	<h3>User Actions</h3>
+	<h3><?php echo $this->lang->line('user_actions'); ?></h3>
 	<div>
 		<div class="chk_box">
-		<?php 
-			echo form_label('New User');
-			echo form_checkbox('user_new');
-		?>
+			<label><?php echo $this->lang->line('user_new'); ?></label>
+			<?php echo form_checkbox('user_new', '1', $config->user_new); ?>
 		</div>
 		<div class="chk_box">
-		<?php 
-			echo form_label('Delete User');
-			echo form_checkbox('user_delete');
-		?>
+			<label><?php echo $this->lang->line('user_delete'); ?></label>
+			<?php echo form_checkbox('user_delete', '1', $config->user_delete); ?>
 		</div>
 	</div>
 	<br/>
-	<h3>Who recieve mail</h3>
+	<h3><?php echo $this->lang->line('user_who'); ?></h3>
 	<div>
 		<div class="chk_box">
-		<?php 
-			echo form_label('User Affected');
-			echo form_checkbox('user_assigned');
-		?>
+			<label><?php echo $this->lang->line('user_affected'); ?></label>
+			<?php echo form_checkbox('user_assigned', '1', $config->user_assigned); ?>
 		</div>
 	</div>
 	<br/>
-	<h3>Mail</h3>
+	<h3><?php echo $this->lang->line('user_mail'); ?></h3>
 	<div> 
 		<p>
-                    <label>Subject</label>
-                    <?php echo form_input('user_email_subject'); ?>
+                    <label><?php echo $this->lang->line('user_subject'); ?></label>
+                    <?php echo form_input('user_email_subject', $config->user_email_subject); ?>
 		</p>
 		<p>
-                    <label>Body</label>
-                    <?php echo form_textarea('user_email_body'); ?>
+                    <label><?php echo $this->lang->line('user_body'); ?></label>
+                    <?php echo form_textarea('user_email_body', $config->user_email_body); ?>
 		</p>
 	</div>
 </fieldset>
