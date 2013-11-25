@@ -121,7 +121,7 @@
 	<h3><?php echo $this->lang->line('comment_mail'); ?></h3>
 	<div> 
 		<p>
-                    <label><?php echo $this->lang->line('comment_project_subject'); ?></label>
+                    <label><?php echo $this->lang->line('comment_subject'); ?></label>
                     <?php echo form_input('commenting_email_subject', $config->commenting_email_subject); ?>
 		</p>
 		<p>
@@ -131,54 +131,44 @@
 	</div>
 </fieldset>
 <fieldset>
-	<legend>Project User</legend>
+	<legend><?php echo $this->lang->line('project_user_title'); ?></legend>
 	<p>
-		<?php 
-			echo form_label('Activated');
-			echo form_checkbox('project_user_activated');
-		?>
+		<label><?php echo $this->lang->line('project_user_activated'); ?></label>
+		<?php echo form_checkbox('project_user_activated', '1', $config->project_user_activated);	?>
 	</p>
-	<h3>Project User Actions</h3>
+	<h3><?php echo $this->lang->line('project_user_actions'); ?></h3>
 	<div>
 		<div class="chk_box">
-		<?php 
-			echo form_label('Assing User');
-			echo form_checkbox('project_user_new');
-		?>
+			<label><?php echo $this->lang->line('project_user_assing'); ?></label>
+			<?php echo form_checkbox('project_user_new', '1', $config->project_user_new); ?>
 		</div>
 		<div class="chk_box">
-		<?php 
-			echo form_label('Remove User');
-			echo form_checkbox('project_user_edit');
-		?>
+			<label><?php echo $this->lang->line('project_user_remove'); ?></label>
+			<?php echo form_checkbox('project_user_edit', '1', $config->project_user_edit); ?>
 		</div>
 	</div>
 	<br/>
-	<h3>Who recieve mail</h3>
+	<h3><?php echo $this->lang->line('project_user_who'); ?></h3>
 	<div>
 		<div class="chk_box">
-		<?php 
-			echo form_label('Assigned User');
-			echo form_checkbox('project_user_assigned');
-		?>
+			<label><?php echo $this->lang->line('project_user_assigned'); ?></label>
+			<?php echo form_checkbox('project_user_assigned', '1', $config->project_user_assigned); ?>
 		</div>
 		<div class="chk_box">
-		<?php 
-			echo form_label('Project Members');
-			echo form_checkbox('project_user_project_members');
-		?>
+			<label><?php echo $this->lang->line('project_user_project_member'); ?></label>
+			<?php echo form_checkbox('project_user_project_members', '1', $config->project_user_project_members); ?>
 		</div>
 	</div>
 	<br/>
-	<h3>Mail</h3>
+	<h3><?php echo $this->lang->line('project_user_mail'); ?></h3>
 	<div> 
 		<p>
-                    <label>Subject</label>
-                    <?php echo form_input('project_user_email_subject'); ?>
+                    <label><?php echo $this->lang->line('project_user_subject'); ?></label>
+                    <?php echo form_input('project_user_email_subject', $config->project_user_email_subject); ?>
 		</p>
 		<p>
-                    <label>Body</label>
-                    <?php echo form_textarea('project_user_email_body'); ?>
+                    <label><?php echo $this->lang->line('project_user_body'); ?></label>
+                    <?php echo form_textarea('project_user_email_body', $config->project_user_email_body); ?>
 		</p>
 	</div>
 </fieldset>

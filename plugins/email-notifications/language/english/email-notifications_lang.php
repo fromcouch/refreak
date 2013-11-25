@@ -42,17 +42,15 @@ $lang['edit_task_subject']					= 'Subject';
 $lang['edit_task_body']						= 'Body';
 
 //Comments
-$lang['comment_title']						= 'Comments';
-$lang['comment_activated']					= 'Activated';
-$lang['comment_actions']					= 'Comment Actions';
-$lang['comment_new']						= 'New Comment';
-$lang['comment_edit']						= 'Edit Comment';
-$lang['comment_delete']						= 'Delete Comment';
-$lang['comment_who']						= 'Who recieve mail';
-$lang['comment_creator']					= 'Comment Creator';
-$lang['comment_assigned']					= 'Assigned User';
-$lang['comment_project_member']				= 'Project Members';
-$lang['comment_mail']						= 'Mail';
-$lang['comment_subject']					= 'Subject';
-$lang['comment_body']						= 'Body';
+$lang['project_user_title']					= 'Project User';
+$lang['project_user_activated']				= 'Activated';
+$lang['project_user_actions']				= 'Project User Actions';
+$lang['project_user_assing']				= 'Assing User';
+$lang['project_user_remove']				= 'Remove User';
+$lang['project_user_who']					= 'Who recieve mail';
+$lang['project_user_assigned']				= 'Assigned User';
+$lang['project_user_project_member']		= 'Project Members';
+$lang['project_user_mail']					= 'Mail';
+$lang['project_user_subject']				= 'Subject';
+$lang['project_user_body']					= 'Body';
 
