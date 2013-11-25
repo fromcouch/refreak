@@ -17,3 +17,42 @@
  * @link	https://github.com/fromcouch/refreak
  */
 
+//Create Task
+$lang['create_task_title']					= 'Creating Task';
+$lang['create_task_activated']				= 'Activated';
+$lang['create_task_groups']					= 'User Groups that receive mail';
+$lang['create_task_who']					= 'Who recieve mail';
+$lang['create_task_creator']				= 'Task creator';
+$lang['create_task_assigned']				= 'Assigned user';
+$lang['create_task_project_member']			= 'Project Members';
+$lang['create_task_mail']					= 'Mail';
+$lang['create_task_subject']				= 'Subject';
+$lang['create_task_body']					= 'Body';
+
+//Edit Task
+$lang['edit_task_title']					= 'Editing Task';
+$lang['edit_task_activated']				= 'Activated';
+$lang['edit_task_groups']					= 'User Groups that receive mail';
+$lang['edit_task_who']						= 'Who recieve mail';
+$lang['edit_task_editor']					= 'Task editor';
+$lang['edit_task_assigned']					= 'Assigned user';
+$lang['edit_task_project_member']			= 'Project Members';
+$lang['edit_task_mail']						= 'Mail';
+$lang['edit_task_subject']					= 'Subject';
+$lang['edit_task_body']						= 'Body';
+
+//Comments
+$lang['comment_title']						= 'Comments';
+$lang['comment_activated']					= 'Activated';
+$lang['comment_actions']					= 'Comment Actions';
+$lang['comment_new']						= 'New Comment';
+$lang['comment_edit']						= 'Edit Comment';
+$lang['comment_delete']						= 'Delete Comment';
+$lang['comment_who']						= 'Who recieve mail';
+$lang['comment_creator']					= 'Comment Creator';
+$lang['comment_assigned']					= 'Assigned User';
+$lang['comment_project_member']				= 'Project Members';
+$lang['comment_mail']						= 'Mail';
+$lang['comment_subject']					= 'Subject';
+$lang['comment_body']						= 'Body';
+

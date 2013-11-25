@@ -9,7 +9,7 @@
     "creating_task_project_members": false,
     "creating_task_email_file": false,
     "creating_task_email_subject": "",
-    "creating_task_email_body_subject": "",
+    "creating_task_email_body": "",
     
     "editing_task_activated": false,
     "editing_task_group_admin": false,
@@ -21,7 +21,7 @@
     "editing_task_project_members": false,
     "editing_task_email_file": false,
     "editing_task_email_subject": "",
-    "editing_task_email_body_subject": "",
+    "editing_task_email_body": "",
     
     "commenting_activated": false,
     "commenting_new": false,
@@ -32,7 +32,7 @@
     "commenting_project_members": false,
     "commenting_email_file": false,
     "commenting_email_subject": "",
-    "commenting_email_body_subject": "",
+    "commenting_email_body": "",
     
     "project_user_activated": false,
     "project_user_new": false,
