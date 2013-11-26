@@ -73,6 +73,8 @@ class Plugin_handler {
 		
 					$class_name     = ucfirst($plugin->class);
 
+					$plugin->data	= $this->_ci->plugin_handler_model->load_config($plugin->id, FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR);
+					
 					$this->_plugins_loaded [$class_name]	= $plugin;
 				}
         }

@@ -9,7 +9,7 @@
 	</p>
 	<h3><?php echo $this->lang->line('create_task_groups'); ?></h3>
 	<div>
-		<?php echo render_groups($groups,'creating_task_group_'); ?>
+		<?php echo render_groups($groups,'creating_task_group_', $config); ?>
 	</div>
 	<br/>
 	<h3><?php echo $this->lang->line('create_task_who'); ?></h3>
@@ -49,7 +49,7 @@
 	</p>
 	<h3><?php echo $this->lang->line('edit_task_groups'); ?></h3>
 	<div>
-		<?php echo render_groups($groups,'editing_task_group_'); ?>
+		<?php echo render_groups($groups,'editing_task_group_', $config); ?>
 	</div>
 	<br/>
 	<h3><?php echo $this->lang->line('edit_task_who'); ?></h3>
@@ -212,12 +212,12 @@
 </fieldset>
 
 <?php 
-function render_groups($groups, $prefix) {
+function render_groups($groups, $prefix, $config) {
 	$ret = '';
 	foreach ($groups as $value) {
 		$ret .= '<div class="chk_box">';
                 $ret .= form_label($value['description']);
-		$ret .= form_checkbox($prefix . $value['name'], $value['id'], FALSE);
+		$ret .= form_checkbox($prefix . $value['name'], '1', $config->{$prefix . $value['name']});
 		$ret .= '</div>';
 	}
 	

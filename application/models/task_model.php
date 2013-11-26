@@ -122,7 +122,7 @@ class Task_model extends CI_Model {
         $db         = $this->db;
         
         if ($project_id == 0) {
-            $db->select('users.id, users.first_name, users.last_name');
+            $db->select('users.id, users.first_name, users.last_name, users.email');
             
             $db   = $this->plugin_handler->trigger( 'tasks_model_get_users', $db);
             
@@ -133,7 +133,7 @@ class Task_model extends CI_Model {
         else {
             
             $db
-                ->select('users.id, users.first_name, users.last_name')
+                ->select('users.id, users.first_name, users.last_name, users.email')
                 ->join('users', 'users.id = user_project.user_id', 'inner')
                 ->where('user_project.project_id', $project_id);
             

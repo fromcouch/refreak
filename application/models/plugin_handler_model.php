@@ -30,7 +30,7 @@ class plugin_handler_model extends CI_Model  {
     public function get_plugins($controller = NULL) {
         
         $this->db
-                ->select('plugins.id, plugins.name, plugins.directory, plugins.class, plugin_data.data')
+                ->select('plugins.id, plugins.name, plugins.directory, plugins.class')
                 ->join('plugin_controller pc', 'pc.plugin_id = plugins.id', 'left')
                 ->join('controllers c', 'pc.controller_id = c.id OR pc.controller_id = 0', 'left')
                 ->join('plugin_data', 'plugin_data.plugin_id = plugins.id', 'left');
@@ -221,6 +221,29 @@ class plugin_handler_model extends CI_Model  {
 		}
     } 
     
+	public function load_config($id, $plugin_path) {
+		$default_config	= null;
+		
+		if (file_exists($plugin_path . 'config.json')) {
+			$default_config			    = file_get_contents($plugin_path . 'config.json');
+			$default_config				= json_decode($default_config, TRUE);
+		}
+
+		$config		    = $this->get_data_plugin($id);
+
+		if (!is_null($config)) {
+			$config						= json_decode( json_encode($config) , TRUE);
+			$config						= array_merge($default_config, $config);
+		}
+		else {
+			$config						= $default_config;
+		}
+
+		return json_decode( json_encode($config) );
+
+			
+	}
+	
 }
 
 /* End of file plugin_handler_model.php */

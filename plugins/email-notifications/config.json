@@ -40,8 +40,8 @@
     "project_user_assigned": "0",
     "project_user_project_members": "0",
     "project_user_email_file": "0",
-    "project_user_email_subject": "0",
-    "project_user_email_body": "0",
+    "project_user_email_subject": "",
+    "project_user_email_body": "",
     
     "user_activated": "0",
     "user_new": "0",
