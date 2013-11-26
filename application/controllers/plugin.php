@@ -135,33 +135,33 @@ class Plugin extends RF_Controller {
      */
     public function install($dir) {
         
-	if ($this->ion_auth->is_admin()) {
-	    $this->load->model('plugin_handler_model');
+		if ($this->ion_auth->is_admin()) {
+			$this->load->model('plugin_handler_model');
 
-	    if (is_dir(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir)) {
-		    
-		$name		= $dir;
-		$clase		= $dir;
-		$controller	= 'all';
-		
-		if (is_file(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json')) {
-			$install_json	= file_get_contents(BASEPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json');
-			$plg_install	= json_decode($install_json);
-			
-			$name		= property_exists($plg_install, 'plugin_name') ? $plg_install->plugin_name : $dir;
-			$clase		= property_exists($plg_install, 'class') ? $plg_install->class : $dir;
-			$controller	= property_exists($plg_install, 'controller') ? $plg_install->controller : 'all';
+			if (is_dir(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir)) {
+
+				$name		= $dir;
+				$clase		= $dir;
+				$controller	= 'all';
+
+				if (is_file(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json')) {
+					$install_json	= file_get_contents(BASEPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json');
+					$plg_install	= json_decode($install_json);
+
+					$name		= property_exists($plg_install, 'plugin_name') ? $plg_install->plugin_name : $dir;
+					$clase		= property_exists($plg_install, 'class') ? $plg_install->class : $dir;
+					$controller	= property_exists($plg_install, 'controller') ? $plg_install->controller : 'all';
+				}
+
+				$this->plugin_handler_model->install($name, $dir, $clase, $controller);
+			}
+			$this->session->set_flashdata('message', $this->lang->line('pluginsmessage_installed'));
 		}
-		    
-		$this->plugin_handler_model->install($name, $dir, $clase, $controller);
-	    }
-	    $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_installed'));
-	}
-	else {
-            $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
-        }	
+		else {
+				$this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
+		}	
 	
-	redirect("plugin", 'refresh');
+		redirect("plugin", 'refresh');
     }
     
     /**
@@ -214,8 +214,7 @@ class Plugin extends RF_Controller {
 
 			//if exist edit method
 			if (method_exists($plg_class, 'edit')) {
-				$pc_init		= $plg_class::getInstance();	//load class
-				$pc_init->edit();								//and execute edit method before load view
+				$plg_class::getInstance()->edit();	//load class and execute edit method before load view
 			}
 			
 			$this->data['plg']      = $plugin;

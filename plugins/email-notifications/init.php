@@ -23,7 +23,8 @@ class Email_Notification extends RF_Plugin {
     
     public function edit() {
 	    
-		$this->_ci->css->add_style(base_url() . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'edit.css');
+		$this->css_add(base_url() . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'edit.css');
+		$this->lang_load('email-notifications');
 		
     }
         

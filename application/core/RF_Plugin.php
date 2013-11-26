@@ -26,6 +26,13 @@ class RF_Plugin {
     protected static $instances = array();
     
 	/**
+	 * Plugin Id
+	 * 
+	 * @var string
+	 */
+	protected $plugin_id;
+	
+	/**
 	 * Plugin Name
 	 * 
 	 * @var string
@@ -45,6 +52,13 @@ class RF_Plugin {
 	 * @var string
 	 */
 	protected $class;
+	
+	/**
+	 * Plugin configuration
+	 * 
+	 * @var string
+	 */
+	protected $config;
 	
     final public static function getInstance() {
 
@@ -73,9 +87,11 @@ class RF_Plugin {
 	
 	public function plugin_data($plugin) {
 		
+		$this->plugin_id	= $plugin->id;
 		$this->name			= $plugin->name;
 		$this->directory	= $plugin->directory;
 		$this->class		= $plugin->class;
+		$this->config		= $plugin->data;
 		
 	}
           
@@ -159,7 +175,7 @@ class RF_Plugin {
      * @return void
      * @access public
      */
-    public function css_add($css, $key) {
+    public function css_add($css, $key = null) {
 	    
 	    $this->_ci->css->add_style( $css, $key );
 	    
@@ -177,6 +193,18 @@ class RF_Plugin {
 	    $this->_ci->css->remove_style( $key );
 	    
     }
+	
+	/**
+	 * Load language file for plugin
+	 * 
+	 * @param string $lang_file Language file
+	 * @return void
+	 * @access public
+	 */
+	public function lang_load($lang_file) {
+		//look for language file
+		$this->_ci->lang->load( $lang_file, '' , FALSE , TRUE , FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR);
+	}
 }
 
 /* End of file RF_Plugin.php */

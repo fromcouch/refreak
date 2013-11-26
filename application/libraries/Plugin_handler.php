@@ -74,9 +74,6 @@ class Plugin_handler {
 					$class_name     = ucfirst($plugin->class);
 
 					$this->_plugins_loaded [$class_name]	= $plugin;
-		
-					//look for language file
-					$this->_ci->lang->load( $plugin->directory , '' , FALSE , TRUE , FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR);
 				}
         }
         
