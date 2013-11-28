@@ -47,7 +47,16 @@ class Email_Notification extends RF_Plugin {
 		}
 		
 		if ($this->config->commenting_activated === "1") {
+		
 			//attach for commenting task
+			if ($this->config->commenting_new === "1") 
+				$this->attach('tasks_model_insert_comment_data', array($this, 'commenting_new_event'));
+			
+			if ($this->config->commenting_edit === "1")
+				$this->attach('tasks_model_update_comment_data', array($this, 'commenting_edit_event'));
+			
+			if ($this->config->commenting_delete === "1")
+				$this->attach('tasks_model_delete_comment', array($this, 'commenting_delete_event'));
 		}
 		
 		if ($this->config->project_user_activated === "1") {
@@ -61,10 +70,10 @@ class Email_Notification extends RF_Plugin {
 		
 	}
         
-	public function creating_task_event( $evt, $data ) {
+	private function creating_task_event( $evt, $data ) {
 		
-		$actual_user		= $this->_ci->ion_auth->user()->row();
-		$groups				= $this->_ci->ion_auth->groups()->result_array();
+		$actual_user		= $this->_ci->data['actual_user'];
+		$groups				= $this->_ci->data['groups'];
 		
 		$sendto				= array();
 		
@@ -105,18 +114,25 @@ class Email_Notification extends RF_Plugin {
 		}
 		
 		$sendto				= array_unique($sendto);
-		//error_log($this->parse_task_vars($this->config->creating_task_email_body, $data),0);
-		//error_log($data,0);
+		
+		$this->sendmail(
+				$sendto, 
+				$this->config->creating_task_email_subject, 
+				$this->parse_task_vars(
+						$this->config->creating_task_email_body, 
+						$data)
+				);
+		
 		
 		return $data;
 	}
 	
-	public function editing_task_event( $evt, $data ) {
+	private function editing_task_event( $evt, $data ) {
 		
 		$task_id			= $data[0];
 		$data				= $data[1];
-		$actual_user		= $this->_ci->ion_auth->user()->row();
-		$groups				= $this->_ci->ion_auth->groups()->result_array();
+		$actual_user		= $this->_ci->data['actual_user'];
+		$groups				= $this->_ci->data['groups'];
 		
 		$sendto				= array();
 		
@@ -157,13 +173,65 @@ class Email_Notification extends RF_Plugin {
 		}
 		
 		$sendto				= array_unique($sendto);
-		//print_r($this->parse_task_vars($this->config->editing_task_email_body, $data));
-		//print_r($data);
 
+		$this->sendmail(
+				$sendto, 
+				$this->config->editing_task_email_subject, 
+				$this->parse_task_vars(
+						$this->config->editing_task_email_body, 
+						$data)
+				);
+		
 		return array($task_id, $data);
+		
+	}
+	
+	private function comment_new_event( $evt, $data ) {
+		
+		$this->process_comment($data);
+		
+		return $data;
+		
+	}
+	
+	private function process_comment( $data ) {
+
+		$sendto				= array();
+		
+		if ($this->config->commenting_creator === '1') {
+			$sendto[]		= $actual_user->email;
+		}
+		
+		if ($this->config->commenting_assigned === '1') {
+			$user_assigned	= $this->_ci->ion_auth->user($data['user_id'])->result_array();
+			
+			if (count($user_assigned) > 0) 
+				$sendto[]		= $user_assigned[0]['email'];		//we get first one
+		}
+		
+		$sendto				= array_unique($sendto);
+
+		$this->sendmail(
+				$sendto, 
+				$this->config->commenting_email_subject, 
+				$this->parse_task_vars(
+						$this->config->commenting_email_body, 
+						$data)
+				);
+		
+		return array($task_id, $data);
+		
 	}
 	
 	private function sendmail($to, $subject, $body) {
+		
+		$this->_ci->load->library('email');
+		$this->_ci->email->from('victor@fromcouch.com', 'Victor');
+		$this->_ci->email->to($to);
+		$this->_ci->email->subject($subject);
+		$this->_ci->email->message($body);
+		
+		$this->_ci->email->send();
 		
 	}
 	
@@ -176,7 +244,7 @@ class Email_Notification extends RF_Plugin {
 			switch ($p) {
 				case '{task_creator}':
 				case '{task_editor}':
-					$actual_user		= $this->_ci->ion_auth->user()->row();
+					$actual_user		= $this->_ci->data['actual_user'];
 					$text				= str_replace($p, $actual_user->first_name . ' ' . $actual_user->last_name, $text);
 					break;
 				
@@ -211,6 +279,6 @@ class Email_Notification extends RF_Plugin {
 			}
 		}
 		
-		return $parsed_vars;
+		return $text;
 	}
 }

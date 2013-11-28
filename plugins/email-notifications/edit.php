@@ -112,10 +112,6 @@
 			<label><?php echo $this->lang->line('comment_assigned'); ?></label>
 			<?php echo form_checkbox('commenting_assigned', '1', $config->commenting_assigned); ?>
 		</div>
-		<div class="chk_box">
-			<label><?php echo $this->lang->line('comment_project_member'); ?></label>
-			<?php echo form_checkbox('commenting_project_members', '1', $config->commenting_project_members); ?>
-		</div>
 	</div>
 	<br/>
 	<h3><?php echo $this->lang->line('comment_mail'); ?></h3>

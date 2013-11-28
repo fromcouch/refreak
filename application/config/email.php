@@ -8,7 +8,7 @@
 | The mail sending protocol.
 | Values: mail, sendmail, or smtp
 */
-$config['protocol']     = 'smtp';
+$config['protocol']     = 'mail';
 
 /*
 |--------------------------------------------------------------------------
