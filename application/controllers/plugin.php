@@ -199,7 +199,7 @@ class Plugin extends RF_Controller {
 
 			//if exist edit method
 			if (method_exists($plg_class, 'edit')) {
-				$plg_class::getInstance()->edit();	//load class and execute edit method before load view
+				$plg_class::getInstance(null)->edit();	//load class and execute edit method before load view
 			}
 			
 			$this->data['plg']      = $plugin;

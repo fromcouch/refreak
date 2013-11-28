@@ -60,7 +60,7 @@ class RF_Plugin {
 	 */
 	protected $config;
 	
-    final public static function getInstance() {
+    final public static function getInstance( $plugin_data ) {
 
         $calledClass = get_called_class();
 
@@ -69,6 +69,9 @@ class RF_Plugin {
             self::$instances[$calledClass] = new $calledClass();
         }
 
+		if ( !is_null($plugin_data) )
+			self::$instances[$calledClass]->plugin_data( $plugin_data );
+		
         return self::$instances[$calledClass];
     }
     
@@ -82,10 +85,17 @@ class RF_Plugin {
      */
     public function __construct() {
         $this->_ci =& get_instance(); 
-        $this->_ci->load->library('plugin_handler');        
+        //$this->_ci->load->library('plugin_handler');        
     }
 	
-	public function plugin_data($plugin) {
+	/**
+	 * Add plugin data to object
+	 * 
+	 * @param object $plugin Plugin data
+	 * @return void
+	 * @access private
+	 */
+	private function plugin_data($plugin) {
 		
 		$this->plugin_id	= $plugin->id;
 		$this->name			= $plugin->name;

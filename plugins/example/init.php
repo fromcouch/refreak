@@ -19,7 +19,16 @@ class Example extends RF_Plugin {
         
         parent::__construct();
        
-        /**
+    }
+	
+    /**
+	 * Called to initialize plugin
+	 * 
+	 * @return void
+	 * @access public
+	 */
+	public function initialize() {
+		/**
          * I attach method to add our function to event
          */        
         $this->attach('base_set_theme', function ($evt, $data) {
@@ -32,8 +41,8 @@ class Example extends RF_Plugin {
          * I have another way to add function to event
          */        
         $this->attach('base_create_left_menu', array($this, 'testing'));
-    }
-    
+	}
+	
     /**
      * This is a method added to event in constructor
      * 

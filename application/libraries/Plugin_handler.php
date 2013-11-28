@@ -91,7 +91,7 @@ class Plugin_handler {
         
         foreach ($this->_plugins_loaded as $class => $plugin) {
             //new $class;
-			$class::getInstance()->plugin_data($plugin);
+			$class::getInstance($plugin)->initialize();
         }
         
     }
