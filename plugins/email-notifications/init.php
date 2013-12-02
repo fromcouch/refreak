@@ -49,14 +49,14 @@ class Email_Notification extends RF_Plugin {
 		if ($this->config->commenting_activated === "1") {
 		
 			//attach for commenting task
-			if ($this->config->commenting_new === "1") 
-				$this->attach('tasks_model_insert_comment_data', array($this, 'commenting_new_event'));
+			if ($this->config->commenting_new === "1")  
+				$this->attach('tasks_model_insert_comment_data', array($this, 'comment_event'));
 			
 			if ($this->config->commenting_edit === "1")
-				$this->attach('tasks_model_update_comment_data', array($this, 'commenting_edit_event'));
+				$this->attach('tasks_model_update_comment_data', array($this, 'comment_event'));
 			
 			if ($this->config->commenting_delete === "1")
-				$this->attach('tasks_model_delete_comment', array($this, 'commenting_delete_event'));
+				$this->attach('tasks_model_delete_comment', array($this, 'comment_event'));
 		}
 		
 		if ($this->config->project_user_activated === "1") {
@@ -70,7 +70,7 @@ class Email_Notification extends RF_Plugin {
 		
 	}
         
-	private function creating_task_event( $evt, $data ) {
+	public function creating_task_event( $evt, $data ) {
 		
 		$actual_user		= $this->_ci->data['actual_user'];
 		$groups				= $this->_ci->data['groups'];
@@ -120,14 +120,15 @@ class Email_Notification extends RF_Plugin {
 				$this->config->creating_task_email_subject, 
 				$this->parse_task_vars(
 						$this->config->creating_task_email_body, 
-						$data)
+						$data,
+						'task')
 				);
 		
 		
 		return $data;
 	}
 	
-	private function editing_task_event( $evt, $data ) {
+	public function editing_task_event( $evt, $data ) {
 		
 		$task_id			= $data[0];
 		$data				= $data[1];
@@ -177,26 +178,42 @@ class Email_Notification extends RF_Plugin {
 		$this->sendmail(
 				$sendto, 
 				$this->config->editing_task_email_subject, 
-				$this->parse_task_vars(
+				$this->parse_vars(
 						$this->config->editing_task_email_body, 
-						$data)
+						$data,
+						'task')
 				);
 		
 		return array($task_id, $data);
 		
 	}
 	
-	private function comment_new_event( $evt, $data ) {
+	public function comment_event( $evt, $data ) {
 		
-		$this->process_comment($data);
-		
-		return $data;
-		
-	}
-	
-	private function process_comment( $data ) {
-
 		$sendto				= array();
+		$actual_user		= $this->_ci->data['actual_user'];
+		
+		switch ($evt) {
+			case 'tasks_model_insert_comment_data':
+				$tci			= 0;
+				$return_data	= $data;
+				$data['action'] = $this->_ci->lang->line('comment_new');
+				break;
+			
+			case 'tasks_model_update_comment_data':
+				$return_data	= $data;
+				$tci			= $data[0];
+				$data			= $data[1];
+				$data['action'] = $this->_ci->lang->line('comment_edit');
+				break;
+				
+			case 'tasks_model_delete_comment':
+				$return_data	= $data;
+				$tci			= $data;
+				$data['action'] = $this->_ci->lang->line('comment_delete');
+				break;
+
+		}
 		
 		if ($this->config->commenting_creator === '1') {
 			$sendto[]		= $actual_user->email;
@@ -214,12 +231,13 @@ class Email_Notification extends RF_Plugin {
 		$this->sendmail(
 				$sendto, 
 				$this->config->commenting_email_subject, 
-				$this->parse_task_vars(
+				$this->parse_vars(
 						$this->config->commenting_email_body, 
-						$data)
+						$data,
+						'comment')
 				);
 		
-		return array($task_id, $data);
+		return $return_data;
 		
 	}
 	
@@ -235,20 +253,20 @@ class Email_Notification extends RF_Plugin {
 		
 	}
 	
-	private function parse_task_vars($text, $data) {
+	private function parse_vars($text, $data, $area) {
 		
 		preg_match_all("/\{.*?\}/", $text, $parsed_vars);
 		
 		foreach($parsed_vars[0] as $p) {
 			
 			switch ($p) {
-				case '{task_creator}':
-				case '{task_editor}':
+				case '{creator}':
+				case '{editor}':
 					$actual_user		= $this->_ci->data['actual_user'];
 					$text				= str_replace($p, $actual_user->first_name . ' ' . $actual_user->last_name, $text);
 					break;
 				
-				case '{task_user}':
+				case '{user}':
 					$user_assigned		= $this->_ci->ion_auth->user($data['user_id'])->result_array();
 			
 					if (count($user_assigned) > 0) 					
@@ -269,10 +287,12 @@ class Email_Notification extends RF_Plugin {
 				default:
 					
 					if(strpos($text, $p) !== FALSE) {
-						$var			= str_replace('{task_', '', $p);
+						$var			= str_replace('{', '', $p);
+						$var			= str_replace($area . '_', '', $var);
 						$var			= str_replace('}', '', $var);
 						
-						$text			= str_replace($p, $data[$var], $text);
+						if (!is_null($data))
+							$text			= str_replace($p, $data[$var], $text);
 					}
 					
 					break;
