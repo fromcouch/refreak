@@ -224,7 +224,7 @@ class RF_Plugin {
 	 * @access public
 	 */
 	public function load_model($model) {
-		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR);
+		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR );
 		$this->_ci->load->model( $model );
 	}
 	
@@ -236,7 +236,7 @@ class RF_Plugin {
 	 * @access public
 	 */
 	public function load_helper($helper) {
-		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR);
+		$this->_ci->load->add_helper_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR );
 		$this->_ci->load->helper( $helper );
 	}
 }
