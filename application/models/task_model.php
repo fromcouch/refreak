@@ -508,6 +508,29 @@ class Task_model extends CI_Model {
     }
     
     /**
+     * Get Project from task.
+     * 
+     * @param int $task_id task id
+     * @return int project id
+     * @access public
+     */
+    public function get_task_project($task_id) {
+        
+        $project                = $this->db
+                                            ->select('project_id')
+                                            ->where('task_id', $task_id)
+                                            ->get('tasks')
+                                            ->row();
+        
+        $project_id             = $project->project_id;
+        
+        $data                   = $this->plugin_handler->trigger('tasks_model_get_project_task', array($task_id, $project_id));
+        
+        return $project_id;
+        
+    }
+    
+    /**
      * Check if user is task owner
      * 
      * @param int $task_id task id

@@ -160,6 +160,7 @@ List of plugin events fired in Refreak.
     + tasks_model_delete_task_comments:     Delete task Comments.  (tasks)
     + tasks_model_get_user_project_position:Get Users position of Task. (tasks)
     + tasks_model_is_owner:                 Know if user is owner of task. (tasks)
+    + tasks_model_get_project_task:	    Get project id from task (task)
     + tasks_view_list_head_table:           Tasks list table head columns. (tasks)
     + tasks_view_list_content_table_column: Fires every task row with columns (tasks)
     + tasks_view_list_content_table_row:    Tasks list rows for table (tasks)
