@@ -215,6 +215,30 @@ class RF_Plugin {
 		//look for language file
 		$this->_ci->lang->load( $lang_file, '' , FALSE , TRUE , FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR);
 	}
+	
+	/**
+	 * Load model file for plugin
+	 * 
+	 * @param string $model model file
+	 * @return void
+	 * @access public
+	 */
+	public function model_load($model) {
+		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR);
+		$this->_ci->load->model( $model );
+	}
+	
+	/**
+	 * Load helper file for plugin
+	 * 
+	 * @param string $helper Language file
+	 * @return void
+	 * @access public
+	 */
+	public function helper_load($helper) {
+		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR);
+		$this->_ci->load->helper( $helper );
+	}
 }
 
 /* End of file RF_Plugin.php */
