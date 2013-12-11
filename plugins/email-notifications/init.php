@@ -30,7 +30,7 @@ class Email_Notification extends RF_Plugin {
     public function edit() {
 	    
 		$this->css_add(base_url() . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'edit.css');
-		$this->lang_load('email-notifications');
+		$this->load_lang('email-notifications');
 		
     }
 	
@@ -204,13 +204,19 @@ class Email_Notification extends RF_Plugin {
 				$return_data	= $data;
 				$tci			= $data[0];
 				$data			= $data[1];
-				$data['action'] = $this->_ci->lang->line('comment_edit');
+				$this->load_model('email_model');
+				$data['task_id']	= $this->_ci->email_model->get_task_from_comment( $tci );
+				$data['action']		= $this->_ci->lang->line('comment_edit');
 				break;
 				
 			case 'tasks_model_delete_comment':
 				$return_data	= $data;
 				$tci			= $data;
-				$data['action'] = $this->_ci->lang->line('comment_delete');
+				$this->load_model('email_model');
+				$data			= array();
+				$data['action']		= $this->_ci->lang->line('comment_delete');
+				$data['task_id']	= $this->_ci->email_model->get_task_from_comment( $tci );
+				$data['user_id']	= $this->_ci->email_model->get_user_from_comment( $tci );
 				break;
 
 		}
@@ -274,8 +280,18 @@ class Email_Notification extends RF_Plugin {
 					break;
 					
 				case '{project_name}':
+					
 					$this->_ci->load->model('project_model');
-					$project			= $this->_ci->project_model->get_project($data['project_id']);
+					
+					if (isset($data['project_id'])) {
+						$project			= $this->_ci->project_model->get_project($data['project_id']);
+					}
+					else
+					{
+						$this->_ci->load->model('task_model');
+						$project_id			= $this->_ci->task_model->get_task_project($data['task_id']);
+						$project			= $this->_ci->project_model->get_project($project_id);
+					}
 					
 					if (!is_null($project))
 						$text			= str_replace('{project_name}', $project->name, $text);
