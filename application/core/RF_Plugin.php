@@ -211,7 +211,7 @@ class RF_Plugin {
 	 * @return void
 	 * @access public
 	 */
-	public function lang_load($lang_file) {
+	public function load_lang($lang_file) {
 		//look for language file
 		$this->_ci->lang->load( $lang_file, '' , FALSE , TRUE , FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR);
 	}
@@ -223,7 +223,7 @@ class RF_Plugin {
 	 * @return void
 	 * @access public
 	 */
-	public function model_load($model) {
+	public function load_model($model) {
 		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR);
 		$this->_ci->load->model( $model );
 	}
@@ -235,7 +235,7 @@ class RF_Plugin {
 	 * @return void
 	 * @access public
 	 */
-	public function helper_load($helper) {
+	public function load_helper($helper) {
 		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR);
 		$this->_ci->load->helper( $helper );
 	}
