@@ -236,11 +236,12 @@ class Email_Notification extends RF_Plugin {
 
 		$this->sendmail(
 				$sendto, 
-				$this->config->commenting_email_subject, 
+				$this->parse_vars( 
+						$this->config->commenting_email_subject, 
+						$data ),
 				$this->parse_vars(
 						$this->config->commenting_email_body, 
-						$data,
-						'comment')
+						$data)
 				);
 		
 		return $return_data;
@@ -259,7 +260,7 @@ class Email_Notification extends RF_Plugin {
 		
 	}
 	
-	private function parse_vars($text, $data, $area) {
+	private function parse_vars($text, $data) {
 		
 		preg_match_all("/\{.*?\}/", $text, $parsed_vars);
 		
@@ -276,7 +277,7 @@ class Email_Notification extends RF_Plugin {
 					$user_assigned		= $this->_ci->ion_auth->user($data['user_id'])->result_array();
 			
 					if (count($user_assigned) > 0) 					
-						$text			= str_replace('{task_user}', $user_assigned[0]['first_name'] . ' ' . $user_assigned[0]['last_name'], $text);
+						$text			= str_replace('{user}', $user_assigned[0]['first_name'] . ' ' . $user_assigned[0]['last_name'], $text);
 					break;
 					
 				case '{project_name}':
@@ -299,15 +300,13 @@ class Email_Notification extends RF_Plugin {
 
 				case '{refreak_url}':
 					$text			= str_replace('{refreak_url}', site_url(), $text);
-					
+					break;
+				
 				default:
 					
-					if(strpos($text, $p) !== FALSE) {
-						$var			= str_replace('{', '', $p);
-						$var			= str_replace($area . '_', '', $var);
-						$var			= str_replace('}', '', $var);
-						
-						if (!is_null($data))
+					if(strpos($text, $p) !== FALSE && !is_null($data)) {
+							$var			= str_replace('{', '', $p);
+							$var			= str_replace('}', '', $var);
 							$text			= str_replace($p, $data[$var], $text);
 					}
 					
