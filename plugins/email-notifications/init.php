@@ -24,13 +24,13 @@ class Email_Notification extends RF_Plugin {
 	public function initialize() {
 		
 		$this->attach_events();
+		$this->load_lang('email-notifications');
 		
 	}
 	
     public function edit() {
 	    
 		$this->css_add(base_url() . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'edit.css');
-		$this->load_lang('email-notifications');
 		
     }
 	
