@@ -60,7 +60,14 @@ class Email_Notification extends RF_Plugin {
 		}
 		
 		if ($this->config->project_user_activated === "1") {
-			//attach for project_user
+			
+			//attach for new assigned user
+			if ($this->config->project_user_new === "1")  
+				$this->attach('projects_model_set_user_project', array($this, 'projectuser_event'));
+			
+			//attach for remove user
+			if ($this->config->project_user_edit === "1")  
+				$this->attach('projects_model_remove_user_project', array($this, 'projectuser_event'));
 		}
 		
 		if ($this->config->user_activated === "1") {
@@ -70,6 +77,14 @@ class Email_Notification extends RF_Plugin {
 		
 	}
         
+	/**
+	 * Create task area
+	 * 
+	 * @param string $evt Event name
+	 * @param array $data Data
+	 * @return array Data
+	 * @access public
+	 */
 	public function creating_task_event( $evt, $data ) {
 		
 		$actual_user		= $this->_ci->data['actual_user'];
@@ -128,6 +143,14 @@ class Email_Notification extends RF_Plugin {
 		return $data;
 	}
 	
+	/**
+	 * Edit task area
+	 * 
+	 * @param string $evt Event name
+	 * @param array $data Data
+	 * @return array Data
+	 * @access public
+	 */
 	public function editing_task_event( $evt, $data ) {
 		
 		$task_id			= $data[0];
@@ -188,6 +211,14 @@ class Email_Notification extends RF_Plugin {
 		
 	}
 	
+	/**
+	 * Comment area
+	 * 
+	 * @param string $evt Event name
+	 * @param array $data Data
+	 * @return array Data
+	 * @access public
+	 */
 	public function comment_event( $evt, $data ) {
 		
 		$sendto				= array();
@@ -248,6 +279,71 @@ class Email_Notification extends RF_Plugin {
 		
 	}
 	
+	/**
+	 * Project User area
+	 * 
+	 * @param string $evt Event name
+	 * @param array $data Data
+	 * @return array Data
+	 * @access public
+	 */
+	public function projectuser_event( $evt, $data ) {
+		
+		$sendto				= array();
+		$actual_user		= $this->_ci->data['actual_user'];
+		
+		switch ($evt) {
+			case 'projects_model_set_user_project':
+				$return_data	= $data;
+				$data['action'] = $this->_ci->lang->line('project_user_assing');
+				$this->load_lang('projects');
+				$position		= $this->_ci->lang->line('project_position');
+				$data['position'] = $position[$data['position']];
+				break;
+			
+			case 'projects_model_remove_user_project':
+				$return_data	= $data;
+				$data['action']		= $this->_ci->lang->line('project_user_remove');
+				break;
+				
+		}
+		
+		if ($this->config->project_user_assigned === '1') {
+			$sendto[]		= $actual_user->email;
+		}
+		
+		if ($this->config->project_user_project_members === '1') {
+			$this->load_model('email_model');
+			$user_assigned	= $this->_ci->email_model->get_users_email_project($data['project_id']);
+			
+			foreach ($user_assigned as $ua) {
+				$sendto[]		= $ua->email;
+			}
+		}
+		
+		$sendto				= array_unique($sendto);
+
+		$this->sendmail(
+				$sendto, 
+				$this->parse_vars( 
+						$this->config->project_user_email_subject, 
+						$data ),
+				$this->parse_vars(
+						$this->config->project_user_email_body, 
+						$data)
+				);
+		
+		return $return_data;
+		
+	}
+	
+	/** 
+	 * Send mails
+	 * 
+	 * @param array $to Destination emails
+	 * @param string $subject Mail subject
+	 * @param string $body Mail body
+	 */
 	private function sendmail($to, $subject, $body) {
 		
 		$this->_ci->load->library('email');
@@ -260,6 +356,14 @@ class Email_Notification extends RF_Plugin {
 		
 	}
 	
+	/**
+	 * Parse variables for send mail
+	 * 
+	 * @param string $text Mail text
+	 * @param array $data Variables to parse
+	 * @return string Parsed mail
+	 * @access private
+	 */
 	private function parse_vars($text, $data) {
 		
 		preg_match_all("/\{.*?\}/", $text, $parsed_vars);

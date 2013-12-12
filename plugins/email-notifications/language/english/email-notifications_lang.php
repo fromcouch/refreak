@@ -80,4 +80,3 @@ $lang['user_affected']						= 'User Affected';
 $lang['user_mail']							= 'Mail';
 $lang['user_subject']						= 'Subject';
 $lang['user_body']							= 'Body';
-

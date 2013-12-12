@@ -58,4 +58,22 @@ class Email_model extends CI_Model {
         return $task->user_id;
         
     }
+	
+	/**
+     * Get users email assigned to a project
+     * 
+     * @param int $project_id
+     * @return object list of users
+     * @access public
+     */
+    public function get_users_email_project($project_id) {
+        
+        $db = $this->db
+                ->select('users.email')
+                ->where('project_id', $project_id)
+                ->join('users', 'user_project.user_id = users.id', 'inner');
+        
+        return $db->get('user_project')->result_object();
+        
+    }
 }
