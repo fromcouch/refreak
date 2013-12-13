@@ -2,6 +2,7 @@
 /**
  * Email Notification Refreak Plugin
  *
+ * @version 0.1beta
  * @package	Refreak
  * @subpackage	plugin
  * @category	plugin
