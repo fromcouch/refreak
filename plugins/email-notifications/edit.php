@@ -1,3 +1,22 @@
+<fieldset>
+	<legend><?php echo $this->lang->line('email_general_title'); ?></legend>
+	<h3><?php echo $this->lang->line('email_general_config'); ?></h3>
+	<div> 
+		<p>
+                    <label><?php echo $this->lang->line('email_general_from_name'); ?></label>
+                    <?php echo form_input('email_from_name', $config->email_from_name); ?>
+		</p>
+		<p>
+                    <label><?php echo $this->lang->line('email_general_from_email'); ?></label>
+                    <?php echo form_input('email_from_email', $config->email_from_email); ?>
+		</p>
+		<p>
+                    <label><?php echo $this->lang->line('email_general_always_email'); ?></label>
+                    <?php echo form_input('email_always_send', $config->email_always_send); ?>
+		</p>
+		
+	</div>
+</fieldset>
 
 <fieldset>
 	<legend><?php echo $this->lang->line('create_task_title'); ?></legend>

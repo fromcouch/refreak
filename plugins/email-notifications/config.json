@@ -1,4 +1,8 @@
 {
+    "email_from_name": "0",
+    "email_from_email": "0",
+    "email_always_send": "0",
+        
     "creating_task_activated": "0",
     "creating_task_group_admin": "0",
     "creating_task_group_manager": "0",

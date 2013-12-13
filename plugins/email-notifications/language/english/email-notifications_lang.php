@@ -17,6 +17,13 @@
  * @link	https://github.com/fromcouch/refreak
  */
 
+//General Email
+$lang['email_general_title']				= 'General Email';
+$lang['email_general_config']				= 'Configuration';
+$lang['email_general_from_name']			= 'From Name';
+$lang['email_general_from_email']			= 'From Email';
+$lang['email_general_always_email']			= 'Always send to';
+
 //Create Task
 $lang['create_task_title']					= 'Creating Task';
 $lang['create_task_activated']				= 'Activated';

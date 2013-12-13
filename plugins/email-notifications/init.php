@@ -313,7 +313,8 @@ class Email_Notification extends RF_Plugin {
 		}
 		
 		if ($this->config->project_user_assigned === '1') {
-			$sendto[]		= $actual_user->email;
+			$user_assigned		= $this->_ci->ion_auth->user($data['user_id'])->result_array();
+			$sendto[]			= $user_assigned[0]['email'];
 		}
 		
 		if ($this->config->project_user_project_members === '1') {
