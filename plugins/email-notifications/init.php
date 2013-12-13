@@ -23,8 +23,11 @@ class Email_Notification extends RF_Plugin {
     
 	public function initialize() {
 		
-		$this->attach_events();
 		$this->load_lang('email-notifications');
+		$this->_ci->load->helper('email');
+		if (valid_email($this->config->email_from_email)) {
+			$this->attach_events();
+		}
 		
 	}
 	
@@ -387,7 +390,14 @@ class Email_Notification extends RF_Plugin {
 	private function sendmail($to, $subject, $body) {
 		
 		$this->_ci->load->library('email');
-		$this->_ci->email->from('victor@fromcouch.com', 'Victor');
+		
+		$this->_ci->email->from(
+							$this->config->email_from_email, 
+							$this->config->email_from_name);
+		
+		if ($this->_ci->email->valid_email($this->config->email_always_send))
+			$this->_ci->email->cc($this->config->email_always_send);
+		
 		$this->_ci->email->to($to);
 		$this->_ci->email->subject($subject);
 		$this->_ci->email->message($body);
