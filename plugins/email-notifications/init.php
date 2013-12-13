@@ -71,7 +71,11 @@ class Email_Notification extends RF_Plugin {
 		}
 		
 		if ($this->config->user_activated === "1") {
-			//attach for user
+			
+			//attach for new assigned user
+			if ($this->config->user_new === "1")
+				$this->attach('users_registered', array($this, 'user_event'));
+			
 		}
 		
 		
@@ -330,6 +334,41 @@ class Email_Notification extends RF_Plugin {
 						$data ),
 				$this->parse_vars(
 						$this->config->project_user_email_body, 
+						$data)
+				);
+		
+		return $return_data;
+		
+	}
+	
+	/**
+	 * User area
+	 * 
+	 * @param string $evt Event name
+	 * @param array $data Data
+	 * @return array Data
+	 * @access public
+	 */
+	public function user_event( $evt, $data ) {
+		
+		$sendto				= array();
+		$actual_user		= $this->_ci->data['actual_user'];
+		
+		$data['action']		= $this->_ci->lang->line('user_new');
+		
+		if ($this->config->user_assigned === '1' && isset($data['email'])) {
+			$sendto[]		= $data['email'];
+		}
+				
+		$sendto				= array_unique($sendto);
+
+		$this->sendmail(
+				$sendto, 
+				$this->parse_vars( 
+						$this->config->user_email_subject, 
+						$data ),
+				$this->parse_vars(
+						$this->config->user_email_body, 
 						$data)
 				);
 		

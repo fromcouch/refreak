@@ -180,10 +180,6 @@
 			<label><?php echo $this->lang->line('user_new'); ?></label>
 			<?php echo form_checkbox('user_new', '1', $config->user_new); ?>
 		</div>
-		<div class="chk_box">
-			<label><?php echo $this->lang->line('user_delete'); ?></label>
-			<?php echo form_checkbox('user_delete', '1', $config->user_delete); ?>
-		</div>
 	</div>
 	<br/>
 	<h3><?php echo $this->lang->line('user_who'); ?></h3>
