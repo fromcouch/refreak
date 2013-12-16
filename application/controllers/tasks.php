@@ -71,6 +71,13 @@ class Tasks extends RF_Controller {
                                                         $this->task_model->get_tasks($this->data['actual_user']->id) 
                                        );
         
+		if ($this->config->item('rfk_subtasks')) {
+				$this->data['subtasks']        = $this->task_model->get_tasks($this->data['actual_user']->id, null, null, 0, array(), null, true); 				 
+		}
+		else {
+				$this->data['subtasks']        = array();
+		}
+			
         $this->data['max_status']    = $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);

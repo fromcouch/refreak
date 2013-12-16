@@ -29,10 +29,11 @@ class Task_model extends CI_Model {
      * @param int $time_concept 0 = future tasks , 1 = past tasks , 2 all tasks
      * @param int $projects projects array
      * @param int $context_id context identificator for tasks
+     * @param bool $subtasks true if you need order by subtasks.
      * @return array of objects with tasks
      * @access public
      */
-    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array(), $context_id = null) {
+    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array(), $context_id = null, $subtasks = false) {
         
         $this->db
                 ->select('tasks.*, COUNT(DISTINCT rfk_task_comment.post_date) comment_count,
@@ -59,7 +60,13 @@ class Task_model extends CI_Model {
                 ->order_by('tasks.deadline_date','asc')
                 ->order_by('tasks.priority','asc');
         
-      
+		if ($this->config->item('rfk_subtasks') ) {
+			if (!$subtasks)
+				$this->db->where('tasks.task_parent_id', 0);
+			else
+				$this->db->where('tasks.task_parent_id != ', 0);
+		}
+		
         $max_status = $this->config->item('rfk_status_levels');
                 
         

@@ -102,5 +102,15 @@ $config['rfk_complete_deadline'] = TRUE;
 */
 $config['rfk_status_levels'] = 5;
 
+/*
+| -------------------------------------------------------------------
+|  Subtasks
+|  
+|  
+|  posible values:  TRUE, FALSE
+| -------------------------------------------------------------------
+*/
+$config['rfk_subtasks'] = TRUE;
+
 /* End of file refreak.php */
 /* Location: ./application/config/refreak.php */
