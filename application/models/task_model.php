@@ -233,7 +233,7 @@ class Task_model extends CI_Model {
         
         
         $this->db
-                    ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
+                    ->select('tasks.task_id, tasks.task_parent_id, tasks.project_id, tasks.priority, tasks.context, 
                               tasks.title, tasks.description, tasks.deadline_date, tasks.private,
                               tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
                     ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
@@ -537,6 +537,13 @@ class Task_model extends CI_Model {
         
     }
     
+	/**
+	 * Convert to readable array subtasks
+	 * 
+	 * @param array $subtasks Subtasks array
+	 * @return array Array with parent id as key
+	 * @access public
+	 */
 	public function process_subtasks($subtasks) {
 		
 		$ret = array();
@@ -548,6 +555,16 @@ class Task_model extends CI_Model {
 		}
 
 		return $ret;
+		
+	}
+	
+	public function get_subtasks_number($task_parent_id) {
+		
+		$total_subtasks				= $this->db
+                                            ->where('task_parent_id', $task_parent_id)
+                                            ->count_all_results('tasks');
+		
+		return $total_subtasks;
 		
 	}
 	

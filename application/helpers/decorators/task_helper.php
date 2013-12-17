@@ -319,16 +319,24 @@ class task_helper {
 
         }
         
-		$buttons .= '<div class="task_show_subtasks">
-						<a href="#" class="task_show_parent_' . $parent_active . '">' . $parent . ' </a>
-						<a href="#" class="task_show_subtasks_' . $subtasks_active . '">' . $subtasks . ' </a>
-                        <a href="#" class="task_show_new>
-							<img src="' . $url_theme . '/images/b_new.png" width="39" height="16" border="0" alt="new" />
-						</a>                
-					</div>';
-		
-        $buttons .= '</div>';
-        
+		if (rfk_task_helper::is_subtasks()) {
+			$buttons .= '<div class="task_show_subtasks">';
+
+			if ($parent_active) {
+						$buttons .= '<a href="#" class="task_show_parent">' . $parent . ' </a>';
+			}
+
+			if ($subtasks_active) {
+						$buttons .= '<a href="#" class="task_show_subtasks">' . $subtasks . '('. $subtasks_active . ') </a>';
+			}
+
+			$buttons .= '<a href="#" class="task_show_new>
+							   <img src="' . $url_theme . '/images/b_new.png" width="39" height="16" border="0" alt="new" />
+						   </a>
+					   </div>';
+
+			$buttons .= '</div>';
+		}
 		
         $buttons = rfk_plugin_helper::trigger_event('tasks_view_show_task_buttons', $buttons);
         
