@@ -67,12 +67,12 @@ class task_helper {
             '<th width="2%">&nbsp;</th>',
             '<th width="2%">&nbsp;</th>',
             '<th width="15%">' . $project . '</th>',
-            '<th width="41%">' . $title . '</th>',
+            '<th width="39%">' . $title . '</th>',
             '<th width="10%">' . $user . '</th>',
             '<th width="10%">' . $deadline . '</th>',
             '<th width="5%">' . $comments . '</th>',
             '<th width="' . $max_status * 2 . '%" colspan="' . $max_status . '">' . $status . '</th>',
-            '<th width="5%" class="act">' . $btn_new . '</th>'
+            '<th width="7%" class="act">' . $btn_new . '</th>'
         );
         
         $tfields = rfk_plugin_helper::trigger_event('tasks_view_list_head_table', $tfields);
@@ -105,7 +105,7 @@ class task_helper {
                 //preparing some data
                 $context_letter     = substr($context[$tf->context], 0, 1);
         
-				if ($rendering_subtask) {
+				if (rfk_task_helper::is_subtasks() && $rendering_subtask) {
 					$tcol ['priority']= '
 						<td class="task_prio" colspan="2"> &nbsp; </td>
 					';
@@ -194,6 +194,11 @@ class task_helper {
                                    <a href="#" class="btn_task_delete">
                                             <img src="' . $theme_url . '/images/b_dele.png" width="20" height="16" alt="del" border="0" />
                                    </a>';
+						if (rfk_task_helper::is_subtasks() && !$rendering_subtask) {
+								$buttons .= '<a href="#" class="btn_task_new">
+												   <img src="' . $theme_url . '/images/bm_new.png" width="19" height="16" alt="new" border="0" />
+										  </a>';
+						}
                 } else {
                         $buttons = '<img src="' . $theme_url . '/images/b_edin.png" width="20" height="16" alt="del" border="0" />
                                     <img src="' . $theme_url . '/images/b_deln.png" width="20" height="16" alt="del" border="0" />';
@@ -213,7 +218,7 @@ class task_helper {
                     </tr>
                 ';
                 
-				if (count($subtasks) > 0) {
+				if (rfk_task_helper::is_subtasks() && count($subtasks) > 0) {
 					
 					$subs		= rfk_task_helper::get_subtasks($subtasks, $tf->task_id);
 					

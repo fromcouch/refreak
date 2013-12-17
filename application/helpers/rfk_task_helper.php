@@ -132,6 +132,12 @@ class rfk_task_helper {
 		return $ret;
 		
 	}
+	
+	public static function is_subtasks() {
+		$ci =& get_instance();
+		
+		return $ci->config->item('rfk_subtasks');
+	}
 }
 /* End of file rfk_task_helper.php */
 /* Location: ./application/helpers/rfk_task_helper.php */
