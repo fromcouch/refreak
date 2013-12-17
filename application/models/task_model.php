@@ -537,6 +537,20 @@ class Task_model extends CI_Model {
         
     }
     
+	public function process_subtasks($subtasks) {
+		
+		$ret = array();
+		
+		foreach ($subtasks as $value) {
+			
+				$ret[$value->task_parent_id][] = $value;
+			
+		}
+
+		return $ret;
+		
+	}
+	
     /**
      * Check if user is task owner
      * 

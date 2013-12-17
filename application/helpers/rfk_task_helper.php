@@ -126,14 +126,9 @@ class rfk_task_helper {
 		
 		$ret = array();
 		
-		foreach ($subtasks as $value) {
-			
-			if ($value->task_parent_id === $parent_id) {
-				$ret[] = $value;
-			}
-			
-		}
-		
+		if (isset($subtasks[$parent_id]))
+			$ret = $subtasks[$parent_id];
+
 		return $ret;
 		
 	}

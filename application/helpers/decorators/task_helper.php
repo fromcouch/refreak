@@ -218,7 +218,7 @@ class task_helper {
 					$subs		= rfk_task_helper::get_subtasks($subtasks, $tf->task_id);
 					
 					if (count($subs) > 0)
-						$trow []	= self::table_task_body_fields($context, $subs, $theme_url, $access, $actual_user_id, $max_status,array(),TRUE);
+						$trow []	= self::table_task_body_fields($context, $subs, $theme_url, $access, $actual_user_id, $max_status, array(),TRUE);
 				}
 				
                 unset($tcol);
