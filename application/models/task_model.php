@@ -599,10 +599,10 @@ class Task_model extends CI_Model {
 	public function get_parent_task_title($task_id) {
 		
 		$parent_task			= $this->db
-									->select('tasks.title')
-									->where('tasks.task_id', $task_id)
-									->get('tasks')
-									->row();
+										->select('tasks.title')
+										->where('tasks.task_id', $task_id)
+										->get('tasks')
+										->row();
 		
 		return $parent_task->title;
 		

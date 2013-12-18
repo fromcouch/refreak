@@ -227,8 +227,8 @@ class Tasks extends RF_Controller {
             }
             
 			if ($this->config->item('rfk_subtasks') && ($this->input->post('tpid') && $this->input->post('tpid') > 0)) {
-				$parent_title				= $this->task_model->get_parent_task_title($tid);
 				$tpid						= $this->input->post('tpid');
+				$parent_title				= $this->task_model->get_parent_task_title($tpid);	
 			}
 			
             //load layout configuration
