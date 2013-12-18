@@ -107,7 +107,9 @@ class task_helper {
         
 				if (rfk_task_helper::is_subtasks() && $rendering_subtask) {
 					$tcol ['priority']= '
-						<td class="task_prio" colspan="2"> &nbsp; </td>
+						<td class="task_prio" colspan="2"> 
+								<img src="'. $theme_url .'/images/ft_join.gif" width="18" height="18" align="right" border="0"/>
+						</td>
 					';
 					
 					//we add also empty context
@@ -319,22 +321,17 @@ class task_helper {
 
         }
         
-		if (rfk_task_helper::is_subtasks()) {
-			$buttons .= '<div class="task_show_subtasks">';
+		if (rfk_task_helper::is_subtasks() && $subtasks_active) {
+				$buttons .= '<div class="task_show_subtasks">';
 
-			if ($parent_active) {
-						$buttons .= '<a href="#" class="task_show_parent">' . $parent . ' </a>';
-			}
 
-			if ($subtasks_active) {
-						$buttons .= '<a href="#" class="task_show_subtasks">' . $subtasks . '('. $subtasks_active . ') </a>';
-			}
+				$buttons .= '<a href="#" class="task_show_subtasks">' . $subtasks . '('. $subtasks_active . ') </a>';
 
-			$buttons .= '<a href="#" class="task_show_new">
-							   <img src="' . $url_theme . '/images/b_new.png" width="39" height="16" border="0" alt="new" />
-						   </a>
-					   </div>';
-
+				$buttons .= '<a href="#" class="task_show_new">
+								<img src="' . $url_theme . '/images/b_new.png" width="39" height="16" border="0" alt="new" />
+							</a>
+						</div>';
+			
 		}
 		
 		$buttons .= '</div>';
@@ -546,22 +543,25 @@ class task_helper {
                 </tr>
         ';
         
-		$pt	= '';
-		if (rfk_task_helper::is_subtasks()) {
-			$colspan	= 1;
-			$pt			= '<td colspan="2">' . $parent_title_text . '<br/>' . $parent_title . '</td>';
-		}
-		else
-			$colspan	= 3;
-		
 		$tr ['deadline']= '
                 <tr>
                         <th>' . $deadline_text . ':</th>
-                        <td colspan="' . $colspan . '">
+                        <td colspan="3">
                             ' . form_input('deadline',$deadline_date, 'class="task_dead"') . '
-                        </td>' . $pt . '
+                        </td>
                 </tr>
         ';
+        
+		if (rfk_task_helper::is_subtasks() && !empty($parent_title)) {
+			$tr ['parent_task']= '
+					<tr>
+							<th>' . $parent_title_text . '</th>
+							<td colspan="3">
+								' . $parent_title . '
+							</td>
+					</tr>
+			';
+		}
         
         $tr = rfk_plugin_helper::trigger_event('tasks_view_edit_task_pr_dead', $tr);
         

@@ -171,10 +171,11 @@ class Task_model extends CI_Model {
      * @param int $status Task Status
      * @param int $author_id User ID created task
      * @param int $task_id 0 for new Task or Task ID for update
+     * @param int $task_parent_id Parent Tasks if this is a subtask
      * @return int Return Task ID
      * @access public
      */
-    public function save_task($title, $priority, $context, $deadline, $project_id, $project_name, $description, $user_id, $scope, $status, $author_id, $task_id = 0) {
+    public function save_task($title, $priority, $context, $deadline, $project_id, $project_name, $description, $user_id, $scope, $status, $author_id, $task_id = 0, $task_parent_id = 0) {
         
         if (!empty($project_name)) {
             // Create new project
@@ -197,7 +198,8 @@ class Task_model extends CI_Model {
                                     'description'       => $description,
                                     'user_id'           => $user_id,
                                     'private'           => $scope,                                    
-                                    'author_id'         => $author_id
+                                    'author_id'         => $author_id,
+                                    'task_parent_id'    => $task_parent_id
         );
         
         // task id 0 is for insert, if task_id have non zero value is an update

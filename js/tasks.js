@@ -219,6 +219,7 @@
                                 me._(".task_show_close").on("click", function() { me.close(this); });
                                 me._(".task_show_edit").on("click", function() { me.edit(this); });
                                 me._(".task_show_delete").on("click", function() { me.del(this); });
+                                me._(".task_show_new").on("click", function() { me.create(this); });
                                 
                                 me._(".veditsubmit").on("click", function() { me.send_comment(this); });
                                 me._(".veditcancel").on("click", function() { me.cancel_comment(this); });
@@ -260,6 +261,18 @@
                         $(this.element).show();
                         new task_new(this.element, { task_id: this.options.task_id });
                         
+                },
+		
+                create: function() {
+                        
+			this.element.trigger("refreak.task_show.to_create", this.options );
+                        this.close();
+                        $(this.element).show();
+                        
+                        new task_new(this.element, { 
+							task_id: 0,
+							task_parent_id: this.options.task_id 
+						    });
                 },
                       
                 del: function() {

@@ -1,5 +1,7 @@
 <?php echo form_open("tasks/edit/".$task_id, 'class = "task_edit_form'); 
-      echo form_hidden('task_id', $task_id); ?>
+      echo form_hidden('task_id', $task_id); 
+      if (rfk_task_helper::is_subtasks())
+			echo form_hidden('task_parent_id', $task_parent_id); ?>
         <table cellpadding="2" cellspacing="0" border="0">
                 <?php
                     echo task_helper::edit_priority_dead($this->lang->line('task_edit_priority'), 

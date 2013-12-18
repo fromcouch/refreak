@@ -237,6 +237,7 @@ List of plugin events fired in Refreak.
     + refreak.task_show.render:	    Render show window
     + refreak.task_show.bind:	    Bind other events.
     + refreak.task_show.to_edit:	    Jump to edit.
+    + refreak.task_show.to_create:  Create new task from subtask show
     + refreak.task_show.pre_delete:	    Pre delete task
     + refreak.task_show.deleted:	    Task deleted
     + refreak.task_show.show_description: Show tab description 

@@ -220,6 +220,7 @@ class Tasks extends RF_Controller {
             $tpid							= 0;
             $task                           = array();
             $parent_title					= '';
+			$project_id						= 0;
 			
             if ($this->input->post('tid') && $this->input->post('tid') > 0) {
                 $tid                        = $this->input->post('tid');
@@ -228,7 +229,8 @@ class Tasks extends RF_Controller {
             
 			if ($this->config->item('rfk_subtasks') && ($this->input->post('tpid') && $this->input->post('tpid') > 0)) {
 				$tpid						= $this->input->post('tpid');
-				$parent_title				= $this->task_model->get_parent_task_title($tpid);	
+				$parent_title				= $this->task_model->get_parent_task_title($tpid);
+				$project_id					= $this->task_model->get_task_project($tpid);
 			}
 			
             //load layout configuration
@@ -252,7 +254,7 @@ class Tasks extends RF_Controller {
 													'context'               => 1,
 													'title'                 => null,
 													'deadline_date'         => null,
-													'project_id'            => 0,
+													'project_id'            => $project_id,
 													'description'           => null,
 													'user_id'               => $this->data['actual_user']->id,
 													'private'               => $visibility,
@@ -309,13 +311,18 @@ class Tasks extends RF_Controller {
                 $this->form_validation->set_rules('task_users', 'User', 'xss_clean');
                 $this->form_validation->set_rules('showPrivate', 'Scope', 'xss_clean');
                 $this->form_validation->set_rules('task_status', 'Status', 'xss_clean');
-                $this->form_validation->set_rules('task_id', 'Status', 'xss_clean');
+                $this->form_validation->set_rules('task_id', 'Task ID', 'xss_clean');
+                $this->form_validation->set_rules('task_parent_id', 'Task Parent ID', 'xss_clean');
                 
                 $this->form_validation          = $this->plugin_handler->trigger('tasks_save_task_validation', $this->form_validation );
                 
                 if ($this->form_validation->run() === TRUE) {
                     // save task here
                     $task_id                    = $this->input->post('task_id');
+					$task_parent_id				= 0;
+					
+					if ($this->config->item('rfk_subtasks'))
+							$task_parent_id     = $this->input->post('task_parent_id');
                     
                     $this->input                = $this->plugin_handler->trigger('tasks_save_task_data', $this->input );
                     
@@ -331,7 +338,8 @@ class Tasks extends RF_Controller {
                                                         $this->input->post('showPrivate'),
                                                         $this->input->post('task_status'),
                                                         $this->data['actual_user']->id,
-                                                        (int)$task_id
+                                                        (int)$task_id,
+                                                        (int)$task_parent_id
                     );
                     
                     $this->plugin_handler->trigger('tasks_save_task_saved', $this->input );
