@@ -141,7 +141,7 @@ class Email_Notification extends RF_Plugin {
 		$this->sendmail(
 				$sendto, 
 				$this->config->creating_task_email_subject, 
-				$this->parse_task_vars(
+				$this->parse_vars(
 						$this->config->creating_task_email_body, 
 						$data,
 						'task')
