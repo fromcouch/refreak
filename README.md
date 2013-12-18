@@ -33,11 +33,13 @@ TODO
 
 ### Stage 3
 + GTD Plugin
-+ Subtasks plugin
-+ E-Mail Notification Plugin
++ ~~Subtasks plugin~~
++ ~~E-Mail Notification Plugin~~
 + File Attachment Plugin
 + Google Docs Plugin
 + Time Tracking Plugin
++ Bitbucket plugin
++ github plugin
 
 
 Please, feel free to add issue or comment.
@@ -59,6 +61,7 @@ Additionaly you can configure some parameters in:
 
     application/config/refreak.php
 
+(subtask system are activated in refreak.php)
 
 PLUGINS
 =======
