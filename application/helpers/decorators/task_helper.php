@@ -330,13 +330,14 @@ class task_helper {
 						$buttons .= '<a href="#" class="task_show_subtasks">' . $subtasks . '('. $subtasks_active . ') </a>';
 			}
 
-			$buttons .= '<a href="#" class="task_show_new>
+			$buttons .= '<a href="#" class="task_show_new">
 							   <img src="' . $url_theme . '/images/b_new.png" width="39" height="16" border="0" alt="new" />
 						   </a>
 					   </div>';
 
-			$buttons .= '</div>';
 		}
+		
+		$buttons .= '</div>';
 		
         $buttons = rfk_plugin_helper::trigger_event('tasks_view_show_task_buttons', $buttons);
         

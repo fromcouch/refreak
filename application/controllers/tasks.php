@@ -121,12 +121,12 @@ class Tasks extends RF_Controller {
      */
     public function p($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
 	    
-	$this->css->add_style(base_url() . '/' . $this->data['theme'] . '/css/print.css', 'print');
-	
-	$this->data['tasks']		= $this->search($project_id, $user_id, $time_concept, $context_id);    
-	$this->data['max_status']	= $this->config->item('rfk_status_levels');
-     
-	$this->data['tasks']		= $this->plugin_handler->trigger('tasks_search_result_print', $this->data['tasks'] );
+		$this->css->add_style(base_url() . '/' . $this->data['theme'] . '/css/print.css', 'print');
+
+		$this->data['tasks']		= $this->search($project_id, $user_id, $time_concept, $context_id);    
+		$this->data['max_status']	= $this->config->item('rfk_status_levels');
+
+		$this->data['tasks']		= $this->plugin_handler->trigger('tasks_search_result_print', $this->data['tasks'] );
 	
         $this->load->view('tasks/print', $this->data);
 	    
@@ -145,20 +145,20 @@ class Tasks extends RF_Controller {
      */
     private function search($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
 	    
-	// transform 0 to null for task model. $time_concept don't need, 0 is future
-	// and init vars
-	$project_id                 = $project_id   == 0 ? null : $project_id;
-	$user_id                    = $user_id      == 0 ? null : $user_id;
-	$context_id                 = $context_id   == 0 ? null : $context_id;
-	$projects                   = array();
+		// transform 0 to null for task model. $time_concept don't need, 0 is future
+		// and init vars
+		$project_id                 = $project_id   == 0 ? null : $project_id;
+		$user_id                    = $user_id      == 0 ? null : $user_id;
+		$context_id                 = $context_id   == 0 ? null : $context_id;
+		$projects                   = array();
 
-	if (!is_null($user_id)) {
-	    $projects		= $this->_get_user_projects($user_id);           
-	}                    
+		if (!is_null($user_id)) {
+			$projects		= $this->_get_user_projects($user_id);           
+		}                    
 
-	$tasks			= $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
+		$tasks			= $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
 
-	return $tasks;
+		return $tasks;
 	    
     }
     
@@ -434,15 +434,17 @@ class Tasks extends RF_Controller {
             $status                         = $this->lang->line('task_status');
             
 			if ($this->config->item('rfk_subtasks')) {
-				$parent_active			= false;
-				$subtask_active			= false;
+				$parent_active			= FALSE;
+				$subtask_active			= FALSE;
 				
 				if ($task[0]['task_parent_id'] > 0) {
 					//is a subtask
-					$subtask_active			= $this;
+					$parent_active			= TRUE;
+					$subtask_active			= FALSE;
 				}
 				else {
-					$parent_active			= true;
+					$parent_active			= FALSE;
+					$subtask_active			= $this->task_model->get_subtasks_number($task[0]['task_id']);
 				}
 					
 			}
@@ -453,6 +455,8 @@ class Tasks extends RF_Controller {
             $this->data['context_letter']   = $context_letter;
             $this->data['username']         = $username;
             $this->data['status']           = $status;
+            $this->data['parent_active']    = $parent_active;
+            $this->data['subtask_active']   = $subtask_active;
             
             $this->data                     = $this->plugin_handler->trigger('tasks_show_task', $this->data );
             
