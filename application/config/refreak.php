@@ -110,7 +110,7 @@ $config['rfk_status_levels'] = 5;
 |  posible values:  TRUE, FALSE
 | -------------------------------------------------------------------
 */
-$config['rfk_subtasks'] = TRUE;
+$config['rfk_subtasks'] = FALSE;
 
 /* End of file refreak.php */
 /* Location: ./application/config/refreak.php */

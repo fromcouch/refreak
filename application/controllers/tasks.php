@@ -449,11 +449,12 @@ class Tasks extends RF_Controller {
             }
             
             $status                         = $this->lang->line('task_status');
-            
+ 				
+			$parent_active			= FALSE;
+			$subtask_active			= FALSE;
+				           
 			if ($this->config->item('rfk_subtasks')) {
-				$parent_active			= FALSE;
-				$subtask_active			= FALSE;
-				
+
 				if ($task[0]['task_parent_id'] > 0) {
 					//is a subtask
 					$parent_active			= TRUE;
