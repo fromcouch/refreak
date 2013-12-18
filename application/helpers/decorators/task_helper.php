@@ -195,7 +195,7 @@ class task_helper {
                                             <img src="' . $theme_url . '/images/b_dele.png" width="20" height="16" alt="del" border="0" />
                                    </a>';
 						if (rfk_task_helper::is_subtasks() && !$rendering_subtask) {
-								$buttons .= '<a href="#" class="btn_task_new">
+								$buttons .= '<a href="#" class="btn_subtask_new">
 												   <img src="' . $theme_url . '/images/bm_new.png" width="19" height="16" alt="new" border="0" />
 										  </a>';
 						}
@@ -527,12 +527,14 @@ class task_helper {
      * @param array $context_list context list of items
      * @param string $context context text
      * @param string $deadline_text deadline text
-     * @param date $deadline_date deadline date
+	 * @param date $deadline_date deadline date
+     * @param string $parent_title_text parent title text
+     * @param string $parent_title parent title
      * @return string html for edit priority and context
      * @static
      * @access public
      */
-    public static function edit_priority_dead($edit_priority_text, $priority_list, $priority, $edit_context_text, $context_list, $context, $deadline_text, $deadline_date) {
+    public static function edit_priority_dead($edit_priority_text, $priority_list, $priority, $edit_context_text, $context_list, $context, $deadline_text, $deadline_date, $parent_title_text, $parent_title) {
         
         $tr = array();
         $tr ['priority_context']= '
@@ -544,12 +546,20 @@ class task_helper {
                 </tr>
         ';
         
-        $tr ['deadline']= '
+		$pt	= '';
+		if (rfk_task_helper::is_subtasks()) {
+			$colspan	= 1;
+			$pt			= '<td colspan="2">' . $parent_title_text . '<br/>' . $parent_title . '</td>';
+		}
+		else
+			$colspan	= 3;
+		
+		$tr ['deadline']= '
                 <tr>
                         <th>' . $deadline_text . ':</th>
-                        <td colspan="3">
+                        <td colspan="' . $colspan . '">
                             ' . form_input('deadline',$deadline_date, 'class="task_dead"') . '
-                        </td>
+                        </td>' . $pt . '
                 </tr>
         ';
         

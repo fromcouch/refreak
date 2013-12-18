@@ -23,18 +23,24 @@
                 init : function( options ) {
 
                         var me = this;
-
+			var data = {};
+			
                         if (options !== undefined)
                             this.options = options;
 			
 			this.element.trigger("refreak.task_new.init", this.options );
+			
+			data.tid = this.options.task_id;
+			
+			if  (this.options.task_parent_id !== undefined )
+			    data.tpid = this.options.task_parent_id;
 			
                         this.element.show();
            
                         $.ajax({
                             type:       "POST",
                             url:        s_url + "tasks/edit/",
-                            data:       { tid: this.options.task_id },
+                            data:       data,
                             dataType:   "html"
                         }).done(function(res) {
 
@@ -629,6 +635,16 @@
                                 me.edittask(0);
 
                         });
+			
+                        this._(".btn_subtask_new").on("click", function( event ) {
+
+                                //prevent call tr event
+                                event.stopPropagation();
+                                
+				var task_id = $(this).parents("tr").attr("data-id");
+                                me.createsubtask( task_id );
+
+                        });
 
                         this._(".btn_task_edit").on("click", function( event ) {
 
@@ -636,7 +652,7 @@
                                 event.stopPropagation();
 
                                 var task_id = $(this).parents("tr").attr("data-id");
-                                me.edittask(task_id);
+                                me.edittask( task_id );
 
                         });
 
@@ -699,6 +715,17 @@
 			this.element.trigger("refreak.task_list.edittask", this.options );
 			
                         $(".task_panel").newTask({ task_id: task_id });
+
+                },
+		
+                createsubtask: function (parent_task_id) {
+                
+			this.element.trigger("refreak.task_list.create_subtask", this.options );
+			
+                        $(".task_panel").newTask({ 
+						    task_id: 0, 
+						    task_parent_id: parent_task_id,
+						 });
 
                 },
                 

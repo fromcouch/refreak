@@ -34,6 +34,7 @@ $lang['task_edit_status']               = 'Status';
 $lang['task_edit_save']                 = 'Save';
 $lang['task_edit_cancel']               = 'Cancel';
 $lang['task_edit_project_none']         = '- - - - - - - - -';
+$lang['task_edit_parent_title']         = 'Parent Task Title';
 
 
 //tasks list

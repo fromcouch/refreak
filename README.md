@@ -258,6 +258,7 @@ List of plugin events fired in Refreak.
     + refreak.task_list.status_changing: Change status
     + refreak.task_list.status_changed: Status Changed
     + refreak.task_list.close:	    Closing object
+    + refreak.task_list.create_subtask:	    Push create sub task button
 
 + Projects:
     + refreak.project_edit.invite_user: Inviting user to project in edit page

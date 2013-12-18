@@ -558,6 +558,13 @@ class Task_model extends CI_Model {
 		
 	}
 	
+	/**
+	 * Count subtasks of parent tasks
+	 * 
+	 * @param int $task_parent_id parent tasks id
+	 * @return int total subtasks
+	 * @access public
+	 */
 	public function get_subtasks_number($task_parent_id) {
 		
 		$total_subtasks				= $this->db
@@ -588,6 +595,18 @@ class Task_model extends CI_Model {
         
         return false;
     }
+	
+	public function get_parent_task_title($task_id) {
+		
+		$parent_task			= $this->db
+									->select('tasks.title')
+									->where('tasks.task_id', $task_id)
+									->get('tasks')
+									->row();
+		
+		return $parent_task->title;
+		
+	}
 }
 
 /* End of file task_model.php */

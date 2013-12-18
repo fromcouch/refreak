@@ -9,7 +9,9 @@
                                                          $this->lang->line('task_context'), 
                                                          $context, 
                                                          $this->lang->line('task_edit_deadline'), 
-                                                         $deadline_date);
+                                                         $deadline_date,
+														 $this->lang->line('task_edit_parent_title'),
+														 $parent_title);
                     
                     echo task_helper::edit_project($this->lang->line('task_edit_project'), 
                                                    $user_p, 

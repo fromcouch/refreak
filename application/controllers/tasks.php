@@ -217,13 +217,20 @@ class Tasks extends RF_Controller {
         if ($this->input->is_ajax_request()) {
             
             $tid                            = 0;
+            $tpid							= 0;
             $task                           = array();
-            
+            $parent_title					= '';
+			
             if ($this->input->post('tid') && $this->input->post('tid') > 0) {
                 $tid                        = $this->input->post('tid');
                 $task                       = $this->task_model->get_task($tid, $this->data['actual_user']->id);
             }
             
+			if ($this->config->item('rfk_subtasks') && ($this->input->post('tpid') && $this->input->post('tpid') > 0)) {
+				$parent_title				= $this->task_model->get_parent_task_title($tid);
+				$tpid						= $this->input->post('tpid');
+			}
+			
             //load layout configuration
             $this->config->load('layout');
 
@@ -233,22 +240,23 @@ class Tasks extends RF_Controller {
             // get default value for visibility
             $visibility                     = $this->config->item('rfk_task_visibility');
             
-            $ups            = array($this->lang->line('task_edit_project_none'));
+            $ups							= array($this->lang->line('task_edit_project_none'));
             foreach ($this->data['user_projects'] as $up) {
                 $ups[$up->project_id] = $up->name;
             }
 
             $defaults                       = array(
-                                        'task_id'               => $tid,
-                                        'priority'              => 3,
-                                        'context'               => 1,
-                                        'title'                 => null,
-                                        'deadline_date'         => null,
-                                        'project_id'            => 0,
-                                        'description'           => null,
-                                        'user_id'               => $this->data['actual_user']->id,
-                                        'private'               => $visibility,
-                                        'status'                => 0,
+													'task_id'               => $tid,
+													'task_parent_id'        => $tpid,
+													'priority'              => 3,
+													'context'               => 1,
+													'title'                 => null,
+													'deadline_date'         => null,
+													'project_id'            => 0,
+													'description'           => null,
+													'user_id'               => $this->data['actual_user']->id,
+													'private'               => $visibility,
+													'status'                => 0,
             );
             
             if (count($task) === 1) {
@@ -256,7 +264,7 @@ class Tasks extends RF_Controller {
             }
             else {
                 $data                       = $defaults;
-            }                                    
+            }                               
             
             $this->data                     = array_merge($data, $this->data);
             
@@ -266,7 +274,8 @@ class Tasks extends RF_Controller {
             
             $this->data['user_p']           = $ups;
             $this->data['max_status']       = $this->config->item('rfk_status_levels');
-            
+			$this->data['parent_title']		= $parent_title;
+			
             $this->data                     = $this->plugin_handler->trigger('tasks_show_edit_task', $this->data );
             
             unset($ups, $defaults, $task);
