@@ -7,7 +7,7 @@
         echo form_open();
         echo form_fieldset($plg->name);
         
-        echo $form;
+		include $form;
         
 ?>
 <p>

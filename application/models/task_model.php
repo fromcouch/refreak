@@ -29,10 +29,11 @@ class Task_model extends CI_Model {
      * @param int $time_concept 0 = future tasks , 1 = past tasks , 2 all tasks
      * @param int $projects projects array
      * @param int $context_id context identificator for tasks
+     * @param bool $subtasks true if you need order by subtasks.
      * @return array of objects with tasks
      * @access public
      */
-    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array(), $context_id = null) {
+    public function get_tasks($actual_user_id, $user_id = null, $project_id = null, $time_concept = 0, $projects = array(), $context_id = null, $subtasks = false) {
         
         $this->db
                 ->select('tasks.*, COUNT(DISTINCT rfk_task_comment.post_date) comment_count,
@@ -59,7 +60,13 @@ class Task_model extends CI_Model {
                 ->order_by('tasks.deadline_date','asc')
                 ->order_by('tasks.priority','asc');
         
-      
+		if ($this->config->item('rfk_subtasks') ) {
+			if (!$subtasks)
+				$this->db->where('tasks.task_parent_id', 0);
+			else
+				$this->db->where('tasks.task_parent_id != ', 0);
+		}
+		
         $max_status = $this->config->item('rfk_status_levels');
                 
         
@@ -122,7 +129,7 @@ class Task_model extends CI_Model {
         $db         = $this->db;
         
         if ($project_id == 0) {
-            $db->select('users.id, users.first_name, users.last_name');
+            $db->select('users.id, users.first_name, users.last_name, users.email');
             
             $db   = $this->plugin_handler->trigger( 'tasks_model_get_users', $db);
             
@@ -133,7 +140,7 @@ class Task_model extends CI_Model {
         else {
             
             $db
-                ->select('users.id, users.first_name, users.last_name')
+                ->select('users.id, users.first_name, users.last_name, users.email')
                 ->join('users', 'users.id = user_project.user_id', 'inner')
                 ->where('user_project.project_id', $project_id);
             
@@ -164,10 +171,11 @@ class Task_model extends CI_Model {
      * @param int $status Task Status
      * @param int $author_id User ID created task
      * @param int $task_id 0 for new Task or Task ID for update
+     * @param int $task_parent_id Parent Tasks if this is a subtask
      * @return int Return Task ID
      * @access public
      */
-    public function save_task($title, $priority, $context, $deadline, $project_id, $project_name, $description, $user_id, $scope, $status, $author_id, $task_id = 0) {
+    public function save_task($title, $priority, $context, $deadline, $project_id, $project_name, $description, $user_id, $scope, $status, $author_id, $task_id = 0, $task_parent_id = 0) {
         
         if (!empty($project_name)) {
             // Create new project
@@ -190,7 +198,8 @@ class Task_model extends CI_Model {
                                     'description'       => $description,
                                     'user_id'           => $user_id,
                                     'private'           => $scope,                                    
-                                    'author_id'         => $author_id
+                                    'author_id'         => $author_id,
+                                    'task_parent_id'    => $task_parent_id
         );
         
         // task id 0 is for insert, if task_id have non zero value is an update
@@ -226,7 +235,7 @@ class Task_model extends CI_Model {
         
         
         $this->db
-                    ->select('tasks.task_id, tasks.project_id, tasks.priority, tasks.context, 
+                    ->select('tasks.task_id, tasks.task_parent_id, tasks.project_id, tasks.priority, tasks.context, 
                               tasks.title, tasks.description, tasks.deadline_date, tasks.private,
                               tasks.user_id, tasks.author_id, tasks.modified_date, user_project.position') 
                     ->select('SUBSTRING(MAX(CONCAT(rfk_task_status.status_date,rfk_task_status.status)),20) AS status', false)
@@ -508,6 +517,67 @@ class Task_model extends CI_Model {
     }
     
     /**
+     * Get Project from task.
+     * 
+     * @param int $task_id task id
+     * @return int project id
+     * @access public
+     */
+    public function get_task_project($task_id) {
+        
+        $project                = $this->db
+                                            ->select('project_id')
+                                            ->where('task_id', $task_id)
+                                            ->get('tasks')
+                                            ->row();
+        
+        $project_id             = $project->project_id;
+        
+        $data                   = $this->plugin_handler->trigger('tasks_model_get_project_task', array($task_id, $project_id));
+        
+        return $project_id;
+        
+    }
+    
+	/**
+	 * Convert to readable array subtasks
+	 * 
+	 * @param array $subtasks Subtasks array
+	 * @return array Array with parent id as key
+	 * @access public
+	 */
+	public function process_subtasks($subtasks) {
+		
+		$ret = array();
+		
+		foreach ($subtasks as $value) {
+			
+				$ret[$value->task_parent_id][] = $value;
+			
+		}
+
+		return $ret;
+		
+	}
+	
+	/**
+	 * Count subtasks of parent tasks
+	 * 
+	 * @param int $task_parent_id parent tasks id
+	 * @return int total subtasks
+	 * @access public
+	 */
+	public function get_subtasks_number($task_parent_id) {
+		
+		$total_subtasks				= $this->db
+                                            ->where('task_parent_id', $task_parent_id)
+                                            ->count_all_results('tasks');
+		
+		return $total_subtasks;
+		
+	}
+	
+    /**
      * Check if user is task owner
      * 
      * @param int $task_id task id
@@ -527,6 +597,18 @@ class Task_model extends CI_Model {
         
         return false;
     }
+	
+	public function get_parent_task_title($task_id) {
+		
+		$parent_task			= $this->db
+										->select('tasks.title')
+										->where('tasks.task_id', $task_id)
+										->get('tasks')
+										->row();
+		
+		return $parent_task->title;
+		
+	}
 }
 
 /* End of file task_model.php */

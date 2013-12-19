@@ -23,7 +23,7 @@
 			
             ?>
             <tr class="<?php echo $tr_class; ?>">
-		<?php if ($table_plugin->dir_exists && $table_plugin->installed) : ?>
+		<?php if ($table_plugin->dir_exists && $table_plugin->installed && $table_plugin->active) : ?>
 		    <td><a href="<?php echo site_url();?>plugin/config/<?php echo $table_plugin->id;?>"><?php echo $table_plugin->name ?></a></td>
 		<?php else : ?>
 		    <td><?php echo $table_plugin->name ?></td>
@@ -45,12 +45,15 @@
                             <a href="<?php echo site_url();?>plugin/<?php echo $url_active;?>/<?php echo $table_plugin->id;?>">
                                 <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $plugin_status; ?>.png" />
                             </a>
-			    
+			<?php else : ?>
+				<img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $plugin_status; ?>.png" />
+			<?php endif;    
+			
+			if ($this->ion_auth->is_admin() && ($table_plugin->dir_exists && $table_plugin->installed && $table_plugin->active)) : ?>
 			    <a href="<?php echo site_url();?>plugin/config/<?php echo $table_plugin->id;?>">
 				<img src="<?php echo base_url() . $theme;?>/images/b_edit.png" width="20" height="16" border="0" />
 			    </a>
-                        <?php else : ?>
-                                <img src="<?php echo base_url() . $theme;?>/images/b_<?php echo $plugin_status; ?>.png" />
+                        <?php else : ?>                                
 				<img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" />
                         <?php endif; 
                         			    

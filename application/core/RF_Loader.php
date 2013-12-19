@@ -115,6 +115,32 @@ class RF_Loader extends CI_Loader {
         $data = array_merge($args, $defaults);
         return $data;
     }
+	
+	/**
+	 * Add paths to model array to load from outsiude
+	 * 
+	 * @param string $path Path to model
+	 * @return void
+	 * @access public
+	 */
+	public function add_model_path($path) {
+		
+		array_unshift($this->_ci_model_paths, $path);
+		
+	}
+
+	/**
+	 * Add paths to helper array to load from outsiude
+	 * 
+	 * @param string $path Path to helper
+	 * @return void
+	 * @access public
+	 */
+	public function add_helper_path($path) {
+		
+		array_unshift($this->_ci_helper_paths, $path);
+		
+	}
     
 }
 

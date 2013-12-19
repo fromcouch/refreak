@@ -34,6 +34,7 @@ $lang['task_edit_status']               = 'Status';
 $lang['task_edit_save']                 = 'Save';
 $lang['task_edit_cancel']               = 'Cancel';
 $lang['task_edit_project_none']         = '- - - - - - - - -';
+$lang['task_edit_parent_title']         = 'Parent Task ';
 
 
 //tasks list
@@ -73,7 +74,8 @@ $lang['task_show_tab_save']             = 'save';
 $lang['task_show_tab_cancel']           = 'cancel';
 $lang['task_show_status']               = 'status';
 $lang['task_show_delete_comment_confirm']       = 'Really delete this comment?';
-
+$lang['task_show_parent']               = 'Parent';
+$lang['task_show_subtasks']             = 'Subtasks';
 
 /*
  *  projects arrays

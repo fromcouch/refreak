@@ -52,7 +52,7 @@ class Plugin_handler {
     }
     
     /**
-     * Load plugins. THis function look $controller var for load only plugins 
+     * Load plugins. This function look $controller var for load only plugins 
      * associated to the controller.
      * 
      * @param string $controller Name of the loaded controller.
@@ -66,15 +66,17 @@ class Plugin_handler {
                 
         
         foreach ($plugins as $plugin) {            
-            if (is_dir(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
-                include(APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php');
-                $class_name     = ucfirst($plugin->directory);
-
-                $this->_plugins_loaded []= $class_name;
+            if (is_dir(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory)) {
+                include(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php');
+				if (is_null($plugin->class) || empty($plugin->class))
+					$plugin->class	= $plugin->name;
 		
-		//look for language file
-		$this->_ci->lang->load( $plugin->directory , '' , FALSE , TRUE , APPPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR);
-            }
+					$class_name     = ucfirst($plugin->class);
+
+					$plugin->data	= $this->_ci->plugin_handler_model->load_config($plugin->id, FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory  . DIRECTORY_SEPARATOR);
+					
+					$this->_plugins_loaded [$class_name]	= $plugin;
+				}
         }
         
     }
@@ -87,8 +89,9 @@ class Plugin_handler {
      */
     public function initialize_plugins() {
         
-        foreach ($this->_plugins_loaded as $class) {
-            new $class;
+        foreach ($this->_plugins_loaded as $class => $plugin) {
+            //new $class;
+			$class::getInstance($plugin)->initialize();
         }
         
     }
@@ -109,11 +112,11 @@ class Plugin_handler {
         }
         
         if (!is_null($offset)) {
-            $this->events[$event_name][$offset]         = $callback;
-	}
-        else {
+			$this->events[$event_name][$offset]         = $callback;
+		}
+		else {
             $this->events[$event_name][]                = $callback;
-	}
+		}
         
     }
     

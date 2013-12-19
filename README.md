@@ -33,11 +33,13 @@ TODO
 
 ### Stage 3
 + GTD Plugin
-+ Subtasks plugin
-+ E-Mail Notification Plugin
++ ~~Subtasks plugin~~
++ ~~E-Mail Notification Plugin~~
 + File Attachment Plugin
 + Google Docs Plugin
 + Time Tracking Plugin
++ Bitbucket plugin
++ github plugin
 
 
 Please, feel free to add issue or comment.
@@ -59,6 +61,7 @@ Additionaly you can configure some parameters in:
 
     application/config/refreak.php
 
+(subtask system are activated in refreak.php)
 
 PLUGINS
 =======
@@ -160,6 +163,7 @@ List of plugin events fired in Refreak.
     + tasks_model_delete_task_comments:     Delete task Comments.  (tasks)
     + tasks_model_get_user_project_position:Get Users position of Task. (tasks)
     + tasks_model_is_owner:                 Know if user is owner of task. (tasks)
+    + tasks_model_get_project_task:	    Get project id from task (task)
     + tasks_view_list_head_table:           Tasks list table head columns. (tasks)
     + tasks_view_list_content_table_column: Fires every task row with columns (tasks)
     + tasks_view_list_content_table_row:    Tasks list rows for table (tasks)
@@ -236,6 +240,7 @@ List of plugin events fired in Refreak.
     + refreak.task_show.render:	    Render show window
     + refreak.task_show.bind:	    Bind other events.
     + refreak.task_show.to_edit:	    Jump to edit.
+    + refreak.task_show.to_create:  Create new task from subtask show
     + refreak.task_show.pre_delete:	    Pre delete task
     + refreak.task_show.deleted:	    Task deleted
     + refreak.task_show.show_description: Show tab description 
@@ -257,6 +262,7 @@ List of plugin events fired in Refreak.
     + refreak.task_list.status_changing: Change status
     + refreak.task_list.status_changed: Status Changed
     + refreak.task_list.close:	    Closing object
+    + refreak.task_list.create_subtask:	    Push create sub task button
 
 + Projects:
     + refreak.project_edit.invite_user: Inviting user to project in edit page

@@ -66,12 +66,15 @@ class Tasks extends RF_Controller {
     public function index()
     {
         
-        $this->data['tasks']        = $this->plugin_handler->trigger(
+        $this->data['tasks']			= $this->plugin_handler->trigger(
                                                         'tasks_list', 
                                                         $this->task_model->get_tasks($this->data['actual_user']->id) 
                                        );
         
-        $this->data['max_status']    = $this->config->item('rfk_status_levels');
+		
+		$this->data['subtasks']			= $this->subtasking();
+			
+        $this->data['max_status']		= $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
         
@@ -93,6 +96,7 @@ class Tasks extends RF_Controller {
         $this->data['tasks']		= $this->search($project_id, $user_id, $time_concept, $context_id);  
 	
         $this->data['tasks']		= $this->plugin_handler->trigger('tasks_search_result_list', $this->data['tasks'] );
+		$this->data['subtasks']		= $this->subtasking();
         $this->data['max_status']	= $this->config->item('rfk_status_levels');
         
         $this->load->view('tasks/tasks', $this->data);
@@ -112,12 +116,13 @@ class Tasks extends RF_Controller {
      */
     public function p($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
 	    
-	$this->css->add_style(base_url() . '/' . $this->data['theme'] . '/css/print.css', 'print');
-	
-	$this->data['tasks']		= $this->search($project_id, $user_id, $time_concept, $context_id);    
-	$this->data['max_status']	= $this->config->item('rfk_status_levels');
-     
-	$this->data['tasks']		= $this->plugin_handler->trigger('tasks_search_result_print', $this->data['tasks'] );
+		$this->css->add_style(base_url() . '/' . $this->data['theme'] . '/css/print.css', 'print');
+
+		$this->data['tasks']		= $this->search($project_id, $user_id, $time_concept, $context_id);    
+		$this->data['max_status']	= $this->config->item('rfk_status_levels');
+		$this->data['subtasks']		= $this->subtasking();
+		
+		$this->data['tasks']		= $this->plugin_handler->trigger('tasks_search_result_print', $this->data['tasks'] );
 	
         $this->load->view('tasks/print', $this->data);
 	    
@@ -136,20 +141,20 @@ class Tasks extends RF_Controller {
      */
     private function search($project_id = 0, $user_id = 0, $time_concept = 0, $context_id = 0) {
 	    
-	// transform 0 to null for task model. $time_concept don't need, 0 is future
-	// and init vars
-	$project_id                 = $project_id   == 0 ? null : $project_id;
-	$user_id                    = $user_id      == 0 ? null : $user_id;
-	$context_id                 = $context_id   == 0 ? null : $context_id;
-	$projects                   = array();
+		// transform 0 to null for task model. $time_concept don't need, 0 is future
+		// and init vars
+		$project_id                 = $project_id   == 0 ? null : $project_id;
+		$user_id                    = $user_id      == 0 ? null : $user_id;
+		$context_id                 = $context_id   == 0 ? null : $context_id;
+		$projects                   = array();
 
-	if (!is_null($user_id)) {
-	    $projects		= $this->_get_user_projects($user_id);           
-	}                    
+		if (!is_null($user_id)) {
+			$projects		= $this->_get_user_projects($user_id);           
+		}                    
 
-	$tasks			= $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
+		$tasks			= $this->task_model->get_tasks($this->data['actual_user']->id, $user_id, $project_id, $time_concept, $projects, $context_id);
 
-	return $tasks;
+		return $tasks;
 	    
     }
     
@@ -167,7 +172,8 @@ class Tasks extends RF_Controller {
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_project', $this->data['tasks'] );
         $this->data['max_status']   = $this->config->item('rfk_status_levels');
-        
+        $this->data['subtasks']		= $this->subtasking();
+		
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -192,7 +198,8 @@ class Tasks extends RF_Controller {
         
         $this->data['tasks']        = $this->plugin_handler->trigger('tasks_list_from_user', $this->data['tasks'] );
         $this->data['max_status']   = $this->config->item('rfk_status_levels');
-        
+        $this->data['subtasks']		= $this->subtasking();
+		
         $this->load->view('tasks/tasks', $this->data);
         
     }
@@ -208,13 +215,22 @@ class Tasks extends RF_Controller {
         if ($this->input->is_ajax_request()) {
             
             $tid                            = 0;
+            $tpid							= 0;
             $task                           = array();
-            
+            $parent_title					= '';
+			$project_id						= 0;
+			
             if ($this->input->post('tid') && $this->input->post('tid') > 0) {
                 $tid                        = $this->input->post('tid');
                 $task                       = $this->task_model->get_task($tid, $this->data['actual_user']->id);
             }
             
+			if ($this->config->item('rfk_subtasks') && ($this->input->post('tpid') && $this->input->post('tpid') > 0)) {
+				$tpid						= $this->input->post('tpid');
+				$parent_title				= $this->task_model->get_parent_task_title($tpid);
+				$project_id					= $this->task_model->get_task_project($tpid);
+			}
+			
             //load layout configuration
             $this->config->load('layout');
 
@@ -224,22 +240,23 @@ class Tasks extends RF_Controller {
             // get default value for visibility
             $visibility                     = $this->config->item('rfk_task_visibility');
             
-            $ups            = array($this->lang->line('task_edit_project_none'));
+            $ups							= array($this->lang->line('task_edit_project_none'));
             foreach ($this->data['user_projects'] as $up) {
                 $ups[$up->project_id] = $up->name;
             }
 
             $defaults                       = array(
-                                        'task_id'               => $tid,
-                                        'priority'              => 3,
-                                        'context'               => 1,
-                                        'title'                 => null,
-                                        'deadline_date'         => null,
-                                        'project_id'            => 0,
-                                        'description'           => null,
-                                        'user_id'               => $this->data['actual_user']->id,
-                                        'private'               => $visibility,
-                                        'status'                => 0,
+													'task_id'               => $tid,
+													'task_parent_id'        => $tpid,
+													'priority'              => 3,
+													'context'               => 1,
+													'title'                 => null,
+													'deadline_date'         => null,
+													'project_id'            => $project_id,
+													'description'           => null,
+													'user_id'               => $this->data['actual_user']->id,
+													'private'               => $visibility,
+													'status'                => 0,
             );
             
             if (count($task) === 1) {
@@ -247,7 +264,7 @@ class Tasks extends RF_Controller {
             }
             else {
                 $data                       = $defaults;
-            }                                    
+            }                               
             
             $this->data                     = array_merge($data, $this->data);
             
@@ -257,7 +274,8 @@ class Tasks extends RF_Controller {
             
             $this->data['user_p']           = $ups;
             $this->data['max_status']       = $this->config->item('rfk_status_levels');
-            
+			$this->data['parent_title']		= $parent_title;
+			
             $this->data                     = $this->plugin_handler->trigger('tasks_show_edit_task', $this->data );
             
             unset($ups, $defaults, $task);
@@ -291,13 +309,18 @@ class Tasks extends RF_Controller {
                 $this->form_validation->set_rules('task_users', 'User', 'xss_clean');
                 $this->form_validation->set_rules('showPrivate', 'Scope', 'xss_clean');
                 $this->form_validation->set_rules('task_status', 'Status', 'xss_clean');
-                $this->form_validation->set_rules('task_id', 'Status', 'xss_clean');
+                $this->form_validation->set_rules('task_id', 'Task ID', 'xss_clean');
+                $this->form_validation->set_rules('task_parent_id', 'Task Parent ID', 'xss_clean');
                 
                 $this->form_validation          = $this->plugin_handler->trigger('tasks_save_task_validation', $this->form_validation );
                 
                 if ($this->form_validation->run() === TRUE) {
                     // save task here
                     $task_id                    = $this->input->post('task_id');
+					$task_parent_id				= 0;
+					
+					if ($this->config->item('rfk_subtasks'))
+							$task_parent_id     = $this->input->post('task_parent_id');
                     
                     $this->input                = $this->plugin_handler->trigger('tasks_save_task_data', $this->input );
                     
@@ -313,10 +336,11 @@ class Tasks extends RF_Controller {
                                                         $this->input->post('showPrivate'),
                                                         $this->input->post('task_status'),
                                                         $this->data['actual_user']->id,
-                                                        (int)$task_id
+                                                        (int)$task_id,
+                                                        (int)$task_parent_id
                     );
                     
-                    $this->plugin_handler->trigger('tasks_save_task_saved' );
+                    $this->plugin_handler->trigger('tasks_save_task_saved', $this->input );
                     
                     $response['response']       = 'rfk_ok';
                     $response['tid']            = $task_id;
@@ -423,13 +447,32 @@ class Tasks extends RF_Controller {
             }
             
             $status                         = $this->lang->line('task_status');
-            
+ 				
+			$parent_active			= FALSE;
+			$subtask_active			= FALSE;
+				           
+			if ($this->config->item('rfk_subtasks')) {
+
+				if ($task[0]['task_parent_id'] > 0) {
+					//is a subtask
+					$parent_active			= TRUE;
+					$subtask_active			= FALSE;
+				}
+				else {
+					$parent_active			= FALSE;
+					$subtask_active			= $this->task_model->get_subtasks_number($task[0]['task_id']);
+				}
+					
+			}
+			
             $this->data['tf']               = $task[0];
             $this->data['context']          = $context;
             $this->data['visibility']       = $visibility;
             $this->data['context_letter']   = $context_letter;
             $this->data['username']         = $username;
             $this->data['status']           = $status;
+            $this->data['parent_active']    = $parent_active;
+            $this->data['subtask_active']   = $subtask_active;
             
             $this->data                     = $this->plugin_handler->trigger('tasks_show_task', $this->data );
             
@@ -443,6 +486,12 @@ class Tasks extends RF_Controller {
         
     }
     
+	/**
+	 * Extract User Id from user array
+	 * @param array $user_id Array of users
+	 * @return mixed
+	 * @access private
+	 */
     private function extract_user_id($user_id) {
         
         foreach ($this->data['users'] as $key => $value) {
@@ -689,6 +738,24 @@ class Tasks extends RF_Controller {
         
     }
     
+	/**
+	 * Choose if subtasking are acticated and return them
+	 * 
+	 * @return array Subtasking array
+	 * @access private
+	 */
+	private function subtasking() {
+		
+		if ($this->config->item('rfk_subtasks')) {
+				return $this->task_model->process_subtasks(
+															$this->task_model->get_tasks($this->data['actual_user']->id, null, null, 0, array(), null, true) 
+											);
+		}
+		
+		return array();
+						
+	}	
+	
     /**
      * See if user have access to do something in task
      * 

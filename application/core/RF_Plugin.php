@@ -18,10 +18,92 @@ class RF_Plugin {
      */
     public $_ci = null;
     
+    /**
+     * Singleton instance variable
+     * 
+     * @var object instance for singleton 
+     */
+    protected static $instances = array();
+    
+	/**
+	 * Plugin Id
+	 * 
+	 * @var string
+	 */
+	protected $plugin_id;
+	
+	/**
+	 * Plugin Name
+	 * 
+	 * @var string
+	 */
+	protected $name;
+	
+	/**
+	 * Plugin Directory
+	 * 
+	 * @var string
+	 */
+	protected $directory;
+	
+	/**
+	 * Original plugin class name
+	 * 
+	 * @var string
+	 */
+	protected $class;
+	
+	/**
+	 * Plugin configuration
+	 * 
+	 * @var string
+	 */
+	protected $config;
+	
+    final public static function getInstance( $plugin_data ) {
+
+        $calledClass = get_called_class();
+
+        if (!isset(self::$instances[$calledClass]))
+        {
+            self::$instances[$calledClass] = new $calledClass();
+        }
+
+		if ( !is_null($plugin_data) )
+			self::$instances[$calledClass]->plugin_data( $plugin_data );
+		
+        return self::$instances[$calledClass];
+    }
+    
+	/**
+	 * clone function
+	 */
+	final private function __clone() {}
+	
+    /**
+     * Constructor
+     */
     public function __construct() {
         $this->_ci =& get_instance(); 
-        $this->_ci->load->library('plugin_handler');        
+        //$this->_ci->load->library('plugin_handler');        
     }
+	
+	/**
+	 * Add plugin data to object
+	 * 
+	 * @param object $plugin Plugin data
+	 * @return void
+	 * @access private
+	 */
+	private function plugin_data($plugin) {
+		
+		$this->plugin_id	= $plugin->id;
+		$this->name			= $plugin->name;
+		$this->directory	= $plugin->directory;
+		$this->class		= $plugin->class;
+		$this->config		= $plugin->data;
+		
+	}
           
     /**
      * Attach Event 
@@ -103,7 +185,7 @@ class RF_Plugin {
      * @return void
      * @access public
      */
-    public function css_add($css, $key) {
+    public function css_add($css, $key = null) {
 	    
 	    $this->_ci->css->add_style( $css, $key );
 	    
@@ -121,6 +203,42 @@ class RF_Plugin {
 	    $this->_ci->css->remove_style( $key );
 	    
     }
+	
+	/**
+	 * Load language file for plugin
+	 * 
+	 * @param string $lang_file Language file
+	 * @return void
+	 * @access public
+	 */
+	public function load_lang($lang_file) {
+		//look for language file
+		$this->_ci->lang->load( $lang_file, '' , FALSE , TRUE , FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR);
+	}
+	
+	/**
+	 * Load model file for plugin
+	 * 
+	 * @param string $model model file
+	 * @return void
+	 * @access public
+	 */
+	public function load_model($model) {
+		$this->_ci->load->add_model_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR );
+		$this->_ci->load->model( $model );
+	}
+	
+	/**
+	 * Load helper file for plugin
+	 * 
+	 * @param string $helper Language file
+	 * @return void
+	 * @access public
+	 */
+	public function load_helper($helper) {
+		$this->_ci->load->add_helper_path(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $this->directory . DIRECTORY_SEPARATOR );
+		$this->_ci->load->helper( $helper );
+	}
 }
 
 /* End of file RF_Plugin.php */

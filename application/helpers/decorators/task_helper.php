@@ -67,12 +67,12 @@ class task_helper {
             '<th width="2%">&nbsp;</th>',
             '<th width="2%">&nbsp;</th>',
             '<th width="15%">' . $project . '</th>',
-            '<th width="41%">' . $title . '</th>',
+            '<th width="39%">' . $title . '</th>',
             '<th width="10%">' . $user . '</th>',
             '<th width="10%">' . $deadline . '</th>',
             '<th width="5%">' . $comments . '</th>',
             '<th width="' . $max_status * 2 . '%" colspan="' . $max_status . '">' . $status . '</th>',
-            '<th width="5%" class="act">' . $btn_new . '</th>'
+            '<th width="7%" class="act">' . $btn_new . '</th>'
         );
         
         $tfields = rfk_plugin_helper::trigger_event('tasks_view_list_head_table', $tfields);
@@ -90,11 +90,13 @@ class task_helper {
      * @param bool $access permisions
      * @param int $actual_user_id user id
      * @param int $max_status max possible status
+     * @param array $subtasks subtasks
+     * @param bool $rendering_subtasks if true are rendering subtasks, supressing context and priority
      * @return string task rows
      * @access public
      * @static
      */
-    public static function table_task_body_fields($context, $tasks, $theme_url, $access, $actual_user_id, $max_status) {
+    public static function table_task_body_fields($context, $tasks, $theme_url, $access, $actual_user_id, $max_status, $subtasks = array(), $rendering_subtask = FALSE) {
         
         foreach ($tasks as $tf) {
                 
@@ -103,20 +105,31 @@ class task_helper {
                 //preparing some data
                 $context_letter     = substr($context[$tf->context], 0, 1);
         
-                //priority 
-                $tcol ['priority']= '
-                    <td class="task_prio">
-                            <span class="task_pr' . $tf->priority . '">' . $tf->priority . '</span>
-                    </td>
-                ';
-                
-                //context
-                $tcol ['context']= '
-                    <td class="task_ctsh">
-                            <span class="task_ctx' . $context_letter . '">' . $context_letter . '</span>
-                    </td>
-                ';
-                
+				if (rfk_task_helper::is_subtasks() && $rendering_subtask) {
+					$tcol ['priority']= '
+						<td class="task_prio" colspan="2"> 
+								<img src="'. $theme_url .'/images/ft_join.gif" width="18" height="18" align="right" border="0"/>
+						</td>
+					';
+					
+					//we add also empty context
+					$tcol ['context']= '';
+				}
+				else {
+					//priority 
+					$tcol ['priority']= '
+						<td class="task_prio">
+								<span class="task_pr' . $tf->priority . '">' . $tf->priority . '</span>
+						</td>
+					';
+
+					//context
+					$tcol ['context']= '
+						<td class="task_ctsh">
+								<span class="task_ctx' . $context_letter . '">' . $context_letter . '</span>
+						</td>
+					';
+				}
                 //project name
                 $tcol ['project']= '
                     <td>' . $tf->project_name . '</td>
@@ -183,6 +196,11 @@ class task_helper {
                                    <a href="#" class="btn_task_delete">
                                             <img src="' . $theme_url . '/images/b_dele.png" width="20" height="16" alt="del" border="0" />
                                    </a>';
+						if (rfk_task_helper::is_subtasks() && !$rendering_subtask) {
+								$buttons .= '<a href="#" class="btn_subtask_new">
+												   <img src="' . $theme_url . '/images/bm_new.png" width="19" height="16" alt="new" border="0" />
+										  </a>';
+						}
                 } else {
                         $buttons = '<img src="' . $theme_url . '/images/b_edin.png" width="20" height="16" alt="del" border="0" />
                                     <img src="' . $theme_url . '/images/b_deln.png" width="20" height="16" alt="del" border="0" />';
@@ -202,6 +220,14 @@ class task_helper {
                     </tr>
                 ';
                 
+				if (rfk_task_helper::is_subtasks() && count($subtasks) > 0) {
+					
+					$subs		= rfk_task_helper::get_subtasks($subtasks, $tf->task_id);
+					
+					if (count($subs) > 0)
+						$trow []	= self::table_task_body_fields($context, $subs, $theme_url, $access, $actual_user_id, $max_status, array(),TRUE);
+				}
+				
                 unset($tcol);
 
         }
@@ -259,12 +285,16 @@ class task_helper {
      * @param string $delete Delete text
      * @param integer $position User task position
      * @param string $url_theme Theme Url
-     * @param bool $access 
+	 * @param bool $access 
+     * @param string $parent Parent Text
+     * @param bool $parent_active Parent actived or not
+     * @param string $subtasks Subtasks text
+     * @param bool $subtasks_active Subtasks actived or not
      * @return string Buttons rendered
      * @access public
      * @static
      */
-    public static function show_buttons($close, $edit, $delete, $position, $url_theme, $access) {
+    public static function show_buttons($close, $edit, $delete, $position, $url_theme, $access, $parent, $parent_active, $subtasks, $subtasks_active) {
         
         $buttons = '    
                 <div class="task_show_menu">
@@ -290,9 +320,22 @@ class task_helper {
                                 </div>';
 
         }
-                  
-        $buttons .= '</div>';
         
+		if (rfk_task_helper::is_subtasks() && $subtasks_active) {
+				$buttons .= '<div class="task_show_subtasks">';
+
+
+				$buttons .= '<a href="#" class="task_show_subtasks">' . $subtasks . '('. $subtasks_active . ') </a>';
+
+				$buttons .= '<a href="#" class="task_show_new">
+								<img src="' . $url_theme . '/images/b_new.png" width="39" height="16" border="0" alt="new" />
+							</a>
+						</div>';
+			
+		}
+		
+		$buttons .= '</div>';
+		
         $buttons = rfk_plugin_helper::trigger_event('tasks_view_show_task_buttons', $buttons);
         
         return $buttons;
@@ -355,7 +398,7 @@ class task_helper {
                             <div class="vproj">' . $project_name . '</div>
                         </div> 
         ';
-        
+
         $parts['title'] = '
                         <div class="task_show_title">
                             <div class="label">' . $title_text . '</div>
@@ -481,12 +524,14 @@ class task_helper {
      * @param array $context_list context list of items
      * @param string $context context text
      * @param string $deadline_text deadline text
-     * @param date $deadline_date deadline date
+	 * @param date $deadline_date deadline date
+     * @param string $parent_title_text parent title text
+     * @param string $parent_title parent title
      * @return string html for edit priority and context
      * @static
      * @access public
      */
-    public static function edit_priority_dead($edit_priority_text, $priority_list, $priority, $edit_context_text, $context_list, $context, $deadline_text, $deadline_date) {
+    public static function edit_priority_dead($edit_priority_text, $priority_list, $priority, $edit_context_text, $context_list, $context, $deadline_text, $deadline_date, $parent_title_text, $parent_title) {
         
         $tr = array();
         $tr ['priority_context']= '
@@ -498,7 +543,7 @@ class task_helper {
                 </tr>
         ';
         
-        $tr ['deadline']= '
+		$tr ['deadline']= '
                 <tr>
                         <th>' . $deadline_text . ':</th>
                         <td colspan="3">
@@ -506,6 +551,17 @@ class task_helper {
                         </td>
                 </tr>
         ';
+        
+		if (rfk_task_helper::is_subtasks() && !empty($parent_title)) {
+			$tr ['parent_task']= '
+					<tr>
+							<th>' . $parent_title_text . '</th>
+							<td colspan="3">
+								' . $parent_title . '
+							</td>
+					</tr>
+			';
+		}
         
         $tr = rfk_plugin_helper::trigger_event('tasks_view_edit_task_pr_dead', $tr);
         

@@ -5,7 +5,11 @@
                                              $this->lang->line('task_show_delete'), 
                                              $tf['position'],
                                              base_url() . $theme,
-                                             $this->ion_auth->in_group(array(1,2))); 
+                                             $this->ion_auth->in_group(array(1,2)),
+											 $this->lang->line('task_show_parent'),
+											 $parent_active,
+											 $this->lang->line('task_show_subtasks'),
+											 $subtask_active); 
 
         echo task_helper::show_task_info($tf, 
                                          $this->lang->line('task_show_priority'), 

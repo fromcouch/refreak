@@ -27,7 +27,8 @@
                                                                  base_url() . $theme, 
                                                                  $this->ion_auth->in_group(array(1,2)),
                                                                  $actual_user->id,
-                                                                 $max_status);
+                                                                 $max_status,
+																 $subtasks);
                         
                         
                     else : 
