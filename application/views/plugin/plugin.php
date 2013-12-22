@@ -18,8 +18,8 @@
                         $plugin_status  = $table_plugin->active ? 'enay' : 'disy';
                         $url_active     = $table_plugin->active ? 'deactivate' : 'activate';
                         $tr_class       = $table_plugin->active ? '' : ' disabled';
-			$tr_class	.= $table_plugin->installed ? '' : ' not-installed';
-			$tr_class	.= $table_plugin->dir_exists ? '' : ' not-dir';
+						$tr_class	.= $table_plugin->installed ? '' : ' not-installed';
+						$tr_class	.= $table_plugin->dir_exists ? '' : ' not-dir';
 			
             ?>
             <tr class="<?php echo $tr_class; ?>">
