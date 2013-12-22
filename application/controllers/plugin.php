@@ -60,16 +60,31 @@ class Plugin extends RF_Controller {
 			}
 
 			if (!$found) {
-				$p		    = new stdClass();
-				$p->name	    = $cp;
-				$p->id		    = 0;
-				$p->directory	    = $cp;
-				$p->active	    = 0;
-				$p->controller_name = '';
-				$p->dir_exists	    = 1;
-				$p->installed	    = 0;
-
-				$plugins	  []= $p;
+				
+				$p					= new stdClass();
+				
+				if (is_file(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $cp . DIRECTORY_SEPARATOR . 'install.json')) {
+					$install_json	= file_get_contents(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $cp . DIRECTORY_SEPARATOR . 'install.json');
+					$plg_install	= json_decode($install_json);
+					$p->name			= $plg_install->plugin_name;
+					$p->directory		= $cp;
+					$p->active			= 0;
+					$p->id				= 0;
+					$p->controller_name = $plg_install->controller;
+					$p->dir_exists	    = 1;
+					$p->installed	    = 0;
+				}
+				else {
+					
+					$p->name			= $cp;
+					$p->id				= 0;
+					$p->directory	    = $cp;
+					$p->active			= 0;
+					$p->controller_name = '';
+					$p->dir_exists	    = 1;
+					$p->installed	    = 0;
+				}
+				$plugins		  []= $p;
 			}
 	    
         }
@@ -145,7 +160,7 @@ class Plugin extends RF_Controller {
 				$controller	= 'all';
 
 				if (is_file(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json')) {
-					$install_json	= file_get_contents(BASEPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json');
+					$install_json	= file_get_contents(FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'install.json');
 					$plg_install	= json_decode($install_json);
 
 					$name		= property_exists($plg_install, 'plugin_name') ? $plg_install->plugin_name : $dir;
