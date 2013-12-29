@@ -1,3 +1,5 @@
 {
-    "plugin_name": "example"
+    "plugin_name": "example",
+    "class": "Example",
+    "controller": "plugin"
 }
