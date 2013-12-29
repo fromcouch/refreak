@@ -22,8 +22,8 @@ class rfk_task_helper {
         $dd_tomorrow                        = $ci->config->item('rfk_datediff_tomorrow');
         
         $lang_date                          = $ci->lang->line('task_date');
-        
-        if (preg_match('/(9999|0000)/',$deadline)) 
+		
+        if (preg_match('/(9999|0000|1970|1969)/',$deadline)) //9999 and 0000 are old taskfreak, 1970 for linux and 1969 for windows
         {
         	$ret                        = '-';
         } 
