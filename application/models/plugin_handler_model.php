@@ -118,7 +118,7 @@ class plugin_handler_model extends CI_Model  {
 					->where('controllers.controller_name', $controller)
 					->get('controllers')
 					->result();
-			print_r($r);
+			
 			if (!is_null($r) && is_array($r)) {
 				$controller_id	= $r[0]->id;
 			}
