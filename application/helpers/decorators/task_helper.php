@@ -707,11 +707,12 @@ class task_helper {
      * @param string $deadline_text text for deadline
      * @param string $status_text text for status
      * @param array $status status text array
+     * @param array $subtasks Array with subtasks
      * @return string html for print
      * @access public
      * @static
      */
-    public static function table_print($tasks, $project_text, $priority_text, $user_text, $deadline_text, $status_text, $status) {
+    public static function table_print($tasks, $project_text, $priority_text, $user_text, $deadline_text, $status_text, $status, $subtasks) {
 	    
 	    $part	= array();
 	    
@@ -763,6 +764,15 @@ class task_helper {
 			$tcol['description']	= '
 				<div class="printdescription">' . $tf->description . '</div>
 			';
+			
+			
+			if (rfk_task_helper::is_subtasks() && count($subtasks) > 0) {
+					
+					$subs		= rfk_task_helper::get_subtasks($subtasks, $tf->task_id);
+					
+					if (count($subs) > 0)
+						$tcol []	= self::table_print($subs, $project_text, $priority_text, $user_text, $deadline_text, $status_text, $status, array());
+			}
 			
 			$tcol['end_box']		= '
 				</div>

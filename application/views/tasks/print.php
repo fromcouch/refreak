@@ -8,7 +8,8 @@
 							$this->lang->line('task_list_user'), 
 							$this->lang->line('task_list_deadline'), 
 							$this->lang->line('task_list_status'), 
-							$this->lang->line('task_status')
+							$this->lang->line('task_status'),
+							$subtasks
 );
                     
 	endif;
