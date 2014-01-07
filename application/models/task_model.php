@@ -75,7 +75,7 @@ class Task_model extends CI_Model {
         switch ($time_concept) {
             
             case 0:
-                $this->db->having('(status_key = ' . $max_status . ' AND DATE(status_date) > CURDATE()) OR status_key < ' . $max_status . '');
+                $this->db->having('(status_key = ' . $max_status . ' AND DATE(status_date) >= CURDATE()) OR status_key < ' . $max_status . '');
                 break;
 
             case 1:
