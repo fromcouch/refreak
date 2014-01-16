@@ -17,7 +17,7 @@ class Tasks extends RF_Controller {
     public function __construct() {
         
         parent::__construct();
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
         
         $this->plugin_handler->trigger('tasks_pre_init');
         
