@@ -421,14 +421,15 @@ class project_helper {
      * @param array $position postiion array
      * @param array $project_users project users list
      * @param object $actual_user actual user object
+     * @param bool $is_admin Is admin?
      * @return string html table part
      * @access public
      * @static
      */
-    public static function edit_table_user($theme_url, $user_text, $position_text, $action_text, $position, $project_users, $actual_user)
+    public static function edit_table_user($theme_url, $user_text, $position_text, $action_text, $position, $project_users, $actual_user, $is_admin)
     {
         $action = '';
-        if ($actual_user->project_position >= 4) {
+        if ($actual_user->project_position >= 4 || $is_admin) {
                 $action = '<th width="10%">' . $action_text . '</th>';
         }
         
@@ -467,7 +468,7 @@ class project_helper {
                     <td>' . $position[$pu->position] . '</td>
             ';
             
-            if ($actual_user->project_position >= 4) {
+            if ($actual_user->project_position >= 4 || $is_admin) {
                 
                     if($pu->position === 5 || $actual_user->id == $pu->user_id || $pu->position >= $actual_user->project_position) {
                         $tcol['buttons'] = '
@@ -525,17 +526,18 @@ class project_helper {
      * @param array $project_users project users list
      * @param object $actual_user actual user object
      * @param array $dropdown_users user list
+     * @param bool $is_admin true if actual user is admin
      * @return string html table part
      * @access public
      * @static
      */
-    public static function edit_bottom_part($theme_url, $add_members_text, $user_text, $position_text, $action_text, $members_text, $position, $project_users, $actual_user, $dropdown_users) {
+    public static function edit_bottom_part($theme_url, $add_members_text, $user_text, $position_text, $action_text, $members_text, $position, $project_users, $actual_user, $dropdown_users,$is_admin) {
         
         $part = array();
         
         $part['open_field'] = form_fieldset($members_text);
 
-        if ($actual_user->project_position >= 4) {
+        if ($actual_user->project_position >= 4 || $is_admin) {
                   
                   $part['user_to_project'] = project_helper::edit_add_user_to_project($theme_url, 
                                                                                       $add_members_text, 
@@ -552,7 +554,8 @@ class project_helper {
                                                               $action_text, 
                                                               $position, 
                                                               $project_users, 
-                                                              $actual_user);
+                                                              $actual_user,
+															  $is_admin);
         
         $part['close_field'] =  form_fieldset_close(); 
         

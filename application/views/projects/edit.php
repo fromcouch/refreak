@@ -2,7 +2,7 @@
     <div class="horiz">
         <?php echo validation_errors(); 
               echo form_open("projects/edit/".$pid);
-              
+
               echo project_helper::edit_project_info($this->lang->line('projectscrud_info'), 
                                                   $this->lang->line('projectscrud_compulsory'), 
                                                   $this->lang->line('projectscrud_name'), 
@@ -12,7 +12,7 @@
                                                   $name, 
                                                   $description, 
                                                   $this->lang->line('project_status'),
-                                                  $actual_user->project_position,
+                                                  $is_admin ? 5 : $actual_user->project_position,
                                                   $status);
               
               echo project_helper::edit_bottom_part(base_url() . $theme, 
@@ -24,14 +24,15 @@
                                                     $this->lang->line('project_position'), 
                                                     $project_users, 
                                                     $actual_user,
-                                                    $dropdown_users);
+                                                    $dropdown_users,
+													$is_admin);
               
               
               echo form_hidden('id', $pid);
 
               echo form_close();
 
-if ($actual_user->project_position >= 4) :
+if ($actual_user->project_position >= 4 || $is_admin) :
     
         // hidden select and button for position 
         echo form_dropdown('project_hidden_position', $this->lang->line('project_position'), array(), 'class="project_hidden_position"');

@@ -18,6 +18,8 @@ class Projects extends RF_Controller {
         
         parent::__construct();        
         
+		//$this->output->enable_profiler(TRUE);
+		
         $this->plugin_handler->trigger('projects_pre_init');
         
         $this->lang->load('projects');
@@ -220,7 +222,9 @@ class Projects extends RF_Controller {
                         dataType: "json"
                     });
                 ');
-                    
+            
+			$this->data['is_admin']	= $this->ion_auth->is_admin();
+			
             $this->data     = $this->plugin_handler->trigger('projects_edit_post_prepare_data', $this->data);
             
             unset($users, $project_users, $result_users);            

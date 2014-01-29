@@ -23,5 +23,5 @@ $lang['genmessage_ajax_error_server']       = 'Error on server side';
 $lang['genmessage_no_permissions']          = "You don't have permisions to do that!";
 
 //footer
-$lang['version']                            = 'v1.0  RC 20140129.1';
+$lang['version']                            = 'v1.0  RC 20140129.2';
 $lang['release_date']                       = '2014-01-29';
