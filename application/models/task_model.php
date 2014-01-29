@@ -75,7 +75,7 @@ class Task_model extends CI_Model {
         switch ($time_concept) {
             
             case 0:
-                $this->db->having('(status_key = ' . $max_status . ' AND DATE(status_date) >= CURDATE()) OR status_key < ' . $max_status . '');
+                $this->db->having('(status_key = ' . $max_status . ' AND DATE(status_date) > CURDATE()) OR status_key < ' . $max_status . '');
                 break;
 
             case 1:
@@ -544,20 +544,27 @@ class Task_model extends CI_Model {
 	 * Convert to readable array subtasks
 	 * 
 	 * @param array $subtasks Subtasks array
-	 * @return array Array with parent id as key
+	 * @return array Array of tasks and subtasks with parent id as key
 	 * @access public
 	 */
 	public function process_subtasks($subtasks) {
 		
-		$ret = array();
+		$subtask = array();
+		$task = array();
 		
 		foreach ($subtasks as $value) {
 			
-				$ret[$value->task_parent_id][] = $value;
+				if ($value->task_parent_id == 0)
+					$task		[]= $value;
+				else
+					$subtask[$value->task_parent_id][] = $value;
 			
 		}
 
-		return $ret;
+		return array(
+				'tasks'		=> $task,
+				'subtasks'	=> $subtask
+		);
 		
 	}
 	
