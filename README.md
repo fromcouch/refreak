@@ -38,6 +38,7 @@ TODO
 + File Attachment Plugin
 + Google Docs Plugin
 + Time Tracking Plugin
++ Calendar
 + Bitbucket plugin
 + github plugin
 
