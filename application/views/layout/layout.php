@@ -48,7 +48,7 @@
                 echo '<p class="footer_error">' . $this->lang->line('footer_install_dir') . '</p>';
             }
         ?>
-            Refreak! <?php echo $this->lang->line('version'); ?> - <?php echo $this->lang->line('release_date'); ?> - <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Visit on Github</a>
+            Refreak! <?php echo config_item('rfk_version'); ?> - <?php echo config_item('release_date'); ?> - <a href="https://github.com/fromcouch/refreak/issues/" target="_blank">Visit on Github</a>
     </footer>
     <?php if (isset($script_foot)) echo $script_foot;?>
     <script type="text/javascript">
