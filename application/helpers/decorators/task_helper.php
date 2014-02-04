@@ -107,13 +107,11 @@ class task_helper {
         
 				if (rfk_task_helper::is_subtasks() && $rendering_subtask) {
 					$tcol ['priority']= '
-						<td class="task_prio" colspan="2"> 
+						<td class="task_prio"> 
 								<img src="'. $theme_url .'/images/ft_join.gif" width="18" height="18" align="right" border="0"/>
 						</td>
 					';
 					
-					//we add also empty context
-					$tcol ['context']= '';
 				}
 				else {
 					//priority 
@@ -124,12 +122,14 @@ class task_helper {
 					';
 
 					//context
-					$tcol ['context']= '
+				}
+				
+				$tcol ['context']= '
 						<td class="task_ctsh">
 								<span class="task_ctx' . $context_letter . '">' . $context_letter . '</span>
 						</td>
 					';
-				}
+				
                 //project name
                 $tcol ['project']= '
                     <td>' . $tf->project_name . '</td>
