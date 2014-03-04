@@ -57,7 +57,7 @@
 				<img src="<?php echo base_url() . $theme;?>/images/b_edin.png" width="20" height="16" border="0" />
                         <?php endif; 
                         			    
-			if ($this->ion_auth->is_admin()) :                                                    
+			if ($this->ion_auth->is_admin() && $table_plugin->installed) :
                         ?>
                             <a href="<?php echo site_url();?>plugin/delete/<?php echo $table_plugin->id;?>"><img src="<?php echo base_url() . $theme;?>/images/b_dele.png" width="20" height="16" border="0" /></a>
                         <?php else : ?>

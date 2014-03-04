@@ -263,6 +263,6 @@ class Plugin extends RF_Controller {
             $this->session->set_flashdata('message', $this->lang->line('pluginsmessage_noway'));
         }
 	
-	redirect("plugin", 'refresh');
+		redirect("plugin", 'refresh');
     }
 }
