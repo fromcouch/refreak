@@ -170,9 +170,19 @@ class Plugin extends RF_Controller {
 
 				$this->plugin_handler_model->install($name, $dir, $clase, $controller);
 				
+				include FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'init.php';
+				
 				//if exist edit method
 				if (method_exists($clase, 'install')) {
-					$clase::getInstance(null)->install();	//load class and execute install method
+					
+					$plg			= new stdClass();
+					$plg->directory	= $dir;
+					$plg->id		= 0;
+					$plg->name		= $name;
+					$plg->class		= $clase;
+					$plg->data		= null;
+				
+					$clase::getInstance($plg)->install();	//load class and execute install method
 				}
 			}
 			$this->session->set_flashdata('message', $this->lang->line('pluginsmessage_installed'));
