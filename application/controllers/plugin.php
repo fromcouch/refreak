@@ -169,6 +169,11 @@ class Plugin extends RF_Controller {
 				}
 
 				$this->plugin_handler_model->install($name, $dir, $clase, $controller);
+				
+				//if exist edit method
+				if (method_exists($clase, 'install')) {
+					$clase::getInstance(null)->install();	//load class and execute install method
+				}
 			}
 			$this->session->set_flashdata('message', $this->lang->line('pluginsmessage_installed'));
 		}
