@@ -218,7 +218,8 @@ class Plugin extends RF_Controller {
 			}
 			
 			$this->data['config']       = $this->plugin_handler_model->load_config($id, $plugin_path);
-
+			$plugin->data				= $this->data['config'];
+			
 			if (file_exists($plugin_path . 'edit.php'))
 			{
 				$this->data['form']     = $plugin_path . 'edit.php';
@@ -227,9 +228,11 @@ class Plugin extends RF_Controller {
 			//look for class
 			$plg_class		= $plugin->class;
 
+			include_once FCPATH . 'plugins' . DIRECTORY_SEPARATOR . $plugin->directory . DIRECTORY_SEPARATOR . 'init.php';
 			//if exist edit method
 			if (method_exists($plg_class, 'edit')) {
-				$plg_class::getInstance(null)->edit();	//load class and execute edit method before load view
+				$plg_class::getInstance($plugin)->initialize();
+				$plg_class::getInstance($plugin)->edit();	//load class and execute edit method before load view
 			}
 			
 			$this->data['plg']      = $plugin;
