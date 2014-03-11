@@ -1,0 +1,5 @@
+{
+    "plugin_name": "Recurring Tasks",
+    "class": "Recurring",
+    "controller": "Tasks"
+}
