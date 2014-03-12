@@ -140,6 +140,7 @@ class Recurring extends RF_Plugin {
 						</th>
 						<td colspan="3">
 							' . form_checkbox('recurring', 'yes', $checked) . '
+							' . $this->_ci->lang->line('recurring_task_every') . ':
 							' . form_input('every',$every, 'style="width: 100px;"') . '
 							<select class="moment" name="moment">
 								<option value="day" ' . $day . '>' . $this->_ci->lang->line('recurring_task_moment_day') . '</option>
