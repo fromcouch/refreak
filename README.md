@@ -64,6 +64,29 @@ Additionaly you can configure some parameters in:
 
 (subtask system are activated in refreak.php)
 
+NGINX CONFIG
+------------
+Just add the following lines to your server config file (**/etc/nginx/sites-aviable/domain.tod.conf** or **/etc/nginx/nginx.conf**):
+
+```
+if ($request_uri ~* index/?$)
+{
+    rewrite ^/(.*)/index/?$ /$1 permanent;
+}
+
+if (!-e $request_filename)
+{
+    rewrite ^/(.*)$ /index.php?/$1 last;
+    break;
+}
+```
+
+And change **$config['uri_protocol']** in **/application/config/config.php** file to:
+
+```
+$config['uri_protocol']	= 'REQUEST_URI';
+``` 
+
 PLUGINS
 =======
 You can easy create plugin. I have this part of project in a very beginning stage, but actually anyone can write a plugin.
