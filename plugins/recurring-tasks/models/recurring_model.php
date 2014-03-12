@@ -27,6 +27,53 @@ class Recurring_model extends CI_Model {
 	 */
 	public function install() {
 		
+		$this->create_table_recurring();
+		$this->create_table_relation();
+		
+	}
+	
+	/**
+	 * Create table realtion
+	 * 
+	 * @access private
+	 * @return void
+	 */
+	private function create_table_relation() {
+		
+		$this->load->dbforge();
+
+		$this->dbforge->add_field(array(
+						'id'		=> array(
+										'type'				=> 'INT',
+										'constraint'		=> 9, 
+										'unsigned'			=> TRUE,
+										'auto_increment'	=> TRUE
+						),
+						'recurring_task_id'	=> array(
+										'type'				=> 'INT',
+										'constraint'		=> 9, 
+										'unsigned'			=> TRUE
+						),
+						'task_id'		=> array(
+										'type'				=> 'INT',
+										'constraint'		=> 9, 
+										'unsigned'			=> TRUE
+						)
+		));
+		
+		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->create_table('recurring_rel', TRUE);
+		
+	}
+	
+	/**
+	 * Create table recurring
+	 * 
+	 * @access private
+	 * @return void
+	 */
+	private function create_table_recurring() {
+		
 		$this->load->dbforge();
 
 		$this->dbforge->add_field(array(
@@ -51,6 +98,11 @@ class Recurring_model extends CI_Model {
 										'default'			=> 'day',
 										'null'				=> FALSE,
 						),
+						'active'	=> array(
+										'type'				=> 'BOOL',
+										'default'			=> '1'
+							
+						)
 		));
 		
 		$this->dbforge->add_key('id', TRUE);
@@ -77,6 +129,7 @@ class Recurring_model extends CI_Model {
                 ->join('task_status', 'task_status.task_id = tasks.task_id', 'inner' )
 				->join('user_project', 'user_project.project_id = tasks.project_id', 'left')
 					
+                ->where('recurring_tasks.active', 1)
                 ->where('user_project.user_id', $actual_user_id)
 				->or_where('(`rfk_tasks`.project_id = 0 AND rfk_tasks.user_id=' . $actual_user_id . ')')
                 ->group_by('tasks.task_id')                
@@ -111,16 +164,18 @@ class Recurring_model extends CI_Model {
 	 * 
 	 * @param int $task_id Task identificator
 	 * @param int $every repeat every
-	 * @param string $moment 
+	 * @param string $moment how the repeat occurs
+	 * @param int $active Active recurring or not
 	 * @access public
 	 * @return void
 	 */
-	public function save($task_id, $every, $moment) {
+	public function save($task_id, $every, $moment, $active) {
 		
 		$data			= array(
 						'task_id'			=> $task_id,
 						'every'				=> $every,
-						'moment'			=> $moment
+						'moment'			=> $moment,
+						'active'			=> $active
 			);
 		
 		$this->db
@@ -140,6 +195,24 @@ class Recurring_model extends CI_Model {
 			$this->db->insert('recurring_tasks', $data);
 		}
 			
+	}
+	
+	/**
+	 * Add recurrence relation for task
+	 * 
+	 * @param int $task_id New task created
+	 * @param int $original_task_id Original task_id
+	 * @access public
+	 * @return void
+	 */
+	public function add_recurrence($task_id, $original_task_id) {
+		
+		$data			= array(
+						'task_id'			=> $original_task_id,
+						'recurring_task_id'	=> $task_id
+		);
+		
+		$this->db->insert('recurring_rel', $data);
 		
 	}
 }

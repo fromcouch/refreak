@@ -370,7 +370,7 @@ class Tasks extends RF_Controller {
                                                         (int)$task_parent_id
                     );
                     
-                    $this->plugin_handler->trigger('tasks_save_task_saved', array($task_id, $this->input) );
+                    $this->plugin_handler->trigger('tasks_save_task_saved', array($task_id, $this->input, $task_parent_id) );
                     
                     $response['response']       = 'rfk_ok';
                     $response['tid']            = $task_id;

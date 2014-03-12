@@ -15,8 +15,17 @@ class Recurring extends RF_Plugin {
 	 * Task id readed from events
 	 * 
 	 * @var integer 
+	 * @access private
 	 */
-	private $task_id		= 0;
+	private $task_id			= 0;
+	
+	/**
+	 * Actual user id
+	 * 
+	 * @var integer 
+	 * @access private
+	 */
+	private $actual_user_id		= 0;
 	
     /**
      * Constructor
@@ -85,10 +94,10 @@ class Recurring extends RF_Plugin {
 	 */
 	public function try_recurring( $evt, $data ) {
 		
-		$actual_user_id			= $data['actual_user']->id;
+		$this->actual_user_id	= $data['actual_user']->id;
 		
 		$this->load_model('recurring_model');
-		$tasks					= $this->_ci->recurring_model->get_recurring_tasks($actual_user_id);
+		$tasks					= $this->_ci->recurring_model->get_recurring_tasks($this->actual_user_id);
 		
 		return $data;
 	}
@@ -147,22 +156,69 @@ class Recurring extends RF_Plugin {
 	
 	public function save_task( $evt, $data ) {
 		
-		$task_id			= $data[0];
-		$post_data			= $data[1];
+		$task_id				= $data[0];
+		$post_data				= $data[1];
+		$task_parent_id			= $data[2];
 		
-		if ($post_data->post('recurring') !== FALSE && $post_data->post('recurring') === 'yes') {
+		if ($post_data->post('recurring') !== FALSE) {
 			
 			$this->load_model('recurring_model');
-			$this->_ci->recurring_model->save($task_id, $post_data->post('every'), $post_data->post('moment'));
+			$this->_ci->recurring_model->save($task_id, $post_data->post('every'), $post_data->post('moment'), $post_data->post('recurring') === 'yes');
 		
+			$this->load_model('task_model');
 			
+			//get deadline and every
+			$every				= intval($post_data->post('every'));
+			$deadline			= $post_data->post('deadline');
+			
+			//build interval
+			$interval			= 'P' . $every;
+			switch($post_data->post('moment')) {
+				case 'day': 
+					$interval		.= 'D';
+					break;
+				case 'week': 
+					$interval		.= 'W';
+					break;
+				case 'month': 
+					$interval		.= 'M';
+					break;
+				case 'year': 
+					$interval		.= 'Y';
+					break;
+			}
+			
+			//create new tasks and relation
+			for ($e = 1; $e == $this->config->recurring_many_numbers; $e++) {
+				
+				$date			= new DateTime($deadline);
+				$date->add(new DateInterval($interval));
+				$deadline		= $date->format('Y-m-d');
+				
+				$r_task_id		= $this->task_model->save_task(
+										$post_data->post('task_title'),
+										$post_data->post('task_priority'),
+										$post_data->post('task_context'),
+										$deadline,
+										$post_data->post('task_projects'),
+										$post_data->post('task_project_name'),
+										$post_data->post('task_description'),
+										$post_data->post('task_users'),
+										$post_data->post('showPrivate'),
+										$post_data->post('task_status'),
+										$this->actual_user_id,
+										0,
+										(int)$task_parent_id
+				);
+				
+				$this->_ci->recurring_model->add_recurrence($r_task_id, $task_id);
+			}
 		}
 		
 		return $data;
 	}
 	
 	private function recurring($task_id) {
-		
 		
 		
 	}
