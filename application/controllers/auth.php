@@ -26,6 +26,9 @@ class Auth extends CI_Controller {
 		$this->config->item('use_mongodb', 'ion_auth') ?
 		$this->load->library('mongo_db') :
 
+		$this->data['theme']                = $this->config->item('rfk_theme_dir') . '/' . $this->config->item('rfk_theme_selected');
+			
+			
 		$this->load->database();
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
@@ -52,7 +55,7 @@ class Auth extends CI_Controller {
 			redirect('/', 'refresh');
 		}
 
-         }
+	}
 
         /**
          * log the user in
@@ -89,7 +92,7 @@ class Auth extends CI_Controller {
 				//redirect them back to the login page
                                 $this->plugin_handler->trigger('auth_login_error',$this->input->post('identity'));
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
+				redirect('auth/login/', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		}
 		else
@@ -129,7 +132,7 @@ class Auth extends CI_Controller {
                 
 		//redirect them to the login page
 		$this->session->set_flashdata('message', $this->ion_auth->messages());
-		redirect('auth/login', 'refresh');
+		redirect('auth/login/', 'refresh');
 	}
 
         /**
@@ -146,7 +149,7 @@ class Auth extends CI_Controller {
 
 		if (!$this->ion_auth->logged_in())
 		{
-			redirect('auth/login', 'refresh');
+			redirect('auth/login/', 'refresh');
 		}
 
 		$user = $this->ion_auth->user()->row();
@@ -202,7 +205,7 @@ class Auth extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect('auth/change_password', 'refresh');
+				redirect('auth/change_password/', 'refresh');
 			}
 		}
 	}
@@ -249,7 +252,7 @@ class Auth extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect("auth/forgot_password", 'refresh');
+				redirect("auth/forgot_password/", 'refresh');
 			}
 		}
 	}
@@ -352,7 +355,7 @@ class Auth extends CI_Controller {
 		{ 
 			//if the code is invalid then send them back to the forgot password page
 			$this->session->set_flashdata('message', $this->ion_auth->errors());
-			redirect("auth/forgot_password", 'refresh');
+			redirect("auth/forgot_password/", 'refresh');
 		}
 	}
 
@@ -381,13 +384,13 @@ class Auth extends CI_Controller {
                         $this->plugin_handler->trigger('auth_user_activated',$id);
 			//redirect them to the auth page
 			$this->session->set_flashdata('message', $this->ion_auth->messages());
-			redirect("auth", 'refresh');
+			redirect("auth/", 'refresh');
 		}
 		else
 		{
 			//redirect them to the forgot password page
 			$this->session->set_flashdata('message', $this->ion_auth->errors());
-			redirect("auth/forgot_password", 'refresh');
+			redirect("auth/forgot_password/", 'refresh');
 		}
 	}
 
@@ -435,7 +438,7 @@ class Auth extends CI_Controller {
 			}
 
 			//redirect them back to the auth page
-			redirect('auth', 'refresh');
+			redirect('auth/', 'refresh');
 		}
 	}
 

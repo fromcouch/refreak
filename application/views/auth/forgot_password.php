@@ -3,7 +3,7 @@
 <head>
 	<title>Refreak</title>
         <meta http-equiv="content-type" content="text/html; charset=<?php echo config_item('charset');?>" />
-        <link rel="stylesheet" type="text/css" href="../theme/default/css/login.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url() . $theme;?>/css/login.css" />
 </head>
 <body>
     
@@ -14,7 +14,7 @@
 
             <div class="info_message"><?php echo $message;?></div>
 
-            <?php echo form_open("auth/forgot_password");?>
+            <?php echo form_open("auth/forgot_password/");?>
 
                   <p>
                         <label>Email Address:</label>

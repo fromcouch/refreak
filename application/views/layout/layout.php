@@ -19,7 +19,7 @@
         <header class="header">
             
             <?php 
-                  echo layout_helper::header(site_url() . 'auth/logout',
+                  echo layout_helper::header(site_url() . 'auth/logout/',
                                              $this->lang->line('header_logout'), 
                                              base_url() . $theme, 
                                              site_url() . 'users/edit_user/',
