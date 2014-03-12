@@ -1,5 +1,4 @@
-refreak
-=======
+# refreak #
 
 taskfreak fork
 
@@ -8,14 +7,13 @@ Hi, I'm using Taskfreak from two or three years ago. I made many changes to the 
 Actually I'm in development stage.
 
 
-What is Refreak?
-----------------
+## What is Refreak? ##
 
 Refreak is a simple but efficient web based task manager written in PHP and Code Igniter.
 Originally created in September 2005 and maintained by Stan Ozier and Tirzen with their Tirzen Framework.
 
 
-###Features
+### Features ###
 
  - easy to use task manager
  - order tasks by deadline, project, etc ..
@@ -24,14 +22,13 @@ Originally created in September 2005 and maintained by Stan Ozier and Tirzen wit
  - import from Taskfreak! when install.
  - Plugin Ready
 
-###Future Features
+### Future Features ###
  - a lot of plugins 
 
 
-TODO
-----
+## TODO ##
 
-### Stage 3
+### Stage 3 ###
 + GTD Plugin
 + ~~Subtasks plugin~~
 + ~~E-Mail Notification Plugin~~
@@ -45,8 +42,8 @@ TODO
 
 Please, feel free to add issue or comment.
 
-INSTALL
-=======
+## INSTALL ##
+
 Parameters for database configuration are in:
 
     application/config/database.php
@@ -64,8 +61,8 @@ Additionaly you can configure some parameters in:
 
 (subtask system are activated in refreak.php)
 
-NGINX CONFIG
-------------
+### NGINX CONFIG ###
+
 Just add the following lines to your server config file (**/etc/nginx/sites-aviable/domain.tod.conf** or **/etc/nginx/nginx.conf**):
 
 ```
@@ -87,8 +84,8 @@ And change **$config['uri_protocol']** in **/application/config/config.php** fil
 $config['uri_protocol']	= 'REQUEST_URI';
 ``` 
 
-PLUGINS
-=======
+## PLUGINS ##
+
 You can easy create plugin. I have this part of project in a very beginning stage, but actually anyone can write a plugin.
 A little example can be found in:
 
@@ -98,11 +95,11 @@ Then, go to menu config/Plugin and install.
 
 You can attach the next events. (The parentesis word references the refreak section that plugin fires, every plugin needs to be limited to one section or always section )
 
-EVENTS
-------
+### EVENTS ###
+
 List of plugin events fired in Refreak.
 
-### PHP Events
+#### PHP Events ####
 + Base Controller
     + base_pre_init:            first event fired before init base Refreak system. (always)
     + base_set_theme:           set theme directory. (always)
@@ -244,7 +241,7 @@ List of plugin events fired in Refreak.
     + auth_user_activated:                  User Activated (auth)
     + auth_user_deactivated:                User Deactivated (auth)
 
-###Javascript General events
+#### Javascript General events ####
 + Boxes: 
     + refreak.boxes.init:		    Fires when message box initialize
     + refreak.boxes.show:		    When message box shows message
