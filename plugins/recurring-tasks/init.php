@@ -98,6 +98,16 @@ class Recurring extends RF_Plugin {
 		
 		$this->load_model('recurring_model');
 		$tasks					= $this->_ci->recurring_model->get_recurring_tasks($this->actual_user_id);
+		print_r($tasks);
+		if (count($tasks) < (int)$this->config->recurring_many_numbers) {
+			//we need to know how many task we need to create
+			$total_new			= (int)$this->config->recurring_many_numbers - count($tasks);
+			
+//			for ($e = 1; $e <= $total_new; $e++) {
+//				
+//			}
+			
+		}
 		
 		return $data;
 	}
@@ -189,51 +199,118 @@ class Recurring extends RF_Plugin {
 			$deadline			= $post_data->post('deadline');
 			
 			//build interval
-			$interval			= 'P' . $every;
-			switch($post_data->post('moment')) {
-				case 'day': 
-					$interval		.= 'D';
-					break;
-				case 'week': 
-					$interval		.= 'W';
-					break;
-				case 'month': 
-					$interval		.= 'M';
-					break;
-				case 'year': 
-					$interval		.= 'Y';
-					break;
-			}
+			$interval			= $this->parse_interval($every, $post_data->post('moment'));
 			
 			//create new tasks and relation
 			$recurring				= intval($this->config->recurring_many_numbers);
-			for ($e = 1; $e <= $recurring; $e++) {
-				
-				$date			= new DateTime($deadline);
-				$date->add(new DateInterval($interval));
-				$deadline		= $date->format('Y-m-d');
-				
-				$r_task_id		= $this->_ci->task_model->save_task(
-										$post_data->post('task_title'),
-										$post_data->post('task_priority'),
-										$post_data->post('task_context'),
-										$deadline,
-										$post_data->post('task_projects'),
-										$post_data->post('task_project_name'),
-										$post_data->post('task_description'),
-										$post_data->post('task_users'),
-										$post_data->post('showPrivate'),
-										$post_data->post('task_status'),
-										$this->actual_user_id,
-										0,
-										(int)$task_parent_id
-				);
-				
-				$this->_ci->recurring_model->add_recurrence($r_task_id, $task_id);
-			}
+			$this->create_recurrent_tasks($recurring,
+											$interval,
+											$task_id, 
+											$post_data->post('task_title'),
+											$post_data->post('task_priority'),
+											$post_data->post('task_context'),
+											$deadline,
+											$post_data->post('task_projects'),
+											$post_data->post('task_project_name'),
+											$post_data->post('task_description'),
+											$post_data->post('task_users'),
+											$post_data->post('showPrivate'),
+											$post_data->post('task_status'),
+											$task_parent_id);
+			
 		}
 		
 		return $data;
 	}
 	
+	/**
+	 * Create recurrent tasks
+	 * 
+	 * @param int $times how many times task will be created
+	 * @param string $interval interval in time to create tasks
+	 * @param int $task_id Main task id
+	 * @param string $task_title Task title
+	 * @param int $task_priority Task priority
+	 * @param int $task_context Task Context
+	 * @param string $deadline Task deadline
+	 * @param int $task_projects Project Task
+	 * @param string $task_project_name Name of Project for new project
+	 * @param string $task_description Task Description
+	 * @param int $task_users User ID assigned to task
+	 * @param int $task_private Task Scope 0 = public, 1 = internal, 2 = private
+	 * @param int $task_status  Task Status
+	 * @param int $task_parent_id Parent Tasks if this is a subtask
+	 * @return void
+	 * @access private
+	 */
+	private function create_recurrent_tasks($times, $interval, $task_id, $task_title, $task_priority, $task_context, $deadline, $task_projects, $task_project_name, $task_description, $task_users, $task_private, $task_status, $task_parent_id) {
+		
+		for ($e = 1; $e <= $times; $e++) {
+				
+			$deadline		= $this->increase_date($deadline, $interval);
+
+			$r_task_id		= $this->_ci->task_model->save_task(
+									$task_title,
+									$task_priority,
+									$task_context,
+									$deadline,
+									$task_projects,
+									$task_project_name,
+									$task_description,
+									$task_users,
+									$task_private,
+									$task_status,
+									$this->actual_user_id,
+									0,
+									(int)$task_parent_id
+			);
+
+			$this->_ci->recurring_model->add_recurrence($r_task_id, $task_id);
+		}
+	}
+	
+	/**
+	 * Parse Interval to DateInterval format
+	 * 
+	 * @param int $every 
+	 * @param string $moment
+	 * @return string Interval Format
+	 * @access private
+	 */
+	private function parse_interval($every, $moment) {
+		
+		//build interval
+		$interval			= 'P' . $every;
+		switch($moment) {
+			case 'day': 
+				$interval		.= 'D';
+				break;
+			case 'week': 
+				$interval		.= 'W';
+				break;
+			case 'month': 
+				$interval		.= 'M';
+				break;
+			case 'year': 
+				$interval		.= 'Y';
+				break;
+		}
+		
+		return $interval;
+	}
+
+	/**
+	 * Increase date with interval specified
+	 * @param string $date Original date to increase
+	 * @param string $interval Interval
+	 * @return string date increased
+	 * @access private
+	 */
+	private function increase_date($date, $interval) {
+
+		$idate			= new DateTime($date);
+		$idate->add(new DateInterval($interval));
+		return $idate->format('Y-m-d');
+		
+	}
 }
