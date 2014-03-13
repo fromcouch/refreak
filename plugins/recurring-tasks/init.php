@@ -110,6 +110,14 @@ class Recurring extends RF_Plugin {
 		
 	}
 	
+	/**
+	 * Render edit part in edit popup
+	 * 
+	 * @param string $evt Event name fired
+	 * @param array $data Array with data
+	 * @return array Data modified
+	 * @access public 
+	 */
 	public function render_edit( $evt, $data ) {
 		
 		$checked				= FALSE;
@@ -155,6 +163,14 @@ class Recurring extends RF_Plugin {
 		return $data;
 	}
 	
+	/**
+	 * Create recurring tasks
+	 * 
+	 * @param string $evt Event name
+	 * @param array $data Array with data
+	 * @return array Data parsed
+	 * @access public
+	 */
 	public function save_task( $evt, $data ) {
 		
 		$task_id				= $data[0];
@@ -190,13 +206,14 @@ class Recurring extends RF_Plugin {
 			}
 			
 			//create new tasks and relation
-			for ($e = 1; $e == $this->config->recurring_many_numbers; $e++) {
+			$recurring				= intval($this->config->recurring_many_numbers);
+			for ($e = 1; $e <= $recurring; $e++) {
 				
 				$date			= new DateTime($deadline);
 				$date->add(new DateInterval($interval));
 				$deadline		= $date->format('Y-m-d');
 				
-				$r_task_id		= $this->task_model->save_task(
+				$r_task_id		= $this->_ci->task_model->save_task(
 										$post_data->post('task_title'),
 										$post_data->post('task_priority'),
 										$post_data->post('task_context'),
@@ -219,8 +236,4 @@ class Recurring extends RF_Plugin {
 		return $data;
 	}
 	
-	private function recurring($task_id) {
-		
-		
-	}
 }
