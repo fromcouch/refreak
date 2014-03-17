@@ -62,14 +62,6 @@ class Recurring extends RF_Plugin {
 	
 	public function attach_events() {
 		
-		/*
-		 * 1. attach event for init task controller
-		 * 2. look for how many recurring task exists 
-		 * 3. if recurring task are less than config number of tasks create the rest of tasks
-		 * 4. modify view to add recurring time. How many days to repeat.
-		 * 
-		 */
-		
 		//attach for creating task
 		$this->attach('tasks_post_init', array($this, 'try_recurring'));
 		
